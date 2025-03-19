@@ -40,7 +40,7 @@
             "color_hover_text": "#ffffff",
             "block_url": "shopify://collections/all",
             "effect_title3": "bounce",
-            "text_title_left": "Collection 2022",
+            "text_title_left": "",
             "ena_slide_video": true,
             "url_ytb_video": "",
             "block_banerimage": "shopify://shop_images/Supply-Chain-Management.jpg"
@@ -102,7 +102,7 @@
         "url_button_banner1": "shopify://collections/all",
         "sub_title2": "TOP",
         "title_banner2": "SELLER",
-        "banner_img2": "shopify://shop_images/p90549018-lowres-rolls-royce-cullinan-669fd587c879c_14e9c3e7-706c-4f29-a5ea-13a26c136c14.jpg",
+        "banner_img2": "shopify://shop_images/p90549018-lowres-rolls-royce-cullinan-669fd587c879c.jpg",
         "button_banner2": "SHOP NOW",
         "url_button_banner2": "shopify://collections/all",
         "sub_title3": "TRENDING",
