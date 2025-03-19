@@ -9,6 +9,63 @@
  */
 {
   "sections": {
+    "section_slideshow_v2_P3CfRY": {
+      "type": "section-slideshow-v2",
+      "blocks": {
+        "slideshow_FdPEmV": {
+          "type": "slideshow",
+          "settings": {
+            "block_banerimage_1": "shopify://shop_images/VanSchendel-Construction.jpg",
+            "block_title_top_1": "Super",
+            "color_block_title_top_1": "#333333",
+            "font_size_top1": 65,
+            "fonts_sub_1": "",
+            "block_content_1": "From planter materials to style options, discover which planter is best for your space.",
+            "color_block_content_1": "#333333",
+            "font_size_top2": 20,
+            "fonts_sub_2": "",
+            "block_buton": "Shop now",
+            "color_block_button": "#fff",
+            "font_size_button": 14,
+            "fonts_button": "",
+            "color_hover_button": "#000",
+            "bgcolor_block_button": "#000",
+            "bgcolor_block_button_hover": "#f2f2f2",
+            "block_url": "shopify://collections/all"
+          }
+        },
+        "slideshow_pw4HjR": {
+          "type": "slideshow",
+          "settings": {
+            "block_banerimage_1": "shopify://shop_images/pexels-mikebirdy-116675.jpg",
+            "block_title_top_1": "Super",
+            "color_block_title_top_1": "#333333",
+            "font_size_top1": 65,
+            "fonts_sub_1": "",
+            "block_content_1": "From planter materials to style options, discover which planter is best for your space.",
+            "color_block_content_1": "#333333",
+            "font_size_top2": 20,
+            "fonts_sub_2": "",
+            "block_buton": "Shop now",
+            "color_block_button": "#fff",
+            "font_size_button": 14,
+            "fonts_button": "",
+            "color_hover_button": "#000",
+            "bgcolor_block_button": "#000",
+            "bgcolor_block_button_hover": "#f2f2f2",
+            "block_url": "shopify://collections/all"
+          }
+        }
+      },
+      "block_order": [
+        "slideshow_FdPEmV",
+        "slideshow_pw4HjR"
+      ],
+      "settings": {
+        "margin_top": "",
+        "margin_bottom": ""
+      }
+    },
     "section_slideshow_v3_Jpr8x7": {
       "type": "section-slideshow-v3",
       "blocks": {
@@ -56,7 +113,7 @@
             "block_title": "Seamless Logistics, Worldwide Reach",
             "color_title": "#fff",
             "bg_title": "#0466c8",
-            "font_size_title_top": 63,
+            "font_size_title_top": 50,
             "fonts_title_top": "",
             "block_buton": "SHOP NOW",
             "color_block_button": "#000",
@@ -258,6 +315,7 @@
     }
   },
   "order": [
+    "section_slideshow_v2_P3CfRY",
     "section_slideshow_v3_Jpr8x7",
     "section_product_v3",
     "section_product_v2",
