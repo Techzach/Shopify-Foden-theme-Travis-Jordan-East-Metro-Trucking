@@ -47,6 +47,7 @@
         "slideshow_8YYAM8": {
           "type": "slideshow",
           "settings": {
+            "img_slider": "shopify://shop_images/VanSchendel-Construction.jpg",
             "title_slide": "Basic Collection",
             "color_title": "#010101",
             "font_size_title_top": 25,
@@ -65,7 +66,6 @@
         "slideshow_MwR7x3",
         "slideshow_8YYAM8"
       ],
-      "disabled": true,
       "settings": {
         "margin_top": "",
         "margin_bottom": ""
@@ -134,6 +134,7 @@
         "slideshow_9jN4Ye",
         "slideshow_ex6rCX"
       ],
+      "disabled": true,
       "settings": {
         "margin_top": "",
         "margin_bottom": ""
