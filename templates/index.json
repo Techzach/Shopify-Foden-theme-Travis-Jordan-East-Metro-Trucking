@@ -132,7 +132,7 @@
       "type": "section-banner-v3",
       "settings": {
         "margin_top": "",
-        "margin_bottom": "",
+        "margin_bottom": "250px",
         "sub_title1": "FOR",
         "title_banner1": "HER’S",
         "banner_img1": "shopify://shop_images/0be6b6b7409e35ff0dede24755b39242.jpg",
