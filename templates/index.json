@@ -153,10 +153,10 @@
         "button_banner4": "SHOP NOW",
         "url_button_banner4": "shopify://collections/all",
         "banner_img4": "shopify://shop_images/nur-alamin-xifUN_Mkf8Y-unsplash_f25e22a6-4434-40c1-a64b-e4131fc11933.jpg",
-        "color_subtitle": "#000000",
-        "color_title_banner": "#000000",
-        "color_url": "#000000",
-        "color_url_hover": "#ff6363"
+        "color_subtitle": "#ffffff",
+        "color_title_banner": "#ffffff",
+        "color_url": "#ffffff",
+        "color_url_hover": "#fe7250"
       }
     },
     "section_product_v2": {
