@@ -161,6 +161,7 @@
     },
     "rich_text_XhM8dM": {
       "type": "rich-text",
+      "disabled": true,
       "settings": {
         "rich_icon_svg": "",
         "section_title": "Comprehensive Services for Every Supply Chain Need"
@@ -201,7 +202,7 @@
         "colection_YgwrQm"
       ],
       "settings": {
-        "margin_top": "100px",
+        "margin_top": "00px",
         "margin_bottom": ""
       }
     },
