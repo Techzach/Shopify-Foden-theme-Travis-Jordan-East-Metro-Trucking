@@ -3983,6 +3983,7 @@
       },
       "header": {
         "type": "header",
+        "custom_css": [],
         "settings": {
           "select_hds": "header_v3",
           "hd_home_color_text": "#969696",
@@ -8512,8 +8513,6 @@
     }
   },
   "platform_customizations": {
-    "custom_css": [
-      ".js-number-cart {display: none;}"
-    ]
+    "custom_css": []
   }
 }
