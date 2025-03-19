@@ -40,10 +40,10 @@
             "color_hover_text": "#ffffff",
             "block_url": "shopify://collections/all",
             "effect_title3": "bounce",
-            "text_title_left": "Collection 2022",
+            "text_title_left": "",
             "ena_slide_video": false,
             "url_ytb_video": "",
-            "block_banerimage": "shopify://shop_images/5_Lincoln_Navigator_0.jpg"
+            "block_banerimage": "shopify://shop_images/VanSchendel-Construction.jpg"
           }
         },
         "slideshow_Vg4VCJ": {
@@ -74,7 +74,7 @@
             "color_hover_text": "#000",
             "block_url": "shopify://collections/all",
             "effect_title3": "bounce",
-            "text_title_left": "Collection 2020",
+            "text_title_left": "",
             "ena_slide_video": false,
             "url_ytb_video": "",
             "block_banerimage": "shopify://shop_images/2525139.jpg"
@@ -108,7 +108,7 @@
             "color_hover_text": "#000",
             "block_url": "shopify://collections/all",
             "effect_title3": "bounce",
-            "text_title_left": "Collection 2020",
+            "text_title_left": "",
             "ena_slide_video": false,
             "url_ytb_video": "",
             "block_banerimage": "shopify://shop_images/Supply-Chain-Management.jpg"
