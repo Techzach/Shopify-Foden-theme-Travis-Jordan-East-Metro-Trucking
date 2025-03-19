@@ -8510,5 +8510,10 @@
       "checkout_button_color": "#1990C6",
       "checkout_error_color": "#ff6d6d"
     }
+  },
+  "platform_customizations": {
+    "custom_css": [
+      ".js-number-cart {display: none;}"
+    ]
   }
 }
