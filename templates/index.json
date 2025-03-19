@@ -50,8 +50,8 @@
         "slideshow_Vg4VCJ": {
           "type": "slideshow",
           "settings": {
-            "select_position_content": "left",
-            "select_textalign_content": "left",
+            "select_position_content": "center",
+            "select_textalign_content": "center",
             "block_title_top1": "",
             "color_block_title_top1": "#E5E5E5",
             "font_size_top1": 18,
@@ -68,7 +68,7 @@
             "fonts_sub_2": "",
             "effect_title2": "bounce",
             "block_buton": "Shop now",
-            "color_block_button": "#ffffff",
+            "color_block_button": "#000000",
             "font_size_button": 12,
             "fonts_button": "",
             "color_hover_button": "#fff",
@@ -85,8 +85,8 @@
         "slideshow_9fwWU9": {
           "type": "slideshow",
           "settings": {
-            "select_position_content": "left",
-            "select_textalign_content": "left",
+            "select_position_content": "center",
+            "select_textalign_content": "center",
             "block_title_top1": "",
             "color_block_title_top1": "#ffffff",
             "font_size_top1": 18,
@@ -103,7 +103,7 @@
             "fonts_sub_2": "",
             "effect_title2": "bounce",
             "block_buton": "Shop now",
-            "color_block_button": "#ffffff",
+            "color_block_button": "#000000",
             "font_size_button": 12,
             "fonts_button": "",
             "color_hover_button": "#fff",
