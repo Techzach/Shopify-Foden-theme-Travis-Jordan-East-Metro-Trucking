@@ -9,6 +9,65 @@
  */
 {
   "sections": {
+    "section_slideshow_v2_Qy6ibR": {
+      "type": "section-slideshow-v2",
+      "blocks": {
+        "slideshow_PEnwEt": {
+          "type": "slideshow",
+          "settings": {
+            "block_banerimage_1": "shopify://shop_images/VanSchendel-Construction.jpg",
+            "block_title_top_1": "Super",
+            "color_block_title_top_1": "#333333",
+            "font_size_top1": 65,
+            "fonts_sub_1": "",
+            "block_content_1": "From planter materials to style options, discover which planter is best for your space.",
+            "color_block_content_1": "#333333",
+            "font_size_top2": 20,
+            "fonts_sub_2": "",
+            "block_buton": "Shop now",
+            "color_block_button": "#fff",
+            "font_size_button": 14,
+            "fonts_button": "",
+            "color_hover_button": "#000",
+            "bgcolor_block_button": "#000",
+            "bgcolor_block_button_hover": "#f2f2f2",
+            "block_url": "shopify://collections/all",
+            "block_banerimage_2": "shopify://shop_images/p90549018-lowres-rolls-royce-cullinan-669fd587c879c_14e9c3e7-706c-4f29-a5ea-13a26c136c14.jpg"
+          }
+        },
+        "slideshow_NV88F3": {
+          "type": "slideshow",
+          "settings": {
+            "block_banerimage_1": "shopify://shop_images/pexels-mikebirdy-116675.jpg",
+            "block_title_top_1": "Super",
+            "color_block_title_top_1": "#333333",
+            "font_size_top1": 65,
+            "fonts_sub_1": "",
+            "block_content_1": "From planter materials to style options, discover which planter is best for your space.",
+            "color_block_content_1": "#333333",
+            "font_size_top2": 20,
+            "fonts_sub_2": "",
+            "block_buton": "Shop now",
+            "color_block_button": "#fff",
+            "font_size_button": 14,
+            "fonts_button": "",
+            "color_hover_button": "#000",
+            "bgcolor_block_button": "#000",
+            "bgcolor_block_button_hover": "#f2f2f2",
+            "block_url": "shopify://collections/all",
+            "block_banerimage_2": "shopify://shop_images/pexels-pixabay-163236_2e4efe1e-04e7-4bcf-91b2-9c2834cc7d31.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "slideshow_PEnwEt",
+        "slideshow_NV88F3"
+      ],
+      "settings": {
+        "margin_top": "",
+        "margin_bottom": ""
+      }
+    },
     "section_slideshow_v1": {
       "type": "section-slideshow-v1",
       "blocks": {
@@ -309,6 +368,7 @@
     }
   },
   "order": [
+    "section_slideshow_v2_Qy6ibR",
     "section_slideshow_v1",
     "section_product_v3",
     "section_product_v2",
