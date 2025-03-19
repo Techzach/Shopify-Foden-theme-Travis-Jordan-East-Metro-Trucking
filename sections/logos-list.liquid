@@ -1,0 +1,145 @@
+<div class="section-logolist">
+  <div class="container container-v3">
+    <div class="logo_wrap">
+      <div class="slick_logolist">
+        {% for block in section.blocks %}
+          <div class="logo_item" {{ block.shopify_attributes }}>
+            <div class="logo_box">
+              <div class="image-block">
+                <a href="{% if block.settings.url_image != blank%}{{block.settings.url_image}}{% else %}#{% endif %}">
+                  {% if block.settings.image != blank %}
+                    <img src="{{ block.settings.image | img_url: '250x250' }}" alt="{{ block.settings.image.alt }}" class="image-block__image">
+                  {% elsif block.settings.image_svg != blank %}
+                      {{block.settings.image_svg}}
+                  {% else %}
+                    <div class="image-block__image">
+                      {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                    </div>
+                  {% endif %}
+                </a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  jQuery(document).ready(function($) {
+
+    $('.slick_logolist').slick({
+      dots: false,
+      arrows:false,
+      infinite: true,
+      speed: 300,
+      slidesToShow: 6,
+      slidesToScroll: 1,
+      autoplay: true,
+      {% if settings.enable_rtl_mode %}rtl: true,{% endif %}
+      autoplaySpeed: 3000,
+      responsive: [
+        {
+          breakpoint: 1200,
+          settings: {
+            slidesToShow: 5,
+            slidesToScroll: 2,
+            infinite: true,
+            dots: false,
+            arrows:false
+          }
+        },
+        {
+          breakpoint: 992,
+          settings: {
+            slidesToShow: 4,
+            slidesToScroll: 1,
+            dots: false,
+            arrows:false
+          }
+        },
+        {
+          breakpoint: 767,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 1,
+            dots: false,
+            arrows:false
+          }
+        },
+        {
+          breakpoint: 500,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            dots: false,
+            arrows:false
+          }
+        }
+      ]
+    });
+  })
+</script>
+{% schema %}
+{
+  "name": "Logo list",
+  "class": "index-section",
+  "max_blocks": 20,
+  "settings": [
+    
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Logo icon",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+		{
+          "type": "textarea",
+          "id": "image_svg",
+          "label": "Image Svg"
+        },
+		{
+          "type": "url",
+          "id": "url_image",
+          "label" : "Url Logo"
+		}
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Logo list" ,
+      "category": "Image",
+      "blocks": [
+        {
+          "type": "logo"
+        },
+        {
+          "type": "logo"
+        },
+        {
+          "type": "logo"
+        },
+        {
+          "type": "logo"
+        },
+        {
+          "type": "logo"
+        },
+        {
+          "type": "logo"
+        },
+        {
+          "type": "logo"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

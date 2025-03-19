@@ -1,0 +1,371 @@
+<div data-section-id="{{ section.id }}" data-section-type="section-banner-v10" style="{% if section.settings.margin_top != blank %}margin-top: {{section.settings.margin_top}}px;{%endif%} {% if section.settings.margin_bottom != blank %}margin-bottom: {{section.settings.margin_bottom}}px;{% endif %}">
+  <div class="section-banner-v10 mt-all">
+    <div class="container container-v2">
+      <div class="title-info">
+        {% if section.settings.title_section != blank %}
+        <h3 class="title_heading text-center mb-0" style="color: {{section.settings.color_heading}}">{{section.settings.title_section}}</h3>
+        {% endif %}
+        {% if section.settings.sub_heading != blank %}
+        <p class="sub_heading text-center mb-0">{{section.settings.sub_heading}}</p>
+        {% endif %}
+      </div>
+      <div class="row  no-gutters">   
+        <div class="col-md-6">
+          <div class="item-banner">
+            <div class="img-banner">
+              <a href="{{section.settings.link_banner1}}" class="d-block"><img data-src="{% if section.settings.img_banner1 != blank %} {{section.settings.img_banner1 | img_url : 'master'}} {% else %} //via.placeholder.com/690x600 {% endif %}" class="lazyload img-fluid w-100" alt="_img_banner"></a>
+            </div>
+            <div class="content-banner">
+              <a href="{{section.settings.link_banner1}}" class="title-banner">{{section.settings.title_banner1}}</a>
+            </div>
+          </div>
+          <div class="row no-gutters">
+            <div class="col-sm-6">
+              <div class="item-banner">
+                <div class="img-banner">
+                  <a href="{{section.settings.link_banner2}}" class="d-block"><img data-src="{% if section.settings.img_banner2 != blank %} {{section.settings.img_banner2 | img_url : 'master'}} {% else %} //via.placeholder.com/345x300 {% endif %}" class="lazyload img-fluid w-100" alt="_img_banner"></a>
+                </div>
+                <div class="content-banner">
+                  <a href="{{section.settings.link_banner2}}" class="title-banner">{{section.settings.title_banner2}}</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="item-banner">
+                <div class="img-banner">
+                  <a href="{{section.settings.link_banner3}}" class="d-block"><img data-src="{% if section.settings.img_banner3 != blank %} {{section.settings.img_banner3 | img_url : 'master'}} {% else %} //via.placeholder.com/345x300 {% endif %}" class="lazyload img-fluid w-100" alt="_img_banner"></a>
+                </div>
+                <div class="content-banner">
+                  <a href="{{section.settings.link_banner3}}" class="title-banner">{{section.settings.title_banner3}}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="row no-gutters">
+            <div class="col-sm-6">
+              <div class="item-banner">
+                <div class="img-banner">
+                  <a href="{{section.settings.link_banner4}}" class="d-block"><img data-src="{% if section.settings.img_banner4 != blank %} {{section.settings.img_banner4 | img_url : 'master'}} {% else %} //via.placeholder.com/345x300 {% endif %}" class="lazyload img-fluid w-100" alt="_img_banner"></a>
+                </div>
+                <div class="content-banner">
+                  <a href="{{section.settings.link_banner4}}" class="title-banner">{{section.settings.title_banner4}}</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="item-banner">
+                <div class="img-banner">
+                  <a href="{{section.settings.link_banner5}}" class="d-block"><img data-src="{% if section.settings.img_banner5 != blank %} {{section.settings.img_banner5 | img_url : 'master'}} {% else %} //via.placeholder.com/345x300 {% endif %}" class="lazyload img-fluid w-100" alt="_img_banner"></a>
+                </div>
+                <div class="content-banner">
+                  <a href="{{section.settings.link_banner5}}" class="title-banner">{{section.settings.title_banner5}}</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="item-banner">
+                <div class="img-banner">
+                  <a href="{{section.settings.link_banner6}}" class="d-block"><img data-src="{% if section.settings.img_banner6 != blank %} {{section.settings.img_banner6 | img_url : 'master'}} {% else %} //via.placeholder.com/345x300 {% endif %}" class="lazyload img-fluid w-100" alt="_img_banner"></a>
+                </div>
+                <div class="content-banner">
+                  <a href="{{section.settings.link_banner6}}" class="title-banner">{{section.settings.title_banner6}}</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="item-banner">
+                <div class="img-banner">
+                  <a href="{{section.settings.link_banner7}}" class="d-block"><img data-src="{% if section.settings.img_banner7 != blank %} {{section.settings.img_banner7 | img_url : 'master'}} {% else %} //via.placeholder.com/345x300 {% endif %}" class="lazyload img-fluid w-100" alt="_img_banner"></a>
+                </div>
+                <div class="content-banner">
+                  <a href="{{section.settings.link_banner7}}" class="title-banner">{{section.settings.title_banner7}}</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="item-banner">
+                <div class="img-banner">
+                  <a href="{{section.settings.link_banner8}}" class="d-block"><img data-src="{% if section.settings.img_banner8 != blank %} {{section.settings.img_banner8 | img_url : 'master'}} {% else %} //via.placeholder.com/345x300 {% endif %}" class="lazyload img-fluid w-100" alt="_img_banner"></a>
+                </div>
+                <div class="content-banner">
+                  <a href="{{section.settings.link_banner8}}" class="title-banner">{{section.settings.title_banner8}}</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="item-banner">
+                <div class="img-banner">
+                  <a href="{{section.settings.link_banner9}}" class="d-block"><img data-src="{% if section.settings.img_banner9 != blank %} {{section.settings.img_banner9 | img_url : 'master'}} {% else %} //via.placeholder.com/345x300 {% endif %}" class="lazyload img-fluid w-100" alt="_img_banner"></a>
+                </div>
+                <div class="content-banner">
+                  <a href="{{section.settings.link_banner9}}" class="title-banner">{{section.settings.title_banner9}}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+</style>
+
+{% schema %}
+{
+  "name": "BANNER V10",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Setting Banner"
+    },
+    {
+      "type": "text",
+      "id": "title_section",
+      "label": "Title banner",
+      "default": "We offer delicious burgers,<br> hot dogs, pizzas,..."
+    },
+    {
+      "type": "color",
+      "id": "color_heading",
+      "label": "Color",
+      "default": "#ff0000"
+    },
+    {
+      "type": "text",
+      "id": "sub_heading",
+      "label": "Sub title",
+      "default": "Tasting our food is like heaven in your mouth…"
+    },
+    {
+      "type": "header",
+      "content": "Setting banner 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "img_banner1",
+      "label": "Image",
+      "info": "690 x 600px recommended"
+    },
+    {
+      "type": "text",
+      "id": "title_banner1",
+      "label": "Title banner",
+      "default": "Hamburger"
+    },
+    {
+      "type": "url",
+      "id": "link_banner1",
+      "label": "URL Banner",
+      "default": "/collections/all"
+    },
+    {
+      "type": "header",
+      "content": "Setting banner 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "img_banner2",
+      "label": "Image",
+      "info": "345 x 300px recommended"
+    },
+    {
+      "type": "text",
+      "id": "title_banner2",
+      "label": "Title banner",
+      "default": "Hamburger"
+    },
+    {
+      "type": "url",
+      "id": "link_banner2",
+      "label": "URL Banner",
+      "default": "/collections/all"
+    },
+    {
+      "type": "header",
+      "content": "Setting banner 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "img_banner3",
+      "label": "Image",
+      "info": "345 x 300px recommended"
+    },
+    {
+      "type": "text",
+      "id": "title_banner3",
+      "label": "Title banner",
+      "default": "Hamburger"
+    },
+    {
+      "type": "url",
+      "id": "link_banner3",
+      "label": "URL Banner",
+      "default": "/collections/all"
+    },
+    {
+      "type": "header",
+      "content": "Setting banner 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "img_banner4",
+      "label": "Image",
+      "info": "345 x 300px recommended"
+    },
+    {
+      "type": "text",
+      "id": "title_banner4",
+      "label": "Title banner",
+      "default": "Hamburger"
+    },
+    {
+      "type": "url",
+      "id": "link_banner4",
+      "label": "URL Banner",
+      "default": "/collections/all"
+    },
+    {
+      "type": "header",
+      "content": "Setting banner 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "img_banner5",
+      "label": "Image",
+      "info": "345 x 300px recommended"
+    },
+    {
+      "type": "text",
+      "id": "title_banner5",
+      "label": "Title banner",
+      "default": "Hamburger"
+    },
+    {
+      "type": "url",
+      "id": "link_banner5",
+      "label": "URL Banner",
+      "default": "/collections/all"
+    },
+    {
+      "type": "header",
+      "content": "Setting banner 6"
+    },
+    {
+      "type": "image_picker",
+      "id": "img_banner6",
+      "label": "Image",
+      "info": "345 x 300px recommended"
+    },
+    {
+      "type": "text",
+      "id": "title_banner6",
+      "label": "Title banner",
+      "default": "Hamburger"
+    },
+    {
+      "type": "url",
+      "id": "link_banner6",
+      "label": "URL Banner",
+      "default": "/collections/all"
+    },
+    {
+      "type": "header",
+      "content": "Setting banner 7"
+    },
+    {
+      "type": "image_picker",
+      "id": "img_banner7",
+      "label": "Image",
+      "info": "345 x 300px recommended"
+    },
+    {
+      "type": "text",
+      "id": "title_banner7",
+      "label": "Title banner",
+      "default": "Hamburger"
+    },
+    {
+      "type": "url",
+      "id": "link_banner7",
+      "label": "URL Banner",
+      "default": "/collections/all"
+    },
+    {
+      "type": "header",
+      "content": "Setting banner 8"
+    },
+    {
+      "type": "image_picker",
+      "id": "img_banner8",
+      "label": "Image",
+      "info": "345 x 300px recommended"
+    },
+    {
+      "type": "text",
+      "id": "title_banner8",
+      "label": "Title banner",
+      "default": "Hamburger"
+    },
+    {
+      "type": "url",
+      "id": "link_banner8",
+      "label": "URL Banner",
+      "default": "/collections/all"
+    },
+    {
+      "type": "header",
+      "content": "Setting banner 9"
+    },
+    {
+      "type": "image_picker",
+      "id": "img_banner9",
+      "label": "Image",
+      "info": "345 x 300px recommended"
+    },
+    {
+      "type": "text",
+      "id": "title_banner9",
+      "label": "Title banner",
+      "default": "Hamburger"
+    },
+    {
+      "type": "url",
+      "id": "link_banner9",
+      "label": "URL Banner",
+      "default": "/collections/all"
+    },
+    {
+      "type": "header",
+      "content": "Section Space"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Margin Top",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Margin Bottom",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    }
+  ],
+  "presets": [
+    {
+      "name": "BANNER V10",
+      "category": "HOME"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

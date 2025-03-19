@@ -1,0 +1,41 @@
+<ul id="menu-vertical-menu" class="vertical-menu default">
+  {% assign i = 1 %}
+  {% assign vertica_menu = settings.vertical_menu_store_mb %}
+  
+  {% for link in linklists[vertica_menu].links %} 	
+  {% assign item = link.title | downcase %}
+  {% assign child_list_handle = link.title | handleize %}
+  
+  {% if linklists[child_list_handle].links != blank %}
+  
+  <li class="menu-item parent parent-megamenu">
+	<a href="{{ link.url }}"><span class="menu-item-text">{{ link.title }}</span></a>
+    <div class="toggle-submenu"></div>
+    <div style="display: none;" class="submenu megamenu">
+      <div class="submenu_v2">
+        {% for childlink in linklists[child_list_handle].links %}
+        {% assign grande_list_handle = childlink.title | handleize %}
+        <div class="column-item column-menu">
+          <div class="elementor-menu">                        
+            <h2 class="elementor-heading-title">{{ childlink.title }}</h2>                        
+            <ul class="link-vertical">
+              {% for grandelink in linklists[grande_list_handle].links %}
+              <li><a href="{{ grandelink.url }}">{{ grandelink.title }}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </li>
+  
+  {% else %}
+  
+  <li class="menu-item">
+    <a href="{{ link.url }}">{{ link.title }}</a>
+  </li>
+  
+  {% endif %}
+  {% endfor %}
+</ul>
