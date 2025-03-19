@@ -9,68 +9,6 @@
  */
 {
   "sections": {
-    "section_slideshow_v5_gq3LgD": {
-      "type": "section-slideshow-v5",
-      "blocks": {
-        "slideshow_H7EMe3": {
-          "type": "slideshow",
-          "settings": {
-            "img_slider": "shopify://shop_images/VanSchendel-Construction.jpg",
-            "title_slide": "Basic Collection",
-            "color_title": "#010101",
-            "font_size_title_top": 25,
-            "fonts_title_top": "",
-            "link_collection": "Go to Collection",
-            "color_btn": "#7D7B7B",
-            "color_btn_hover": "#010101",
-            "font_size_button": 14,
-            "fonts_button": "",
-            "url_link_collection": "shopify://collections/all"
-          }
-        },
-        "slideshow_MwR7x3": {
-          "type": "slideshow",
-          "settings": {
-            "img_slider": "shopify://shop_images/pexels-pixabay-163236_2e4efe1e-04e7-4bcf-91b2-9c2834cc7d31.jpg",
-            "title_slide": "Basic Collection",
-            "color_title": "#010101",
-            "font_size_title_top": 25,
-            "fonts_title_top": "",
-            "link_collection": "Go to Collection",
-            "color_btn": "#7D7B7B",
-            "color_btn_hover": "#010101",
-            "font_size_button": 14,
-            "fonts_button": "",
-            "url_link_collection": "shopify://collections/all"
-          }
-        },
-        "slideshow_8YYAM8": {
-          "type": "slideshow",
-          "settings": {
-            "img_slider": "shopify://shop_images/VanSchendel-Construction.jpg",
-            "title_slide": "Basic Collection",
-            "color_title": "#010101",
-            "font_size_title_top": 25,
-            "fonts_title_top": "",
-            "link_collection": "Go to Collection",
-            "color_btn": "#7D7B7B",
-            "color_btn_hover": "#010101",
-            "font_size_button": 14,
-            "fonts_button": "",
-            "url_link_collection": "shopify://collections/all"
-          }
-        }
-      },
-      "block_order": [
-        "slideshow_H7EMe3",
-        "slideshow_MwR7x3",
-        "slideshow_8YYAM8"
-      ],
-      "settings": {
-        "margin_top": "",
-        "margin_bottom": ""
-      }
-    },
     "section_slideshow_v3_Jpr8x7": {
       "type": "section-slideshow-v3",
       "blocks": {
@@ -82,7 +20,7 @@
             "block_title": "Seamless Logistics, Worldwide Reach",
             "color_title": "#fff",
             "bg_title": "#0466c8",
-            "font_size_title_top": 63,
+            "font_size_title_top": 50,
             "fonts_title_top": "",
             "block_buton": "SHOP NOW",
             "color_block_button": "#000",
@@ -100,7 +38,7 @@
             "block_title": "Seamless Logistics, Worldwide Reach",
             "color_title": "#fff",
             "bg_title": "#0466c8",
-            "font_size_title_top": 63,
+            "font_size_title_top": 50,
             "fonts_title_top": "",
             "block_buton": "SHOP NOW",
             "color_block_button": "#000",
@@ -134,7 +72,6 @@
         "slideshow_9jN4Ye",
         "slideshow_ex6rCX"
       ],
-      "disabled": true,
       "settings": {
         "margin_top": "",
         "margin_bottom": ""
@@ -321,7 +258,6 @@
     }
   },
   "order": [
-    "section_slideshow_v5_gq3LgD",
     "section_slideshow_v3_Jpr8x7",
     "section_product_v3",
     "section_product_v2",
