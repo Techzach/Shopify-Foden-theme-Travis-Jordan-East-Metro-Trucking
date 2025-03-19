@@ -61,7 +61,7 @@
     "color_main": "#111111",
     "color_main2": "#ff6363",
     "font_type": "google_fonts",
-    "fonts_name_1": "Jost",
+    "fonts_name_1": "Roboto slab",
     "enable_topbar": false,
     "main_menu_topbar": "topbar-menu",
     "enable_headerv1_phone": true,

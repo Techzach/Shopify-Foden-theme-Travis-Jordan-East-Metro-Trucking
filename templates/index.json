@@ -33,7 +33,7 @@
             "fonts_sub_2": "",
             "effect_title2": "bounce",
             "block_buton": "Shop now",
-            "color_block_button": "#ffffff",
+            "color_block_button": "#000000",
             "font_size_button": 12,
             "fonts_button": "",
             "color_hover_button": "#ffffff",
