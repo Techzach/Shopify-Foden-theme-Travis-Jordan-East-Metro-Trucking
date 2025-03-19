@@ -62,7 +62,7 @@
     "color_main2": "#ff6363",
     "font_type": "google_fonts",
     "fonts_name_1": "Jost",
-    "enable_topbar": true,
+    "enable_topbar": false,
     "main_menu_topbar": "topbar-menu",
     "headerv1_search_menu": "categories-search",
     "headerv3_search_title": "All Category",
