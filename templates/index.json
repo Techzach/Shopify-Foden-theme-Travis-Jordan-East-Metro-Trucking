@@ -130,27 +130,27 @@
         "margin_bottom": "",
         "sub_title1": "containers",
         "title_banner1": "20 & 40 foot",
-        "banner_img1": "shopify://shop_images/nur-alamin-xifUN_Mkf8Y-unsplash_f25e22a6-4434-40c1-a64b-e4131fc11933.jpg",
+        "banner_img1": "shopify://shop_images/img12-1.jpg",
         "button_banner1": "See more",
         "url_button_banner1": "shopify://collections/all",
         "sub_title2": "Construction ",
         "title_banner2": "equipment & materials",
-        "banner_img2": "shopify://shop_images/p90549018-lowres-rolls-royce-cullinan-669fd587c879c_14e9c3e7-706c-4f29-a5ea-13a26c136c14.jpg",
+        "banner_img2": "shopify://shop_images/img12-2-1.jpg",
         "button_banner2": "SHOP NOW",
         "url_button_banner2": "shopify://collections/all",
         "sub_title3": "buildings ",
         "title_banner3": "residential &Commercial ",
         "button_banner3": "SHOP NOW",
         "url_button_banner3": "shopify://collections/all",
-        "banner_img3": "shopify://shop_images/pexels-pixabay-163236.jpg",
+        "banner_img3": "shopify://shop_images/img12-3.webp",
         "sub_title4": "transport",
         "title_banner4": "cars, trucks, boats, motorcycles & RVs",
         "button_banner4": "SHOP NOW",
         "url_button_banner4": "shopify://collections/all",
-        "banner_img4": "shopify://shop_images/0be6b6b7409e35ff0dede24755b39242.jpg",
-        "color_subtitle": "#ffffff",
-        "color_title_banner": "#ffffff",
-        "color_url": "#ffffff",
+        "banner_img4": "shopify://shop_images/img12-4.jpg",
+        "color_subtitle": "#000000",
+        "color_title_banner": "#000000",
+        "color_url": "#000000",
         "color_url_hover": "#ff6363"
       }
     },
@@ -302,11 +302,19 @@
         "9eb06105-780a-4fc5-ba64-194d9b9eaff1"
       ],
       "settings": {}
+    },
+    "rich_text_AYpAFw": {
+      "type": "rich-text",
+      "settings": {
+        "rich_icon_svg": "",
+        "section_title": "Talk about your brand"
+      }
     }
   },
   "order": [
     "section_slideshow_v1",
     "section_product_v3",
+    "rich_text_AYpAFw",
     "section_product_v2",
     "16288378981ca8ec44",
     "section_blog_v1",
