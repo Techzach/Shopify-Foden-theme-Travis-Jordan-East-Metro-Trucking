@@ -125,6 +125,10 @@
     },
     "section_product_v3": {
       "type": "section-banner-v3",
+      "custom_css": [
+        ".section-banner-v3 .banner-item .content .title-banner {font-size: 22px !important;}",
+        ".section-banner-v3 .banner-item .content .sub-title {font-size: 20px;}"
+      ],
       "settings": {
         "margin_top": "",
         "margin_bottom": "",
