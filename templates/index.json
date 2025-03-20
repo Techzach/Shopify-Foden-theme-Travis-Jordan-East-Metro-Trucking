@@ -43,7 +43,7 @@
             "text_title_left": "Collection 2022",
             "ena_slide_video": false,
             "url_ytb_video": "",
-            "block_banerimage": "shopify://shop_images/fashion-minimal_01.jpg"
+            "block_banerimage": "shopify://shop_images/fashion-minimal_01.webp"
           }
         },
         "d0bf1031-65ef-40ca-b2d7-c968cd60a76f": {
@@ -76,8 +76,7 @@
             "effect_title3": "bounceInRight",
             "text_title_left": "Collection 2022",
             "ena_slide_video": false,
-            "url_ytb_video": "",
-            "block_banerimage": "shopify://shop_images/fashion-minimal_02.jpg"
+            "url_ytb_video": ""
           }
         },
         "b7cbbdea-fc3b-40f2-a65f-54d082ff5b70": {
@@ -110,8 +109,7 @@
             "effect_title3": "bounce",
             "text_title_left": "Collection 2022",
             "ena_slide_video": false,
-            "url_ytb_video": "",
-            "block_banerimage": "shopify://shop_images/fashion-minimal_03.jpg"
+            "url_ytb_video": ""
           }
         }
       },
@@ -130,21 +128,21 @@
       "settings": {
         "margin_top": "",
         "margin_bottom": "",
-        "sub_title1": "FOR",
-        "title_banner1": "HER’S",
+        "sub_title1": "construction",
+        "title_banner1": "equipment & material ",
         "banner_img1": "shopify://shop_images/img12-1.jpg",
-        "button_banner1": "SHOP NOW",
-        "url_button_banner1": "shopify://collections/all",
-        "sub_title2": "TOP",
-        "title_banner2": "SELLER",
+        "button_banner1": "See more",
+        "url_button_banner1": "shopify://pages/construction",
+        "sub_title2": "containers",
+        "title_banner2": "20 & 40 foot",
         "banner_img2": "shopify://shop_images/img12-2-1.jpg",
         "button_banner2": "SHOP NOW",
-        "url_button_banner2": "shopify://collections/all",
-        "sub_title3": "TRENDING",
-        "title_banner3": "NOW",
+        "url_button_banner2": "shopify://pages/containers",
+        "sub_title3": "outbuilding ",
+        "title_banner3": "residential & Commercial",
         "button_banner3": "SHOP NOW",
-        "url_button_banner3": "shopify://collections/all",
-        "banner_img3": "shopify://shop_images/img12-3.jpg",
+        "url_button_banner3": "shopify://pages/buildings",
+        "banner_img3": "shopify://shop_images/img12-3.webp",
         "sub_title4": "NEW",
         "title_banner4": "ACCESSORIES",
         "button_banner4": "SHOP NOW",
