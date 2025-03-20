@@ -3984,7 +3984,7 @@
         "type": "header",
         "settings": {
           "select_hds": "header_v3",
-          "hd_home_color_text": "#969696",
+          "hd_home_color_text": "#403d39",
           "hd_home_color_title": "#111111",
           "hd_home_enable_transparents": true,
           "hd_home_bg_header_normal": "#ffffff",
@@ -3994,7 +3994,7 @@
           "hd_home_logo_maxwidth": 150,
           "hd_home_logo_svg": "",
           "select_hds_all": "header_ver3",
-          "hd_other_color_text": "#969696",
+          "hd_other_color_text": "#403d39",
           "hd_other_color_title": "#111111",
           "hd_other_enable_transparents": false,
           "hd_other_bg_header_normal": "#ffffff",

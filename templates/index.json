@@ -138,6 +138,47 @@
         "color_url_hover": "#ff6363"
       }
     },
+    "section_collection_v3_G4ENkt": {
+      "type": "section-collection-v3",
+      "blocks": {
+        "colection_Gpmn4E": {
+          "type": "colection",
+          "settings": {
+            "brand_img": "shopify://shop_images/extensive-experience.svg",
+            "title_collection": "Porcelain",
+            "brand_url": "",
+            "block_content": "An ancient type of ceramics that developed in China as early as the Shang dynasty of 1600–1046 BC."
+          }
+        },
+        "colection_wh6rfB": {
+          "type": "colection",
+          "settings": {
+            "brand_img": "shopify://shop_images/unwavering-safety-prioritization.svg",
+            "title_collection": "Bone China",
+            "brand_url": "",
+            "block_content": "A type of porcelain made with bone ash as an key ingredient. This is a British innovation that emerged at the end of the 18th century."
+          }
+        },
+        "colection_t6Bkiz": {
+          "type": "colection",
+          "settings": {
+            "brand_img": "shopify://shop_images/unsurpassed-speed.svg",
+            "title_collection": "Earthenware",
+            "brand_url": "",
+            "block_content": "The earliest form of human produced ceramics that was created in fire pits as early as 29,000 BC."
+          }
+        }
+      },
+      "block_order": [
+        "colection_Gpmn4E",
+        "colection_wh6rfB",
+        "colection_t6Bkiz"
+      ],
+      "settings": {
+        "margin_top": "",
+        "margin_bottom": ""
+      }
+    },
     "section_product_v2": {
       "type": "section-product-v2",
       "blocks": {
@@ -292,6 +333,7 @@
     "section_slideshow_v1",
     "section_info_v1_DHqYKG",
     "section_product_v3",
+    "section_collection_v3_G4ENkt",
     "section_product_v2",
     "16288378981ca8ec44",
     "section_blog_v1",
