@@ -1,0 +1,42 @@
+{%- if section.settings.sub_heading != blank
+  or section.settings.heading != blank
+  or section.settings.description != blank
+  or section.settings.top_button_label != blank
+-%}
+  <div class="tpt-section-header tpt-section_align-{{ section.settings.alignment }}">
+    {%- if section.settings.sub_heading != blank -%}
+      <div class="tpt-section-header_sub-heading tpt-section__foreground--color">
+        {{ section.settings.sub_heading }}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.heading != blank -%}
+      <div class="tpt-section-header_heading">
+        <h2 class="tpt-section-header_title tpt-section__title--color {{ section.settings.heading_size }}">
+          {{ section.settings.heading }}
+        </h2>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.description != blank -%}
+      <div class="tpt-section-header_description tpt-section__foreground--color">
+        {{ section.settings.description }}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.top_button_label != blank -%}
+      <div class="tpt-section-header_button">
+        <a
+          class="tpt-button tpt-button__primary"
+          href="{{ section.settings.top_button_link | default: "#" }}"
+          {%- assign mtm_link = section.settings.top_button_link -%}
+          {%- if mtm_link contains 'http' -%}
+            {% unless mtm_link contains shop.domain %} rel="nofollow" {% endunless %}
+          {%- endif -%}
+        >
+          <span>{{ section.settings.top_button_label }}</span>
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+{%- endif -%}
