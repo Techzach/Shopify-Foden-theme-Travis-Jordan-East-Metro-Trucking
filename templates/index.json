@@ -294,6 +294,21 @@
         "9eb06105-780a-4fc5-ba64-194d9b9eaff1"
       ],
       "settings": {}
+    },
+    "viva-section-tehv": {
+      "type": "apps",
+      "blocks": {
+        "viva-content-co1t": {
+          "type": "shopify://apps/viva-page-section-builder/blocks/viva_content/1c30e4eb-0644-429a-b30a-5b73dd51b957",
+          "settings": {
+            "section_handle": "custom-section"
+          }
+        }
+      },
+      "block_order": [
+        "viva-content-co1t"
+      ],
+      "settings": {}
     }
   },
   "order": [
@@ -301,6 +316,7 @@
     "section_product_v3",
     "section_product_v2",
     "contact_template_qqHdQQ",
-    "1628845210c6c53a17"
+    "1628845210c6c53a17",
+    "viva-section-tehv"
   ]
 }
