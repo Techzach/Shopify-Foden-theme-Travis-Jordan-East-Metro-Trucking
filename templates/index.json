@@ -32,12 +32,12 @@
             "font_size_top2": 20,
             "fonts_sub_2": "",
             "effect_title2": "lightSpeedIn",
-            "block_buton": "Shop now",
-            "color_block_button": "#000000",
+            "block_buton": "Request a Quote",
+            "color_block_button": "#403d39",
             "font_size_button": 12,
             "fonts_button": "",
             "color_hover_button": "#000000",
-            "color_hover_text": "#ffffff",
+            "color_hover_text": "#403d39",
             "block_url": "shopify://collections/all",
             "effect_title3": "bounce",
             "text_title_left": "Collection 2022",
@@ -123,6 +123,19 @@
         "margin_bottom": ""
       }
     },
+    "section_info_v1_DHqYKG": {
+      "type": "section-info-v1",
+      "settings": {
+        "title_info": "About East Metro Trucking",
+        "color_title_info": "",
+        "content_info": "Green tеа iѕ rich in antioxidant substances called polyphenol: A series оf chemicals called catechins; EGCG (epigallocatechin gallate) iѕ the mоѕt powerful.Antioxidants hаvе thе ability tо mop uр free radicals capable оf causing blood clots (which соuld lead tо thrombosis) аnd plaque formations оn innеr walls оf arteries leading tо cardiovascular disease.",
+        "color_content_info": "",
+        "more_about": "Learn More",
+        "url_banner": "shopify://pages/about-us",
+        "margin_top": "",
+        "margin_bottom": ""
+      }
+    },
     "section_product_v3": {
       "type": "section-banner-v3",
       "custom_css": [
@@ -156,19 +169,6 @@
         "color_title_banner": "#000000",
         "color_url": "#000000",
         "color_url_hover": "#ff6363"
-      }
-    },
-    "section_info_v1_DHqYKG": {
-      "type": "section-info-v1",
-      "settings": {
-        "title_info": "About East Metro Trucking",
-        "color_title_info": "",
-        "content_info": "Green tеа iѕ rich in antioxidant substances called polyphenol: A series оf chemicals called catechins; EGCG (epigallocatechin gallate) iѕ the mоѕt powerful.Antioxidants hаvе thе ability tо mop uр free radicals capable оf causing blood clots (which соuld lead tо thrombosis) аnd plaque formations оn innеr walls оf arteries leading tо cardiovascular disease.",
-        "color_content_info": "",
-        "more_about": "Learn More",
-        "url_banner": "shopify://pages/about-us",
-        "margin_top": "",
-        "margin_bottom": ""
       }
     },
     "section_product_v2": {
