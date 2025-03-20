@@ -154,6 +154,19 @@
         "color_url_hover": "#ff6363"
       }
     },
+    "section_info_v1_WLnAGf": {
+      "type": "section-info-v1",
+      "settings": {
+        "title_info": "About East Metro Trucking",
+        "color_title_info": "",
+        "content_info": "Green tеа iѕ rich in antioxidant substances called polyphenol: A series оf chemicals called catechins; EGCG (epigallocatechin gallate) iѕ the mоѕt powerful.Antioxidants hаvе thе ability tо mop uр free radicals capable оf causing blood clots (which соuld lead tо thrombosis) аnd plaque formations оn innеr walls оf arteries leading tо cardiovascular disease.",
+        "color_content_info": "",
+        "more_about": "More about us",
+        "url_banner": "",
+        "margin_top": "",
+        "margin_bottom": ""
+      }
+    },
     "section_product_v2": {
       "type": "section-product-v2",
       "blocks": {
@@ -302,19 +315,12 @@
         "9eb06105-780a-4fc5-ba64-194d9b9eaff1"
       ],
       "settings": {}
-    },
-    "rich_text_AYpAFw": {
-      "type": "rich-text",
-      "settings": {
-        "rich_icon_svg": "",
-        "section_title": "Talk about your brand"
-      }
     }
   },
   "order": [
     "section_slideshow_v1",
     "section_product_v3",
-    "rich_text_AYpAFw",
+    "section_info_v1_WLnAGf",
     "section_product_v2",
     "16288378981ca8ec44",
     "section_blog_v1",
