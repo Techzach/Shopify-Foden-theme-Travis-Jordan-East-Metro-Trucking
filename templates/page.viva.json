@@ -23,9 +23,25 @@
         "viva-content-6cgv"
       ],
       "settings": {}
+    },
+    "viva-section-fuo4": {
+      "type": "apps",
+      "blocks": {
+        "viva-content-5pvi": {
+          "type": "shopify://apps/viva-page-section-builder/blocks/viva_content/1c30e4eb-0644-429a-b30a-5b73dd51b957",
+          "settings": {
+            "section_handle": "custom-section"
+          }
+        }
+      },
+      "block_order": [
+        "viva-content-5pvi"
+      ],
+      "settings": {}
     }
   },
   "order": [
-    "viva-section-vq0q"
+    "viva-section-vq0q",
+    "viva-section-fuo4"
   ]
 }
