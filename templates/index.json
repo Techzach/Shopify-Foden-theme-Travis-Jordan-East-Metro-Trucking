@@ -145,8 +145,8 @@
         "color_title_info": "#403d39",
         "content_info": "Dependable Supply Chain Services stands out for our exceptional service quality, defined by:",
         "color_content_info": "#403d39",
-        "more_about": "Learn More",
-        "url_banner": "shopify://pages/about-us",
+        "more_about": "",
+        "url_banner": "",
         "margin_top": "",
         "margin_bottom": "0"
       }
@@ -157,7 +157,7 @@
         "colection_Gpmn4E": {
           "type": "colection",
           "settings": {
-            "brand_img": "shopify://shop_images/p90549018-lowres-rolls-royce-cullinan-669fd587c879c_14e9c3e7-706c-4f29-a5ea-13a26c136c14.jpg",
+            "brand_img": "shopify://shop_images/extensive-experience.svg",
             "title_collection": "Extensive Experience",
             "brand_url": "",
             "block_content": "With over seven decades of industry leadership, we have deep roots in in providing full-service supply chain solutions nationwide and internationally."
