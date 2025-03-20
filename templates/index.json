@@ -138,6 +138,19 @@
         "color_url_hover": "#ff6363"
       }
     },
+    "section_info_v1_EVADzQ": {
+      "type": "section-info-v1",
+      "settings": {
+        "title_info": "The Dependable Difference",
+        "color_title_info": "#403d39",
+        "content_info": "Dependable Supply Chain Services stands out for our exceptional service quality, defined by:",
+        "color_content_info": "#403d39",
+        "more_about": "Learn More",
+        "url_banner": "shopify://pages/about-us",
+        "margin_top": "",
+        "margin_bottom": "0"
+      }
+    },
     "section_collection_v3_G4ENkt": {
       "type": "section-collection-v3",
       "blocks": {
@@ -333,6 +346,7 @@
     "section_slideshow_v1",
     "section_info_v1_DHqYKG",
     "section_product_v3",
+    "section_info_v1_EVADzQ",
     "section_collection_v3_G4ENkt",
     "section_product_v2",
     "16288378981ca8ec44",
