@@ -1,0 +1,128 @@
+.badges-list-one .badges-list-one_content {
+	padding: 3rem;
+	height: 100%;
+	background-color: var(--item-background-color);
+	border: 1px solid var(--item-text-color);
+	color: var(--item-text-color);
+	border-radius: var(--item-border-radius);
+}
+
+.badges-list-one.tpt-badges_hidden-border .badges-list-one_content {
+	border: none;
+}
+
+.badges-list-one .badges-list-one_info {
+	display: flex;
+	flex-direction: column;
+	row-gap: 0;
+}
+
+.badges-list-one .badges-list-one_info > * {
+	margin: 0;
+	padding: 0;
+}
+
+.badges-list-one .badges-list-one_info .badges-list-one_heading {
+	color: var(--item-text-color);
+}
+
+.badges-list-one .badges-list-one_info .badges-list-one_description {
+	opacity: 0.6;
+}
+
+.badges-list-one .badges-list-one_info,
+.badges-list-one .badges-list-one_heading {
+	margin: 0;
+	padding: 0;
+}
+
+.badges-list-one .badges-list-one_description > * {
+	margin: 0 0 1rem;
+}
+
+.badges-list-one .badges-list-one_description > *:last-child {
+	margin: 0;
+}
+
+.badges-list-one .badges-list-one_image .badges-list-one_image-content img {
+	vertical-align: top;
+}
+
+.badges-list-one_image.badges-image-type_default .badges-list-one_image-content img {
+	width: auto;
+	max-width: 100%;
+	height: auto;
+}
+
+.badges-list-one .badges-list-one_link a {
+	text-decoration: underline;
+	text-underline-offset: 0.4rem;
+}
+
+.badges-list-one .badges-list-one_link a:hover {
+	text-decoration: none;
+}
+
+/**
+ * Icon position default
+ */
+
+.badges-list-one.tpt-badges-icon-position_default .badges-list-one_content {
+	display: flex;
+	column-gap: 2rem;
+}
+
+.badges-list-one.tpt-badges-icon-position_default .badges-list-one_image.badges-image-type_default .badges-list-one_image-content {
+	width: 5.6rem;
+	height: 5.6rem;
+	border-radius: 50%;
+	overflow: hidden;
+	border-radius: 50%;
+}
+
+/**
+ * Icon position center
+ */
+
+.badges-list-one.tpt-badges-icon-position_center .badges-list-one_content {
+	text-align: center;
+}
+
+.badges-list-one.tpt-badges-icon-position_center .badges-list-one_info {
+	display: flex;
+	flex-direction: column;
+	row-gap: 0.3rem;
+	justify-content: center;
+}
+
+.badges-list-one.tpt-badges-icon-position_center .badges-list-one_image {
+	margin-bottom: 1rem;
+}
+
+.badges-list-one.tpt-badges-icon-position_center .badges-list-one_image.badges-image-type_default {
+	margin-bottom: 1.5rem;
+}
+
+.badges-list-one.tpt-badges-icon-position_center .badges-list-one_image.badges-image-type_default .badges-list-one_image-content {
+	margin: 0 auto;
+	width: 12rem;
+	height: 12rem;
+	border-radius: 50%;
+	overflow: hidden;
+}
+
+@media screen and (min-width: 1024px) {
+	.tpt-badges-one_container {
+		display: flex;
+		column-gap: 5rem;
+	}
+
+	.tpt-badges-one_container .tpt-section-header {
+		width: 50%;
+		min-width: 50%;
+	}
+
+	.tpt-badges-one_container .tpt-section-body {
+		width: 100%;
+	}
+}
