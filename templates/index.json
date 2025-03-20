@@ -231,25 +231,6 @@
         "contactform_btn": "Submit"
       }
     },
-    "16288378981ca8ec44": {
-      "type": "section-newsletter-v1",
-      "settings": {
-        "select_style": "style_1",
-        "select_width": "full",
-        "style_bg": "image",
-        "bg_color": "#f2f2f2",
-        "bg_color_newletter": "",
-        "bg_color_inputnewletter": "",
-        "border_color_newletter": "#ffffff",
-        "url_banner": "shopify://collections/all",
-        "title_newletter": "OUR  Newsletter!",
-        "color_title": "#ffffff",
-        "content_newletter": "It only takes a second to be the first to find out about our latest news",
-        "color_content": "#ffffff",
-        "margin_top": "",
-        "margin_bottom": ""
-      }
-    },
     "1628845210c6c53a17": {
       "type": "logos-list",
       "blocks": {
@@ -320,7 +301,6 @@
     "section_product_v3",
     "section_product_v2",
     "contact_template_qqHdQQ",
-    "16288378981ca8ec44",
     "1628845210c6c53a17"
   ]
 }
