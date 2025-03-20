@@ -103,6 +103,41 @@
         "margin_bottom": ""
       }
     },
+    "section_product_v3": {
+      "type": "section-banner-v3",
+      "custom_css": [
+        ".section-banner-v3 .banner-item .content .title-banner {font-size: 22px !important;}",
+        ".section-banner-v3 .banner-item .content .sub-title {font-size: 20px;}"
+      ],
+      "settings": {
+        "margin_top": "",
+        "margin_bottom": "",
+        "sub_title1": "construction",
+        "title_banner1": "equipment & material ",
+        "banner_img1": "shopify://shop_images/img12-1.jpg",
+        "button_banner1": "See more",
+        "url_button_banner1": "shopify://pages/construction",
+        "sub_title2": "containers",
+        "title_banner2": "20 & 40 foot",
+        "banner_img2": "shopify://shop_images/img12-2-1.jpg",
+        "button_banner2": "SHOP NOW",
+        "url_button_banner2": "shopify://pages/containers",
+        "sub_title3": "outbuilding ",
+        "title_banner3": "residential & Commercial",
+        "button_banner3": "SHOP NOW",
+        "url_button_banner3": "shopify://pages/buildings",
+        "banner_img3": "shopify://shop_images/img12-3.webp",
+        "sub_title4": "transportation",
+        "title_banner4": "cars trucks boats motorcycles & RVs",
+        "button_banner4": "SHOP NOW",
+        "url_button_banner4": "shopify://pages/transport",
+        "banner_img4": "shopify://shop_images/img12-4.jpg",
+        "color_subtitle": "#000000",
+        "color_title_banner": "#000000",
+        "color_url": "#000000",
+        "color_url_hover": "#ff6363"
+      }
+    },
     "section_collection_v3_G4ENkt": {
       "type": "section-collection-v3",
       "blocks": {
@@ -140,43 +175,8 @@
         "colection_t6Bkiz"
       ],
       "settings": {
-        "margin_top": "50",
+        "margin_top": "250",
         "margin_bottom": "50"
-      }
-    },
-    "section_product_v3": {
-      "type": "section-banner-v3",
-      "custom_css": [
-        ".section-banner-v3 .banner-item .content .title-banner {font-size: 22px !important;}",
-        ".section-banner-v3 .banner-item .content .sub-title {font-size: 20px;}"
-      ],
-      "settings": {
-        "margin_top": "",
-        "margin_bottom": "",
-        "sub_title1": "construction",
-        "title_banner1": "equipment & material ",
-        "banner_img1": "shopify://shop_images/img12-1.jpg",
-        "button_banner1": "See more",
-        "url_button_banner1": "shopify://pages/construction",
-        "sub_title2": "containers",
-        "title_banner2": "20 & 40 foot",
-        "banner_img2": "shopify://shop_images/img12-2-1.jpg",
-        "button_banner2": "SHOP NOW",
-        "url_button_banner2": "shopify://pages/containers",
-        "sub_title3": "outbuilding ",
-        "title_banner3": "residential & Commercial",
-        "button_banner3": "SHOP NOW",
-        "url_button_banner3": "shopify://pages/buildings",
-        "banner_img3": "shopify://shop_images/img12-3.webp",
-        "sub_title4": "transportation",
-        "title_banner4": "cars trucks boats motorcycles & RVs",
-        "button_banner4": "SHOP NOW",
-        "url_button_banner4": "shopify://pages/transport",
-        "banner_img4": "shopify://shop_images/img12-4.jpg",
-        "color_subtitle": "#000000",
-        "color_title_banner": "#000000",
-        "color_url": "#000000",
-        "color_url_hover": "#ff6363"
       }
     },
     "section_product_v2": {
@@ -332,8 +332,8 @@
   "order": [
     "section_slideshow_v1",
     "section_info_v1_DHqYKG",
-    "section_collection_v3_G4ENkt",
     "section_product_v3",
+    "section_collection_v3_G4ENkt",
     "section_product_v2",
     "16288378981ca8ec44",
     "section_blog_v1",
