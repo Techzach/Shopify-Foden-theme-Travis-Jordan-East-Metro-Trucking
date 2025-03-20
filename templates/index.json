@@ -297,18 +297,97 @@
     },
     "viva-section-tehv": {
       "type": "apps",
+      "settings": {}
+    },
+    "tpt_badges_one_LtqVan": {
+      "type": "tpt-badges-one",
       "blocks": {
-        "viva-content-co1t": {
-          "type": "shopify://apps/viva-page-section-builder/blocks/viva_content/1c30e4eb-0644-429a-b30a-5b73dd51b957",
+        "item_UFEwnD": {
+          "type": "item",
           "settings": {
-            "section_handle": "custom-section"
+            "image_type": "icon",
+            "image_preload": false,
+            "heading": "<strong>74 +</strong>",
+            "description": "<p><strong>YEARS OF EXPERIENCE</strong></p>",
+            "link_text": "",
+            "link": ""
+          }
+        },
+        "item_nciXa8": {
+          "type": "item",
+          "settings": {
+            "image_type": "icon",
+            "image_preload": false,
+            "heading": "<strong>1400 +</strong>",
+            "description": "<p><strong>DEDICATED EMPLOYEES</strong></p>",
+            "link_text": "",
+            "link": ""
+          }
+        },
+        "item_Cr4Pib": {
+          "type": "item",
+          "settings": {
+            "image_type": "icon",
+            "image_preload": false,
+            "heading": "<strong>4M +</strong>",
+            "description": "<p><strong>SQFT OF WAREHOUSE SPACE</strong></p>",
+            "link_text": "",
+            "link": ""
+          }
+        },
+        "item_MHmrEe": {
+          "type": "item",
+          "settings": {
+            "image_type": "icon",
+            "image_preload": false,
+            "heading": "<strong>100 +</strong>",
+            "description": "<p><strong>DRIVERS</strong></p>",
+            "link_text": "",
+            "link": ""
           }
         }
       },
       "block_order": [
-        "viva-content-co1t"
+        "item_UFEwnD",
+        "item_nciXa8",
+        "item_Cr4Pib",
+        "item_MHmrEe"
       ],
-      "settings": {}
+      "settings": {
+        "heading": "East Metro Tracking Impact By the Numbers",
+        "heading_size": "h2",
+        "sub_heading": "",
+        "description": "",
+        "alignment": "center",
+        "top_button_label": "",
+        "top_button_link": "",
+        "icon_position": "default",
+        "item_background_color": "#111111",
+        "item_text_color": "#FFFFFF",
+        "border_radius": 8,
+        "hidden_border": false,
+        "desktop_column": 2,
+        "tablet_column": 2,
+        "mobile_column": 1,
+        "bottom_button_label": "",
+        "bottom_button_link": "",
+        "section_full_width": true,
+        "section_max_width": 1600,
+        "content_full_width": false,
+        "content_max_width": 1440,
+        "padding_desktop": 0,
+        "padding_tablet_mobile": 0,
+        "margin_desktop": 60,
+        "margin_tablet_mobile": 40,
+        "background_color": "#111111",
+        "background_gradient_color": "",
+        "foreground_color": "#000000",
+        "title_color": "#FFFFFF",
+        "button_background_color": "#000000",
+        "button_text_color": "#ffffff",
+        "input_button_radius": 0,
+        "section_lazyload": false
+      }
     }
   },
   "order": [
@@ -317,6 +396,7 @@
     "section_product_v2",
     "contact_template_qqHdQQ",
     "1628845210c6c53a17",
-    "viva-section-tehv"
+    "viva-section-tehv",
+    "tpt_badges_one_LtqVan"
   ]
 }
