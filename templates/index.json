@@ -159,14 +159,6 @@
         "color_url_hover": "#fe7250"
       }
     },
-    "rich_text_XhM8dM": {
-      "type": "rich-text",
-      "disabled": true,
-      "settings": {
-        "rich_icon_svg": "",
-        "section_title": "Comprehensive Services for Every Supply Chain Need"
-      }
-    },
     "section_product_v2": {
       "type": "section-product-v2",
       "blocks": {
@@ -216,6 +208,29 @@
         "color_title": "#000000"
       }
     },
+    "contact_template_qqHdQQ": {
+      "type": "contact-template",
+      "settings": {
+        "enable_map": false,
+        "select_style_map": "style_map",
+        "link_map": "",
+        "title_get_left": "CONTACT INFORMATION",
+        "des_get_left": "",
+        "url_mail": "",
+        "title_follow": "Follow Us",
+        "url_twitter": "",
+        "url_face": "",
+        "url_insta": "",
+        "url_youtube": "",
+        "enable_follow": true,
+        "enable_s_contactform": true,
+        "contactform_title": "Contact Form",
+        "contactform_name": "Name",
+        "contactform_email": "Email address",
+        "contactform_content": "Your Message",
+        "contactform_btn": "Submit"
+      }
+    },
     "16288378981ca8ec44": {
       "type": "section-newsletter-v1",
       "settings": {
@@ -227,7 +242,7 @@
         "bg_color_inputnewletter": "",
         "border_color_newletter": "#ffffff",
         "url_banner": "shopify://collections/all",
-        "title_newletter": "OUR <br> <strong>Newsletter!</strong>",
+        "title_newletter": "OUR  Newsletter!",
         "color_title": "#ffffff",
         "content_newletter": "It only takes a second to be the first to find out about our latest news",
         "color_content": "#ffffff",
@@ -303,8 +318,8 @@
   "order": [
     "section_slideshow_v1",
     "section_product_v3",
-    "rich_text_XhM8dM",
     "section_product_v2",
+    "contact_template_qqHdQQ",
     "16288378981ca8ec44",
     "1628845210c6c53a17"
   ]
