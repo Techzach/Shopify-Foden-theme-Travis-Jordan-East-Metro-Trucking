@@ -187,6 +187,9 @@
         "colection_wh6rfB",
         "colection_t6Bkiz"
       ],
+      "custom_css": [
+        ".w-100 {margin-left: auto !important; margin-right: auto !important; width: 25% !important;}"
+      ],
       "settings": {
         "margin_top": "150",
         "margin_bottom": "50"
