@@ -18,7 +18,7 @@
             "select_position_content": "right",
             "select_textalign_content": "left",
             "block_title_top1": "Sale up to 30%",
-            "color_block_title_top1": "#e5e5e5",
+            "color_block_title_top1": "#000000",
             "font_size_top1": 26,
             "fonts_sub_1": "",
             "effect_title1": "shake",
