@@ -188,7 +188,8 @@
         "colection_t6Bkiz"
       ],
       "custom_css": [
-        ".w-100 {margin-left: auto !important; margin-right: auto !important; width: 25% !important;}"
+        ".w-100 {margin-left: auto !important; margin-right: auto !important; width: 25% !important;}",
+        ".section-collection-v3 .item .title-collection {font-size: 22px;}"
       ],
       "settings": {
         "margin_top": "150",
