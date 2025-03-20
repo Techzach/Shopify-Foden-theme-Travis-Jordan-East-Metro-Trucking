@@ -46,73 +46,6 @@
             "block_banerimage": "shopify://shop_images/fashion-minimal_01.webp"
           }
         },
-        "slideshow_xMryR4": {
-          "type": "slideshow",
-          "settings": {
-            "select_position_content": "left",
-            "select_textalign_content": "left",
-            "block_title_top1": "Style Destination",
-            "color_block_title_top1": "#E5E5E5",
-            "font_size_top1": 18,
-            "fonts_sub_1": "",
-            "effect_title1": "bounce",
-            "block_title_top": "Basic Collection",
-            "color_block_title_top": "#010101",
-            "font_size_title_top": 80,
-            "fonts_title_top": "",
-            "effect_title": "bounce",
-            "block_title_top2": "Style Destination",
-            "color_block_title_top2": "#E5E5E5",
-            "font_size_top2": 20,
-            "fonts_sub_2": "",
-            "effect_title2": "bounce",
-            "block_buton": "Shop now",
-            "color_block_button": "#fff",
-            "font_size_button": 12,
-            "fonts_button": "",
-            "color_hover_button": "#fff",
-            "color_hover_text": "#000",
-            "block_url": "shopify://collections/all",
-            "effect_title3": "bounce",
-            "text_title_left": "Collection 2020",
-            "ena_slide_video": false,
-            "url_ytb_video": "",
-            "block_banerimage": "shopify://shop_images/fashion-minimal_01_5cfbb674-9bb4-41d6-953e-e96297b99c69.webp"
-          }
-        },
-        "d0bf1031-65ef-40ca-b2d7-c968cd60a76f": {
-          "type": "slideshow",
-          "settings": {
-            "select_position_content": "right",
-            "select_textalign_content": "left",
-            "block_title_top1": "Sale up to 30%",
-            "color_block_title_top1": "#000000",
-            "font_size_top1": 26,
-            "fonts_sub_1": "",
-            "effect_title1": "bounce",
-            "block_title_top": "Summer Sale",
-            "color_block_title_top": "#000000",
-            "font_size_title_top": 100,
-            "fonts_title_top": "",
-            "effect_title": "tada",
-            "block_title_top2": "New Modern Stylist Fashionable Women's",
-            "color_block_title_top2": "#000000",
-            "font_size_top2": 20,
-            "fonts_sub_2": "",
-            "effect_title2": "bounceInRight",
-            "block_buton": "Shop now",
-            "color_block_button": "#000000",
-            "font_size_button": 12,
-            "fonts_button": "",
-            "color_hover_button": "#000000",
-            "color_hover_text": "#ffffff",
-            "block_url": "shopify://collections/all",
-            "effect_title3": "bounceInRight",
-            "text_title_left": "Collection 2022",
-            "ena_slide_video": false,
-            "url_ytb_video": ""
-          }
-        },
         "b7cbbdea-fc3b-40f2-a65f-54d082ff5b70": {
           "type": "slideshow",
           "settings": {
@@ -143,14 +76,13 @@
             "effect_title3": "bounce",
             "text_title_left": "Collection 2022",
             "ena_slide_video": false,
-            "url_ytb_video": ""
+            "url_ytb_video": "",
+            "block_banerimage": "shopify://shop_images/fashion-minimal_01_5cfbb674-9bb4-41d6-953e-e96297b99c69.webp"
           }
         }
       },
       "block_order": [
         "bfce2761-ec07-41bf-a4ec-e23c96952ae3",
-        "slideshow_xMryR4",
-        "d0bf1031-65ef-40ca-b2d7-c968cd60a76f",
         "b7cbbdea-fc3b-40f2-a65f-54d082ff5b70"
       ],
       "settings": {
