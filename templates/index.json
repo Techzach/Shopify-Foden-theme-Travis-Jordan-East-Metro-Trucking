@@ -366,7 +366,7 @@
         "item_text_color": "#FFFFFF",
         "border_radius": 8,
         "hidden_border": true,
-        "desktop_column": 6,
+        "desktop_column": 4,
         "tablet_column": 2,
         "mobile_column": 1,
         "bottom_button_label": "",
