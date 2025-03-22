@@ -3983,7 +3983,7 @@
       "header": {
         "type": "header",
         "settings": {
-          "select_hds": "header_v1",
+          "select_hds": "header_v2",
           "hd_home_color_text": "#403d39",
           "hd_home_color_title": "#111111",
           "hd_home_enable_transparents": true,
