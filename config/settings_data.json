@@ -25,7 +25,7 @@
     "show_minicart": true,
     "show_compare_icon": true,
     "show_wishlist_icon": false,
-    "show_top_search": false,
+    "show_top_search": true,
     "free_shipping_progress_bar": true,
     "sections": {
       "top-bar": {
@@ -47,6 +47,7 @@
       },
       "header-layout-1": {
         "type": "header-layout-1",
+        "custom_css": [],
         "settings": {}
       },
       "vertical-menu": {
