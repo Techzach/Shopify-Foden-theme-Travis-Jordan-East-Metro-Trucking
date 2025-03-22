@@ -3991,7 +3991,7 @@
           "hd_bg_header_opacity": 1,
           "enable_sticky_hd_home": true,
           "hd_home_logo": "shopify://shop_images/logo.png",
-          "hd_home_logo_maxwidth": 100,
+          "hd_home_logo_maxwidth": 130,
           "hd_home_logo_svg": "",
           "select_hds_all": "header_ver3",
           "hd_other_color_text": "#403d39",
