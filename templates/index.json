@@ -86,7 +86,7 @@
         "b7cbbdea-fc3b-40f2-a65f-54d082ff5b70"
       ],
       "custom_css": [
-        ".box-content-center {background-color: rgba(33, 37, 39, 0.9); /* #212527 with 90% opacity */ padding: 15px 25px; /* Adjust padding for spacing */ color: #ffffff; /* Ensure text contrast */ display: inline-block; /* Prevent full-width background */ border-radius: 5px; /* Optional: Rounded corners */ text-align: center; /* Center the text */}"
+        ".box-content-center {background-color: rgba(33, 37, 39, 0.9); /* #101820 with 90% opacity */ padding: 15px 25px; /* Adjust padding for spacing */ color: #ffffff; /* Ensure text contrast */ display: inline-block; /* Prevent full-width background */ border-radius: 5px; /* Optional: Rounded corners */ text-align: center; /* Center the text */}"
       ],
       "settings": {
         "margin_top": "",
