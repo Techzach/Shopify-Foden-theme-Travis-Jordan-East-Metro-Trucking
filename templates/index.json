@@ -11,25 +11,55 @@
   "sections": {
     "hero_3qXx4x": {
       "type": "Hero",
+      "blocks": {
+        "slide_8BBzAU": {
+          "type": "slide",
+          "settings": {
+            "slide_image": "shopify://shop_images/VanSchendel-Construction.jpg",
+            "heading": "Welcome to Our Website",
+            "heading_size": 40,
+            "heading_color": "#ffffff",
+            "subheading": "We provide the best solutions for your needs.",
+            "subheading_size": 18,
+            "subheading_color": "#ffffff",
+            "primary_button_text": "Get Started",
+            "primary_button_link": "/",
+            "primary_button_color": "#ff6600",
+            "primary_button_text_color": "#ffffff",
+            "secondary_button_text": "Learn More",
+            "secondary_button_link": "/",
+            "secondary_button_color": "transparent",
+            "secondary_button_text_color": "#ffffff"
+          }
+        },
+        "slide_8JrJDm": {
+          "type": "slide",
+          "settings": {
+            "slide_image": "shopify://shop_images/pexels-pixabay-163236.jpg",
+            "heading": "Welcome to Our Website",
+            "heading_size": 40,
+            "heading_color": "#ffffff",
+            "subheading": "We provide the best solutions for your needs.",
+            "subheading_size": 18,
+            "subheading_color": "#ffffff",
+            "primary_button_text": "Get Started",
+            "primary_button_link": "/",
+            "primary_button_color": "#ff6600",
+            "primary_button_text_color": "#ffffff",
+            "secondary_button_text": "Learn More",
+            "secondary_button_link": "/",
+            "secondary_button_color": "transparent",
+            "secondary_button_text_color": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "slide_8BBzAU",
+        "slide_8JrJDm"
+      ],
       "settings": {
-        "heading": "Welcome to Our Website",
-        "heading_size": 40,
-        "heading_color": "#ffffff",
-        "subheading": "We provide the best solutions for your needs.",
-        "subheading_size": 18,
-        "subheading_color": "#ffffff",
-        "bg_color": "#212527",
-        "bg_image": "shopify://shop_images/VanSchendel-Construction.jpg",
         "section_height": 75,
-        "text_align": "center",
-        "primary_button_text": "Get Started",
-        "primary_button_link": "/",
-        "primary_button_color": "#ff6600",
-        "primary_button_text_color": "#ffffff",
-        "secondary_button_text": "Learn More",
-        "secondary_button_link": "/",
-        "secondary_button_color": "transparent",
-        "secondary_button_text_color": "#ffffff"
+        "text_align": "center"
       }
     },
     "48263d1a-f37b-4715-893a-ac5dfd296a1a": {
