@@ -22,6 +22,7 @@
     "loading_subtitle": "TRUCKING",
     "header_layout": "header_layout_1",
     "container": "container",
+    "header_border_color": "#010f1c",
     "header_search_links": "search-menu",
     "show_my_account": false,
     "show_minicart": true,
@@ -432,6 +433,84 @@
       "custom-colors": {
         "type": "custom-colors",
         "settings": {}
+      },
+      "top-bar-2": {
+        "type": "top-bar-2",
+        "settings": {
+          "container": "container",
+          "show_social_info": true,
+          "social_url": "",
+          "social_title": "7500k Followers",
+          "show_topbar": true,
+          "background_color": "#ffffff",
+          "settings_menu_title": "Setting",
+          "settings_menu": "main-menu",
+          "show_country": true,
+          "show_language": true,
+          "show_setting": true
+        }
+      },
+      "horizontal-menu-2": {
+        "type": "horizontal-menu-2",
+        "settings": {
+          "show_my_account": false,
+          "label_color_1": "",
+          "label2": "New",
+          "label_color_2": "",
+          "label3": "Sale",
+          "label_color_3": "",
+          "width_sub_menu_center": 800,
+          "menu_mb_action": false
+        }
+      },
+      "header-layout-2": {
+        "type": "header-layout-2",
+        "settings": {}
+      },
+      "horizontal-menu-3": {
+        "type": "horizontal-menu-3",
+        "settings": {
+          "show_my_account": false,
+          "label_color_1": "",
+          "label2": "New",
+          "label_color_2": "",
+          "label3": "Sale",
+          "label_color_3": "",
+          "width_sub_menu_center": 800,
+          "menu_mb_action": false
+        }
+      },
+      "header-layout-3": {
+        "type": "header-layout-3",
+        "settings": {}
+      },
+      "horizontal-menu-4": {
+        "type": "horizontal-menu-4",
+        "settings": {
+          "show_my_account": false,
+          "label_color_1": "",
+          "label2": "New",
+          "label_color_2": "",
+          "label3": "Sale",
+          "label_color_3": "",
+          "width_sub_menu_center": 800,
+          "menu_mb_action": false
+        }
+      },
+      "header-layout-4": {
+        "type": "header-layout-4",
+        "settings": {}
+      },
+      "header-layout-5": {
+        "type": "header-layout-5",
+        "settings": {}
+      },
+      "vertical-menu-home-5": {
+        "type": "vertical-menu-home-5",
+        "settings": {
+          "enable": true,
+          "title": "Shop by category"
+        }
       }
     },
     "content_for_index": []
