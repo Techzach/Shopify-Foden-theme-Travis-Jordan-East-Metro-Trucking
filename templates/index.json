@@ -34,7 +34,7 @@
             "effect_title2": "lightSpeedIn",
             "block_buton": "Request a Quote",
             "color_block_button": "#403d39",
-            "font_size_button": 50,
+            "font_size_button": 12,
             "fonts_button": "",
             "color_hover_button": "#000000",
             "color_hover_text": "#ffffff",
