@@ -143,11 +143,14 @@
     },
     "section_info_v1_EVADzQ": {
       "type": "section-info-v1",
+      "custom_css": [
+        ".section-info-v1 {background-color: #101820 !important;}"
+      ],
       "settings": {
         "title_info": "The Dependable Difference",
-        "color_title_info": "#403d39",
+        "color_title_info": "#fffcfc",
         "content_info": "Dependable Supply Chain Services stands out for our exceptional service quality, defined by:",
-        "color_content_info": "#403d39",
+        "color_content_info": "#ffffff",
         "more_about": "",
         "url_banner": "",
         "margin_top": "",
