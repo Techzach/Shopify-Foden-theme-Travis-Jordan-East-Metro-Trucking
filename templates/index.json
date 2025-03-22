@@ -143,9 +143,7 @@
     },
     "section_info_v1_EVADzQ": {
       "type": "section-info-v1",
-      "custom_css": [
-        ".section-info-v1 {background-color: #101820 !important;}"
-      ],
+      "custom_css": [],
       "settings": {
         "title_info": "The Dependable Difference",
         "color_title_info": "#fffcfc",
