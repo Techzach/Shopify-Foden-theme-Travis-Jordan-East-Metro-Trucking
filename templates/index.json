@@ -437,9 +437,61 @@
       ],
       "settings": {
         "title_heading": "Visit Our Store",
-        "color_title": "#000",
+        "color_title": "#000000",
         "margin_top": "",
         "margin_bottom": ""
+      }
+    },
+    "section_service_v1_qcQeFK": {
+      "type": "section-service-v1",
+      "blocks": {
+        "service_aBVPJH": {
+          "type": "service",
+          "settings": {
+            "block_title": "24/7 FRIENDLY SUPPORT",
+            "color_title": "#fff",
+            "block_content": "Our support team always ready for you to 7 days a week",
+            "color_content": "#fff"
+          }
+        },
+        "service_LT8pnn": {
+          "type": "service",
+          "settings": {
+            "block_title": "FREE SHIPPING",
+            "color_title": "#fff",
+            "block_content": "Free worldwide shipping on all area <br>order above $100",
+            "color_content": "#fff"
+          }
+        },
+        "service_Pz4PBF": {
+          "type": "service",
+          "settings": {
+            "block_title": "7 DAYS EASY RETURN",
+            "color_title": "#fff",
+            "block_content": "Product any fault within 7 days for an<br> immediately exchange.",
+            "color_content": "#fff"
+          }
+        },
+        "service_7TRqqd": {
+          "type": "service",
+          "settings": {
+            "block_title": "QUALITY GUARANTEED",
+            "color_title": "#fff",
+            "block_content": "If your product aren't perfect, return<br> them for a full refund",
+            "color_content": "#fff"
+          }
+        }
+      },
+      "block_order": [
+        "service_aBVPJH",
+        "service_LT8pnn",
+        "service_Pz4PBF",
+        "service_7TRqqd"
+      ],
+      "settings": {
+        "margin_top": "",
+        "margin_bottom": "",
+        "bg_section": "#101820"
       }
     }
   },
@@ -454,6 +506,7 @@
     "16288378981ca8ec44",
     "section_blog_v1",
     "1628845210c6c53a17",
-    "section_collection_v1_JMqeAQ"
+    "section_collection_v1_JMqeAQ",
+    "section_service_v1_qcQeFK"
   ]
 }
