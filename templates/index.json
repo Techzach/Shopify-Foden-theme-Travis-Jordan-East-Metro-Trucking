@@ -41,7 +41,7 @@
             "block_url": "shopify://pages/contact-us",
             "effect_title3": "bounce",
             "text_title_left": "",
-            "ena_slide_video": true,
+            "ena_slide_video": false,
             "url_ytb_video": "",
             "block_banerimage": "shopify://shop_images/Hero_Section_Image.jpg"
           }
