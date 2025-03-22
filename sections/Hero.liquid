@@ -45,7 +45,7 @@
 
   .hero-slider-wrapper {
     display: flex;
-    width: 100%;
+    width: 400%; /* Adjust for 4 slides */
     height: 100%;
     animation: slideShow 12s infinite linear;
   }
@@ -59,6 +59,12 @@
     align-items: center;
     justify-content: center;
     padding: 50px;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+  }
+
+  .hero-slide:first-child {
+    opacity: 1;
   }
 
   .hero-content {
@@ -98,15 +104,13 @@
     background: transparent;
   }
 
+  /* New Smooth Animation */
   @keyframes slideShow {
-    0% { transform: translateX(0); }
-    25% { transform: translateX(0); }
-    30% { transform: translateX(-100%); }
-    55% { transform: translateX(-100%); }
-    60% { transform: translateX(-200%); }
-    85% { transform: translateX(-200%); }
-    90% { transform: translateX(-300%); }
-    100% { transform: translateX(-300%); }
+    0% { transform: translateX(0); opacity: 1; }
+    25% { transform: translateX(-100%); opacity: 1; }
+    50% { transform: translateX(-200%); opacity: 1; }
+    75% { transform: translateX(-300%); opacity: 1; }
+    100% { transform: translateX(0); opacity: 1; } /* Loop back */
   }
 </style>
 
