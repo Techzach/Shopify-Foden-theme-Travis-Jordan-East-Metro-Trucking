@@ -1,7 +1,10 @@
 <section class="hero-slider">
   <div class="hero-slider-wrapper">
     {% for block in section.blocks %}
-      <div class="hero-slide" style="background-image: url({{ block.settings.slide_image | image_url }});">
+      <div class="hero-slide" 
+           style="background-image: url({{ block.settings.slide_image | image_url }}); 
+                  background-size: {{ section.settings.image_size }}; 
+                  background-position: {{ section.settings.image_position }};">
         <div class="hero-content" style="text-align: {{ section.settings.text_align }};">
           
           {% if block.settings.heading != blank %}
@@ -18,13 +21,17 @@
 
           <div class="hero-buttons">
             {% if block.settings.primary_button_text != blank %}
-              <a href="{{ block.settings.primary_button_link }}" class="hero-button primary" style="background-color: {{ block.settings.primary_button_color }}; color: {{ block.settings.primary_button_text_color }};">
+              <a href="{{ block.settings.primary_button_link }}" class="hero-button primary" 
+                 style="background-color: {{ block.settings.primary_button_color }}; 
+                        color: {{ block.settings.primary_button_text_color }};">
                 {{ block.settings.primary_button_text }}
               </a>
             {% endif %}
 
             {% if block.settings.secondary_button_text != blank %}
-              <a href="{{ block.settings.secondary_button_link }}" class="hero-button secondary" style="background-color: {{ block.settings.secondary_button_color }}; color: {{ block.settings.secondary_button_text_color }};">
+              <a href="{{ block.settings.secondary_button_link }}" class="hero-button secondary" 
+                 style="background-color: {{ block.settings.secondary_button_color }}; 
+                        color: {{ block.settings.secondary_button_text_color }};">
                 {{ block.settings.secondary_button_text }}
               </a>
             {% endif %}
@@ -45,7 +52,7 @@
 
   .hero-slider-wrapper {
     display: flex;
-    width: 400%; /* Adjust for 4 slides */
+    width: 100%;
     height: 100%;
     animation: slideShow 12s infinite linear;
   }
@@ -59,12 +66,6 @@
     align-items: center;
     justify-content: center;
     padding: 50px;
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
-  }
-
-  .hero-slide:first-child {
-    opacity: 1;
   }
 
   .hero-content {
@@ -104,13 +105,15 @@
     background: transparent;
   }
 
-  /* New Smooth Animation */
   @keyframes slideShow {
-    0% { transform: translateX(0); opacity: 1; }
-    25% { transform: translateX(-100%); opacity: 1; }
-    50% { transform: translateX(-200%); opacity: 1; }
-    75% { transform: translateX(-300%); opacity: 1; }
-    100% { transform: translateX(0); opacity: 1; } /* Loop back */
+    0% { transform: translateX(0); }
+    25% { transform: translateX(0); }
+    30% { transform: translateX(-100%); }
+    55% { transform: translateX(-100%); }
+    60% { transform: translateX(-200%); }
+    85% { transform: translateX(-200%); }
+    90% { transform: translateX(-300%); }
+    100% { transform: translateX(-300%); }
   }
 </style>
 
@@ -135,6 +138,29 @@
         { "value": "left", "label": "Left" },
         { "value": "center", "label": "Center" },
         { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "image_size",
+      "label": "Image Size",
+      "options": [
+        { "value": "cover", "label": "Cover" },
+        { "value": "contain", "label": "Contain" },
+        { "value": "100% 100%", "label": "Stretch" },
+        { "value": "auto", "label": "Adaptive" }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image Position",
+      "options": [
+        { "value": "center", "label": "Center" },
+        { "value": "top", "label": "Top" },
+        { "value": "bottom", "label": "Bottom" }
       ],
       "default": "center"
     }
@@ -177,21 +203,6 @@
           "default": "We provide the best solutions for your needs."
         },
         {
-          "type": "range",
-          "id": "subheading_size",
-          "label": "Subheading Font Size (px)",
-          "min": 14,
-          "max": 30,
-          "step": 2,
-          "default": 18
-        },
-        {
-          "type": "color",
-          "id": "subheading_color",
-          "label": "Subheading Color",
-          "default": "#ffffff"
-        },
-        {
           "type": "text",
           "id": "primary_button_text",
           "label": "Primary Button Text",
@@ -208,36 +219,6 @@
           "id": "primary_button_color",
           "label": "Primary Button Background",
           "default": "#ff6600"
-        },
-        {
-          "type": "color",
-          "id": "primary_button_text_color",
-          "label": "Primary Button Text Color",
-          "default": "#ffffff"
-        },
-        {
-          "type": "text",
-          "id": "secondary_button_text",
-          "label": "Secondary Button Text",
-          "default": "Learn More"
-        },
-        {
-          "type": "url",
-          "id": "secondary_button_link",
-          "label": "Secondary Button Link",
-          "default": "/"
-        },
-        {
-          "type": "color",
-          "id": "secondary_button_color",
-          "label": "Secondary Button Background",
-          "default": "transparent"
-        },
-        {
-          "type": "color",
-          "id": "secondary_button_text_color",
-          "label": "Secondary Button Text Color",
-          "default": "#ffffff"
         }
       ]
     }
