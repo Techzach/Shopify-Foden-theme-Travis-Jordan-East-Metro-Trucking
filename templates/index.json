@@ -370,78 +370,6 @@
       ],
       "settings": {}
     },
-    "section_collection_v1_JMqeAQ": {
-      "type": "section-collection-v1",
-      "blocks": {
-        "colection_rbEhVY": {
-          "type": "colection",
-          "settings": {
-            "brand_img": "shopify://shop_images/new._11.jpg",
-            "title_collection": "New Collection",
-            "brand_url": "shopify://collections/all"
-          }
-        },
-        "colection_t9ycPq": {
-          "type": "colection",
-          "settings": {
-            "brand_img": "shopify://shop_images/pexels-mikebirdy-116675.jpg",
-            "title_collection": "New Collection",
-            "brand_url": "shopify://collections/all"
-          }
-        },
-        "colection_EAGkRH": {
-          "type": "colection",
-          "settings": {
-            "brand_img": "shopify://shop_images/new._11_b32b0f2a-1840-4572-859f-2857b3078075.jpg",
-            "title_collection": "New Collection",
-            "brand_url": "shopify://collections/all"
-          }
-        },
-        "colection_4DHQ3Q": {
-          "type": "colection",
-          "settings": {
-            "title_collection": "New Collection",
-            "brand_url": "shopify://collections/all"
-          }
-        },
-        "colection_VhigbG": {
-          "type": "colection",
-          "settings": {
-            "title_collection": "New Collection",
-            "brand_url": "shopify://collections/all"
-          }
-        },
-        "colection_d3VFkz": {
-          "type": "colection",
-          "settings": {
-            "title_collection": "New Collection",
-            "brand_url": "shopify://collections/all"
-          }
-        },
-        "colection_W6HQxg": {
-          "type": "colection",
-          "settings": {
-            "title_collection": "New Collection",
-            "brand_url": "shopify://collections/all"
-          }
-        }
-      },
-      "block_order": [
-        "colection_rbEhVY",
-        "colection_t9ycPq",
-        "colection_EAGkRH",
-        "colection_4DHQ3Q",
-        "colection_VhigbG",
-        "colection_d3VFkz",
-        "colection_W6HQxg"
-      ],
-      "settings": {
-        "title_heading": "Visit Our Store",
-        "color_title": "#000000",
-        "margin_top": "",
-        "margin_bottom": ""
-      }
-    },
     "section_service_v1_qcQeFK": {
       "type": "section-service-v1",
       "blocks": {
@@ -449,27 +377,27 @@
           "type": "service",
           "settings": {
             "block_title": "74 +",
-            "color_title": "#fff",
+            "color_title": "#ffffff",
             "block_content": "YEARS OF EXPERIENCE",
-            "color_content": "#fff"
+            "color_content": "#ffffff"
           }
         },
         "service_LT8pnn": {
           "type": "service",
           "settings": {
             "block_title": "1400 +",
-            "color_title": "#fff",
+            "color_title": "#ffffff",
             "block_content": "DEDICATED EMPLOYEES",
-            "color_content": "#fff"
+            "color_content": "#ffffff"
           }
         },
         "service_Pz4PBF": {
           "type": "service",
           "settings": {
             "block_title": "4 M+",
-            "color_title": "#fff",
+            "color_title": "#ffffff",
             "block_content": "SQFT OF WAREHOUSE SPACE",
-            "color_content": "#fff"
+            "color_content": "#ffffff"
           }
         }
       },
@@ -491,27 +419,27 @@
           "type": "service",
           "settings": {
             "block_title": "250 +",
-            "color_title": "#fff",
+            "color_title": "#ffffff",
             "block_content": "DRIVERS",
-            "color_content": "#fff"
+            "color_content": "#ffffff"
           }
         },
         "service_jB8dmW": {
           "type": "service",
           "settings": {
             "block_title": "25",
-            "color_title": "#fff",
+            "color_title": "#ffffff",
             "block_content": "LOCATIONS",
-            "color_content": "#fff"
+            "color_content": "#ffffff"
           }
         },
         "service_3hjJng": {
           "type": "service",
           "settings": {
             "block_title": "6",
-            "color_title": "#fff",
+            "color_title": "#ffffff",
             "block_content": "GLOBAL OFFICES",
-            "color_content": "#fff"
+            "color_content": "#ffffff"
           }
         }
       },
@@ -538,7 +466,6 @@
     "16288378981ca8ec44",
     "section_blog_v1",
     "1628845210c6c53a17",
-    "section_collection_v1_JMqeAQ",
     "section_service_v1_qcQeFK",
     "section_service_v1_PMmHQV"
   ]
