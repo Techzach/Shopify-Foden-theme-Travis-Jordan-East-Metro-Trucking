@@ -15,14 +15,14 @@
         "bfce2761-ec07-41bf-a4ec-e23c96952ae3": {
           "type": "slideshow",
           "settings": {
-            "select_position_content": "right",
+            "select_position_content": "center",
             "select_textalign_content": "left",
             "block_title_top1": "Sale up to 30%",
             "color_block_title_top1": "#000000",
             "font_size_top1": 26,
             "fonts_sub_1": "",
             "effect_title1": "shake",
-            "block_title_top": "Summer Sale",
+            "block_title_top": "Seamless Logistics, Worldwide Reach",
             "color_block_title_top": "#000000",
             "font_size_title_top": 100,
             "fonts_title_top": "",
@@ -151,27 +151,6 @@
         "margin_bottom": "0"
       }
     },
-    "section_banner_v5_d6KLaY": {
-      "type": "section-banner-v5",
-      "settings": {
-        "ena_padding_top": false,
-        "ena_container": false,
-        "select_pos": "left",
-        "margin_top": "",
-        "margin_bottom": "",
-        "bg_banner": "#f2f2f2",
-        "title_banner": "Decor & Furniture",
-        "color_title": "#000000",
-        "sub_title_banner": "Timeless and evolving, unlimited in expression, we build spaces around the lives we lead. Using furnishings and objects of good design, that respect a space's purpose, creates environments that are beautiful and livable—the ones we love best.Handcrafted furniture, artisanal rugs, wallpaper, classic vases, and lighting accessories—well-made and carefully considered—whether made by Heath or by like-minded makers we admire. Welcome in.",
-        "color_sub_title": "#403d39",
-        "button_banner": "Shop now",
-        "color_btn": "#222222",
-        "bg_btn": "#ffffff",
-        "color_btn_hover": "#ffffff",
-        "url_banner": "shopify://collections/all",
-        "img_banner_right": "shopify://shop_images/Supply-Chain-Management.jpg"
-      }
-    },
     "section_collection_v3_G4ENkt": {
       "type": "section-collection-v3",
       "blocks": {
@@ -215,6 +194,27 @@
       "settings": {
         "margin_top": "150",
         "margin_bottom": "50"
+      }
+    },
+    "section_banner_v5_d6KLaY": {
+      "type": "section-banner-v5",
+      "settings": {
+        "ena_padding_top": false,
+        "ena_container": false,
+        "select_pos": "left",
+        "margin_top": "",
+        "margin_bottom": "",
+        "bg_banner": "#f2f2f2",
+        "title_banner": "Decor & Furniture",
+        "color_title": "#000000",
+        "sub_title_banner": "Timeless and evolving, unlimited in expression, we build spaces around the lives we lead. Using furnishings and objects of good design, that respect a space's purpose, creates environments that are beautiful and livable—the ones we love best.Handcrafted furniture, artisanal rugs, wallpaper, classic vases, and lighting accessories—well-made and carefully considered—whether made by Heath or by like-minded makers we admire. Welcome in.",
+        "color_sub_title": "#403d39",
+        "button_banner": "Shop now",
+        "color_btn": "#222222",
+        "bg_btn": "#ffffff",
+        "color_btn_hover": "#ffffff",
+        "url_banner": "shopify://collections/all",
+        "img_banner_right": "shopify://shop_images/Supply-Chain-Management.jpg"
       }
     },
     "section_product_v2": {
