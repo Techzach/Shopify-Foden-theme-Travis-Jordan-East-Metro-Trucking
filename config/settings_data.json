@@ -4001,7 +4001,7 @@
           "hd_other_bg_header_opacity": 1,
           "enable_sticky_hd_other": false,
           "hd_other_logo": "shopify://shop_images/logo.png",
-          "hd_other_logo_maxwidth": 150,
+          "hd_other_logo_maxwidth": 125,
           "hd_other_logo_svg": "",
           "main_menu_store": "main-menu",
           "main_menu_vertical": "",
