@@ -612,7 +612,21 @@
         "grid_item_J9apkd",
         "grid_item_kkPLD6"
       ],
-      "settings": {}
+      "settings": {
+        "heading": "Dependable’s Impact By the Numbers",
+        "heading_size": 32,
+        "heading_align": "center",
+        "heading_color": "#ffffff",
+        "bg_color": "#101820",
+        "box_bg_color": "#26609a",
+        "text_color": "#ffffff",
+        "columns": 3,
+        "gap_size": 20,
+        "text_size": 24,
+        "subtitle_size": 16,
+        "box_width": 200,
+        "section_padding": 50
+      }
     }
   },
   "order": [
