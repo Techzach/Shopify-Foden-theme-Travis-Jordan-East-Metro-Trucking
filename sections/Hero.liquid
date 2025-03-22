@@ -5,7 +5,7 @@
            style="background-image: url({{ block.settings.slide_image | image_url }}); 
                   background-size: {{ section.settings.image_size }}; 
                   background-position: {{ section.settings.image_position }};">
-        <div class="hero-content" style="text-align: {{ section.settings.text_align }};">
+        <div class="hero-content" style="text-align: {{ section.settings.text_align }}; animation: fadeInUp 1.5s ease-in-out;">
           
           {% if block.settings.heading != blank %}
             <h1 class="hero-heading" style="color: {{ block.settings.heading_color }}; font-size: {{ block.settings.heading_size }}px;">
@@ -52,7 +52,7 @@
 
   .hero-slider-wrapper {
     display: flex;
-    width: 100%;
+    width: 400%;
     height: 100%;
     animation: slideShow 12s infinite linear;
   }
@@ -73,36 +73,15 @@
     text-align: center;
   }
 
-  .hero-heading {
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-
-  .hero-subheading {
-    margin-bottom: 20px;
-  }
-
-  .hero-buttons {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    margin-top: 20px;
-  }
-
-  .hero-button {
-    padding: 12px 24px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-  }
-
-  .primary {
-    border: 2px solid transparent;
-  }
-
-  .secondary {
-    border: 2px solid currentColor;
-    background: transparent;
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   @keyframes slideShow {
@@ -140,29 +119,6 @@
         { "value": "right", "label": "Right" }
       ],
       "default": "center"
-    },
-    {
-      "type": "select",
-      "id": "image_size",
-      "label": "Image Size",
-      "options": [
-        { "value": "cover", "label": "Cover" },
-        { "value": "contain", "label": "Contain" },
-        { "value": "100% 100%", "label": "Stretch" },
-        { "value": "auto", "label": "Adaptive" }
-      ],
-      "default": "cover"
-    },
-    {
-      "type": "select",
-      "id": "image_position",
-      "label": "Image Position",
-      "options": [
-        { "value": "center", "label": "Center" },
-        { "value": "top", "label": "Top" },
-        { "value": "bottom", "label": "Bottom" }
-      ],
-      "default": "center"
     }
   ],
   "blocks": [
@@ -180,45 +136,6 @@
           "id": "heading",
           "label": "Heading",
           "default": "Welcome to Our Website"
-        },
-        {
-          "type": "range",
-          "id": "heading_size",
-          "label": "Heading Font Size (px)",
-          "min": 20,
-          "max": 60,
-          "step": 2,
-          "default": 40
-        },
-        {
-          "type": "color",
-          "id": "heading_color",
-          "label": "Heading Color",
-          "default": "#ffffff"
-        },
-        {
-          "type": "text",
-          "id": "subheading",
-          "label": "Subheading",
-          "default": "We provide the best solutions for your needs."
-        },
-        {
-          "type": "text",
-          "id": "primary_button_text",
-          "label": "Primary Button Text",
-          "default": "Get Started"
-        },
-        {
-          "type": "url",
-          "id": "primary_button_link",
-          "label": "Primary Button Link",
-          "default": "/"
-        },
-        {
-          "type": "color",
-          "id": "primary_button_color",
-          "label": "Primary Button Background",
-          "default": "#ff6600"
         }
       ]
     }
