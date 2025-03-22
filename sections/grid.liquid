@@ -1,9 +1,13 @@
-<div class="grid-section" style="background-color: {{ section.settings.bg_color }};">
-  <div class="grid-container">
+<div class="grid-section" style="background-color: {{ section.settings.bg_color }}; padding: {{ section.settings.section_padding }}px 0;">
+  <div class="grid-container" style="gap: {{ section.settings.gap_size }}px; grid-template-columns: repeat({{ section.settings.columns }}, 1fr);">
     {% for block in section.blocks %}
-      <div class="grid-item" style="background-color: {{ section.settings.box_bg_color }};">
-        <h2 class="grid-number" style="color: {{ section.settings.text_color }};">{{ block.settings.number }}</h2>
-        <p class="grid-title" style="color: {{ section.settings.text_color }};">{{ block.settings.title }}</p>
+      <div class="grid-item" style="background-color: {{ section.settings.box_bg_color }}; max-width: {{ section.settings.box_width }}px;">
+        <h2 class="grid-number" style="color: {{ section.settings.text_color }}; font-size: {{ section.settings.text_size }}px;">
+          {{ block.settings.number }}
+        </h2>
+        <p class="grid-title" style="color: {{ section.settings.text_color }}; font-size: {{ section.settings.subtitle_size }}px;">
+          {{ block.settings.title }}
+        </p>
       </div>
     {% endfor %}
   </div>
@@ -11,33 +15,26 @@
 
 <style>
   .grid-section {
-    padding: 50px 0;
     text-align: center;
   }
 
   .grid-container {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
     justify-content: center;
-    gap: 20px;
     max-width: 1200px;
     margin: 0 auto;
   }
 
   .grid-item {
-    flex: 1 1 200px;
-    max-width: 200px;
     padding: 20px;
     border-radius: 10px;
   }
 
   .grid-number {
-    font-size: 2rem;
     font-weight: bold;
   }
 
   .grid-title {
-    font-size: 1rem;
     opacity: 0.8;
   }
 </style>
@@ -63,6 +60,60 @@
       "id": "text_color",
       "label": "Text Color",
       "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Number of Columns",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "gap_size",
+      "label": "Gap Between Items (px)",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Number Font Size (px)",
+      "min": 12,
+      "max": 48,
+      "step": 2,
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "label": "Subtitle Font Size (px)",
+      "min": 12,
+      "max": 36,
+      "step": 2,
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "box_width",
+      "label": "Box Width (px)",
+      "min": 100,
+      "max": 400,
+      "step": 10,
+      "default": 200
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "label": "Section Padding (px)",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "default": 50
     }
   ],
   "blocks": [
