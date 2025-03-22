@@ -31,6 +31,7 @@
     "show_top_search": false,
     "show_recently_viewed": true,
     "contact_number": "",
+    "product_style": "tps__product-style-1",
     "free_shipping_progress_bar": true,
     "sections": {
       "top-bar": {

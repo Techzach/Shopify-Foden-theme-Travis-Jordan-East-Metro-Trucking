@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "0c521c75-5d82-4dd6-aecc-f519d8907411": {
@@ -6,34 +15,31 @@
         "4d89f9ff-8153-4b4a-a089-ccb19f702450": {
           "type": "slider_item",
           "settings": {
-            "image": "shopify:\/\/shop_images\/slider-img-1_dec27118-2327-4fb4-82fc-95c5b6e49731.png",
-            "subheading": "Starting at <b>$274.00<\/b>",
+            "subheading": "Starting at <b>$274.00</b>",
             "title": "The best tablet Collection 2023",
-            "description": "Exclusive offer \n   <span>-35% \n      <svg width=\"94\" height=\"20\" viewbox=\"0 0 94 20\" fill=\"none\" xmlns=\"http:\/\/www.w3.org\/2000\/svg\">\n         <path d=\"M74.8576 4.63367L78.6048 5.11367C80.9097 5.35155 82.8309 5.75148 84.4483 5.97993L86.6581 6.31091L88.4262 6.63948C89.4684 6.81761 90.2699 6.9312 90.8805 6.99186C93.3213 7.24888 92.7011 6.63674 92.8183 6.12534C92.9355 5.61394 93.7175 5.37081 91.3267 4.45886C90.73 4.24001 89.9345 3.97481 88.8826 3.65818L87.1034 3.12577L84.8643 2.63282C83.236 2.28025 81.2402 1.82307 78.8684 1.52138L75.0177 0.981633C73.6188 0.823014 72.1417 0.730003 70.5389 0.582533C63.0297 0.0282543 55.4847 0.193022 48.0068 1.07459C39.9065 2.04304 31.9328 3.87384 24.2213 6.53586C18.0824 8.61764 12.1674 11.3089 6.56479 14.5692C4.88189 15.5255 3.25403 16.5756 1.68892 17.7145C0.568976 18.5077 -0.00964231 18.9932 0.0547097 19.0858C0.388606 19.6584 10.6194 13.1924 25.151 8.99361C32.789 6.72748 40.6283 5.20536 48.5593 4.44848C55.8569 3.76455 63.1992 3.69678 70.5082 4.24591L74.8223 4.62335\" fill=\"currentColor\"><\/path>\n      <\/svg>\n   <\/span>\noff this week",
+            "description": "Exclusive offer \n   <span>-35% \n      <svg width=\"94\" height=\"20\" viewbox=\"0 0 94 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n         <path d=\"M74.8576 4.63367L78.6048 5.11367C80.9097 5.35155 82.8309 5.75148 84.4483 5.97993L86.6581 6.31091L88.4262 6.63948C89.4684 6.81761 90.2699 6.9312 90.8805 6.99186C93.3213 7.24888 92.7011 6.63674 92.8183 6.12534C92.9355 5.61394 93.7175 5.37081 91.3267 4.45886C90.73 4.24001 89.9345 3.97481 88.8826 3.65818L87.1034 3.12577L84.8643 2.63282C83.236 2.28025 81.2402 1.82307 78.8684 1.52138L75.0177 0.981633C73.6188 0.823014 72.1417 0.730003 70.5389 0.582533C63.0297 0.0282543 55.4847 0.193022 48.0068 1.07459C39.9065 2.04304 31.9328 3.87384 24.2213 6.53586C18.0824 8.61764 12.1674 11.3089 6.56479 14.5692C4.88189 15.5255 3.25403 16.5756 1.68892 17.7145C0.568976 18.5077 -0.00964231 18.9932 0.0547097 19.0858C0.388606 19.6584 10.6194 13.1924 25.151 8.99361C32.789 6.72748 40.6283 5.20536 48.5593 4.44848C55.8569 3.76455 63.1992 3.69678 70.5082 4.24591L74.8223 4.62335\" fill=\"currentColor\"></path>\n      </svg>\n   </span>\noff this week",
             "button_text": "Shop Now",
-            "button_link": "shopify:\/\/collections"
+            "button_link": "shopify://collections"
           }
         },
         "template--16567751082231__0c521c75-5d82-4dd6-aecc-f519d8907411-1666406556d8612fa9-0": {
           "type": "slider_item",
           "settings": {
-            "image": "shopify:\/\/shop_images\/slider-img-2_6e08abd8-8f77-4d42-aafa-89dd406b5d4f.png",
-            "subheading": "Starting at <b>$999.00<\/b>",
+            "subheading": "Starting at <b>$999.00</b>",
             "title": "The best note book collection 2023",
-            "description": "Exclusive offer \n  <span>-10%    <svg width=\"94\" height=\"20\" viewbox=\"0 0 94 20\" fill=\"none\" xmlns=\"http:\/\/www.w3.org\/2000\/svg\">  <path d=\"M74.8576 4.63367L78.6048 5.11367C80.9097 5.35155 82.8309 5.75148 84.4483 5.97993L86.6581 6.31091L88.4262 6.63948C89.4684 6.81761 90.2699 6.9312 90.8805 6.99186C93.3213 7.24888 92.7011 6.63674 92.8183 6.12534C92.9355 5.61394 93.7175 5.37081 91.3267 4.45886C90.73 4.24001 89.9345 3.97481 88.8826 3.65818L87.1034 3.12577L84.8643 2.63282C83.236 2.28025 81.2402 1.82307 78.8684 1.52138L75.0177 0.981633C73.6188 0.823014 72.1417 0.730003 70.5389 0.582533C63.0297 0.0282543 55.4847 0.193022 48.0068 1.07459C39.9065 2.04304 31.9328 3.87384 24.2213 6.53586C18.0824 8.61764 12.1674 11.3089 6.56479 14.5692C4.88189 15.5255 3.25403 16.5756 1.68892 17.7145C0.568976 18.5077 -0.00964231 18.9932 0.0547097 19.0858C0.388606 19.6584 10.6194 13.1924 25.151 8.99361C32.789 6.72748 40.6283 5.20536 48.5593 4.44848C55.8569 3.76455 63.1992 3.69678 70.5082 4.24591L74.8223 4.62335\" fill=\"currentColor\"><\/path>\n      <\/svg>\n  <\/span>\n off this week",
+            "description": "Exclusive offer \n  <span>-10%    <svg width=\"94\" height=\"20\" viewbox=\"0 0 94 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">  <path d=\"M74.8576 4.63367L78.6048 5.11367C80.9097 5.35155 82.8309 5.75148 84.4483 5.97993L86.6581 6.31091L88.4262 6.63948C89.4684 6.81761 90.2699 6.9312 90.8805 6.99186C93.3213 7.24888 92.7011 6.63674 92.8183 6.12534C92.9355 5.61394 93.7175 5.37081 91.3267 4.45886C90.73 4.24001 89.9345 3.97481 88.8826 3.65818L87.1034 3.12577L84.8643 2.63282C83.236 2.28025 81.2402 1.82307 78.8684 1.52138L75.0177 0.981633C73.6188 0.823014 72.1417 0.730003 70.5389 0.582533C63.0297 0.0282543 55.4847 0.193022 48.0068 1.07459C39.9065 2.04304 31.9328 3.87384 24.2213 6.53586C18.0824 8.61764 12.1674 11.3089 6.56479 14.5692C4.88189 15.5255 3.25403 16.5756 1.68892 17.7145C0.568976 18.5077 -0.00964231 18.9932 0.0547097 19.0858C0.388606 19.6584 10.6194 13.1924 25.151 8.99361C32.789 6.72748 40.6283 5.20536 48.5593 4.44848C55.8569 3.76455 63.1992 3.69678 70.5082 4.24591L74.8223 4.62335\" fill=\"currentColor\"></path>\n      </svg>\n  </span>\n off this week",
             "button_text": "Shop now",
-            "button_link": "shopify:\/\/collections\/electronics"
+            "button_link": "shopify://collections/electronics"
           }
         },
         "template--16567751082231__0c521c75-5d82-4dd6-aecc-f519d8907411-1666406556d8612fa9-1": {
           "type": "slider_item",
           "settings": {
-            "image": "shopify:\/\/shop_images\/slider-img-3_91eb19c5-25b4-4bb2-a78c-766e51888f31.png",
-            "subheading": "Starting at <b>$999.00<\/b>",
+            "subheading": "Starting at <b>$999.00</b>",
             "title": "The best note book collection 2023",
-            "description": "Exclusive offer \n  <span>-10%    <svg width=\"94\" height=\"20\" viewbox=\"0 0 94 20\" fill=\"none\" xmlns=\"http:\/\/www.w3.org\/2000\/svg\">  <path d=\"M74.8576 4.63367L78.6048 5.11367C80.9097 5.35155 82.8309 5.75148 84.4483 5.97993L86.6581 6.31091L88.4262 6.63948C89.4684 6.81761 90.2699 6.9312 90.8805 6.99186C93.3213 7.24888 92.7011 6.63674 92.8183 6.12534C92.9355 5.61394 93.7175 5.37081 91.3267 4.45886C90.73 4.24001 89.9345 3.97481 88.8826 3.65818L87.1034 3.12577L84.8643 2.63282C83.236 2.28025 81.2402 1.82307 78.8684 1.52138L75.0177 0.981633C73.6188 0.823014 72.1417 0.730003 70.5389 0.582533C63.0297 0.0282543 55.4847 0.193022 48.0068 1.07459C39.9065 2.04304 31.9328 3.87384 24.2213 6.53586C18.0824 8.61764 12.1674 11.3089 6.56479 14.5692C4.88189 15.5255 3.25403 16.5756 1.68892 17.7145C0.568976 18.5077 -0.00964231 18.9932 0.0547097 19.0858C0.388606 19.6584 10.6194 13.1924 25.151 8.99361C32.789 6.72748 40.6283 5.20536 48.5593 4.44848C55.8569 3.76455 63.1992 3.69678 70.5082 4.24591L74.8223 4.62335\" fill=\"currentColor\"><\/path>\n      <\/svg>\n  <\/span>\n off this week",
+            "description": "Exclusive offer \n  <span>-10%    <svg width=\"94\" height=\"20\" viewbox=\"0 0 94 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">  <path d=\"M74.8576 4.63367L78.6048 5.11367C80.9097 5.35155 82.8309 5.75148 84.4483 5.97993L86.6581 6.31091L88.4262 6.63948C89.4684 6.81761 90.2699 6.9312 90.8805 6.99186C93.3213 7.24888 92.7011 6.63674 92.8183 6.12534C92.9355 5.61394 93.7175 5.37081 91.3267 4.45886C90.73 4.24001 89.9345 3.97481 88.8826 3.65818L87.1034 3.12577L84.8643 2.63282C83.236 2.28025 81.2402 1.82307 78.8684 1.52138L75.0177 0.981633C73.6188 0.823014 72.1417 0.730003 70.5389 0.582533C63.0297 0.0282543 55.4847 0.193022 48.0068 1.07459C39.9065 2.04304 31.9328 3.87384 24.2213 6.53586C18.0824 8.61764 12.1674 11.3089 6.56479 14.5692C4.88189 15.5255 3.25403 16.5756 1.68892 17.7145C0.568976 18.5077 -0.00964231 18.9932 0.0547097 19.0858C0.388606 19.6584 10.6194 13.1924 25.151 8.99361C32.789 6.72748 40.6283 5.20536 48.5593 4.44848C55.8569 3.76455 63.1992 3.69678 70.5082 4.24591L74.8223 4.62335\" fill=\"currentColor\"></path>\n      </svg>\n  </span>\n off this week",
             "button_text": "Shop Now",
-            "button_link": "shopify:\/\/collections\/all"
+            "button_link": "shopify://collections/all"
           }
         }
       },
@@ -55,10 +61,7 @@
         "show_bullet_desktop": true,
         "show_bullet_mobile": false,
         "bullet_color": "#111111",
-        "slider_shape_1": "shopify:\/\/shop_images\/slider-shape-1_d4bcdb00-53f7-4bfe-9589-6300f79c0a3f.png",
-        "slider_shape_2": "shopify:\/\/shop_images\/slider-shape-2_dd51dd8d-8934-4f60-800d-3bc671b1038d.png",
-        "slider_shape_3": "shopify:\/\/shop_images\/slider-shape-3_de76b4af-bc62-4e4a-bdb7-053ea1aeb08b.png",
-        "slider_shape_4": "shopify:\/\/shop_images\/slider-shape-4_4441d9c1-1514-4408-a2b2-8062d2d22b1e.png"
+        "slider_shape_1": "shopify://shop_images/modes-of-transportation-explained.jpg"
       }
     },
     "48263d1a-f37b-4715-893a-ac5dfd296a1a": {
@@ -69,7 +72,6 @@
           "settings": {
             "title_collection": "Headphones",
             "collection": "gifts",
-            "image": "shopify:\/\/shop_images\/product-cat-1_8f12365c-a4a9-4d71-a348-84aec38be54e.png",
             "product_count_color": "#f4f4f4"
           }
         },
@@ -78,7 +80,6 @@
           "settings": {
             "title_collection": "Mobile Phone",
             "collection": "moblile-phone",
-            "image": "shopify:\/\/shop_images\/product-cat-2_33e7af99-a83e-4205-806b-8fd2a70400b5.png",
             "product_count_color": "#f4f4f4"
           }
         },
@@ -87,7 +88,6 @@
           "settings": {
             "title_collection": "CPU Heat Pipes",
             "collection": "electronics",
-            "image": "shopify:\/\/shop_images\/product-cat-3_c8507e7c-635b-44fb-a421-71b0a72417db.png",
             "product_count_color": "#f4f4f4"
           }
         },
@@ -96,7 +96,6 @@
           "settings": {
             "title_collection": "Smart Watch",
             "collection": "smart-watch",
-            "image": "shopify:\/\/shop_images\/product-cat-4_95741375-6a71-48a8-b358-e16194eb4237.png",
             "product_count_color": "#f4f4f4"
           }
         },
@@ -105,7 +104,6 @@
           "settings": {
             "title_collection": "With Bluetooth",
             "collection": "electronics",
-            "image": "shopify:\/\/shop_images\/product-cat-5_33f20e8c-5b38-48b8-ab5f-8154a99e3da3.png",
             "product_count_color": "#f4f4f4"
           }
         }
@@ -134,33 +132,33 @@
         "template--18508174426409__a33b07e7-4bfe-49be-b75c-f5ca36b7975d-168083976278c0a293-0": {
           "type": "iconbox",
           "settings": {
-            "svg_icon": "<svg width=\"33\" height=\"27\" viewbox=\"0 0 33 27\" fill=\"none\" xmlns=\"http:\/\/www.w3.org\/2000\/svg\">\n                                 <path d=\"M10.7222 1H31.5555V19.0556H10.7222V1Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><\/path>\n                                 <path d=\"M10.7222 7.94446H5.16667L1.00001 12.1111V19.0556H10.7222V7.94446Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><\/path>\n                                 <path d=\"M25.3055 26C23.3879 26 21.8333 24.4454 21.8333 22.5278C21.8333 20.6101 23.3879 19.0555 25.3055 19.0555C27.2232 19.0555 28.7778 20.6101 28.7778 22.5278C28.7778 24.4454 27.2232 26 25.3055 26Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><\/path>\n                                 <path d=\"M7.25001 26C5.33235 26 3.77778 24.4454 3.77778 22.5278C3.77778 20.6101 5.33235 19.0555 7.25001 19.0555C9.16766 19.0555 10.7222 20.6101 10.7222 22.5278C10.7222 24.4454 9.16766 26 7.25001 26Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><\/path>\n                              <\/svg>",
+            "svg_icon": "<svg width=\"33\" height=\"27\" viewbox=\"0 0 33 27\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                                 <path d=\"M10.7222 1H31.5555V19.0556H10.7222V1Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>\n                                 <path d=\"M10.7222 7.94446H5.16667L1.00001 12.1111V19.0556H10.7222V7.94446Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>\n                                 <path d=\"M25.3055 26C23.3879 26 21.8333 24.4454 21.8333 22.5278C21.8333 20.6101 23.3879 19.0555 25.3055 19.0555C27.2232 19.0555 28.7778 20.6101 28.7778 22.5278C28.7778 24.4454 27.2232 26 25.3055 26Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>\n                                 <path d=\"M7.25001 26C5.33235 26 3.77778 24.4454 3.77778 22.5278C3.77778 20.6101 5.33235 19.0555 7.25001 19.0555C9.16766 19.0555 10.7222 20.6101 10.7222 22.5278C10.7222 24.4454 9.16766 26 7.25001 26Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>\n                              </svg>",
             "heading": "Fast Delivery",
-            "description": "<p>Orders from all item<\/p>"
+            "description": "<p>Orders from all item</p>"
           }
         },
         "template--18508174426409__a33b07e7-4bfe-49be-b75c-f5ca36b7975d-168083976278c0a293-1": {
           "type": "iconbox",
           "settings": {
-            "svg_icon": "<svg width=\"21\" height=\"35\" viewbox=\"0 0 21 35\" fill=\"none\" xmlns=\"http:\/\/www.w3.org\/2000\/svg\">\n                                 <path d=\"M10.3636 1V34\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><\/path>\n                                 <path d=\"M17.8636 7H6.61365C5.22126 7 3.8859 7.55312 2.90134 8.53769C1.91677 9.52226 1.36365 10.8576 1.36365 12.25C1.36365 13.6424 1.91677 14.9777 2.90134 15.9623C3.8859 16.9469 5.22126 17.5 6.61365 17.5H14.1136C15.506 17.5 16.8414 18.0531 17.826 19.0377C18.8105 20.0223 19.3636 21.3576 19.3636 22.75C19.3636 24.1424 18.8105 25.4777 17.826 26.4623C16.8414 27.4469 15.506 28 14.1136 28H1.36365\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><\/path>\n                              <\/svg>",
+            "svg_icon": "<svg width=\"21\" height=\"35\" viewbox=\"0 0 21 35\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                                 <path d=\"M10.3636 1V34\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>\n                                 <path d=\"M17.8636 7H6.61365C5.22126 7 3.8859 7.55312 2.90134 8.53769C1.91677 9.52226 1.36365 10.8576 1.36365 12.25C1.36365 13.6424 1.91677 14.9777 2.90134 15.9623C3.8859 16.9469 5.22126 17.5 6.61365 17.5H14.1136C15.506 17.5 16.8414 18.0531 17.826 19.0377C18.8105 20.0223 19.3636 21.3576 19.3636 22.75C19.3636 24.1424 18.8105 25.4777 17.826 26.4623C16.8414 27.4469 15.506 28 14.1136 28H1.36365\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>\n                              </svg>",
             "heading": "Return & Refunf",
-            "description": "<p>Maney back guarantee<\/p>"
+            "description": "<p>Maney back guarantee</p>"
           }
         },
         "template--18508174426409__a33b07e7-4bfe-49be-b75c-f5ca36b7975d-168083976278c0a293-2": {
           "type": "iconbox",
           "settings": {
-            "svg_icon": "<svg width=\"31\" height=\"30\" viewbox=\"0 0 31 30\" fill=\"none\" xmlns=\"http:\/\/www.w3.org\/2000\/svg\">\n                                 <mask id=\"mask0_1211_583\" style=\"mask-type:alpha\" maskunits=\"userSpaceOnUse\" x=\"0\" y=\"0\" width=\"31\" height=\"30\">\n                                 <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M0 0H30.0024V29.9998H0V0Z\" fill=\"white\"><\/path>\n                                 <\/mask>\n                                 <g mask=\"url(#mask0_1211_583)\">\n                                 <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M13.4168 27.1116C14.3017 27.9756 15.7266 27.9651 16.6056 27.0816L17.6885 26.0017C18.5285 25.1632 19.6894 24.6848 20.8728 24.6848H22.4178C23.6687 24.6848 24.6856 23.6678 24.6856 22.4184V20.875C24.6856 19.6736 25.1506 18.5441 25.9995 17.6937L27.0795 16.6122C27.519 16.1713 27.7544 15.5998 27.7529 14.9938C27.7514 14.3894 27.513 13.8209 27.0825 13.3919L26.001 12.309C25.1506 11.4525 24.6856 10.3246 24.6856 9.12318V7.58277C24.6856 6.33184 23.6687 5.3149 22.4178 5.3149H20.8758C19.6744 5.3149 18.545 4.84842 17.6945 4.00397L16.6116 2.91954C15.7101 2.02709 14.2717 2.03159 13.3913 2.91804L12.3128 3.99947C11.4519 4.84992 10.3225 5.3149 9.12553 5.3149H7.58212C6.33269 5.3164 5.31575 6.33334 5.31575 7.58277V9.12018C5.31575 10.3216 4.84927 11.451 4.00332 12.303L2.93839 13.3694C2.92789 13.3814 2.91739 13.3904 2.90689 13.4009C2.02644 14.2874 2.03094 15.7258 2.91739 16.6062L4.00032 17.6892C4.84927 18.5411 5.31575 19.6706 5.31575 20.872V22.4184C5.31575 23.6678 6.33119 24.6848 7.58212 24.6848H9.12253C10.3255 24.6863 11.4549 25.1527 12.3053 26.0002L13.3868 27.0786C13.3958 27.0891 13.4063 27.0996 13.4168 27.1116ZM14.9972 30.0002C13.8468 30.0002 12.6963 29.5652 11.8159 28.6923C11.8039 28.6803 11.7919 28.6683 11.7799 28.6548L10.715 27.5914C10.2905 27.1699 9.72352 26.9359 9.12055 26.9344H7.58164C5.09029 26.9344 3.06541 24.908 3.06541 22.4182V20.8717C3.06541 20.2688 2.82992 19.7033 2.40694 19.2773L1.32851 18.2004C-0.423392 16.4575 -0.444391 13.6197 1.27601 11.8498C1.28951 11.8363 1.30301 11.8228 1.31651 11.8093L2.40844 10.7143C2.82992 10.2899 3.06541 9.72139 3.06541 9.11993V7.58252C3.06541 5.09266 5.09029 3.06628 7.58014 3.06478H9.12505C9.72652 3.06478 10.2935 2.82929 10.724 2.40482L11.7964 1.32938C13.5498 -0.436017 16.4161 -0.445016 18.1845 1.31288L19.281 2.40932C19.7054 2.83079 20.2724 3.06478 20.8754 3.06478H22.4173C24.9086 3.06478 26.935 5.09116 26.935 7.58252V9.12293C26.935 9.72439 27.169 10.2929 27.5935 10.7203L28.6704 11.7988C29.5239 12.6462 29.9978 13.7787 30.0023 14.9861C30.0068 16.1935 29.5404 17.329 28.6899 18.1854L27.5905 19.2818C27.169 19.7063 26.935 20.2718 26.935 20.8747V22.4182C26.935 24.908 24.9086 26.9344 22.4188 26.9344H20.8724C20.2784 26.9344 19.6979 27.1744 19.2765 27.5929L18.1995 28.6698C17.3191 29.5562 16.1581 30.0002 14.9972 30.0002Z\" fill=\"currentColor\"><\/path>\n                                 <\/g>\n                                 <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M11.145 19.9811C10.857 19.9811 10.569 19.8716 10.3501 19.6511C9.91058 19.2116 9.91058 18.5006 10.3501 18.0612L18.0596 10.3501C18.4991 9.91064 19.2115 9.91064 19.651 10.3501C20.0905 10.7896 20.0905 11.502 19.651 11.9415L11.94 19.6511C11.721 19.8716 11.433 19.9811 11.145 19.9811Z\" fill=\"currentColor\"><\/path>\n                                 <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M18.7544 20.2476C17.925 20.2476 17.247 19.5772 17.247 18.7477C17.247 17.9183 17.9115 17.2478 18.7409 17.2478H18.7544C19.5839 17.2478 20.2543 17.9183 20.2543 18.7477C20.2543 19.5772 19.5839 20.2476 18.7544 20.2476Z\" fill=\"currentColor\"><\/path>\n                                 <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M11.2548 12.748C10.4254 12.748 9.74744 12.0775 9.74744 11.2481C9.74744 10.4186 10.4119 9.74817 11.2413 9.74817H11.2548C12.0843 9.74817 12.7548 10.4186 12.7548 11.2481C12.7548 12.0775 12.0843 12.748 11.2548 12.748Z\" fill=\"currentColor\"><\/path>\n                              <\/svg>",
+            "svg_icon": "<svg width=\"31\" height=\"30\" viewbox=\"0 0 31 30\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                                 <mask id=\"mask0_1211_583\" style=\"mask-type:alpha\" maskunits=\"userSpaceOnUse\" x=\"0\" y=\"0\" width=\"31\" height=\"30\">\n                                 <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M0 0H30.0024V29.9998H0V0Z\" fill=\"white\"></path>\n                                 </mask>\n                                 <g mask=\"url(#mask0_1211_583)\">\n                                 <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M13.4168 27.1116C14.3017 27.9756 15.7266 27.9651 16.6056 27.0816L17.6885 26.0017C18.5285 25.1632 19.6894 24.6848 20.8728 24.6848H22.4178C23.6687 24.6848 24.6856 23.6678 24.6856 22.4184V20.875C24.6856 19.6736 25.1506 18.5441 25.9995 17.6937L27.0795 16.6122C27.519 16.1713 27.7544 15.5998 27.7529 14.9938C27.7514 14.3894 27.513 13.8209 27.0825 13.3919L26.001 12.309C25.1506 11.4525 24.6856 10.3246 24.6856 9.12318V7.58277C24.6856 6.33184 23.6687 5.3149 22.4178 5.3149H20.8758C19.6744 5.3149 18.545 4.84842 17.6945 4.00397L16.6116 2.91954C15.7101 2.02709 14.2717 2.03159 13.3913 2.91804L12.3128 3.99947C11.4519 4.84992 10.3225 5.3149 9.12553 5.3149H7.58212C6.33269 5.3164 5.31575 6.33334 5.31575 7.58277V9.12018C5.31575 10.3216 4.84927 11.451 4.00332 12.303L2.93839 13.3694C2.92789 13.3814 2.91739 13.3904 2.90689 13.4009C2.02644 14.2874 2.03094 15.7258 2.91739 16.6062L4.00032 17.6892C4.84927 18.5411 5.31575 19.6706 5.31575 20.872V22.4184C5.31575 23.6678 6.33119 24.6848 7.58212 24.6848H9.12253C10.3255 24.6863 11.4549 25.1527 12.3053 26.0002L13.3868 27.0786C13.3958 27.0891 13.4063 27.0996 13.4168 27.1116ZM14.9972 30.0002C13.8468 30.0002 12.6963 29.5652 11.8159 28.6923C11.8039 28.6803 11.7919 28.6683 11.7799 28.6548L10.715 27.5914C10.2905 27.1699 9.72352 26.9359 9.12055 26.9344H7.58164C5.09029 26.9344 3.06541 24.908 3.06541 22.4182V20.8717C3.06541 20.2688 2.82992 19.7033 2.40694 19.2773L1.32851 18.2004C-0.423392 16.4575 -0.444391 13.6197 1.27601 11.8498C1.28951 11.8363 1.30301 11.8228 1.31651 11.8093L2.40844 10.7143C2.82992 10.2899 3.06541 9.72139 3.06541 9.11993V7.58252C3.06541 5.09266 5.09029 3.06628 7.58014 3.06478H9.12505C9.72652 3.06478 10.2935 2.82929 10.724 2.40482L11.7964 1.32938C13.5498 -0.436017 16.4161 -0.445016 18.1845 1.31288L19.281 2.40932C19.7054 2.83079 20.2724 3.06478 20.8754 3.06478H22.4173C24.9086 3.06478 26.935 5.09116 26.935 7.58252V9.12293C26.935 9.72439 27.169 10.2929 27.5935 10.7203L28.6704 11.7988C29.5239 12.6462 29.9978 13.7787 30.0023 14.9861C30.0068 16.1935 29.5404 17.329 28.6899 18.1854L27.5905 19.2818C27.169 19.7063 26.935 20.2718 26.935 20.8747V22.4182C26.935 24.908 24.9086 26.9344 22.4188 26.9344H20.8724C20.2784 26.9344 19.6979 27.1744 19.2765 27.5929L18.1995 28.6698C17.3191 29.5562 16.1581 30.0002 14.9972 30.0002Z\" fill=\"currentColor\"></path>\n                                 </g>\n                                 <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M11.145 19.9811C10.857 19.9811 10.569 19.8716 10.3501 19.6511C9.91058 19.2116 9.91058 18.5006 10.3501 18.0612L18.0596 10.3501C18.4991 9.91064 19.2115 9.91064 19.651 10.3501C20.0905 10.7896 20.0905 11.502 19.651 11.9415L11.94 19.6511C11.721 19.8716 11.433 19.9811 11.145 19.9811Z\" fill=\"currentColor\"></path>\n                                 <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M18.7544 20.2476C17.925 20.2476 17.247 19.5772 17.247 18.7477C17.247 17.9183 17.9115 17.2478 18.7409 17.2478H18.7544C19.5839 17.2478 20.2543 17.9183 20.2543 18.7477C20.2543 19.5772 19.5839 20.2476 18.7544 20.2476Z\" fill=\"currentColor\"></path>\n                                 <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M11.2548 12.748C10.4254 12.748 9.74744 12.0775 9.74744 11.2481C9.74744 10.4186 10.4119 9.74817 11.2413 9.74817H11.2548C12.0843 9.74817 12.7548 10.4186 12.7548 11.2481C12.7548 12.0775 12.0843 12.748 11.2548 12.748Z\" fill=\"currentColor\"></path>\n                              </svg>",
             "heading": "Member Discount",
-            "description": "<p>Onevery order over $140.00<\/p>"
+            "description": "<p>Onevery order over $140.00</p>"
           }
         },
         "9725192a-3b8b-4716-b494-2cdedb2128da": {
           "type": "iconbox",
           "settings": {
-            "svg_icon": "<svg width=\"31\" height=\"30\" viewbox=\"0 0 31 30\" fill=\"none\" xmlns=\"http:\/\/www.w3.org\/2000\/svg\">\n                                 <path d=\"M1.5 24.3333V15C1.5 11.287 2.975 7.72602 5.60051 5.10051C8.22602 2.475 11.787 1 15.5 1C19.213 1 22.774 2.475 25.3995 5.10051C28.025 7.72602 29.5 11.287 29.5 15V24.3333\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><\/path>\n                                 <path d=\"M29.5 25.8889C29.5 26.714 29.1722 27.5053 28.5888 28.0888C28.0053 28.6722 27.214 29 26.3889 29H24.8333C24.0082 29 23.2169 28.6722 22.6335 28.0888C22.05 27.5053 21.7222 26.714 21.7222 25.8889V21.2222C21.7222 20.3971 22.05 19.6058 22.6335 19.0223C23.2169 18.4389 24.0082 18.1111 24.8333 18.1111H29.5V25.8889ZM1.5 25.8889C1.5 26.714 1.82778 27.5053 2.41122 28.0888C2.99467 28.6722 3.78599 29 4.61111 29H6.16667C6.99179 29 7.78311 28.6722 8.36656 28.0888C8.95 27.5053 9.27778 26.714 9.27778 25.8889V21.2222C9.27778 20.3971 8.95 19.6058 8.36656 19.0223C7.78311 18.4389 6.99179 18.1111 6.16667 18.1111H1.5V25.8889Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><\/path>\n                              <\/svg>",
-            "heading": "Support 24\/7",
-            "description": "<p>Contact us 24 hours a day<\/p>"
+            "svg_icon": "<svg width=\"31\" height=\"30\" viewbox=\"0 0 31 30\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                                 <path d=\"M1.5 24.3333V15C1.5 11.287 2.975 7.72602 5.60051 5.10051C8.22602 2.475 11.787 1 15.5 1C19.213 1 22.774 2.475 25.3995 5.10051C28.025 7.72602 29.5 11.287 29.5 15V24.3333\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>\n                                 <path d=\"M29.5 25.8889C29.5 26.714 29.1722 27.5053 28.5888 28.0888C28.0053 28.6722 27.214 29 26.3889 29H24.8333C24.0082 29 23.2169 28.6722 22.6335 28.0888C22.05 27.5053 21.7222 26.714 21.7222 25.8889V21.2222C21.7222 20.3971 22.05 19.6058 22.6335 19.0223C23.2169 18.4389 24.0082 18.1111 24.8333 18.1111H29.5V25.8889ZM1.5 25.8889C1.5 26.714 1.82778 27.5053 2.41122 28.0888C2.99467 28.6722 3.78599 29 4.61111 29H6.16667C6.99179 29 7.78311 28.6722 8.36656 28.0888C8.95 27.5053 9.27778 26.714 9.27778 25.8889V21.2222C9.27778 20.3971 8.95 19.6058 8.36656 19.0223C7.78311 18.4389 6.99179 18.1111 6.16667 18.1111H1.5V25.8889Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>\n                              </svg>",
+            "heading": "Support 24/7",
+            "description": "<p>Contact us 24 hours a day</p>"
           }
         }
       },
@@ -227,8 +225,7 @@
           "type": "image_banner",
           "settings": {
             "banner_width": "col-xl-8 col-lg-7",
-            "image": "shopify:\/\/shop_images\/product-banner-1_fcd7dd55-e8d6-4770-af8f-727a88fbbe71.jpg",
-            "link": "shopify:\/\/products\/mini-portable-mobile-phone-powerbank-for-iphone",
+            "link": "shopify://products/mini-portable-mobile-phone-powerbank-for-iphone",
             "title": "Smartphone <br> BLU G91 Pro 2022",
             "subtext": "Sale 20% off all store",
             "button_type": "type-1",
@@ -240,8 +237,7 @@
           "type": "image_banner",
           "settings": {
             "banner_width": "col-xl-4 col-lg-5",
-            "image": "shopify:\/\/shop_images\/product-banner-2_0e1e89bd-ebf1-40c9-b55b-e0663fd73af3.jpg",
-            "link": "shopify:\/\/products\/boat-multi-channel-brown-headphone",
+            "link": "shopify://products/boat-multi-channel-brown-headphone",
             "title": "HyperX Cloud II <br> Wireless",
             "subtext": "Sale 35% off",
             "button_type": "type-2",
@@ -268,7 +264,7 @@
         "container": "container",
         "enable_view_all_deals": true,
         "view_all_deals_text": "View All Deals",
-        "view_all_deals_link": "shopify:\/\/collections\/electronics",
+        "view_all_deals_link": "shopify://collections/electronics",
         "item_desktop": 3,
         "column_gap": 10,
         "carousel_autoplay": false,
@@ -285,7 +281,6 @@
           "settings": {
             "subtitle_banner": "Only $99.00",
             "title_banner": "Selected novelty  Products",
-            "banner_bg_image": "shopify:\/\/shop_images\/gadget-banner-1_fd768d1c-058a-4eb0-aabd-28c4feb58404.jpg",
             "banner_link": "#"
           }
         },
@@ -294,7 +289,6 @@
           "settings": {
             "subtitle_banner": "Only $55.00",
             "title_banner": "Top Rated  Products",
-            "banner_bg_image": "shopify:\/\/shop_images\/gadget-banner-2_6f04788f-bb3a-4e6f-8f81-4a70db489179.jpg",
             "banner_link": "#"
           }
         }
@@ -308,7 +302,6 @@
         "limit_products": 6,
         "collection_menu_title": "Electronics <br> Gadgets",
         "collection_menu": "main-menu",
-        "collection_menu_image": "shopify:\/\/shop_images\/gadget-girl_1955cd81-4775-4bf6-b297-361bb96d197e.png",
         "padding_top": 80,
         "padding_bottom": 75
       }
@@ -319,8 +312,6 @@
         "slider_item_rtatTE": {
           "type": "slider_item",
           "settings": {
-            "image": "shopify:\/\/shop_images\/banner-slider-3_142564ee-d138-498f-8956-4eb334bba819.png",
-            "product_discount_tag": "shopify:\/\/shop_images\/banner-slider-offer_e7e1379a-9d2e-4cb1-aa3a-c3e86c0520e0.png",
             "bg_text": "tablet",
             "product_slogan": "Tablet Collection 2023",
             "product_name": "Microsoft Surface Pro 8, Wifi Included",
@@ -329,14 +320,12 @@
             "title": "",
             "description": "",
             "button_text": "Shop now",
-            "button_link": "shopify:\/\/products\/mini-portable-mobile-phone-powerbank-for-iphone"
+            "button_link": "shopify://products/mini-portable-mobile-phone-powerbank-for-iphone"
           }
         },
         "slider_item_MyxXm8": {
           "type": "slider_item",
           "settings": {
-            "image": "shopify:\/\/shop_images\/banner-slider-1_7308456e-3be0-4cad-bce1-058b4cf6c72e.png",
-            "product_discount_tag": "shopify:\/\/shop_images\/banner-slider-offer_e7e1379a-9d2e-4cb1-aa3a-c3e86c0520e0.png",
             "bg_text": "soft",
             "product_slogan": "Latest Technology Added",
             "product_name": "Samsung Galaxy Tab S6, Wifi Tablet",
@@ -345,14 +334,12 @@
             "title": "Heading",
             "description": "",
             "button_text": "Shop now",
-            "button_link": "shopify:\/\/products\/boat-multi-channel-brown-headphone-in-stock"
+            "button_link": "shopify://products/boat-multi-channel-brown-headphone-in-stock"
           }
         },
         "slider_item_UVMbUY": {
           "type": "slider_item",
           "settings": {
-            "image": "shopify:\/\/shop_images\/banner-slider-2_fdfb3a9a-9983-4b58-8031-4c9d57aea23a.png",
-            "product_discount_tag": "shopify:\/\/shop_images\/banner-slider-offer_e7e1379a-9d2e-4cb1-aa3a-c3e86c0520e0.png",
             "bg_text": "apple",
             "product_slogan": "Apple iPad 10.2 9th Gen - 2021",
             "product_name": "Samsung Galaxy Tab S6, Wifi Tablet",
@@ -361,7 +348,7 @@
             "title": "Heading",
             "description": "",
             "button_text": "Shop now",
-            "button_link": "shopify:\/\/products\/tracker-with-ip67-waterproof-pedometer-smart-watch"
+            "button_link": "shopify://products/tracker-with-ip67-waterproof-pedometer-smart-watch"
           }
         }
       },
@@ -370,8 +357,7 @@
         "slider_item_MyxXm8",
         "slider_item_UVMbUY"
       ],
-      "settings": {
-      }
+      "settings": {}
     },
     "c1fdb0ad-db54-433c-b92b-3c7ffe1b276b": {
       "type": "products-carousel",
@@ -456,35 +442,30 @@
         "ig_img_local_XHq8x3": {
           "type": "ig_img_local",
           "settings": {
-            "ig_up_image": "shopify:\/\/shop_images\/instagram-1_4e07272b-9932-41cf-b13c-65afaebe0e8d.jpg",
             "ig_link": "#"
           }
         },
         "ig_img_local_G3DYdW": {
           "type": "ig_img_local",
           "settings": {
-            "ig_up_image": "shopify:\/\/shop_images\/instagram-2_521da191-b07d-4635-86e1-7b73eb0512c7.jpg",
             "ig_link": "#"
           }
         },
         "ig_img_local_CtnkrV": {
           "type": "ig_img_local",
           "settings": {
-            "ig_up_image": "shopify:\/\/shop_images\/instagram-3_3d80e59d-dcae-4aa4-a977-e46fdb44c19a.jpg",
             "ig_link": "#"
           }
         },
         "ig_img_local_VVV7c4": {
           "type": "ig_img_local",
           "settings": {
-            "ig_up_image": "shopify:\/\/shop_images\/instagram-4_320541a6-cffb-4daf-b35b-8d8f4e7c7fdb.jpg",
             "ig_link": "#"
           }
         },
         "ig_img_local_UzEk39": {
           "type": "ig_img_local",
           "settings": {
-            "ig_up_image": "shopify:\/\/shop_images\/instagram-5_0cab22c3-941b-4e00-87db-45088aba174b.jpg",
             "ig_link": "#"
           }
         }
@@ -511,12 +492,7 @@
         "background_color": "#f1f5f6",
         "email_placeholder": "Your email address...",
         "btn_text": "Subscribe",
-        "shape_image_show": true,
-        "shape_image_1": "shopify:\/\/shop_images\/subscribe-shape-1_16cf8aec-389f-4594-8007-00b5021299f3.png",
-        "shape_image_2": "shopify:\/\/shop_images\/subscribe-shape-2_7a09114d-a964-46f8-b66a-d4e3b812ee9e.png",
-        "shape_image_3": "shopify:\/\/shop_images\/subscribe-shape-3_ac84233a-78ab-4480-b162-c914a12bd82f.png",
-        "shape_image_4": "shopify:\/\/shop_images\/subscribe-shape-4_19c96abf-763f-4bdb-8bc8-3495c37211f7.png",
-        "shape_image_5": "shopify:\/\/shop_images\/plane_34984f71-6719-4f4b-9b53-921fe5f20a28.png"
+        "shape_image_show": true
       }
     }
   },
