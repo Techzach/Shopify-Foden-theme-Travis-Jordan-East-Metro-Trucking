@@ -202,7 +202,7 @@
           "single_link_xfdLg4"
         ],
         "settings": {
-          "enable": true,
+          "enable": false,
           "title": "Shop by category"
         }
       },
