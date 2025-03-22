@@ -40,8 +40,8 @@
             "color_hover_text": "#000000",
             "block_url": "shopify://pages/contact-us",
             "effect_title3": "bounce",
-            "text_title_left": "Collection 2022",
-            "ena_slide_video": false,
+            "text_title_left": "",
+            "ena_slide_video": true,
             "url_ytb_video": "",
             "block_banerimage": "shopify://shop_images/Hero_Section_Image.jpg"
           }
