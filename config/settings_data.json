@@ -10,7 +10,6 @@
 {
   "current": {
     "favicon": "shopify://shop_images/favicon_d815f4d2-877b-4bcb-83a0-5d0405974210.png",
-    "logo_image_1": "shopify://shop_images/WhatsApp_Image_2025-03-19_at_8.34.21_AM-removebg-preview.png",
     "logo_width": 50,
     "social_twitter_link": "#",
     "social_facebook_link": "#",
@@ -25,7 +24,7 @@
     "show_minicart": true,
     "show_compare_icon": true,
     "show_wishlist_icon": false,
-    "show_top_search": true,
+    "show_top_search": false,
     "free_shipping_progress_bar": true,
     "sections": {
       "top-bar": {
