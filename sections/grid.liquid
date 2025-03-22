@@ -1,9 +1,9 @@
-<div class="grid-section">
+<div class="grid-section" style="background-color: {{ section.settings.bg_color }};">
   <div class="grid-container">
     {% for block in section.blocks %}
-      <div class="grid-item">
-        <h2 class="grid-number">{{ block.settings.number }}</h2>
-        <p class="grid-title">{{ block.settings.title }}</p>
+      <div class="grid-item" style="background-color: {{ section.settings.box_bg_color }};">
+        <h2 class="grid-number" style="color: {{ section.settings.text_color }};">{{ block.settings.number }}</h2>
+        <p class="grid-title" style="color: {{ section.settings.text_color }};">{{ block.settings.title }}</p>
       </div>
     {% endfor %}
   </div>
@@ -12,8 +12,6 @@
 <style>
   .grid-section {
     padding: 50px 0;
-    background-color: #212527; /* Background color */
-    color: #ffffff;
     text-align: center;
   }
 
@@ -22,13 +20,14 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
   }
 
   .grid-item {
     flex: 1 1 200px;
     max-width: 200px;
     padding: 20px;
-    background: rgba(255, 255, 255, 0.1); /* Slight transparency */
     border-radius: 10px;
   }
 
@@ -46,7 +45,26 @@
 {% schema %}
 {
   "name": "Grid Section",
-  "settings": [],
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section Background Color",
+      "default": "#212527"
+    },
+    {
+      "type": "color",
+      "id": "box_bg_color",
+      "label": "Box Background Color",
+      "default": "rgba(255, 255, 255, 0.1)"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    }
+  ],
   "blocks": [
     {
       "type": "grid_item",

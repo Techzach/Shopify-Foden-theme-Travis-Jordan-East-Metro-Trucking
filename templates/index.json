@@ -557,6 +557,62 @@
         "subheading_font_size": "12",
         "subheading_font_weight": "500"
       }
+    },
+    "grid_wPePRf": {
+      "type": "grid",
+      "blocks": {
+        "grid_item_6qp9xR": {
+          "type": "grid_item",
+          "settings": {
+            "number": "74 +",
+            "title": "YEARS OF EXPERIENCE"
+          }
+        },
+        "grid_item_XeNJVK": {
+          "type": "grid_item",
+          "settings": {
+            "number": "1400 +",
+            "title": "DEDICATED EMPLOYEES"
+          }
+        },
+        "grid_item_CK7MJf": {
+          "type": "grid_item",
+          "settings": {
+            "number": "4 M+",
+            "title": "SQFT OF WAREHOUSE SPACE"
+          }
+        },
+        "grid_item_BAGQDz": {
+          "type": "grid_item",
+          "settings": {
+            "number": "250 +",
+            "title": "DRIVERS"
+          }
+        },
+        "grid_item_J9apkd": {
+          "type": "grid_item",
+          "settings": {
+            "number": "25",
+            "title": "LOCATIONS"
+          }
+        },
+        "grid_item_kkPLD6": {
+          "type": "grid_item",
+          "settings": {
+            "number": "6",
+            "title": "GLOBAL OFFICES"
+          }
+        }
+      },
+      "block_order": [
+        "grid_item_6qp9xR",
+        "grid_item_XeNJVK",
+        "grid_item_CK7MJf",
+        "grid_item_BAGQDz",
+        "grid_item_J9apkd",
+        "grid_item_kkPLD6"
+      ],
+      "settings": {}
     }
   },
   "order": [
@@ -573,6 +629,7 @@
     "blog_posts_gyrBkD",
     "instagram_tmqej8",
     "ff885f24-6501-4f1d-a21e-4e89407ceb42",
-    "slideshow_3_7idaRJ"
+    "slideshow_3_7idaRJ",
+    "grid_wPePRf"
   ]
 }
