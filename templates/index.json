@@ -500,6 +500,7 @@
         "slider_item_RPUUL4": {
           "type": "slider_item",
           "settings": {
+            "image": "shopify://shop_images/rs_w_1280.jpg",
             "subheading": "Subheading",
             "title": "Heading",
             "description": "",
@@ -545,9 +546,7 @@
         "show_arrow_mobile": false,
         "show_bullet_desktop": false,
         "show_bullet_mobile": false,
-        "bullet_color": "#111111",
-        "slider_shape_1": "shopify://shop_images/modes-of-transportation-explained.jpg",
-        "slider_shape_2": "shopify://shop_images/pexels-pixabay-163236.jpg"
+        "bullet_color": "#111111"
       }
     }
   },
