@@ -3999,7 +3999,7 @@
           "hd_other_enable_transparents": false,
           "hd_other_bg_header_normal": "#ffffff",
           "hd_other_bg_header_opacity": 1,
-          "enable_sticky_hd_other": false,
+          "enable_sticky_hd_other": true,
           "hd_other_logo": "shopify://shop_images/logo.png",
           "hd_other_logo_maxwidth": 125,
           "hd_other_logo_svg": "",
