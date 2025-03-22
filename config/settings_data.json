@@ -23,12 +23,14 @@
     "header_layout": "header_layout_1",
     "container": "container",
     "header_border_color": "#010f1c",
-    "header_search_links": "search-menu",
+    "header_search_links": "",
     "show_my_account": false,
     "show_minicart": true,
     "show_compare_icon": true,
     "show_wishlist_icon": false,
     "show_top_search": false,
+    "show_recently_viewed": true,
+    "contact_number": "",
     "free_shipping_progress_bar": true,
     "sections": {
       "top-bar": {
