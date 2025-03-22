@@ -1,11 +1,56 @@
+<div class="grid-section">
+  <div class="grid-container">
+    {% for block in section.blocks %}
+      <div class="grid-item">
+        <h2 class="grid-number">{{ block.settings.number }}</h2>
+        <p class="grid-title">{{ block.settings.title }}</p>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+  .grid-section {
+    padding: 50px 0;
+    background-color: #212527; /* Background color */
+    color: #ffffff;
+    text-align: center;
+  }
+
+  .grid-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .grid-item {
+    flex: 1 1 200px;
+    max-width: 200px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1); /* Slight transparency */
+    border-radius: 10px;
+  }
+
+  .grid-number {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+
+  .grid-title {
+    font-size: 1rem;
+    opacity: 0.8;
+  }
+</style>
+
 {% schema %}
 {
-  "name": "Impact Numbers",
+  "name": "Grid Section",
   "settings": [],
   "blocks": [
     {
-      "type": "impact_item",
-      "name": "Impact Item",
+      "type": "grid_item",
+      "name": "Grid Item",
       "settings": [
         {
           "type": "text",
@@ -24,56 +69,16 @@
   ],
   "presets": [
     {
-      "name": "Impact Numbers",
+      "name": "Grid Section",
       "blocks": [
-        { "type": "impact_item", "settings": { "number": "74 +", "title": "YEARS OF EXPERIENCE" } },
-        { "type": "impact_item", "settings": { "number": "1400 +", "title": "DEDICATED EMPLOYEES" } },
-        { "type": "impact_item", "settings": { "number": "4 M+", "title": "SQFT OF WAREHOUSE SPACE" } },
-        { "type": "impact_item", "settings": { "number": "250 +", "title": "DRIVERS" } },
-        { "type": "impact_item", "settings": { "number": "25", "title": "LOCATIONS" } },
-        { "type": "impact_item", "settings": { "number": "6", "title": "GLOBAL OFFICES" } }
+        { "type": "grid_item", "settings": { "number": "74 +", "title": "YEARS OF EXPERIENCE" } },
+        { "type": "grid_item", "settings": { "number": "1400 +", "title": "DEDICATED EMPLOYEES" } },
+        { "type": "grid_item", "settings": { "number": "4 M+", "title": "SQFT OF WAREHOUSE SPACE" } },
+        { "type": "grid_item", "settings": { "number": "250 +", "title": "DRIVERS" } },
+        { "type": "grid_item", "settings": { "number": "25", "title": "LOCATIONS" } },
+        { "type": "grid_item", "settings": { "number": "6", "title": "GLOBAL OFFICES" } }
       ]
     }
   ]
 }
 {% endschema %}
-
-<div class="impact-numbers">
-  {% for block in section.blocks %}
-    <div class="impact-item">
-      <h2 class="impact-number">{{ block.settings.number }}</h2>
-      <p class="impact-title">{{ block.settings.title }}</p>
-    </div>
-  {% endfor %}
-</div>
-
-<style>
-  .impact-numbers {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    padding: 50px 0;
-    background-color: #212527; /* Background color */
-    color: #ffffff;
-    text-align: center;
-  }
-
-  .impact-item {
-    flex: 1 1 200px;
-    max-width: 200px;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.1); /* Slight transparency */
-    border-radius: 10px;
-  }
-
-  .impact-number {
-    font-size: 2rem;
-    font-weight: bold;
-  }
-
-  .impact-title {
-    font-size: 1rem;
-    opacity: 0.8;
-  }
-</style>
