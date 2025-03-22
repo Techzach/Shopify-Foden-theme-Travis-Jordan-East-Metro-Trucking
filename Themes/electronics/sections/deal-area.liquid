@@ -1,0 +1,333 @@
+{%- liquid
+  assign st = section.settings
+  assign container = st.container
+  assign bg_color = st.product_carousel_background_color
+  assign heading = st.heading
+  assign subheading = st.subheading
+
+  assign countdown_time = st.countdown_time
+
+  if bg_color != blank
+  endif
+-%}
+
+{%- capture style -%}
+  padding-top: {{ st.padding_top }}px; padding-bottom:{{ st.padding_bottom }}px;
+{%- endcapture -%}
+<section
+  class="tp-deal-area pt-135 pb-140 p-relative z-index-1 fix scene"
+  data-bg-color="#F3F3F3"
+  style="{{ style | strip | strip_newlines }}"
+  data-id="{{ section.id }}"
+  data-type="deal_area"
+>
+  {%- if st.enable_shape_7 != blank -%}
+    <div class="tp-deal-shape">
+      {%- if st.slider_shape_7 != blank -%}
+        <img class="tp-deal-shape-7" src="{{ st.slider_shape_7 | image_url }}">
+      {%- else -%}
+        {{ 'image' | placeholder_svg_tag: 'custom_slider_placeholder_shape_image layer' }}
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  <div class="tp-deal-shape">
+    {%- if st.enable_shape_1 != blank -%}
+      <div class="tp-deal-shape-1">
+        {%- if st.slider_shape_1 != blank -%}
+          <img
+            class="layer"
+            src="{{ st.slider_shape_1 | image_url }}"
+            data-depth=".2"
+          >
+        {%- else -%}
+          {{ 'image' | placeholder_svg_tag: 'custom_slider_placeholder_shape_image layer' }}
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if st.enable_shape_2 != blank -%}
+      <div class="tp-deal-shape-2">
+        {%- if st.slider_shape_2 != blank -%}
+          <img
+            class="layer"
+            src="{{ st.slider_shape_2 | image_url }}"
+            data-depth=".3"
+          >
+        {%- else -%}
+          {{ 'image' | placeholder_svg_tag: 'custom_slider_placeholder_shape_image layer' }}
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if st.enable_shape_3 != blank -%}
+      <div class="tp-deal-shape-3">
+        {%- if st.slider_shape_3 != blank -%}
+          <img
+            class="layer"
+            src="{{ st.slider_shape_3 | image_url }}"
+            data-depth=".4"
+          >
+        {%- else -%}
+          {{ 'image' | placeholder_svg_tag: 'custom_slider_placeholder_shape_image layer' }}
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if st.enable_shape_4 != blank -%}
+      <div class="tp-deal-shape-4">
+        {%- if st.slider_shape_4 != blank -%}
+          <img
+            class="layer"
+            src="{{ st.slider_shape_4 | image_url }}"
+            data-depth=".5"
+          >
+        {%- else -%}
+          {{ 'image' | placeholder_svg_tag: 'custom_slider_placeholder_shape_image layer' }}
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if st.enable_shape_5 != blank -%}
+      <div class="tp-deal-shape-5">
+        {%- if st.slider_shape_5 != blank -%}
+          <img
+            class="layer"
+            src="{{ st.slider_shape_5 | image_url }}"
+            data-depth=".6"
+          >
+        {%- else -%}
+          {{ 'image' | placeholder_svg_tag: 'custom_slider_placeholder_shape_image layer' }}
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if st.enable_shape_6 != blank -%}
+      <div class="tp-deal-shape-6">
+        {%- if st.slider_shape_6 != blank -%}
+          <img
+            class="layer"
+            src="{{ st.slider_shape_6 | image_url }}"
+            data-depth=".7"
+          >
+        {%- else -%}
+          {{ 'image' | placeholder_svg_tag: 'custom_slider_placeholder_shape_image layer' }}
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+  <div class="{{ container }}">
+    <div class="row justify-content-center">
+      <div class="col-xl-6 col-lg-7">
+        <div class="tp-deal-content text-center">
+          {%- if subheading != blank -%}
+            <span class="tp-deal-title-pre">
+              {{ subheading }}
+              <svg
+                width="82"
+                height="22"
+                viewBox="0 0 82 22"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M81 14.5798C0.890564 -8.05914 -5.81154 0.0503902 5.00322 21"
+                  stroke="currentColor"
+                  stroke-opacity="0.3"
+                  stroke-width="2"
+                  stroke-miterlimit="3.8637"
+                  stroke-linecap="round" />
+              </svg>
+            </span>
+          {%- endif -%}
+          {%- if heading != blank -%}
+            <h3 class="tp-deal-title">{{ heading }}</h3>
+          {%- endif -%}
+          <div class="tp-deal-countdown">
+            {%- if countdown_time != blank -%}
+              <div
+                class="tp-product-countdown"
+                data-countdown
+                data-date="{{ countdown_time }}"
+              >
+                <div class="tp-product-countdown-inner">
+                  <ul>
+                    <li>
+                      <span data-days>0</span>
+                      Days
+                    </li>
+                    <li>
+                      <span data-hours>0</span>
+                      Hours
+                    </li>
+                    <li>
+                      <span data-minutes>0</span>
+                      Mins
+                    </li>
+                    <li>
+                      <span data-seconds>0</span>
+                      Secs
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Deal Area",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Layout",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<h2>Grab the best Offer Of this Week!</h2>"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Sub Heading",
+      "default": "Best Deals of the week!"
+    },
+    {
+      "type": "text",
+      "id": "countdown_time",
+      "label": "Countdown Time",
+      "default": "Sep 30 2024 20:20:22",
+      "info": "e:g Month Day Year Hour:Minute:Second"
+    },
+    {
+      "type": "header",
+      "content": "shape settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_shape_1",
+      "label": "Enable shape 1",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "slider_shape_1",
+      "label": "Shape 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_shape_2",
+      "label": "Enable shape 2",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "slider_shape_2",
+      "label": "Shape 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_shape_3",
+      "label": "Enable shape 3",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "slider_shape_3",
+      "label": "Shape 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_shape_4",
+      "label": "Enable shape 4",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "slider_shape_4",
+      "label": "Shape 4"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_shape_5",
+      "label": "Enable shape 5",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "slider_shape_5",
+      "label": "Shape 5"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_shape_6",
+      "label": "Enable shape 6",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "slider_shape_6",
+      "label": "Shape 6"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_shape_7",
+      "label": "Enable shape 7",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "slider_shape_7",
+      "label": "Shape 7"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Deal Area"
+    }
+  ]
+}
+{% endschema %}

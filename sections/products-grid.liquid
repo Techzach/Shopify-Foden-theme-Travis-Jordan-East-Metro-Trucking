@@ -1,0 +1,580 @@
+<h1>Produt Grid</h1>
+{%- liquid
+  assign th_st = settings
+  assign product_style = th_st.product_style
+  assign st = section.settings
+  assign cls = st.collection
+  if bl != blank
+    assign cls = bl
+  endif
+  assign container = st.container
+  assign bg_color = st.product_grid_background_color
+  assign text_align = st.text_alignment
+  assign heading = st.heading
+  assign description = st.description
+  assign column_gap = st.column_gap
+  assign view_all_enable = st.view_all_enable
+  assign text_view_all = st.text_view_all
+  assign more_row = ''
+  assign enable_banner = st.enable_banner
+  assign enable_sticky_banner = st.enable_sticky_banner
+  assign banner_img = st.banner_img
+  assign banner_position = st.banner_position
+  assign banner_width = st.banner_width
+  assign text_content = st.text_content
+  assign text_conten_color = st.text_conten_color
+  assign video_height = st.video_height
+  assign video_local = st.video_local
+  assign video_options = st.video_options
+  assign enabled_animations = th_st.animations_enabled
+  assign show_banner = ''
+  if st.enable_banner
+    assign show_banner = ' show-banner'
+  endif
+  assign show_sticky_banner = ''
+  if st.enable_sticky_banner
+    assign show_sticky_banner = ' show-sticky-banner'
+  endif
+  assign banner_url = ''
+  if st.banner_link != blank
+    assign banner_url = st.banner_link
+  else
+    assign banner_url = '#'
+  endif
+
+  assign banner_position = ''
+  if st.banner_position == 'position-right'
+    assign banner_position = ' flex-row-reverse'
+  endif
+  assign video_url = st.video_url
+  assign video_id = ''
+  if video_url.type == 'youtube'
+    assign video_id = video_url | replace: 'https://www.youtube.com/watch?v=', ''
+  elsif video_url.type == 'vimeo'
+    assign video_id = video_url | replace: 'https://vimeo.com/', ''
+  endif
+  if column_gap > 30
+  endif
+  if column_gap > 15
+  endif
+
+  if st.number_of_rows > 1
+    assign more_row = 'more-row'
+  endif
+
+  assign reset_spacing = ''
+  if st.reset_spacing
+    assign reset_spacing = ' remove_spacing'
+  endif
+
+  assign spt_tablet = ''
+  if st.padding_top > 50
+    assign spt_tablet = ' spt-tablet'
+  endif
+  assign spt_mobile = ''
+  if st.padding_top > 30
+    assign spt_mobile = ' spt-mobile'
+  endif
+  assign spb_tablet = ''
+  if st.padding_bottom > 50
+    assign spb_tablet = ' spb-tablet'
+  endif
+  assign spb_mobile = ''
+  if st.padding_bottom > 30
+    assign spb_mobile = ' spb-mobile'
+  endif
+
+  assign has_bg = ''
+  if bg_color != blank
+    assign has_bg = ' has-bg'
+  endif
+
+  assign collection = collections[cls]
+-%}
+
+{%- capture style -%}
+  --section-padding-top: {{ st.padding_top }}px; --section-padding-bottom: {{ st.padding_bottom }}px; {%- if bg_color != blank -%}--section-bg-color
+  : {{ bg_color }}{%- endif -%}
+{%- endcapture -%}
+<section
+  class="tps__section {{ has_bg }}{{ spt_tablet }}{{ spb_tablet }}{{ spt_mobile }}{{ spb_mobile }} tps__product{{ reset_spacing }} {{ more_row }}"
+  style="{{ style | strip | strip_newlines }}"
+  id="{{ section.id }}"
+  data-id="{{ section.id }}"
+  data-type="product_grid"
+>
+  <div class=" {{ container }} ">
+    {%- if heading != blank or description != blank -%}
+      <div class="tps__section-header {{ text_align }} {% if enabled_animations %}scroll-trigger animate--slide-in{% endif %}">
+        {%- if heading != blank -%}
+          <h2 class="tps__section-heading mb-5">{{ heading }}</h2>
+        {%- endif -%}
+        {%- if description != blank -%}
+          <div class="tps__section-des">
+            {{ description }}
+          </div>
+        {%- endif -%}
+        {%- if view_all_enable -%}
+          {%- if text_view_all != blank -%}
+            <div class="links-view-all">
+              <a
+                aria-label="links"
+                href="{% if collection == blank %}#{% else %}{{ collection.url }}{% endif %}"
+              >
+                {{ text_view_all }}
+                <i class="icon-chevrons-right fs-18 ml-5"></i>
+              </a>
+            </div>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    <div class="tps__grid {{ product_style }}" data-id="{{ section.id }}">
+      <div
+        class="row flex-nowrap {{ banner_position }}"
+        style="--product-banner-width: {{ banner_width }}%;"
+      >
+        {%- if enable_banner -%}
+          <div class="tps__product-banner relative d-none d-xl-block {{ show_sticky_banner }} {% if enabled_animations %}scroll-trigger animate--slide-in{% endif %} {% if banner_type == 'video' %} type-video {% endif %} {% if banner_type == 'image' %} type-banner {% endif %}">
+            {%- case st.banner_type -%}
+              {%- when 'video' -%}
+                {%- if video_options == 'online' -%}
+                  <div
+                    class="video-container video-banner {{ video_height }}"
+                    style="--video-desktop-height: {{ st.desktop_height }}px"
+                  >
+                    <div class="video-foreground">
+                      {%- if video_url.type == 'youtube' -%}
+                        <video-youtube data-id="{{ block.id }}">
+                          <iframe
+                            src="https://www.youtube.com/embed/{{ video_id }}?controls=0&autoplay=1&mute=1&playsinline=1&loop=1&playlist={{ video_id }}"
+                          ></iframe>
+                        </video-youtube>
+                      {%- elsif video_url.type == 'vimeo' -%}
+                        <iframe
+                          src="https://player.vimeo.com/video/{{ video_id }}?controls=0background=1&autoplay=1&muted=1&loop=1"
+                          frameborder="0"
+                          allowfullscreen
+                        ></iframe>
+                      {%- endif -%}
+                    </div>
+                  </div>
+                {%- else -%}
+                  <div
+                    class="{% if video_height == 'custom-height' %}local-video{% endif %} video-banner {{ video_height }}"
+                    style="--video-desktop-height: {{ st.desktop_height }}px"
+                  >
+                    {{
+                      video_local
+                      | video_tag: loop: 'loop', muted: true, playsinline: true, autoplay: true, controls: true
+                    }}
+                  </div>
+                {%- endif -%}
+              {%- else -%}
+                {%- if enable_sticky_banner -%}
+                  <a
+                    class="w-full d-block"
+                    href="{{ banner_url }}"
+                    aria-label="links"
+                  >
+                    <img
+                      loading="lazy"
+                      src="{{ banner_img | image_url }}"
+                      alt="{{ banner_img.alt }}"
+                      width="{{ banner_img.width }}"
+                      height="{{ banner_img.height }}"
+                    >
+                  </a>
+                {%- else -%}
+                  <a
+                    class="h-full w-full d-block"
+                    href="{{ banner_url }}"
+                    aria-label="links"
+                    style="background-image: url('{{ banner_img | image_url }}'); --tps__banner-width: {{ banner_width }}%;"
+                  ></a>
+                {%- endif -%}
+            {%- endcase -%}
+            {%- if text_content != blank -%}
+              <div class="text-content absolute inset-0 flex-column d-flex justify-content-center align-items-center text-center {{ text_conten_color }}">
+                {{ text_content }}
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+        <div class="tps__product-with-banner {{ show_banner }} {{ show_sticky_banner }}">
+          {%- render 'product-grid-layout' | st: st -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Products grid",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Bestseller Product"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p></p>"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "default": "text-center",
+      "options": [
+        {
+          "value": "text-left",
+          "label": "Left"
+        },
+        {
+          "value": "text-center",
+          "label": "Center"
+        },
+        {
+          "value": "text-right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Layout",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "product_grid_background_color",
+      "label": "Background color"
+    },
+    {
+      "type": "header",
+      "content": "Product settings"
+    },
+    {
+      "id": "collection",
+      "type": "collection",
+      "label": "Select collection"
+    },
+    {
+      "type": "range",
+      "id": "limit_products",
+      "label": "Products to show",
+      "min": 1,
+      "max": 30,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "item_desktop",
+      "label": "Items per row (Desktop)",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "label": "Column gap",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Banner settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_banner",
+      "label": "Show banner , video",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky_banner",
+      "label": "Sticky banner image",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "banner_type",
+      "label": "Banner type",
+      "default": "image",
+      "options": [
+        {
+          "value": "image",
+          "label": "Image"
+        },
+        {
+          "value": "video",
+          "label": "Video"
+        }
+      ]
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_img",
+      "label": "Image",
+      "info": "330 x 560px recommended"
+    },
+    {
+      "type": "select",
+      "id": "video_options",
+      "label": "Video options",
+      "default": "local",
+      "options": [
+        {
+          "value": "local",
+          "label": "Local"
+        },
+        {
+          "value": "online",
+          "label": "Online"
+        }
+      ]
+    },
+    {
+      "id": "video_url",
+      "type": "video_url",
+      "label": "Video url",
+      "accept": [
+        "youtube",
+        "vimeo"
+      ],
+      "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc"
+    },
+    {
+      "id": "video_local",
+      "type": "video",
+      "label": "Upload local video"
+    },
+    {
+      "type": "select",
+      "id": "video_height",
+      "label": "Height",
+      "default": "height_default",
+      "options": [
+        {
+          "value": "height_default",
+          "label": "Default"
+        },
+        {
+          "value": "custom-height",
+          "label": "Custom"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "desktop_height",
+      "min": 600,
+      "max": 1100,
+      "step": 5,
+      "unit": "px",
+      "label": "Height",
+      "default": 650
+    },
+    {
+      "type": "select",
+      "id": "banner_position",
+      "label": "Position",
+      "default": "position-left",
+      "options": [
+        {
+          "value": "position-left",
+          "label": "Left"
+        },
+        {
+          "value": "position-right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "url",
+      "id": "banner_link",
+      "label": "Banner link"
+    },
+    {
+      "type": "range",
+      "id": "banner_width",
+      "label": "Banner width",
+      "min": 15,
+      "max": 50,
+      "step": 1,
+      "unit": "%",
+      "default": 30
+    },
+    {
+      "type": "richtext",
+      "id": "text_content",
+      "label": "Text content",
+      "default": "<p></p>"
+    },
+    {
+      "type": "select",
+      "id": "text_conten_color",
+      "label": "Text color",
+      "default": "text-black",
+      "options": [
+        {
+          "value": "text-black",
+          "label": "Black"
+        },
+        {
+          "value": "text-white",
+          "label": "Light"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "View all"
+    },
+    {
+      "type": "checkbox",
+      "id": "view_all_enable",
+      "label": "Show \"View all\"",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "text_view_all",
+      "label": "Text",
+      "default": "View All"
+    },
+    {
+      "type": "header",
+      "content": "Button settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "load_more_button_enable",
+      "label": "Show \"Load more\"",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "number_of_rows",
+      "label": "Number of rows (Desktop)",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "select",
+      "id": "button_action",
+      "label": "Button action",
+      "default": "load",
+      "options": [
+        {
+          "value": "load",
+          "label": "Load more products"
+        },
+        {
+          "value": "redirect",
+          "label": "Redirect to collection page"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Load more"
+    },
+    {
+      "type": "select",
+      "id": "button_type",
+      "label": "Button type",
+      "default": "primary",
+      "options": [
+        {
+          "value": "primary",
+          "label": "Primary"
+        },
+        {
+          "value": "secondary",
+          "label": "Secondary"
+        },
+        {
+          "value": "link",
+          "label": "Link"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px"
+    },
+    {
+      "type": "checkbox",
+      "id": "reset_spacing",
+      "label": "Remove default space between sections",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Products grid"
+    }
+  ]
+}
+{% endschema %}

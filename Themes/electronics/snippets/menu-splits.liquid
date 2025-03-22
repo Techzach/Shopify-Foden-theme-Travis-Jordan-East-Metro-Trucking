@@ -1,0 +1,209 @@
+{%- liquid
+  assign th_st = settings
+  assign container = th_st.general_layout
+  if container == 'default'
+  elsif container == custom_width
+
+  endif
+  assign count_m = count_menu_item | times: 1
+  assign count_item = 0
+-%}
+{%- for block in section.blocks -%}
+  {%- liquid
+    assign block_st = block.settings
+  -%}
+  {%- case block.type -%}
+    {%- when 'link' -%}
+      {%- if count_item != count_m -%}
+        {%- continue -%}
+      {%- endif -%}
+      {%- assign linkl = linklists[block_st.menu].links -%}
+      {%- if linkl.size == 0 -%}
+        {% continue %}
+      {%- endif -%}
+      <div
+        id="{{ block.id }}"
+        class="tps-menu-item type_link col-lg-2"
+        {{ block.shopify_attributes }}
+      >
+        <div class="shop-mega-menu-list">
+          {%- if block_st.title != blank %}
+            {%- liquid
+              assign link_heading = block_st.url | default: '#'
+            -%}
+            <a class="shop-mega-menu-title" href="{{ link_heading }}">
+              {{ block_st.title | split: '[label' | first }}
+              {%- if block_st.title contains '[label' -%}
+                {%- liquid
+                  assign label1 = link.title | split: '[label' | last | split: ']' | first | prepend: 'label'
+                  assign label_bg1 = label1 | split: 'label' | last | prepend: 'label_color_'
+                -%}
+                <span
+                  class="px-6 d-inline-block label {{ label1 }}"
+                  style="--navigation-bg-label:{{ section.settings[label_bg1] }};"
+                >
+                  {{ section.settings[label1] }}
+                </span>
+              {%- endif -%}
+            </a>
+          {% else -%}
+            {%- assign menu_title = linklists[block_st.menu].title -%}
+            <a class="shop-mega-menu-title" role="link">
+              {{ menu_title }}
+            </a>
+          {% endif -%}
+          <ul class="subchildmenu sub-column pl-0 list-none">
+            {%- for link in linkl -%}
+              <li class="menu-item">
+                <a href="{{ link.url }}">
+                  {{ link.title | split: '[label' | first }}
+                  {%- if link.title contains '[label' -%}
+                    {%- liquid
+                      assign label1 = link.title | split: '[label' | last | split: ']' | first | prepend: 'label'
+                      assign label_bg1 = label1 | split: 'label' | last | prepend: 'label_color_'
+                    -%}
+                    <span
+                      class="px-6 d-inline-block label {{ label1 }}"
+                      style="--navigation-bg-label:{{ section.settings[label_bg1] }};"
+                    >
+                      {{ section.settings[label1] }}
+                    </span>
+                  {%- endif -%}
+                </a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      </div>
+    {%- when 'banner' %}
+      {%- if count_item != count_m -%}
+        {%- continue -%}
+      {%- endif -%}
+      <div class="col">
+        <a
+          class="shop-mega-menu-img"
+          {%- if block_st.banner_link == blank -%}
+            role="link"
+          {%- else -%}
+            href="{{ block_st.banner_link }}"
+          {%- endif -%}
+
+          {%- if block_st.open_link != blank -%}
+            target="_blank"
+          {%- endif -%}
+        >
+          <div class="shop-mega-menu-img">
+            {%- liquid
+              assign image = block_st.image
+              assign button_title = block_st.button_title
+            -%}
+            {%- if image != blank -%}
+              <img src="{{ image | image_url }}" alt="{{ block_st.title }}">
+            {%- else -%}
+              {%- render 'placeholder-render' | type: 'product' | cls: 'tps__collection-grid-plh' -%}
+            {%- endif -%}
+            {%- if button_title != blank -%}
+              <div class="shop-mega-menu-btn">
+                <a
+                  href=" {%- if block_st.banner_link != blank -%} {{ block_st.banner_link }} {%- else -%}# {%- endif -%}"
+                  class="tp-menu-showcase-btn tp-menu-showcase-btn-2"
+                >
+                  {{- button_title -}}
+                </a>
+              </div>
+            {%- endif -%}
+          </div>
+          <div class="home-menu-content">
+            {%- if block_st.title != blank -%}
+              <h5 class="home-menu-title mt-2" style="text-align: center">{{ block_st.title }}</h5>
+            {%- endif -%}
+          </div>
+        </a>
+      </div>
+    {%- when 'collection' %}
+      {%- if count_item != count_m -%}
+        {%- continue -%}
+      {%- endif -%}
+      <div
+        id="{{ block.id }}"
+        class="tps-menu-item type_collection col-sm-{{ block_st.col }}"
+        {{ block.shopify_attributes }}
+      >
+        {%- liquid
+          assign collection = collections[block_st.collection]
+          assign collection_name = collection.title
+          assign collection_link = collection.url
+          assign image_col = block_st.image | default: collection.image
+          assign show_count = block_st.show_count
+        -%}
+        <a
+          class="fw-500 d-block d-none-desktop d-none-mb"
+          {% if collection_link != blank %}
+            href="{{ collection_link }}"
+          {% else %}
+            role="link"
+          {% endif %}
+          {%- if block_st.open_link != blank -%}
+            target="_blank"
+          {%- endif -%}
+          aria-label="link"
+        >
+          <span class="text">{{ collection_name }}</span>
+          {%- if show_count -%}
+            <span class="ml-5 count  fs-13">({{ collection.all_products_count | default: 0 }} Products)</span>
+          {%- endif -%}
+        </a>
+        <div class="collection-item relative">
+          <div class="tps-collection-content design-1">
+            <div class="collection-img hover-zoom">
+              <a
+                class="d-block text-transform menu-banner-loaded"
+                {% if collection_link != blank %}
+                  href="{{ collection_link }}"
+                {% else %}
+                  role="link"
+                {% endif %}
+                {%- if block_st.open_link != blank -%}
+                  target="_blank"
+                {%- endif -%}
+                {%- if image_col != blank -%}
+                  data-image-banner="{{ image_col | image_url }}"
+                  data-width="{{ image_col.width }}"
+                  data-height="{{ image_col.height }}"
+                {%- endif -%}
+                aria-label="link"
+              >
+                {%- if image_col != blank -%}
+                {%- else -%}
+                  {%- render 'placeholder-render' | type: 'collection' | cls: 'tps__collection-grid-plh' -%}
+                {%- endif -%}
+              </a>
+            </div>
+            <div class="tps__collection-infor pointer-events-none absolute text-center">
+              <div class="h3 tps__collection-title m-0">
+                <a
+                  class="d-block text-transform"
+                  {% if collection_link != blank %}
+                    href="{{ collection_link }}"
+                  {% else %}
+                    role="link"
+                  {% endif %}
+                  {%- if block_st.open_link != blank -%}
+                    target="_blank"
+                  {%- endif -%}
+                  aria-label="link"
+                >
+                  <span class="text">{{ collection_name }}</span>
+                  {%- if show_count -%}
+                    <span class="ml-5 count  fs-13">({{ collection.all_products_count | default: 0 }} Products)</span>
+                  {%- endif -%}
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {%- when 'menu_item' -%}
+      {%- assign count_item = count_item | plus: 1 -%}
+  {%- endcase -%}
+{%- endfor -%}

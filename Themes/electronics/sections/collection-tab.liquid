@@ -1,0 +1,196 @@
+{%- liquid
+  assign st = section.settings
+  assign container = st.container
+  assign heading = st.heading
+  assign subheading = st.subheading
+  assign blocks = section.blocks
+-%}
+
+{%- capture style -%}
+  padding-top: {{ st.padding_top }}px; padding-bottom: {{ st.padding_bottom }}px;
+{%- endcapture -%}
+{%- if st.tab_style == 'tab_style_1' -%}
+  {%- render "tp-product-tab-1" | heading: heading | section: section | st: st | container: container | style: style | blocks: blocks -%}
+{%- elsif st.tab_style == 'tab_style_2' -%}
+  {%- render "tp-product-tab-2" | heading: heading | subheading: subheading | section: section | st: st | container: container | style: style | blocks: blocks -%}
+{%- elsif st.tab_style == 'tab_style_3' -%}
+  {%- render "tp-product-tab-3" | heading: heading | subheading: subheading | section: section | st: st | container: container | style: style | blocks: blocks -%}
+{%- elsif st.tab_style == 'tab_style_4' -%}
+  {%- render "tp-product-tab-4" | heading: heading | subheading: subheading | section: section | st: st | container: container | style: style | blocks: blocks -%}
+{%- elsif st.tab_style == 'tab_style_5' -%}
+  {%- render "tp-product-tab-5" | heading: heading | subheading: subheading | section: section | st: st | container: container | style: style | blocks: blocks -%}
+{%- else -%}
+  {%- render "tp-product-tab-1" | heading: heading | section: section | st: st | container: container | style: style | blocks: blocks -%}
+{% endif -%}
+
+{% schema %}
+{
+  "name": "Collection tab",
+  "settings": [
+    {
+      "type": "select",
+      "id": "tab_style",
+      "label": "Tab Style",
+      "options": [
+        {
+          "value": "tab_style_1",
+          "label": "Tab Style 1"
+        },
+        {
+          "value": "tab_style_2",
+          "label": "Tab Style 2"
+        },
+        {
+          "value": "tab_style_3",
+          "label": "Tab Style 3"
+        },
+        {
+          "value": "tab_style_4",
+          "label": "Tab Style 4"
+        },
+        {
+          "value": "tab_style_5",
+          "label": "Tab Style 5"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Sub Heading"
+    },
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Layout",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Collection tab"
+    },
+    {
+      "type": "range",
+      "id": "limit_products",
+      "label": "Products to show",
+      "min": 1,
+      "max": 20,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "item_desktop",
+      "label": "Items per row (Desktop)",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Carousel settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel_autoplay",
+      "label": "Autoplay",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel_loop",
+      "label": "Infinity",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px"
+    }
+  ],
+  "max_blocks": 5,
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Tab name",
+          "info": "Leave it blank to use collection name"
+        },
+        {
+          "id": "collection",
+          "type": "collection",
+          "label": "Select collection"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection tab",
+      "blocks": [
+        {
+          "type": "collection",
+          "settings": {
+          }
+        },
+        {
+          "type": "collection",
+          "settings": {
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

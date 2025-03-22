@@ -1,0 +1,75 @@
+<div class="cartmini__widget-item">
+  <div class="cartmini__thumb">
+    <a href="{{- item.url -}}">
+      {%- if item.image != blank -%}
+        <img
+          src="{{ item.image | image_url: width: 300, height: 300 }}"
+          alt="{{ item.product.title | escape }}"
+          height="auto"
+          width="auto"
+        >
+      {%- else -%}
+        <img
+          src="{{ item.product.featured_image | image_url: width: 300, height: 300 }}"
+          alt="{{ item.product.title | escape }}"
+          height="auto"
+          width="auto"
+        >
+      {%- endif -%}
+    </a>
+  </div>
+  <div class="cartmini__content">
+    <h5 class="cartmini__title">
+      <a href="{{- item.url -}}">{{ item.product.title | escape }}</a>
+    </h5>
+    <input
+      class="d-none"
+      type="number"
+      name="updates[]"
+      data-id="{{- item.key -}}"
+      value="{{- item.quantity -}}"
+      data-value="{{- item.quantity -}}"
+      min="0"
+    >
+
+    <div class="cartmini__price-wrapper">
+      {%- if item.original_price != item.final_price -%}
+        <span class="cartmini__price">
+          {% if settings.currency_code_enabled %}
+            {{ item.original_price | money }}
+          {% else %}
+            {{ item.original_price | money }}
+          {% endif %}
+        </span>
+        <span class="cartmini__price">
+          {% if settings.currency_code_enabled %}
+            {{ item.final_price | money }}
+          {% else %}
+            {{ item.final_price | money }}
+          {% endif %}
+        </span>
+      {%- else -%}
+        <span class="cartmini__price text-color-original-price">
+          {% if settings.currency_code_enabled %}
+            {{ item.original_price | money }}
+          {% else %}
+            {{ item.original_price | money }}
+          {% endif %}
+        </span>
+      {%- endif -%}
+      <span class="cartmini__quantity"
+        >x
+        {{- item.quantity -}}
+      </span>
+    </div>
+  </div>
+  <mini-cart-remove-button
+    data-index="{{- item.key -}}"
+    data-varient-id="{{ item.variant_id }}"
+    data-quantity="{{ item.quantity }}"
+  >
+    <a href="{{ item.url_to_remove }}" class="cartmini__del">
+      <i class="fa-regular fa-xmark"></i>
+    </a>
+  </mini-cart-remove-button>
+</div>

@@ -1,0 +1,186 @@
+{%- liquid
+  assign st = section.settings
+  assign container = st.container
+  assign sub_title = st.sub_title
+  assign title = st.title
+  assign content = st.content
+  assign about_image_1 = st.about_image_1
+  assign about_image_2 = st.about_image_2
+  assign button_text = st.button_text
+  assign button_link = st.button_link
+-%}
+
+{%- capture style -%}
+  padding-top: {{ st.padding_top }}px;padding-bottom: {{ st.padding_bottom }}px;
+{%- endcapture -%}
+
+<section
+  class="tp-about-area pt-125 pb-180"
+  class="tp-feature-area tp-feature-border-radius pb-70"
+  style="{{ style | strip | strip_newlines }}"
+  data-id="{{ section.id }}"
+  id="{{ section.id }}"
+>
+  <div class="{{ container }}">
+    <div class="row">
+      <div class="col-xl-5 col-lg-6">
+        <div class="tp-about-thumb-wrapper p-relative mr-35">
+          {%- if about_image_1 != blank -%}
+            <div class="tp-about-thumb m-img">
+              <img src="{{ about_image_1 | image_url }}" alt="About Image" width="auto" height="auto">
+            </div>
+          {%- endif -%}
+          {%- if about_image_2 != blank -%}
+            <div class="tp-about-thumb-2">
+              <img src="{{ about_image_2 | image_url }}" alt="About Image" width="auto" height="auto">
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+      <div class="col-xl-7 col-lg-6">
+        <div class="tp-about-wrapper pl-80 pt-75 pr-60">
+          <div class="tp-section-title-wrapper-4 mb-50">
+            {%- if sub_title != blank -%}
+              <span class="tp-section-title-pre-4">{{ sub_title }}</span>
+            {%- endif -%}
+            {%- if title != blank -%}
+              <h3 class="tp-section-title-4 fz-50">{{ title }}</h3>
+            {%- endif -%}
+          </div>
+          <div class="tp-about-content pl-120">
+            {{ content }}
+            {%- if button_text != blank -%}
+              <div class="tp-about-btn">
+                <a href="{{ button_link }}" class="tp-btn">
+                  {{ button_text }}
+                  <svg
+                    width="17"
+                    height="15"
+                    viewBox="0 0 17 15"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16 7.49976L1 7.49976"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path
+                      d="M9.9502 1.47541L16.0002 7.49941L9.9502 13.5244"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                </a>
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About Area",
+  "settings": [
+    {
+      "type": "header",
+      "content": "About Image"
+    },
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Layout",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "image_picker",
+      "id": "about_image_1",
+      "label": "About Image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "about_image_2",
+      "label": "About Image 2"
+    },
+    {
+      "type": "header",
+      "content": "About Content"
+    },
+    {
+      "type": "text",
+      "id": "sub_title",
+      "label": "Sub Title"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content",
+      "default": "<p></p>"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Contact Us"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px"
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Area"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,371 @@
+{%- capture contentForQuerystring -%}{{ content_for_header }}{%- endcapture -%}
+{% # theme-check-enable ContentForHeaderModification %}
+
+{%- assign pageUrl = contentForQuerystring
+  | split: '"pageurl":"'
+  | last
+  | split: '"'
+  | first
+  | split: request.host
+  | last
+  | replace: '\/', '/'
+  | replace: '%20', ' '
+  | replace: '\u0026', '&'
+-%}
+{%- assign pageQuerystring = pageUrl | split: '?' | last -%}
+{%- liquid
+  assign st = section.settings
+  assign se_block = section.blocks
+  assign sidebar_ps = st.sidebar_position
+  assign show_author = st.post_show_author
+  assign show_tag = st.post_show_tag
+  assign show_date = st.post_show_date
+  assign show_excerpt = st.post_show_excerpt
+  assign show_readmore = st.post_show_button
+  assign aspect_ratio = st.aspect_ratio
+  assign custom_ratio = st.custom_ratio
+  assign hover_effect = st.hover_effect
+  assign items_per_row = st.items_per_row
+  assign column_gap = st.column_gap
+  assign layout = st.layout
+
+  if pageQuerystring contains 'column='
+    assign column = pageQuerystring | split: 'column=' | last | split: '&' | first
+    if column == '1' or column == '2' or column == '3' or column == '4'
+      assign items_per_row = column | times: 1
+    endif
+  endif
+  if pageQuerystring contains 'layout='
+    assign layout_pra = pageQuerystring | split: 'layout=' | last | split: '&' | first
+    if layout_pra == 'list' or layout_pra == 'grid'
+      assign layout = layout_pra
+    endif
+  endif
+  if pageQuerystring contains 'sidebar='
+    assign sidebar = pageQuerystring | split: 'sidebar=' | last | split: '&' | first
+    if sidebar == 'left_sidebar' or sidebar == 'right_sidebar' or sidebar == 'no_sidebar'
+      assign sidebar_ps = sidebar
+    endif
+  endif
+  if pageQuerystring contains 'pagination='
+    assign pagination_pr = pageQuerystring | split: 'pagination=' | last | split: '&' | first
+    if pagination_pr == 'default' or pagination_pr == 'load_more' or pagination_pr == 'infinit_scrolling'
+    endif
+  endif
+  assign blog_column = ''
+  if items_per_row == 1
+    assign blog_column = 'row-cols-1'
+  elsif items_per_row == 2
+  elsif items_per_row == 3
+  elsif items_per_row == 4
+  endif
+-%}
+<script src="{{ 'blog.js' | asset_url }}" defer="defer"></script>
+
+<section class="tp-postbox-area pt-120 pb-120 section-{{ section.id }} " data-section-id="{{ section.id }}">
+  <div class="{{ st.container }}">
+    <div class="row">
+      {%- if sidebar_ps == 'left_sidebar' -%}
+        <div class="col-xl-3 col-lg-4">
+          {% render 'blog-sidebar', st: st, se_block: se_block %}
+        </div>
+      {%- endif -%}
+      <div
+        class="
+                                      {%- if sidebar_ps == 'left_sidebar' or sidebar_ps == 'right_sidebar' -%} col-xl-9 col-lg-8{%- else -%}col-xl-12 col-lg-12 {%- endif -%}
+        "
+      >
+        {%- if blog.articles.size > 0 -%}
+          {%- paginate blog.articles by section.settings.max_articles -%}
+            <div class="tp-postbox-wrapper pr-50">
+              {%- for article in blog.articles -%}
+                {%- render 'article-card',
+                  article: article,
+                  show_tag: show_tag,
+                  show_date: show_date,
+                  show_excerpt: show_excerpt,
+                  show_readmore: show_readmore,
+                  show_author: show_author,
+                  aspect_ratio: aspect_ratio,
+                  custom_ratio: custom_ratio,
+                  hover_effect: hover_effect,
+                  column_gap: column_gap,
+                  layout: layout,
+                  style: 'style-3'
+                -%}
+              {%- endfor -%}
+
+              {%- if paginate.pages > 1 -%}
+                {% render 'pagination', paginate: paginate, st: st, anchor: '', pagination: 'default' %}
+              {%- endif -%}
+            </div>
+          {%- endpaginate -%}
+        {%- else -%}
+          <p>{{ 'blogs.article.empty' | t }}</p>
+        {%- endif -%}
+      </div>
+      {%- if sidebar_ps == 'right_sidebar' -%}
+        <div class="col-xl-3 col-lg-4">
+          {% render 'blog-sidebar', st: st, se_block: se_block %}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Blog posts",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Container type",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "max_articles",
+      "min": 1,
+      "max": 24,
+      "step": 1,
+      "label": "Maximum articles to show",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "sidebar_position",
+      "label": "Sidebar position",
+      "default": "right_sidebar",
+      "options": [
+        {
+          "value": "left_sidebar",
+          "label": "Left sidebar"
+        },
+        {
+          "value": "right_sidebar",
+          "label": "Right sidebar"
+        },
+        {
+          "value": "no_sidebar",
+          "label": "No sidebar"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Posts settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "post_show_author",
+      "label": "Show author",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "post_show_tag",
+      "label": "Show Tag",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "post_show_date",
+      "label": "Show publised date",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "post_show_excerpt",
+      "label": "Show excerpt",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "post_show_button",
+      "label": "Show read more",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "author_info",
+      "name": "Author info",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "About me"
+        },
+        {
+          "type": "url",
+          "id": "author_link",
+          "label": "Author link"
+        },
+        {
+          "type": "image_picker",
+          "id": "author_avatar",
+          "label": "Author avatar",
+          "info": "Upload image: png, jpg or gif file (240 x 260px recommended)"
+        },
+        {
+          "type": "text",
+          "id": "author_name",
+          "label": "Author name",
+          "default": "Ravi O'Leigh"
+        },
+        {
+          "type": "text",
+          "id": "author_designation",
+          "label": "Author designation",
+          "default": "CEO & Founder"
+        },
+        {
+          "type": "text",
+          "id": "author_bio",
+          "label": "Author Bio"
+        },
+        {
+          "type": "image_picker",
+          "id": "author_signature",
+          "label": "Author signature",
+          "info": "Upload image: png, jpg or gif file (130 x 40px recommended)"
+        }
+      ]
+    },
+    {
+      "type": "categories",
+      "name": "Categories",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Blog Category"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Select Menu"
+        }
+      ]
+    },
+    {
+      "type": "tags",
+      "name": "Tags",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Tags"
+        }
+      ]
+    },
+    {
+      "type": "recent_post",
+      "name": "Recent post",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Recent Post"
+        },
+        {
+          "type": "range",
+          "id": "maximum",
+          "label": "Maximum to show",
+          "min": 1,
+          "max": 8,
+          "step": 1,
+          "default": 3
+        },
+        {
+          "type": "select",
+          "id": "aspect_ratio",
+          "label": "Aspect ratio",
+          "default": "original",
+          "options": [
+            {
+              "value": "original",
+              "label": "Original aspect ratio"
+            },
+            {
+              "value": "16/9",
+              "label": "16:9"
+            },
+            {
+              "value": "3/4",
+              "label": "3:4"
+            },
+            {
+              "value": "4/3",
+              "label": "4:3"
+            },
+            {
+              "value": "1/1",
+              "label": "1:1"
+            },
+            {
+              "value": "custom",
+              "label": "Custom"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "custom_ratio",
+          "label": "Custom ratio",
+          "default": "21:9"
+        }
+      ]
+    },
+    {
+      "type": "image_banner",
+      "name": "Image Banner",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image Banner",
+          "info": "Upload image: png, jpg or gif file (270 x 400px recommended)"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_link",
+          "label": "Open link in new window",
+          "default": false
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

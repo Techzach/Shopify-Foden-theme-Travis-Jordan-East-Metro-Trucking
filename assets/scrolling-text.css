@@ -1,0 +1,69 @@
+.tps__page-scrolling-content>*,
+.tps__product-text-scrolling>* {
+    animation: ticker var(--text-time, 15s) infinite linear;
+    flex-shrink: 0;
+}
+
+.tps__page-scrolling-content a,
+.tps__page-scrolling-content .tps__banner-text-scrolling,
+.tps__product-text-scrolling .tps__product-text-scrolling-content
+{
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    color: var(--s-text-color);
+    font-weight: var(--text-font-weight);
+    font-size: var(--text-font-size);
+}
+@media (min-width: 992px){
+    .tps__page-scrolling-content .tps__banner-text-scrolling{
+        font-size: var(--text-font-size);
+    }
+}
+@media (max-width: 991px){
+.tps__page-scrolling-content .tps__banner-text-scrolling{
+    font-size: 3.6rem;
+}
+}
+
+.tps__page-scrolling-content a .scroll-line ,
+.tps__page-scrolling-content .tps__banner-text-scrolling .scroll-line,
+.tps__product-text-scrolling .tps__product-text-scrolling-content .scroll-line {
+    margin: 0 var(--text-spacing);
+    margin-top: -3px;
+}
+
+.tps__page-scrolling-content a .scroll-line svg,
+.tps__page-scrolling-content .tps__banner-text-scrolling .scroll-line svg
+ {
+    fill: var(--s-text-color);
+    stroke: var(--s-text-color);
+}
+
+.tps__page-scrolling-content:hover>* {
+    animation-play-state: paused;
+}
+
+.tps__banner-text-scrolling .scroll-line{
+    display: inline-flex;
+    align-items: center;
+}
+
+.tps__banner-text-scrolling{
+    text-transform: uppercase;
+}
+.tps__banner-text-scrolling--content{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+.tps__page-scrolling-content .tps__banner-text-scrolling:nth-child(even){
+    color: transparent;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: var(--s-text-color);
+}
+.tps__product-text-scrolling {
+    background-color: var(--bg-text-sale-scrolling);
+    padding: 0.5rem 0;
+}

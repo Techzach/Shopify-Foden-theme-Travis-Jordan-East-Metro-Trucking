@@ -1,0 +1,233 @@
+{%- liquid
+  assign st = section.settings
+  assign container = st.container
+-%}
+
+{%- if st.layout == 'layout-1' -%}
+  <div class="tp-instagram-area pb-70">
+    <div class="{{ container }}">
+      <div class="row row-cols-lg-5 row-cols-md-3 row-cols-sm-2 row-cols-1">
+        {%- for block in section.blocks -%}
+          <div class="col">
+            <div class="tp-instagram-item p-relative z-index-1 fix mb-30 w-img">
+              {% if block.settings.ig_up_image != blank -%}
+                {% comment %} {{ block.settings.ig_up_image | image_url | img_tag: 'tps_instagram-image' }} {% endcomment %}
+                <img
+                  src="{{ block.settings.ig_up_image | image_url }}"
+                  alt="Instagram Image"
+                  class="tps_instagram-image"
+                  width="auto"
+                  height="auto"
+                >
+              {%- else -%}
+                {{ 'image' | placeholder_svg_tag: 'custom_slider_placeholder_shape_image tp-slider-shape-1' }}
+              {%- endif -%}
+              {%- if block.settings.ig_up_image != blank -%}
+                <div class="tp-instagram-icon">
+                  <a href="{{ block.settings.ig_up_image | image_url }}" class="popup-image"
+                    ><i class="fa-brands fa-instagram"></i
+                  ></a>
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+
+{%- elsif st.layout == 'layout-2' -%}
+  <section class="tp-instagram-area">
+    <div class="{{ container }} pl-20 pr-20">
+      <div class="row row-cols-lg-5 row-cols-sm-2 row-cols-1 gx-2 gy-2 gy-lg-0">
+        {%- for block in section.blocks -%}
+          <div class="col">
+            <div class="tp-instagram-item-2 w-img">
+              {% if block.settings.ig_up_image != blank -%}
+                {{ block.settings.ig_up_image | image_url | img_tag: 'tps_instagram-image' }}
+              {%- else -%}
+                {{ 'image' | placeholder_svg_tag: 'custom_slider_placeholder_shape_image tp-slider-shape-1' }}
+              {%- endif -%}
+              {%- if block.settings.ig_up_image != blank -%}
+                <div class="tp-instagram-icon-2">
+                  <a href="{{ block.settings.ig_up_image | image_url }}" class="popup-image"
+                    ><i class="fa-brands fa-instagram"></i
+                  ></a>
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+{%- elsif st.layout == 'layout-3' -%}
+  <section class="tp-instagram-area tp-instagram-style-3">
+    <div class="{{ container }} pl-20 pr-20">
+      <div class="row row-cols-lg-6 row-cols-sm-2 row-cols-1 gx-2 gy-2 gy-lg-0">
+        {%- for block in section.blocks -%}
+          <div class="col">
+            <div class="tp-instagram-item-2 w-img">
+              {% if block.settings.ig_up_image != blank -%}
+                {{ block.settings.ig_up_image | image_url | img_tag: 'tps_instagram-image' }}
+              {%- else -%}
+                {{ 'image' | placeholder_svg_tag: 'custom_slider_placeholder_shape_image tp-slider-shape-1' }}
+              {%- endif -%}
+
+              {%- if block.settings.ig_up_image != blank -%}
+                <div class="tp-instagram-icon-2">
+                  <a href="{{ block.settings.ig_up_image | image_url }}" class="popup-image"
+                    ><i class="fa-brands fa-instagram"></i
+                  ></a>
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+{%- elsif st.layout == 'layout-4' -%}
+  <section class="tp-instagram-area tp-instagram-style-4 pt-110 pb-10">
+    <div class="{{ container }} pl-20 pr-20">
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="tp-section-title-wrapper-4 mb-50 text-center">
+            <h3 class="tp-section-title-4">{{ st.title }}</h3>
+            <p>{{ st.subtitle }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="row row-cols-lg-6 row-cols-sm-2 row-cols-1 gx-2 gy-2 gy-lg-0">
+        {%- for block in section.blocks -%}
+          <div class="col">
+            <div class="tp-instagram-item-2 w-img">
+              {% if block.settings.ig_up_image != blank -%}
+                {{ block.settings.ig_up_image | image_url | img_tag: 'tps_instagram-image' }}
+              {%- else -%}
+                {{ 'image' | placeholder_svg_tag: 'custom_slider_placeholder_shape_image tp-slider-shape-1' }}
+              {%- endif -%}
+
+              {%- if block.settings.ig_up_image != blank -%}
+                <div class="tp-instagram-icon-2">
+                  <a href="{{ block.settings.ig_up_image | image_url }}" class="popup-image"
+                    ><i class="fa-brands fa-instagram"></i
+                  ></a>
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Instagram",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Trends on image feed",
+      "info": "This title displayed on the Layout 4 "
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Follow us on Instagram",
+      "info": "This subtitle displayed on the Layout 4 "
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "layout-1",
+          "label": "Layout 1"
+        },
+        {
+          "value": "layout-2",
+          "label": "Layout 2"
+        },
+        {
+          "value": "layout-3",
+          "label": "Layout 3"
+        },
+        {
+          "value": "layout-4",
+          "label": "Layout 4"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Container",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Fixed"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Full width"
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "ig_img_local",
+      "name": "Instagram upload manual",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "ig_up_image",
+          "label": "Image",
+          "info": "224 x 240px recommended"
+        },
+        {
+          "type": "url",
+          "id": "ig_link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Instagram",
+      "blocks": [
+        {
+          "type": "ig_img_local"
+        },
+        {
+          "type": "ig_img_local"
+        },
+        {
+          "type": "ig_img_local"
+        },
+        {
+          "type": "ig_img_local"
+        },
+        {
+          "type": "ig_img_local"
+        },
+        {
+          "type": "ig_img_local"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,903 @@
+{%- liquid
+  assign th_st = settings
+  assign show_my_account = section.settings.show_my_account
+  assign product_style = th_st.product_style
+-%}
+
+
+{%- if section.blocks.size > 0 -%}
+  <div class="main-menu menu-style-3 p-relative d-flex align-items-center justify-content-center">
+    <nav
+      class="tp-main-menu-content"
+      data-width-sub-center="{{ section.settings.width_sub_menu_center }}"
+      data-action-mobile="{{ section.settings.menu_mb_action }}">
+      <ul>
+        {%- assign splits_main = 1 -%}
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign block_st = block.settings
+
+            assign menu_custom_width = ''
+            if block_st.custom_width > 1000
+              assign menu_custom_width = 'menu-custom-width-center'
+            endif
+          -%}
+          {%- capture menuLevel0 -%}
+              {%- liquid
+                  assign width = block_st.width
+                  assign label = block_st.label
+                  assign icon_image = block_st.icon_image
+                  assign icon_font = block_st.icon_font
+                  assign label_bg = label | split: 'label' | last | prepend: "label_color_"
+              -%}
+              <a
+                class="{% if block_st.url == blank %}not-links {% endif %}"
+                {%- if block_st.url != blank -%} href="{{ block_st.url }}"{%- else -%}role="link"{%- endif -%}
+                {% if block_st.open_link != blank %}
+                target="_blank"
+                {% endif %}>
+                {%- if icon_image != blank -%}
+                  {%- liquid
+                      assign icon_width = block_st.icon_width_image
+                      assign icon_height = icon_width | divided_by: icon_image.aspect_ratio | round
+                  -%}
+                  <img
+                    loading="lazy"
+                    class="menu-thumb-icon mr-10"
+                    src="{{ icon_image | image_url: width: icon_width }}"
+                    alt="{{ block_st.title }}"
+                    width="{{ icon_width }}"
+                    height="{{ icon_height }}" />
+                {%- elsif icon_font != blank -%}
+                  <em
+                    class="mr-10 menu-thumb-icon {{ icon_font }}"></em>
+                {%- endif- %}
+                {{ block_st.title }}
+                {%- if label != blank -%}
+                  <span
+                    class="label {{label}} fw-500 px-6 d-inline-block"
+                    style="--navigation-bg-label:{{ section.settings[label_bg] }};">{{ section.settings[label] }}
+                  </span>
+                {%- endif -%}
+              </a>
+              {%- if block.type != 'single_link' -%}
+                <div
+                  class="open-children-toggle"></div>
+              {%- endif -%}
+            {%- endcapture -%}
+          {%- case block.type -%}
+            {%- when 'menu_item' -%}
+              {%- if block_st.title != blank -%}
+                <li class="has-dropdown has-mega-menu menu-width-{{ block_st.width }}" {{ block.shopify_attributes }}>{{ menuLevel0 }}
+                  <div class="shop-mega-menu tp-submenu tp-mega-menu">
+                    <div class="row row-cols-1 row-cols-lg-4 row-cols-xl-5">
+                        {%- render 'menu-splits'
+                          , count_menu_item: splits_main -%}
+                        {%- assign splits_main = splits_main | plus: 1 -%}
+                      </div>
+                  </div>
+                </li>
+              {%- endif -%}
+            {%- when 'advanced' -%}
+              {%- if block_st.title != blank -%}
+                <li class="level0 tps__menu-parent advanced menu-width-{{ block_st.width }}" {{ block.shopify_attributes }}>{{ menuLevel0 }}
+                  <div class="submenu absolute {{ menu_custom_width }}" style="--submenu-custom-width:{{ block_st.custom_width }}px;">
+                    {%- if width == 'full-width' -%}
+                      <div class="container-fluid">
+                    {%- endif -%}
+                    <ul class="submenu-wrapper p-0 list-none d-flex">
+                      <li class="fw-600 submenu-mobile-title justify-content-between">
+                        <a role="link" class="back-main-menu pointer">
+                          <i class="icon-chevron-left"></i>
+                          {%- if block_st.title != blank %}
+                            {{ block_st.title }}
+                          {%- else -%}
+                            {{ menu_title }}
+                          {%- endif -%}
+                        </a>
+                        <i class="icon-x close-menu pointer"></i>
+                      </li>
+                      <li class="advanced-main">
+                        {%- for link in linklists[block.settings.menu].links -%}
+                          <a
+                            href="{{ link.url }}"
+                            class="py-10 d-block site-nav level-1{%- if link.links != blank -%} hasSub{%- endif -%}"
+                            data-link="{{ block.id }}-nv{{ link.title | handleize }}">
+                            {{ link.title | split: '[label' | first }}
+                          </a>
+                        {%- endfor -%}
+                      </li>
+                      <li class="advanced-content level-1 flex-fill">
+                        {% for link in linklists[block_st.menu].links %}
+                          {% assign index = forloop.index %}
+                          <div id="{{ block.id }}-nv{{ link.title | handleize }}" class="sub{% if forloop.first %} active{% endif %}">
+
+                            {%- liquid
+                              assign label1 = link.title | split: '[label' | last | split: ']' | first | prepend: "label"
+                              assign label_bg1 = label1 | split: 'label' | last | prepend: "label_color_"
+                            -%}
+                            <a href="{{ link.url }}" class="py-10 d-block site-nav level-1 d-xl-none">
+                              {{ link.title | split: '[label' | first }}
+                              {%- if link.title contains '[label' -%}
+                                <span class="px-6 d-inline-block label {{ label1 }}" style="--navigation-bg-label:{{ section.settings[label_bg1] }};">{{ section.settings[label1] }}</span>
+                              {%- endif -%}
+                            </a>
+                            {%- if link.links != blank -%}
+                              <div class="open-children-toggle" data-menu-level2></div>
+                            {%- endif -%}
+                            <div class="d-flex">
+                              {%- if link.links != blank -%}
+                                <ul class="subchildmenu subLinks p-0 list-none flex-fill">
+                                  <li class="fw-600 submenu-mobile-title justify-content-between">
+                                    <a role="link" class="back-main-menu-lv1 pointer">
+                                      <i class="icon-chevron-left"></i>
+                                      {{ link.title }}
+                                    </a>
+                                    <i class="icon-x close-menu pointer"></i>
+                                  </li>
+                                  <li class="level-2{%- if childlink.active or childlink.child_active -%} active{% endif %}" style="column-count:{{ block_st.columns }};">
+                                    {%- for childlink in link.links -%}
+                                      {%- liquid
+                                        assign label2 = childlink.title | split: '[label' | last | split: ']' | first | prepend: "label"
+                                        assign label_bg2 = label2 | split: 'label' | last | prepend: "label_color_"
+                                      -%}
+                                      <a href="{{ childlink.url }}" class="site-nav level-2">
+                                        {{ childlink.title | split: '[label' | first }}
+                                        {%- if childlink.title contains '[label' -%}
+                                          <span class="px-6 d-inline-block label {{ label2 }}" style="--navigation-bg-label:{{ section.settings[label_bg2] }};">{{ section.settings[label2] }}</span>
+                                        {%- endif -%}
+                                      </a>
+                                    {%- endfor -%}
+                                  </li>
+                                </ul>
+                              {%- endif -%}
+                              {% liquid
+                                assign collection_index = 'collection' | append: index
+                                assign lkclect = block_st[collection_index]
+                                assign collection = collections[lkclect]
+                                assign show_item = block.settings.show_item
+                              %}
+
+                              {%- if collection.products.size > 0 -%}
+                                <div class="level-1 type-memu-product" style="width:{{ block_st.column_width }}%">
+                                  <div class="products-grid tps__grid {{ product_style }}">
+                                    <div
+                                      class="swiper tps__swiper hover__show-nav"
+                                      id="tps__swiper-{{ section.id }}"
+                                      data-section-id="{{ section.id }}"
+                                      data-mobile="1"
+                                      data-tablet="1"
+                                      data-desktop="{{ show_item }}"
+                                      data-autoplay="false"
+                                      data-loop="false"
+                                      data-spacing="30">
+                                      <div class="swiper-wrapper">
+                                        {%- for product in collection.products limit: block_st.limit -%}
+                                          <div class="swiper-slide">
+                                            {%- render 'product-item'
+                                              , product: product -%}
+                                          </div>
+                                        {%- endfor -%}
+                                      </div>
+                                      {%- render 'swiper-control'
+                                        , show_bullet: false
+                                        , show_arrow: true -%}
+                                    </div>
+                                  </div>
+                                </div>
+                              {%- endif -%}
+                            </div>
+                          </div>
+                        {% endfor %}
+                      </li>
+                    </ul>
+                    {%- if width == 'full-width' -%}
+                      </div>
+                    {%- endif -%}
+                  </div>
+                </li>
+              {%- endif -%}
+            {%- when 'dropdown' -%}
+              {%- if block_st.title != blank -%}
+                <li class="level0 has-dropdown" {{ block.shopify_attributes }}>
+                  {{ menuLevel0 }}
+                  {%- if linklists[block_st.menu].links.size > 0 -%}
+
+                    <ul class="tp-submenu">
+                      {%- render 'menu-dropdown'
+                        , handle_menu: block_st.menu -%}
+                    </ul>
+                  {%- endif -%}
+                </li>
+              {%- endif -%}
+            {%- when 'single_link' -%}
+              <li>{{ menuLevel0 }}</li>
+          {%- endcase -%}
+        {%- endfor -%}
+      </ul>
+      {%- if show_my_account -%}
+        <div class="tps__customer-accounts px-25 text-center pb-30 mt-auto">
+          <div class="accounts">
+            {% if customer %}
+              <a href="{{ routes.account_url }}" class="account-url btn-primary mb-10">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 17 17"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path d="M16.8927 15.7682C16.0329 14.3137 14.8061 13.1078 13.3338 12.27C11.8614 11.4322 10.1946 10.9914 8.49845 10.9914C6.80225 10.9914 5.13546 11.4322 3.66314 12.27C2.19082 13.1078 0.964024 14.3137 0.104236 15.7682C-0.00102398 15.9568 -0.027822 16.179 0.0295835 16.387C0.0566587 16.493 0.106188 16.592 0.174854 16.6774C0.243521 16.7627 0.329737 16.8325 0.427728 16.8821C0.554141 16.9534 0.697158 16.9903 0.842462 16.9894C0.986554 16.9954 1.12952 16.9616 1.25545 16.8917C1.38138 16.8218 1.48536 16.7185 1.5558 16.5933C2.26752 15.3886 3.2833 14.3898 4.50251 13.6958C5.72172 13.0018 7.10204 12.6367 8.50674 12.6367C9.91144 12.6367 11.2918 13.0018 12.511 13.6958C13.7302 14.3898 14.746 15.3886 15.4577 16.5933C15.5685 16.7806 15.7491 16.9169 15.9603 16.9725C16.1715 17.0281 16.3963 16.9986 16.5858 16.8903C16.6801 16.8403 16.7628 16.7711 16.8285 16.6872C16.8943 16.6034 16.9415 16.5067 16.9673 16.4035C16.998 16.298 17.0072 16.1874 16.9944 16.0783C16.9816 15.9692 16.947 15.8638 16.8927 15.7682Z" />
+                  <path d="M8.49966 10.2C9.83622 10.2002 11.1195 9.67091 12.0732 8.72594C13.027 7.78097 13.5752 6.49588 13.5997 5.14718C13.5997 3.78206 13.0623 2.47286 12.1059 1.50757C11.1495 0.542291 9.85226 0 8.49966 0C7.14705 0 5.84985 0.542291 4.89341 1.50757C3.93698 2.47286 3.39966 3.78206 3.39966 5.14718C3.42416 6.49588 3.97228 7.78097 4.92607 8.72594C5.87987 9.67091 7.1631 10.2002 8.49966 10.2ZM5.09966 5.14718C5.09966 4.2371 5.45787 3.3643 6.09549 2.72078C6.73312 2.07725 7.59792 1.71573 8.49966 1.71573C9.40139 1.71573 10.2662 2.07725 10.9038 2.72078C11.5414 3.3643 11.8997 4.2371 11.8997 5.14718C11.8997 6.05726 11.5414 6.93006 10.9038 7.57359C10.2662 8.21711 9.40139 8.57864 8.49966 8.57864C7.59792 8.57864 6.73312 8.21711 6.09549 7.57359C5.45787 6.93006 5.09966 6.05726 5.09966 5.14718Z" />
+                </svg>
+                <span class="px-10">{{ customer.first_name }}</span>
+              </a>
+              <a href="/account/logout" class="account-logout btn-secondary">{{ 'customer.log_out' | t }}</a>
+            {% else %}
+              <a href="/account/login" class="account-login btn-primary mb-10">{{ 'customer.log_in' | t }}</a>
+              <a href="/account/register" class="account-register btn-secondary">{{ 'customer.register.title' | t }}</a>
+            {% endif %}
+          </div>
+        </div>
+      {%- endif -%}
+    </nav>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Main menu",
+  "tag": "section",
+  "class": "tps_main_menu",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_my_account",
+      "label": "Show my account",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "label_color_1",
+      "label": "Hot label background color"
+    },
+    {
+      "type": "text",
+      "id": "label2",
+      "label": "New label",
+      "default": "New"
+    },
+    {
+      "type": "color",
+      "id": "label_color_2",
+      "label": "New label background color"
+    },
+    {
+      "type": "text",
+      "id": "label3",
+      "label": "Sale label",
+      "default": "Sale"
+    },
+    {
+      "type": "color",
+      "id": "label_color_3",
+      "label": "Sale label background color"
+    },
+    {
+      "type": "number",
+      "id": "width_sub_menu_center",
+      "label": "Caculate submenu to center position from",
+      "default": 800
+    },
+    {
+      "type": "header",
+      "content": "Action menu mobile"
+    },
+    {
+      "type": "checkbox",
+      "id": "menu_mb_action",
+      "label": "Click menu title redirect page",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu_item",
+      "name": "Multi-Column (Parent)",
+      "limit": 10,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Multi-Column"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Icon image",
+          "info": "Upload image: png, jpg or gif file"
+        },
+        {
+          "type": "range",
+          "id": "icon_width_image",
+          "label": "Icon image width",
+          "min": 10,
+          "max": 50,
+          "step": 5,
+          "unit": "px",
+          "default": 20
+        }
+      ]
+    },
+    {
+      "type": "link",
+      "name": "Link list (Multi child)",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "This block is only used for Multi column parent."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_link",
+          "label": "Open link in new window",
+          "default": false
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Add menu"
+        },
+        {
+          "type": "select",
+          "id": "col",
+          "default": "4",
+          "options": [
+            {
+              "value": "2",
+              "label": "16%"
+            },
+            {
+              "value": "3",
+              "label": "25%"
+            },
+            {
+              "value": "4",
+              "label": "33%"
+            },
+            {
+              "value": "5",
+              "label": "42%"
+            },
+            {
+              "value": "6",
+              "label": "50%"
+            },
+            {
+              "value": "7",
+              "label": "58%"
+            },
+            {
+              "value": "8",
+              "label": "66%"
+            },
+            {
+              "value": "9",
+              "label": "75%"
+            },
+            {
+              "value": "10",
+              "label": "84%"
+            },
+            {
+              "value": "12",
+              "label": "100%"
+            }
+          ],
+          "label": "Width col:"
+        }
+      ]
+    },
+    {
+      "type": "products",
+      "name": "Product (Multi-col child)",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "This block is only used for Multi column parent."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Product"
+        },
+        {
+          "id": "collection",
+          "type": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "range",
+          "id": "limit",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Maximum products to show",
+          "default": 3
+        },
+        {
+          "type": "range",
+          "id": "show_item",
+          "min": 1,
+          "max": 4,
+          "step": 1,
+          "label": "Columns per row",
+          "default": 1
+        },
+        {
+          "type": "select",
+          "id": "col",
+          "default": "4",
+          "options": [
+            {
+              "value": "2",
+              "label": "16%"
+            },
+            {
+              "value": "3",
+              "label": "25%"
+            },
+            {
+              "value": "4",
+              "label": "33%"
+            },
+            {
+              "value": "5",
+              "label": "42%"
+            },
+            {
+              "value": "6",
+              "label": "50%"
+            },
+            {
+              "value": "7",
+              "label": "58%"
+            },
+            {
+              "value": "8",
+              "label": "66%"
+            },
+            {
+              "value": "9",
+              "label": "75%"
+            },
+            {
+              "value": "10",
+              "label": "84%"
+            },
+            {
+              "value": "12",
+              "label": "100%"
+            }
+          ],
+          "label": "Width col:"
+        }
+      ]
+    },
+    {
+      "type": "collection",
+      "name": "Collection (Multi child)",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "This block is only used for Multi column parent."
+        },
+        {
+          "id": "collection",
+          "type": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Collection image"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_count",
+          "label": "Show count",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "open_link",
+          "label": "Open link in new window",
+          "default": false
+        },
+        {
+          "type": "select",
+          "id": "col",
+          "default": "4",
+          "options": [
+            {
+              "value": "2",
+              "label": "16%"
+            },
+            {
+              "value": "3",
+              "label": "25%"
+            },
+            {
+              "value": "4",
+              "label": "33%"
+            },
+            {
+              "value": "5",
+              "label": "42%"
+            },
+            {
+              "value": "6",
+              "label": "50%"
+            },
+            {
+              "value": "7",
+              "label": "58%"
+            },
+            {
+              "value": "8",
+              "label": "66%"
+            },
+            {
+              "value": "9",
+              "label": "75%"
+            },
+            {
+              "value": "10",
+              "label": "84%"
+            },
+            {
+              "value": "12",
+              "label": "100%"
+            }
+          ],
+          "label": "Width col:"
+        }
+      ]
+    },
+    {
+      "type": "banner",
+      "name": "Banner (Multi-col child)",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "This block is only used for Multi column parent."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Heading"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Description",
+          "default": "Description"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image item",
+          "info": "350 x 450px recommended"
+        },
+        {
+          "type": "text",
+          "id": "button_title",
+          "label": "Button Text"
+        },
+        {
+          "type": "url",
+          "id": "banner_link",
+          "label": "Banner link"
+        },
+        {
+          "type": "select",
+          "id": "col",
+          "default": "4",
+          "options": [
+            {
+              "value": "2",
+              "label": "16%"
+            },
+            {
+              "value": "2-5",
+              "label": "20%"
+            },
+            {
+              "value": "3",
+              "label": "25%"
+            },
+            {
+              "value": "4",
+              "label": "33%"
+            },
+            {
+              "value": "5",
+              "label": "42%"
+            },
+            {
+              "value": "6",
+              "label": "50%"
+            },
+            {
+              "value": "7",
+              "label": "58%"
+            },
+            {
+              "value": "8",
+              "label": "66%"
+            },
+            {
+              "value": "9",
+              "label": "75%"
+            },
+            {
+              "value": "12",
+              "label": "100%"
+            }
+          ],
+          "label": "Width col:"
+        }
+      ]
+    },
+    {
+      "type": "advanced",
+      "name": "Advanced Menu",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Advanced"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Select menu",
+          "default": "main-menu"
+        },
+        {
+          "type": "range",
+          "id": "columns",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Select columns",
+          "default": 2
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Icon image",
+          "info": "Upload image: png, jpg or gif file"
+        },
+        {
+          "type": "range",
+          "id": "icon_width_image",
+          "label": "Icon image width",
+          "min": 20,
+          "max": 100,
+          "step": 5,
+          "unit": "px",
+          "default": 50
+        },
+        {
+          "type": "header",
+          "content": "Sub menu"
+        },
+        {
+          "type": "select",
+          "id": "width",
+          "default": "full-width",
+          "options": [
+            {
+              "value": "custom",
+              "label": "Custom"
+            },
+            {
+              "value": "full-width",
+              "label": "Full width"
+            }
+          ],
+          "label": "Width submenu"
+        },
+        {
+          "type": "range",
+          "id": "custom_width",
+          "label": "Custom width",
+          "min": 350,
+          "max": 1200,
+          "step": 50,
+          "unit": "px",
+          "default": 1200
+        },
+        {
+          "type": "header",
+          "content": "Products block"
+        },
+        {
+          "type": "collection",
+          "id": "collection1",
+          "label": "Link 1 collection"
+        },
+        {
+          "type": "collection",
+          "id": "collection2",
+          "label": "Link 2 collection"
+        },
+        {
+          "type": "collection",
+          "id": "collection3",
+          "label": "Link 3 collection"
+        },
+        {
+          "type": "collection",
+          "id": "collection4",
+          "label": "Link 4 collection"
+        },
+        {
+          "type": "collection",
+          "id": "collection5",
+          "label": "Link 5 collection"
+        },
+        {
+          "type": "collection",
+          "id": "collection6",
+          "label": "Link 6 collection"
+        },
+        {
+          "type": "collection",
+          "id": "collection7",
+          "label": "Link 7 collection"
+        },
+        {
+          "type": "collection",
+          "id": "collection8",
+          "label": "Link 8 collection"
+        },
+        {
+          "type": "collection",
+          "id": "collection9",
+          "label": "Link 9 collection"
+        },
+        {
+          "type": "collection",
+          "id": "collection10",
+          "label": "Link 10 collection"
+        },
+        {
+          "type": "range",
+          "id": "limit",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Number of product to show",
+          "default": 3
+        },
+        {
+          "type": "range",
+          "id": "show_item",
+          "min": 1,
+          "max": 4,
+          "step": 1,
+          "label": "Columns per row",
+          "default": 2
+        },
+        {
+          "type": "range",
+          "id": "column_width",
+          "label": "Column width",
+          "min": 30,
+          "max": 100,
+          "step": 5,
+          "unit": "%",
+          "default": 50
+        }
+      ]
+    },
+    {
+      "type": "dropdown",
+      "name": "Dropdown menu (Parent)",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Dropdown"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Select menu",
+          "default": "main-menu"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Icon image",
+          "info": "Upload image: png, jpg or gif file"
+        },
+        {
+          "type": "range",
+          "id": "icon_width_image",
+          "label": "Icon image width",
+          "min": 20,
+          "max": 100,
+          "step": 5,
+          "unit": "px",
+          "default": 50
+        }
+      ]
+    },
+    {
+      "type": "single_link",
+      "name": "Single Link",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Single link"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Icon image",
+          "info": "Upload image: png, jpg or gif file"
+        },
+        {
+          "type": "range",
+          "id": "icon_width_image",
+          "label": "Icon image width",
+          "min": 20,
+          "max": 50,
+          "step": 5,
+          "unit": "px",
+          "default": 50
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

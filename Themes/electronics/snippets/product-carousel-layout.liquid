@@ -1,0 +1,56 @@
+{%- liquid
+  assign cls = st.collection
+  if bl != blank
+    assign cls = bl
+  endif
+  assign item_desktop = st.item_desktop
+  assign limit_products = st.limit_products | plus: 0
+  assign carousel_autoplay = st.carousel_autoplay
+  assign carousel_loop = st.carousel_loop
+  assign show_bullet_mobile = st.show_bullet_mobile
+  assign carousel_bullets = st.carousel_bullets
+  assign carousel_pagination_progress = st.carousel_pagination_progress
+-%}
+
+<div
+  class="tp-product-arrival-active swiper-container"
+  id="tp-product-arrival-active-{{ section.id }}"
+  data-section-id="{{ section.id }}"
+  data-autoplay="{{ carousel_autoplay }}"
+  data-loop="{{ carousel_loop }}"
+  data-mobile="2"
+  data-tablet="3"
+  data-desktop="{{ item_desktop }}"
+  data-pagination-progressbar="{{ carousel_pagination_progress }}"
+  data-show-bullet-mobile="{{ show_bullet_mobile }}"
+  data-carousel-bullets="{{ carousel_bullets }}">
+  {%- assign collection = collections[cls] -%}
+  <div class="swiper-wrapper">
+    {%- if collection.products.size == 0 -%}
+      {%- for i in (1..limit_products) -%}
+        <div class="tp-product-item transition-3 mb-25 swiper-slide">
+          <div class="tp-product-thumb p-relative fix m-img">
+            {%- render 'responsive-image' | type: 'product' | cls: 'product_placeholder_class' -%}
+          </div>
+          <div class="tp-product-content">
+            <h6 class="product-title mb-15">
+              <a role="link" aria-disabled="true">{{ 'products.product.product_placeholder' | t }}</a>
+            </h6>
+            <div class="tp-product-price-wrapper mb-15">
+              <span class="tp-product-price new-price">$100.00</span>
+              <span class="tp-product-price old-price">$120.00</span>
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    {%- else -%}
+      {%- for product in collection.products limit: limit_products -%}
+        {%- if product.available -%}
+        {%- endif -%}
+        <div class="swiper-slide">
+          {%- render 'product-item' | product: product, product_item: "tp-product-item" -%}
+        </div>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+</div>

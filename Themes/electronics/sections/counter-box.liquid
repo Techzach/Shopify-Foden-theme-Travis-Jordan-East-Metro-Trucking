@@ -1,0 +1,115 @@
+{%- liquid
+  assign blocks = section.blocks
+
+-%}
+<section class="tp-counter-area pb-100">
+  <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-xl-10">
+            <div class="tp-counter-wrapper d-flex flex-wrap justify-content-between">
+              {%- for block in blocks -%}
+                <div class="tp-counter-item d-flex align-items-start mb-30">
+                    <div class="tp-counter-icon mr-15">
+                      {%- if block.settings.icon != blank -%}
+                        <img src="{{ block.settings.icon | image_url }}" alt="{{ block.settings.icon.alt | escape }}" />
+                      {%- else -%}
+                        <span>
+                        {{ block.settings.svg_icon }}
+                        </span>
+                      {%- endif -%}
+                    </div>
+                    <div class="tp-counter-content">
+                      <h4><span class="purecounter" data-purecounter-duration="1" data-purecounter-end="{{ block.settings.precounter }}">{{ block.settings.precounter }}</span>{{ block.settings.postcounterafter }}</h4>
+                      <p>{{ block.settings.heading }}</p>
+                    </div>
+                </div>
+              {%- endfor -%}
+            </div>
+        </div>
+      </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Counter box",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section header"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "iconbox",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Image",
+          "info": "42 x 42px recommended"
+        },
+        {
+          "type": "textarea",
+          "id": "svg_icon",
+          "label": "Svg Icon"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "This is heading text"
+        },
+        {
+          "type": "number",
+          "id": "precounter",
+          "label": "Pre Counter",
+          "default": 20
+        },
+        {
+          "type": "text",
+          "id": "postcounterafter",
+          "label": "Post Counter After",
+          "default": "+"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Counter box",
+      "blocks": [
+        {
+          "type": "iconbox",
+          "settings": {
+            "heading": "Happy Customers",
+            "precounter": 750
+          }
+        },
+        {
+          "type": "iconbox",
+          "settings": {
+            "heading": "Founding Year",
+            "precounter": 2016
+          }
+        },
+        {
+          "type": "iconbox",
+          "settings": {
+            "heading": "Product Orders",
+            "precounter": 120
+          }
+        },
+        {
+          "type": "iconbox",
+          "settings": {
+            "heading": "Quality Products",
+            "precounter": 60
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,253 @@
+{%- liquid
+  assign st = section.settings
+-%}
+<section class="tp-slider-area p-relative z-index-1 fix">
+  <div class="tp-slider-active-5s swiper-containers">
+    <div class="swiper-wrappers">
+      <div
+        class="tp-slider-item-5 scene tp-slider-height-5 swiper-slide d-flex align-items-center"
+        data-bg-color="#F3F3F3"
+      >
+        <div class="tp-slider-shape-5 ">
+          {%- if st.show_shape_1 -%}
+            <div class="tp-slider-shape-5-1">
+              {%- if st.slider_shape_1 -%}
+                <img
+                  data-depth="0.2"
+                  class="layer"
+                  src="{{ st.slider_shape_1 | image_url }}"
+                  alt="{{ st.slider_shape_1.alt }}"
+                  height="{{ st.slider_shape_1.height }}"
+                  width="{{ st.slider_shape_1.width }}"
+                >
+              {%- else -%}
+                {{ 'image' | placeholder_svg_tag: 'custom_slider_5_placeholder_shape_image' }}
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+          {%- if st.show_shape_2 -%}
+            <div class="tp-slider-shape-5-2">
+              {%- if st.slider_shape_2 -%}
+                <img
+                  data-depth="0.2"
+                  class="layer"
+                  src="{{ st.slider_shape_2 | image_url }}"
+                  alt="{{ st.slider_shape_2.alt }}"
+                  height="{{ st.slider_shape_2.height }}"
+                  width="{{ st.slider_shape_2.width }}"
+                >
+              {%- else -%}
+                {{ 'image' | placeholder_svg_tag: 'custom_slider_5_placeholder_shape_image' }}
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+          {%- if st.show_shape_3 -%}
+            <div class="tp-slider-shape-5-3">
+              {%- if st.slider_shape_3 -%}
+                <img
+                  data-depth="0.2"
+                  class="layer"
+                  src="{{ st.slider_shape_3 | image_url }}"
+                  alt="{{ st.slider_shape_3.alt }}"
+                  height="{{ st.slider_shape_3.height }}"
+                  width="{{ st.slider_shape_3.width }}"
+                >
+              {%- else -%}
+                {{ 'image' | placeholder_svg_tag: 'custom_slider_5_placeholder_shape_image' }}
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+          {%- if st.show_shape_4 -%}
+            <div class="tp-slider-shape-5-4">
+              {%- if st.slider_shape_4 -%}
+                <img
+                  data-depth="0.2"
+                  class="layer"
+                  src="{{ st.slider_shape_4 | image_url }}"
+                  alt="{{ st.slider_shape_4.alt }}"
+                  height="{{ st.slider_shape_4.height }}"
+                  width="{{ st.slider_shape_4.width }}"
+                >
+              {%- else -%}
+                {{ 'image' | placeholder_svg_tag: 'custom_slider_5_placeholder_shape_image' }}
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        </div>
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-xxl-7 col-xl-7 col-lg-6">
+              <div class="tp-slider-content-5 p-relative z-index-1">
+                {%- if st.subtitle_image -%}
+                  <div class="tp-slider-subtitle-img">
+                    <img
+                      src="{{ st.subtitle_image | image_url }}"
+                      alt="{{ st.subtitle_image.alt }}"
+                      height="{{ st.subtitle_image.height }}"
+                      width="{{ st.subtitle_image.width }}"
+                    >
+                  </div>
+                {%- endif -%}
+
+                {%- if st.title -%}
+                  <h3 class="tp-slider-title-5">
+                    {{ st.title }}
+                  </h3>
+                {%- endif -%}
+                {%- if st.button_text -%}
+                  <div class="tp-slider-btn-5">
+                    <a href="{{ st.button_url }}" class="tp-btn-green">
+                      {{ st.button_text }}
+                    </a>
+                  </div>
+                {%- endif -%}
+              </div>
+            </div>
+            <div class="col-xxl-5 col-xl-5 col-lg-6">
+              <div class="tp-slider-thumb-wrapper-5 p-relative">
+                {%- if st.show_offer != blank -%}
+                  <div class="tp-slider-thumb-shape-5 one d-none d-sm-block">
+                    <img
+                      data-depth="0.1"
+                      class="layer offer"
+                      src="{{ st.offer | image_url }}"
+                      alt="{{ st.offer.alt }}"
+                      height="{{ st.offer.height }}"
+                      width="{{ st.offer.width }}"
+                    >
+                  </div>
+                {%- else -%}
+                {%- endif -%}
+                {%- if st.show_thumbnail -%}
+                  <div class="tp-slider-thumb-5 main-img">
+                    {%- if st.thumbnail -%}
+                      <img
+                        data-depth="0.2"
+                        class="layer"
+                        src="{{ st.thumbnail | image_url }}"
+                        alt="{{ st.thumbnail.alt }}"
+                        height="{{ st.thumbnail.height }}"
+                        width="{{ st.thumbnail.width }}"
+                      >
+                    {%- else -%}
+                      {{ 'image' | placeholder_svg_tag: 'custom_slider_5_placeholder_image' }}
+                    {%- endif -%}
+                    <span class="tp-slider-thumb-5-gradient"></span>
+                  </div>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Slider 5",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "image_picker",
+      "id": "subtitle_image",
+      "label": "Subtitle Image"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Set Your Title"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button Url"
+    },
+    {
+      "type": "header",
+      "content": "Settings for content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_thumbnail",
+      "label": "Show Thumbnail",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "thumbnail",
+      "label": "Thumbnail"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_offer",
+      "label": "Show Offer",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "offer",
+      "label": "Offer Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shape_1",
+      "label": "Show shape 1",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "slider_shape_1",
+      "label": "Slider shape 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shape_2",
+      "label": "Show shape 2",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "slider_shape_2",
+      "label": "Slider shape 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shape_3",
+      "label": "Show shape 3",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "slider_shape_3",
+      "label": "Slider shape 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shape_4",
+      "label": "Show shape 4",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "slider_shape_4",
+      "label": "Slider shape 4"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Slider 5",
+      "category": "Image"
+    }
+  ]
+}
+{% endschema %}

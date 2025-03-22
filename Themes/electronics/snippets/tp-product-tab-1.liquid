@@ -1,0 +1,164 @@
+<section
+  class="tp-product-area pb-55"
+  style="{{ style | strip | strip_newlines }}"
+  id="{{ section.id }}"
+  data-id="{{ section.id }}"
+>
+  <div class="{{ container }}">
+    <div class="row align-items-end">
+      {%- if heading != blank -%}
+        <div class="col-xl-5 col-lg-6 col-md-5">
+          <div class="tp-section-title-wrapper mb-40">
+            <h3 class="tp-section-title">
+              {{ heading }}
+              <svg
+                width="114"
+                height="35"
+                viewBox="0 0 114 35"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M112 23.275C1.84952 -10.6834 -7.36586 1.48086 7.50443 32.9053"
+                  stroke="currentColor"
+                  stroke-width="4"
+                  stroke-miterlimit="3.8637"
+                  stroke-linecap="round" />
+              </svg>
+            </h3>
+          </div>
+        </div>
+      {%- endif -%}
+      <div class="col-xl-7 col-lg-6 col-md-7">
+        <div class="tp-product-tab tp-product-tab-border mb-45 tp-tab d-flex justify-content-md-end">
+          <ul
+            class="nav nav-tabs justify-content-sm-end"
+            id="productTab"
+            role="tablist"
+          >
+            {%- if blocks.size > 1 -%}
+              {%- for block in blocks -%}
+                {%- liquid
+                  assign tab_name = block.settings.title
+                  assign current_collection = block.settings.collection
+                  assign active = ''
+                  if forloop.first == true
+                    assign active = ' active'
+                  endif
+
+                  if block.settings.title == blank
+                    assign tab_name = 'Tab ' | append: forloop.index
+                    if current_collection != blank
+                      assign tab_name = current_collection.title
+                    endif
+                  endif
+                -%}
+
+                <li class="nav-item" role="presentation">
+                  <button
+                    class="nav-link {{ active }}"
+                    id="{{ current_collection.handle }}"
+                    data-bs-toggle="tab"
+                    data-bs-target="#{{ current_collection.handle }}-pane"
+                    type="button"
+                    role="tab"
+                    aria-controls="{{ current_collection.handle }}-pane"
+                    aria-selected="true"
+                  >
+                    {{ tab_name }}
+                    <span class="tp-product-tab-line">
+                      <svg
+                        width="52"
+                        height="13"
+                        viewBox="0 0 52 13"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M1 8.97127C11.6061 -5.48521 33 3.99996 51 11.4635"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-miterlimit="3.8637"
+                          stroke-linecap="round" />
+                      </svg>
+                    </span>
+                  </button>
+                </li>
+              {%- endfor -%}
+            {%- endif -%}
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-12">
+        {%- if blocks.size > 1 -%}
+          <div class="tp-product-tab-content">
+            <div class="tab-content" id="myTabContent">
+              {%- for block in blocks -%}
+                {%- liquid
+                  assign tab_name = block.settings.title
+                  assign current_collection = block.settings.collection
+                  assign active = ''
+                  if forloop.first == true
+                    assign active = ' active'
+                  endif
+                  assign show = ''
+                  if forloop.first == true
+                    assign show = ' show'
+                  endif
+
+                  if block.settings.title == blank
+                    assign tab_name = 'Tab ' | append: forloop.index
+                    if current_collection != blank
+                      assign tab_name = current_collection.title
+                    endif
+                  endif
+
+                  assign limit_products = st.limit_products | plus: 0
+                  assign collection = collections[current_collection]
+                -%}
+                <div
+                  class="tab-pane fade{{ show }}{{ active }}"
+                  id="{{ current_collection.handle }}-pane"
+                  role="tabpanel"
+                  aria-labelledby="{{ current_collection.handle }}"
+                  tabindex="0"
+                >
+                  <div class="row">
+                    {%- if collection.products.size == 0 -%}
+                      {%- for i in (1..limit_products) -%}
+                        <div class="col-xl-3 col-lg-3 col-sm-6">
+                          <div class="tp-product-item transition-3 mb-25">
+                            <div class="tp-product-thumb p-relative fix m-img">
+                              {%- render 'responsive-image' | type: 'product' | cls: 'product_placeholder_class' -%}
+                            </div>
+                            <div class="tp-product-content">
+                              <h6 class="product-title mb-15">
+                                <a role="link" aria-disabled="true">{{ 'products.product.product_placeholder' | t }}</a>
+                              </h6>
+                              <div class="tp-product-price-wrapper mb-15">
+                                <span class="tp-product-price new-price">$100.00</span>
+                                <span class="tp-product-price old-price">$120.00</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      {%- endfor -%}
+                    {%- else -%}
+                      {%- for product in collection.products limit: limit_products -%}
+                        <div class="col-xl-3 col-lg-3 col-sm-6">
+                          {%- render 'product-item', product: product, product_item: 'tp-product-item' -%}
+                        </div>
+                      {%- endfor -%}
+                    {%- endif -%}
+                  </div>
+                </div>
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,23 @@
+{%- liquid
+  assign enable_sidebar = enable_sidebar
+  assign sidebar_ps = sidebar_ps
+  assign products_column = products_column-%}
+
+<div class="tp-shop-top-right d-sm-flex align-items-center justify-content-xl-end">
+  <div class="tp-shop-top-select">
+    <div class="tp-select-sort-by">
+      <span>Select an option</span>
+      <ul class="facet-filters__sort select__select caption-large  px-20 list-none my-0" id="SortBy">
+        {%- for option in collection.sort_options -%}
+          <li
+            value="{{ option.value | escape }}"
+            {% if option.value == sort_by %}
+            class="selected"
+            {% endif %}>
+            {{ option.name | escape }}
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  </div>
+</div>

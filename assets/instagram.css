@@ -1,0 +1,72 @@
+/* instagram */
+.tps__instagram-item {
+    position: relative;
+    display: block;
+    overflow: hidden;
+}
+
+.ins-rounded {
+    border-radius: 100%;
+}
+
+.ins-radius {
+    border-radius: 10px;
+}
+
+.tps_instagram-image {
+    position: relative;
+    overflow: hidden;
+    transition: var(--tps-transition);
+}
+
+.tps_instagram-image img,
+.tps_instagram-image svg {
+    transition: var(--tps-transition);
+}
+
+.tps__instagram-icon {
+    margin: 0;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%) scale(0.6);
+    transform: translate(-50%, -50%) scale(0.6);
+    transition: var(--tps-transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    z-index: 1;
+    font-size: 0;
+}
+
+.tps__instagram-icon::after {
+    content: "\e99c";
+    font-family: 'blueskytechco' !important;
+    font-size: 18px;
+    align-items: center;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    will-change: transform;
+    color: var(--heading-color);
+    font-size: 24px;
+    font-weight: 400;
+}
+
+/* .tps__instagram-item:hover .tps__instagram-icon {
+    opacity: 1;
+    visibility: visible;
+    transition: var(--tps-transition);
+    transform: translate(-50%, -50%) scale(1);
+    -webkit-transform: translate(-50%, -50%) scale(1);
+} */
+
+.tps__instagram-item:hover .tps_instagram-image img,
+.tps__instagram-item:hover .tps_instagram-image svg {
+    transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+}

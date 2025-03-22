@@ -1,0 +1,99 @@
+{%- liquid
+  assign st = section.settings
+  assign limit_products = st.limit_products
+-%}
+{%- capture style -%}
+    padding-top: {{ st.padding_top }}px; padding-bottom: {{ st.padding_bottom }}px;
+  {%- endcapture -%}
+<section
+  class="tp-featured-product-area pt-70 pb-150"
+  style="{{ style | strip | strip_newlines }}"
+  id="{{ section.id }}"
+  data-id="{{ section.id }}"
+>
+  <div class="container">
+    <div class="row gx-0">
+      {%- assign collection = collections[st.product_collection_link] -%}
+      {%- if collection.products.size == 0 -%}
+        {%- for i in (1..limit_products) -%}
+          <div class="col-lg-4 col-md-6">
+            <div class="tp-featured-item-3 text-center">
+              <div class="tp-featured-thumb-3 d-flex align-items-end justify-content-center">
+                <img src="{{ 'product-1.jpg' | asset_url }}" alt="Product" height="auto" width="auto">
+              </div>
+              <div class="tp-featured-content-3">
+                <h3 class="tp-featured-title-3">
+                  <a role="link" aria-disabled="true">{{ 'products.product.product_placeholder' | t }}</a>
+                </h3>
+                <div class="tp-featured-price-3">
+                  <span>Save $72</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for product in collection.products limit: limit_products -%}
+          <div class="col-lg-4 col-md-6">
+            {%- render 'product-item' | product: product, product_item: "simple-3-product" -%}
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Simple 3 Product",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Products Collection"
+    },
+    {
+      "type": "collection",
+      "id": "product_collection_link",
+      "label": "Product collection link"
+    },
+    {
+      "type": "range",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 3,
+      "label": "Items Limit",
+      "id": "limit_products"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Simple 3 Product"
+    }
+  ]
+}
+{% endschema %}

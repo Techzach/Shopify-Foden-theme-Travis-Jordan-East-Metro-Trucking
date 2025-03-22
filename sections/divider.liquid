@@ -1,0 +1,125 @@
+{%- liquid
+  assign st = section.settings
+  assign container = st.container
+  assign padding_top = st.padding_top
+  assign padding_bottom = st.padding_bottom
+  assign border_height = st.border_height
+  assign border_color = st.border_color
+
+  assign reset_spacing = ''
+  if st.reset_spacing
+    assign reset_spacing = ' remove_spacing'
+  endif
+
+  assign spt_tablet = ''
+  if st.padding_top > 50
+    assign spt_tablet = ' spt-tablet'
+  endif
+  assign spt_mobile = ''
+  if st.padding_top > 30
+    assign spt_mobile = ' spt-mobile'
+  endif
+  assign spb_tablet = ''
+  if st.padding_bottom > 50
+    assign spb_tablet = ' spb-tablet'
+  endif
+  assign spb_mobile = ''
+  if st.padding_bottom > 30
+    assign spb_mobile = ' spb-mobile'
+  endif
+-%}
+{%- capture style -%}
+  --section-padding-top: {{ padding_top }}px; --section-padding-bottom: {{ padding_bottom }}px;
+{%- endcapture -%}
+<section
+  class="tps__section {{ spt_tablet }}{{ spb_tablet }}{{ spt_mobile }}{{ spb_mobile }}tps__divider {{ container }}{{ reset_spacing }} section-full"
+  style="{{ style | strip | strip_newlines }}"
+>
+  <div
+    class="tps__divider-inner"
+    style="--border-height: {{ border_height }}px; --border-color: {{ border_color }}"
+  ></div>
+</section>
+
+{% schema %}
+{
+  "name": "Divider",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Layout",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "border_height",
+      "min": 1,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 1,
+      "label": "Height"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Color",
+      "default": "#ebebeb"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px"
+    },
+    {
+      "type": "checkbox",
+      "id": "reset_spacing",
+      "label": "Remove default space between sections",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Divider"
+    }
+  ]
+}
+{% endschema %}

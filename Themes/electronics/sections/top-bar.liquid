@@ -1,0 +1,169 @@
+{%- liquid
+  assign container = section.settings.container
+  assign show_topbar = section.settings.show_topbar
+  assign show_message_icon_svg = section.settings.show_message_icon_svg
+  assign message_icon_svg = section.settings.message_icon_svg
+  assign bg_topbar = section.settings.background_color
+  assign show_setting = section.settings.show_setting
+  assign show_language = section.settings.show_language
+  assign show_country = section.settings.show_country
+  assign message = section.settings.message
+  assign show_message = section.settings.show_message
+  assign settings_menu = linklists[section.settings.settings_menu]
+  assign settings_menu_title = section.settings.settings_menu_title
+-%}
+
+{%- if show_topbar -%}
+  <div
+    class="tp-header-top black-bg p-relative z-index-1 d-none d-md-block"
+    style="background-color:{%- if bg_topbar != blank -%}{{ bg_topbar }};{%- endif -%}"
+  >
+    <div class="{{ container }}">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <div class="tp-header-welcome d-flex align-items-center">
+            {%- if show_message_icon_svg -%}
+              {{ message_icon_svg }}
+            {%- endif -%}
+            {%- if show_message -%}
+              <p>{{ message }}</p>
+              </div>
+            {%- endif -%}
+          </div>
+          <div class="col-md-6">
+            <div class="tp-header-top-right d-flex align-items-center justify-content-end">
+              <div class="tp-header-top-menu d-flex align-items-center justify-content-end">
+                {%- liquid
+                  if show_country
+                    render 'country-switcher'
+                  endif
+                  if show_language
+                    render 'language-switcher'
+                  endif
+                -%}
+                
+                {%- if show_setting -%}
+                  {%- if settings_menu.links != blank -%}
+                    <div class="tp-header-top-menu-item tp-header-setting">
+                      <span class="tp-header-setting-toggle" id="tp-header-setting-toggle">
+                        {{ settings_menu_title }}
+                      </span>
+                      <ul>
+                        {% for link in settings_menu.links %}
+                          <li>
+                            <a href="{{ link.url }}">{{ link.title }}</a>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  {%- endif -%}
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Top bar",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Setting"
+    },
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Layout",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "show_topbar",
+      "label": "Show top bar",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#010F1C"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_message_icon_svg",
+      "label": "Show message icon",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "message_icon_svg",
+      "label": "Message icon svg",
+      "default": "<span></span>"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_message",
+      "label": "Show message",
+      "default": true
+    },
+    {
+      "type": "richtext",
+      "id": "message",
+      "label": "Message",
+      "default": "<p></p>"
+    },
+    {
+      "type": "text",
+      "id": "settings_menu_title",
+      "label": "Setting menu title",
+      "default": "Setting"
+    },
+    {
+      "type": "link_list",
+      "id": "settings_menu",
+      "label": "Srtting menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "header",
+      "content": "ADDONS"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_country",
+      "label": "Show country",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_language",
+      "label": "Show language",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_setting",
+      "label": "Show setting",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

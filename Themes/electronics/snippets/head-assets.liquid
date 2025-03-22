@@ -1,0 +1,201 @@
+{%- liquid
+  assign font_source = settings.font_source
+  assign custom_css = settings.global_css
+  assign enable_rtl = settings.rtl
+  assign iso_code   = request.locale.iso_code
+  assign lis_language_rtl = settings.language_rtl
+  if lis_language_rtl != blank
+    if lis_language_rtl contains iso_code
+        assign enable_rtl = true
+    else 
+      assign enable_rtl = false
+    endif
+  endif
+-%}
+{%- if font_source == '1' -%}
+  {%- liquid
+    assign fnt_body_sp = settings.fnt_body_sp
+    assign fnt_headings_sp = settings.fnt_headings_sp | default: fnt_body_sp
+    assign fnt_menu_sp = settings.fnt_menu_sp | default: fnt_body_sp
+  -%}
+  {%- liquid
+    assign fm_body_sp = fnt_body_sp.family
+    assign fm_headings_sp = fnt_headings_sp.family
+    assign fm_menu_sp = fnt_menu_sp.family
+  -%}
+  {%- capture fnt_fm_body -%}{{ fm_body_sp }}, {{ fnt_body_sp.fallback_families }};{%- endcapture -%}
+  {%- liquid
+    assign fnt_fm_headings = fnt_fm_body
+    assign fnt_fm_menu = fnt_fm_body
+  -%}
+  {%- style -%}
+    {%- for variant in fnt_body_sp.variants -%}{{ variant | font_face: font_display: 'swap' }}{%- endfor -%}
+  {%- endstyle -%}
+
+  {%- if fm_headings_sp != fm_body_sp -%}
+    {%- capture fnt_fm_headings -%}{{ fm_headings_sp }}, {{ fnt_headings_sp.fallback_families }};{%- endcapture -%}
+    {%- style -%}
+      {%- for variant in fnt_headings_sp.variants -%}{{ variant | font_face: font_display: 'swap' }}{%- endfor -%}
+    {%- endstyle -%}
+  {%- endif -%}
+
+  {%- if fm_menu_sp != fm_body_sp -%}
+    {%- capture fnt_fm_menu -%}{{ fm_menu_sp }}, {{ fnt_menu_sp.fallback_families }};{%- endcapture -%}
+    {%- style -%}
+      {{ fnt_menu_sp | font_face: font_display: 'swap' }}
+    {%- endstyle -%}
+  {%- endif -%}
+  {%- unless fnt_body_sp.system? -%}
+    <link rel="preload" as="font" href="{{ fnt_body_sp | font_url }}" type="font/woff2" crossorigin>
+  {%- endunless -%}
+  {%- unless fnt_headings_sp.system? -%}
+    {%- if fm_headings_sp != fm_body_sp -%}
+      <link rel="preload" as="font" href="{{ fnt_headings_sp | font_url }}" type="font/woff2" crossorigin>
+    {%- endif -%}
+  {%- endunless -%}
+  {%- unless fnt_menu_sp.system? -%}
+    {%- if fm_menu_sp != fm_body_sp and fm_menu_sp != fnt_menu_sp -%}
+      <link rel="preload" as="font" href="{{ fnt_menu_sp | font_url }}" type="font/woff2" crossorigin>
+    {%- endif -%}
+  {%- endunless -%}
+{%- elsif font_source == '2' -%}
+  {%- liquid
+    assign fnt_body_gg = settings.fnt_body_gg
+    assign fnt_headings_gg = settings.fnt_headings_gg | default: fnt_body_gg
+    assign fnt_menu_gg = settings.fnt_menu_gg | default: fnt_body_gg
+  -%}
+  {%- capture font_var -%}
+    {{ fnt_body_gg | strip | replace: ' ', '+' }}:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i
+    {%- if fnt_body_gg != fnt_headings_gg -%}
+      |{{ fnt_headings_gg | strip | replace: ' ', '+' }}:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i
+    {%- endif -%}
+    {%- if fnt_menu_gg != fnt_body_gg and fnt_menu_gg != fnt_headings_gg -%}
+      |{{ fnt_menu_gg | strip | replace: ' ', '+' }}:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i
+    {%- endif -%}
+  {%- endcapture -%}
+  {% # theme-check-disable RemoteAsset %}
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family={{ font_var }}&display=swap"
+    media="print"
+    onload="this.media='all'"
+  >
+
+  {% # theme-check-enable RemoteAsset %}
+  {%- liquid
+    assign fnt_fm_body = fnt_body_gg
+    assign fnt_fm_headings = fnt_headings_gg
+    assign fnt_fm_menu = fnt_menu_gg
+  -%}
+{%- else -%}
+  {%- liquid
+    assign fnt_fm_body = settings.fnt_body_custom
+    assign fnt_fm_headings = settings.fnt_headings_custom
+    assign fnt_fm_menu = settings.fnt_menu_custom
+  -%}
+  {{ 'define-custom-font.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
+{{ 'critical.min.css' | asset_url | stylesheet_tag }}
+{%- if enable_rtl -%}
+  {{- 'bootstrap-rtl.css' | asset_url | stylesheet_tag -}}
+{%- else -%}
+  {{- 'bootstrap.css' | asset_url | stylesheet_tag -}}
+{%- endif -%}
+{{ 'animate.css' | asset_url | stylesheet_tag }}
+{{ 'swiper-bundle.css' | asset_url | stylesheet_tag }}
+{{ 'slick.css' | asset_url | stylesheet_tag }}
+{{ 'magnific-popup.css' | asset_url | stylesheet_tag }}
+{{ 'font-awesome-pro.css' | asset_url | stylesheet_tag }}
+{{ 'flaticon_shofy.css' | asset_url | stylesheet_tag }}
+{{ 'spacing.css' | asset_url | stylesheet_tag }}
+{{ 'main.css' | asset_url | stylesheet_tag }}
+{{ 'custom.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  :root {
+    --base-font-family : {{ fnt_fm_body }};
+    --base-font-size : {{ settings.bd_font_size }}px;
+    --base-color : {{ settings.text_color }};
+    --base-font-weight : {{ settings.bd_font_weight }};
+    --base-body-bg-color : {{ settings.body_bg_color }};
+    --border-color-base : {{ settings.border_color }};
+
+    --heading-font-family : {{ fnt_fm_headings }};
+    --heading-font-weight : {{ settings.headings_font_weight }};
+    --heading-letter-spacing : {{ settings.headings_letter_spacing }}px;
+    --heading-color : {{ settings.heading_color }};
+    --font-h1: {{ settings.headings_font_size_h1 }}px;
+    --font-h2: {{ settings.headings_font_size_h2 }}px;
+    --font-h3: {{ settings.headings_font_size_h3 }}px;
+    --font-h4: {{ settings.headings_font_size_h4 }}px;
+
+    --navigation-font-family : {{ fnt_fm_menu }};
+    --navigation-font-size : {{ settings.menu_font_size }}px;
+    --navigation-font-weight : {{ settings.menu_font_weight }};
+    --navigation-letter-spacing : {{ settings.menu_letter_spacing }}px;
+
+    --primary-color: {{ settings.primary_color }};
+    --color-link : {{ settings.link_color }};
+    --color-link-hover : {{ settings.link_hover_color }};
+    --page-title-size : {{ settings.page_title_font_size }}px;
+
+    --btn-font-size : {{ settings.button_font_size }}px;
+    --btn-font-weight : {{ settings.button_font_weight }};
+    --btn-letter-spacing : {{ settings.button_letter_spacing }}px;
+    --btn-border-radius : {{ settings.button_border_radius }}px;
+
+    --btn-primary-bg : {{ settings.button_primary_background_color }};
+    --btn-primary-color : {{ settings.button_primary_color }};
+    --btn-primary-color-hover : {{ settings.button_primary_hover_color }};
+    --btn-primary-bg-hover : {{ settings.button_primary_hover_background_color }};
+
+    --btn-secondary-color : {{ settings.button_secondary_color }};
+    --btn-secondary-border-color : {{ settings.button_secondary_border_color }};
+    --btn-secondary-bg : {{ settings.button_secondary_background_color }};
+    --btn-secondary-color-hover : {{ settings.button_secondary_hover_color }};
+    --btn-secondary-bg-hover : {{ settings.button_secondary_hover_background_color }};
+
+    --btn-link-color : {{ settings.button_link_color }};
+    --btn-link-color-hover : {{ settings.button_link_hover_color }};
+
+    --header-bg : {{ settings.header_background_color }};
+    --sticky-header-bg : {{ settings.sticky_header_background_color }};
+    --header-color : {{ settings.header_text_color }};
+    --header_border_color:  {{ settings.header_border_color }};
+    --header-transparent-color : {{ settings.header_transparent_text_color }};
+    --menu-color : {{ settings.menu_color }};
+    --submenu-bg : {{ settings.sub_menu_background_color }};
+    --submenu-color : {{ settings.sub_menu_color }};
+    --submenu-hover-color : {{ settings.sub_menu_hover_color }};
+
+    --body-custom-width-container: {%- if settings.general_layout == 'default' %}1260px{% elsif settings.general_layout == 'fluid_container' %}{{ settings.container-fluil-max-width }}px{% elsif settings.general_layout == 'full_width' %}100%{% else %}{{ settings.custom_width_bd }}px{%- endif -%};
+    --tps-container-fluid-width: {{ settings.container-fluil-max-width }}px;
+
+    --space_between_section: {{ settings.space_for_mobile }}px;
+    --tps__product-details-align: {%- if settings.content_center -%}center{% else %} {%- if enable_rtl -%}right{% else %}left{%- endif -%}{%- endif -%};
+
+  }
+  {%- if custom_css != blank -%}
+        {{ custom_css | strip_newlines }}
+    {%- endif -%}
+  @media (min-width: 768px) {
+    :root{
+      --space_between_section: {{ settings.space_for_tablet }}px;
+    }
+  }
+  @media (min-width: 1200px) {
+    :root{
+      --space_between_section: {{ settings.space_for_desktop }}px;
+    }
+  }
+  {% if settings.enable_loading_img and settings.loading_img != blank %}
+    html.js .tps-loading-image:before{
+      background-image: url({{ settings.loading_img | image_url: width: 100, height: 100 }});
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 80px;
+    }
+  {% endif %}
+{%- endstyle -%}
+<script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>

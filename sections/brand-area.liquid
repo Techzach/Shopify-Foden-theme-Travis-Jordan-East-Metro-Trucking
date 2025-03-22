@@ -1,0 +1,145 @@
+{%- liquid
+  assign st = section.settings
+  assign container = st.container
+  assign blocks = section.blocks
+-%}
+{%- capture style -%}
+  padding-top: {{ st.padding_top }}px;padding-bottom: {{ st.padding_bottom }}px;
+{%- endcapture -%}
+<section
+  class="tp-brand-area pt-120"
+  style="{{ style | strip | strip_newlines }}"
+  data-id="{{ section.id }}"
+  id="{{ section.id }}">
+  <div class="{{ container }}">
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="tp-brand-slider p-relative">
+          <div class="tp-brand-slider-active swiper-container">
+            <div class="swiper-wrapper">
+              {%- for block in blocks -%}
+                <div class="tp-brand-item swiper-slide text-center">
+                  <a href="{{ block.settings.link }}">
+                    <img src="{{ block.settings.logo | image_url }}">
+                  </a>
+                </div>
+              {%- endfor -%}
+            </div>
+          </div>
+          <div class="tp-brand-slider-arrow">
+            <button class="tp-brand-slider-button-prev">
+              <svg
+                width="8"
+                height="14"
+                viewBox="0 0 8 14"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M7 1L1 7L7 13"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </button>
+            <button class="tp-brand-slider-button-next">
+              <svg
+                width="8"
+                height="14"
+                viewBox="0 0 8 14"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M1 1L7 7L1 13"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Brand logo slider",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Layout",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "brand_logo_box",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Logo",
+          "info": "42 x 42px recommended"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brand logo slider"
+    }
+  ]
+}
+{% endschema %}

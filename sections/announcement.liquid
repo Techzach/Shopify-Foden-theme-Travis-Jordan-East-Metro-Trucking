@@ -1,0 +1,344 @@
+{%- liquid
+  assign st = section.settings
+  assign sec_blocks = section.blocks
+  assign container = st.container
+  assign show_announcement = st.show_announcement
+  assign homepage_only = st.homepage_only
+  assign s_text_time = st.s_text_time
+  assign s_text_spacing = st.s_text_spacing
+  assign show_close = st.show_close
+  assign bar_text_color = st.bar_text_color
+  assign bar_link_color = st.bar_link_color
+  assign bar_link_hover_color = st.bar_link_hover_color
+  assign bar_countdown_color = st.bar_countdown_color
+  assign bar_background_color = st.bar_background_color
+  assign close_btn_color = st.close_btn_color
+  assign bar_font_size = st.bar_font_size
+  assign bar_uppercase = st.bar_uppercase
+  assign show_mobile = st.show_mobile
+  assign show = false
+  if homepage_only
+    if request.page_type == 'index'
+      assign show = true
+    endif
+  else
+    assign show = true
+  endif
+-%}
+{%- capture style -%}
+{%- if bar_countdown_color != blank -%}--announcement-bar-countdown-color : {{ bar_countdown_color }};{%- endif -%}{%- if bar_link_color != blank -%}--announcement-bar-link-color : {{ bar_link_color }};{%- endif -%}{%- if bar_link_hover_color != blank -%}--announcement-bar-link-hover-color : {{ bar_link_hover_color }};{%- endif -%}--announcement-bar-color : {{ bar_text_color }}; --announcement-bar-bg : {{ bar_background_color }}; --close-btn-color
+  : {{ close_btn_color }}; --announcement-bar-font-size : {{ bar_font_size }}px;--s-text-time: {{ s_text_time }}s;
+  --s-text-spacing: {{ s_text_spacing }}px;
+{%- endcapture -%}
+{% if show_announcement %}
+  {% if show %}
+    <section
+      data-section-id="{{ section.id }}"
+      id="announcement-bar"
+      class="announcement-bar relative active{% if show_mobile == blank %} d-none d-sm-block {% endif %}"
+      style="{{ style | strip | strip_newlines }}"
+    >
+      <div class="{{ container }}">
+        {% if sec_blocks.size > 1 and st.text_action == "marquee" %}
+          <div class="marquee d-flex overflow-hidden">
+        {% endif %}
+        {%- if sec_blocks.size > 1 -%}
+          {%- if st.text_action != "marquee" -%}
+            <div class="slider-announcementBar ">
+              <div class="swiper-announcementBar relative overflow-hidden">
+                <div class="swiper-wrapper">
+                  {%- for i in (0..5) -%}
+                    {%- for block in sec_blocks -%}
+                      {%- case block.type -%}
+                        {%- when 'announcement' -%}
+                          {%- liquid
+                            assign blo_settings = block.settings
+                          -%}
+                            {%- if blo_settings.text != blank -%}
+                              <div class="swiper-slide">
+                                <div class="d-flex flex-wrap align-items-center announcement-bar-content justify-content-center text-center py-10 px-15 {% if bar_uppercase %}uppercase{% endif %}">
+                                    {{ blo_settings.text }}
+                                  {% if blo_settings.countdown_deadline != blank %}
+                                    <div class="countdown-announcementBar d-flex align-items-center" data-block-id="{{ block.id }}" data-block-deadline="{{ blo_settings.countdown_deadline }}">
+                                      <div class="countdown-container d-flex align-items-center">
+                                        <span class="days_announcementBar"></span>
+                                        <span class="timer-announcementbar-text"> {{ 'sections.times_bn.days' | t }}</span>
+                                      </div>
+                                      <div class="countdown-container d-flex align-items-center">
+                                        <span class="hours_announcementBar"></span>
+                                        <span class="timer-announcementbar-text"> {{ 'sections.times_bn.hour' | t }}</span>
+                                      </div>
+                                      <div class="countdown-container d-flex align-items-center">
+                                        <span class="minutes_announcementBar"></span>
+                                        <span class="timer-announcementbar-text"> {{ 'sections.times_bn.mins' | t }}</span>
+                                      </div>
+                                      <div class="countdown-container d-flex align-items-center">
+                                        <span class="seconds_announcementBar"></span>
+                                        <span class="timer-announcementbar-text"> {{ 'sections.times_bn.secs' | t }}</span>
+                                      </div>
+                                    </div>
+                                  {% endif %}
+                                </div>
+                              </div>
+                            {%- endif -%}
+                      {%- endcase -%}
+                    {%- endfor -%}
+                  {%- endfor -%}
+                </div>
+                <div class="swiper-arrow swiper-button-prev"><i class="icon-chevron-left"></i></div>
+                <div class="swiper-arrow swiper-button-next"><i class="icon-chevron-right"></i></div>
+              </div>
+            </div>
+          {%- else -%}
+          {%- for i in (0..5) -%}
+            <div class="d-flex announcement-scroll">
+              {%- for block in sec_blocks -%}
+                {%- case block.type -%}
+                  {%- when 'announcement' -%}
+                    {%- liquid
+                      assign blo_settings = block.settings
+                    -%}
+                      {%- if blo_settings.text != blank -%}
+                          <div class="d-flex flex-wrap align-items-center announcement-bar-content justify-content-center text-center py-10 px-15 {% if bar_uppercase %}uppercase{% endif %}">
+                              {{ blo_settings.text }}
+                            {% if blo_settings.countdown_deadline != blank %}
+                              <div class="countdown-announcementBar d-flex align-items-center" data-block-id="{{ block.id }}" data-block-deadline="{{ blo_settings.countdown_deadline }}">
+                                <div class="countdown-container">
+                                  <span class="days_announcementBar"></span>
+                                  <span class="timer-announcementbar-text">{{ 'sections.times_bn.days' | t }}</span>
+                                </div>
+                                <div class="countdown-container">
+                                  <span class="hours_announcementBar"></span>
+                                  <span class="timer-announcementbar-text">{{ 'sections.times_bn.hour' | t }}</span>
+                                </div>
+                                <div class="countdown-container">
+                                  <span class="minutes_announcementBar"></span>
+                                  <span class="timer-announcementbar-text">{{ 'sections.times_bn.mins' | t }}</span>
+                                </div>
+                                <div class="countdown-container">
+                                  <span class="seconds_announcementBar"></span>
+                                  <span class="timer-announcementbar-text">{{ 'sections.times_bn.secs' | t }}</span>
+                                </div>
+                              </div>
+                            {% endif %}
+                          </div>
+                      {%- endif -%}
+                {%- endcase -%}
+              {%- endfor -%}
+            </div>
+          {%- endfor -%}
+          {%- endif -%}
+        {%- else -%}
+          {%- for block in sec_blocks -%}
+            {%- case block.type -%}
+              {%- when 'announcement' -%}
+                {%- liquid
+                  assign blo_settings = block.settings
+                -%}
+                  {%- if blo_settings.text != blank -%}
+                      <div class="d-flex flex-wrap align-items-center justify-content-center announcement-bar-content text-center py-10 px-15  {% if bar_uppercase %}uppercase{% endif %}">
+                          {{ blo_settings.text }}
+                        {% if blo_settings.countdown_deadline != blank %}
+                          <div class="countdown-announcementBar d-flex align-items-center" data-block-id="{{ block.id }}" data-block-deadline="{{ blo_settings.countdown_deadline }}">
+                            <div class="countdown-container">
+                              <span class="days_announcementBar"></span>
+                              <span class="timer-announcementbar-text">{{ 'sections.times_bn.days' | t }}</span>
+                            </div>
+                            <div class="countdown-container">
+                              <span class="hours_announcementBar"></span>
+                              <span class="timer-announcementbar-text">{{ 'sections.times_bn.hour' | t }}</span>
+                            </div>
+                            <div class="countdown-container">
+                              <span class="minutes_announcementBar"></span>
+                              <span class="timer-announcementbar-text">{{ 'sections.times_bn.mins' | t }}</span>
+                            </div>
+                            <div class="countdown-container">
+                              <span class="seconds_announcementBar"></span>
+                              <span class="timer-announcementbar-text">{{ 'sections.times_bn.secs' | t }}</span>
+                            </div>
+                          </div>
+                        {% endif %}
+                      </div>
+                  {%- endif -%}
+            {%- endcase -%}
+          {%- endfor -%}
+        {%- endif -%}
+        {% if sec_blocks.size > 1 and st.text_action == "marquee" %}
+          </div>
+        {% endif %}
+        {% if show_close %}
+          <a
+            rel="nofollow"
+            href="#"
+            class="announcement-close absolute right-15 position-center-y"
+            aria-label="close"
+            ><i class="icon-x"></i
+          ></a>
+        {% endif %}
+      </div>
+    </section>
+  {% endif %}
+{% endif %}
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "class": "announcement_bar",
+  "settings": [
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Layout",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "label": "Show announcement",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "homepage_only",
+      "label": "Home page only",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_close",
+      "label": "Show close button",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_mobile",
+      "label": "Show in mobile",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "text_action",
+      "label": "Action",
+      "default": "marquee",
+      "options": [
+        {
+          "value": "marquee",
+          "label": "Marquee"
+        },
+        {
+          "value": "slider",
+          "label": "Slider"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "bar_font_size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "label": "Font size",
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "checkbox",
+      "id": "bar_uppercase",
+      "label": "Uppercase",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "s_text_time",
+      "min": 3,
+      "max": 30,
+      "step": 1,
+      "label": "Time",
+      "unit": "s",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "s_text_spacing",
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "label": "Spacing",
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color",
+      "id": "bar_background_color",
+      "label": "Background color",
+      "default": "#ba271a"
+    },
+    {
+      "type": "color",
+      "id": "bar_text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "bar_link_color",
+      "label": "Link color"
+    },
+    {
+      "type": "color",
+      "id": "bar_link_hover_color",
+      "label": "Link hover color"
+    },
+    {
+      "type": "color",
+      "id": "bar_countdown_color",
+      "label": "Countdown color"
+    },
+    {
+      "type": "color",
+      "id": "close_btn_color",
+      "label": "Button close color",
+      "default": "#ffffff"
+    }
+  ],
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "Announcement",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "default": "<p>Welcome to our store</p>",
+          "label": "Text"
+        },
+        {
+          "type": "text",
+          "id": "countdown_deadline",
+          "label": "Countdown deadline",
+          "info": "e.g. mm-dd-yyyy"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

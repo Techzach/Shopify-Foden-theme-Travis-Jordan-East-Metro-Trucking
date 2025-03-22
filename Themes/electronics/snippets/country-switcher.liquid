@@ -1,0 +1,13 @@
+{% if localization.available_countries.size > 1 %}
+  
+  <div class="tp-header-top-menu-item tp-header-lang">
+    <span class="tp-header-lang-toggle" id="tp-header-lang-toggle">English</span>
+    <ul>
+      {% for country in localization.available_countries %}
+      <li>
+        <a href="#">{{ country }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}

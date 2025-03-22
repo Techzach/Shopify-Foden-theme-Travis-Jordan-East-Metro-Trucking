@@ -1,0 +1,121 @@
+{%- liquid
+  assign st = section.settings
+  assign container = st.container
+  assign text_align = st.text_alignment
+  assign heading = st.heading
+  assign description = st.description
+  assign iframe = st.iframe
+  assign enabled_animations = settings.animations_enabled
+  assign reset_spacing = ''
+  if st.reset_spacing
+    assign reset_spacing = ' remove_spacing'
+  endif
+-%}
+
+<section class="tps__section tps__google-map{{ reset_spacing }}">
+  <div class="{{ container }}">
+    {%- if heading != blank or description != blank -%}
+      <div class="tps__section-header {{ text_align }} {% if enabled_animations %}scroll-trigger animate--slide-in{% endif %}">
+        {%- if heading != blank -%}
+          <h2 class="tps__section-heading mb-5">{{ heading }}</h2>
+        {%- endif -%}
+        {%- if description != blank -%}
+          <div class="tps__section-des">
+            {{ description }}
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    <div class="tps_section-content text-center {% if enabled_animations %}scroll-trigger animate--slide-in{% endif %}">
+      {{ iframe }}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Google Maps",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Google Map"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Share your store location.</p>"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "default": "text-center",
+      "options": [
+        {
+          "value": "text-left",
+          "label": "Left"
+        },
+        {
+          "value": "text-center",
+          "label": "Center"
+        },
+        {
+          "value": "text-right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Layout",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "reset_spacing",
+      "label": "Remove default space between sections",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Iframe"
+    },
+    {
+      "type": "textarea",
+      "id": "iframe",
+      "label": "Google map iframe",
+      "default": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d50941.0851952626!2d-95.78197131269138!3d37.06182424549097!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87b778b9da9b5b1f%3A0x3df3aefa017361ac!2sFawn%20Creek%20Township%2C%20KS%2C%20USA!5e0!3m2!1sen!2s!4v1666059952368!5m2!1sen!2s\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Google map"
+    }
+  ]
+}
+{% endschema %}

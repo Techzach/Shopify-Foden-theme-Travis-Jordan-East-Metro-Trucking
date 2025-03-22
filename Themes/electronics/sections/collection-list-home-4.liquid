@@ -1,0 +1,346 @@
+{%- liquid
+  assign st = section.settings
+  assign container = st.container
+-%}
+{%- capture style -%}
+  padding-top: {{ st.padding_top }}px; padding-bottom: {{ st.padding_bottom }}px;
+{%- endcapture -%}
+
+<section
+  class="tp-banner-area"
+  style="{{ style }}"
+>
+  <div class="{{ container }}">
+    <div class="row">
+      <div class="col-xl-6 col-lg-7">
+        <div class="row">
+          {%- if st.collection_1 != blank -%}
+            <div class="col-xl-12">
+              <div class="tp-banner-item-4 tp-banner-height-4 fix p-relative z-index-1 mb-25" data-bg-color="#F3F7FF">
+                <div
+                  class="tp-banner-thumb-4 include-bg black-bg transition-3"
+                  data-background="{%- if st.image_1 != blank -%}{{ st.image_1 | image_url }}{%- else -%}{{ 'banner-1.jpg' | asset_url }}{%- endif -%}"
+                ></div>
+                <div class="tp-banner-content-4">
+                  <span>{{ st.collection_1 }}</span>
+                  <h3 class="tp-banner-title-4">
+                    <a href="{% if st.collection_1 == blank %}#{% else %}{{ st.collection_1.url }}{% endif %}">
+                      {%- if st.title_collection_1 != blank -%}
+                        {{ st.title_collection_1 }}
+                      {%- else -%}
+                        {{ st.collection_1 }}
+                      {%- endif -%}
+                    </a>
+                  </h3>
+                  {%- if st.collection_1 != blank -%}
+                    <div class="tp-banner-btn-4">
+                      <a
+                        href="{% if st.collection_1 == blank %}#{% else %}{{ st.collection_1.url }}{% endif %}"
+                        class="tp-btn tp-btn-border"
+                      >
+                        {{- 'collection.shop_now' | t: count: count_product -}}
+                        <svg
+                          width="17"
+                          height="15"
+                          viewBox="0 0 17 15"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M16 7.49988L1 7.49988"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round" />
+                          <path
+                            d="M9.9502 1.47554L16.0002 7.49954L9.9502 13.5245"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        </svg>
+                      </a>
+                    </div>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          {%- endif -%}
+          {%- if st.collection_2 != blank -%}
+            <div class="col-md-6 col-sm-6">
+              <div
+                class="tp-banner-item-4 tp-banner-height-4 fix p-relative z-index-1 has-green sm-banner"
+                data-bg-color="#F0F6EF"
+              >
+                <div
+                  class="tp-banner-thumb-4 include-bg black-bg transition-3"
+                  data-background="{%- if st.image_2 != blank -%}{{ st.image_2 | image_url }}{%- else -%}{{ 'banner-1.jpg' | asset_url }}{%- endif -%}"
+                ></div>
+                <div class="tp-banner-content-4">
+                  <span>{{ st.collection_2 }}</span>
+                  <h3 class="tp-banner-title-4">
+                    <a href="{% if st.collection_2 == blank %}#{% else %}{{ st.collection_2.url }}{% endif %}">
+                      {%- if st.title_collection_2 != blank -%}
+                        {{ st.title_collection_2 }}
+                      {%- else -%}
+                        {{ st.collection_2 }}
+                      {%- endif -%}
+                    </a>
+                  </h3>
+                </div>
+              </div>
+            </div>
+          {%- endif -%}
+          {%- if st.collection_3 != blank -%}
+            <div class="col-md-6 col-sm-6">
+              <div
+                class="tp-banner-item-4 tp-banner-height-4 fix p-relative z-index-1 has-brown sm-banner"
+                data-bg-color="#F8F1E6"
+              >
+                <div
+                  class="tp-banner-thumb-4 include-bg black-bg transition-3"
+                  data-background="{%- if st.image_3 != blank -%}{{ st.image_3 | image_url }}{%- else -%}{{ 'banner-1.jpg' | asset_url }}{%- endif -%}"
+                ></div>
+                <div class="tp-banner-content-4">
+                  <span>{{ st.collection_3 }}</span>
+                  <h3 class="tp-banner-title-4">
+                    <a href="{% if st.collection_3 == blank %}#{% else %}{{ st.collection_3.url }}{% endif %}">
+                      {%- if st.title_collection_3 != blank -%}
+                        {{ st.title_collection_3 }}
+                      {%- else -%}
+                        {{ st.collection_3 }}
+                      {%- endif -%}
+                    </a>
+                  </h3>
+                </div>
+              </div>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+      {%- if st.collection_4 != blank -%}
+        <div class="col-xl-6 col-lg-5">
+          <div class="tp-banner-full tp-banner-full-height fix p-relative z-index-1">
+            <div
+              class="tp-banner-full-thumb include-bg black-bg transition-3"
+              data-background="{%- if st.image_4 != blank -%}{{ st.image_4 | image_url }}{%- else -%}{{ 'banner-1.jpg' | asset_url }}{%- endif -%}"
+            ></div>
+            <div class="tp-banner-full-content">
+              <span>{{ st.collection_4 }}</span>
+              <h3 class="tp-banner-full-title">
+                <a href="{% if st.collection_4 == blank %}#{% else %}{{ st.collection_4.url }}{% endif %}">
+                  {%- if st.title_collection_4 != blank -%}
+                    {{ st.title_collection_4 }}
+                  {%- else -%}
+                    {{ st.collection_4 }}
+                  {%- endif -%}
+                </a>
+              </h3>
+              {%- if st.collection_4 != blank -%}
+                <div class="tp-banner-full-btn">
+                  <a
+                    href="{% if st.collection_4 == blank %}#{% else %}{{ st.collection_4.url }}{% endif %}"
+                    class="tp-btn tp-btn-border"
+                  >
+                    {{- 'collection.shop_now' | t: count: count_product -}}
+                    <svg
+                      width="17"
+                      height="15"
+                      viewBox="0 0 17 15"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M16 7.49988L1 7.49988"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round" />
+                      <path
+                        d="M9.9502 1.47554L16.0002 7.49954L9.9502 13.5245"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    </svg>
+                  </a>
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection list Home 4",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_all_product_btn",
+      "label": "Show all product button"
+    },
+    {
+      "type": "text",
+      "id": "all_product_btn_text",
+      "label": "All product button text",
+      "default": "Shop All Products"
+    },
+    {
+      "type": "url",
+      "id": "all_product_btn_link",
+      "label": "All product button link"
+    },
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Layout",
+      "default": "container-fluid",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "show_count_product",
+      "label": "Show count product",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Style 1"
+    },
+    {
+      "type": "text",
+      "id": "title_collection_1",
+      "label": "Collection heading 1",
+      "info": "This heading will be displayed on the no 1 small banner"
+    },
+    {
+      "type": "collection",
+      "id": "collection_1",
+      "label": "Select collection_1",
+      "info": "This collection will be displayed on the no 1 small banner"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Select image 1",
+      "info": "This image will be displayed on the no 1 small banner"
+    },
+    {
+      "type": "header",
+      "content": "Style 2"
+    },
+    {
+      "type": "text",
+      "id": "title_collection_2",
+      "label": "Collection heading 2",
+      "info": "This heading will be displayed on the no 2 small banner"
+    },
+    {
+      "type": "collection",
+      "id": "collection_2",
+      "label": "Select collection_2",
+      "info": "This collection will be displayed on the no 2 small banner"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Select image 2",
+      "info": "This image will be displayed on the no 2 small banner"
+    },
+    {
+      "type": "header",
+      "content": "Style 3"
+    },
+    {
+      "type": "text",
+      "id": "title_collection_3",
+      "label": "Collection heading 3",
+      "info": "This heading will be displayed on the no 3 small banner"
+    },
+    {
+      "type": "collection",
+      "id": "collection_3",
+      "label": "Select collection_3",
+      "info": "This collection will be displayed on the no 3 small banner"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Select image 3",
+      "info": "This image will be displayed on the no 3 small banner"
+    },
+    {
+      "type": "header",
+      "content": "Style 4"
+    },
+    {
+      "type": "text",
+      "id": "title_collection_4",
+      "label": "Collection heading 4",
+      "info": "This heading will be displayed on the no 4 big banner"
+    },
+    {
+      "type": "collection",
+      "id": "collection_4",
+      "label": "Select collection_4",
+      "info": "This collection will be displayed on the no 4 big banner"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_4",
+      "label": "Select image 4",
+      "info": "This image will be displayed on the no 4 big banner"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection list Home 4 "
+    }
+  ]
+}
+{% endschema %}

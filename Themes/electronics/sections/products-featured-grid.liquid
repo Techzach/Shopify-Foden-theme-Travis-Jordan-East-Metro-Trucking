@@ -1,0 +1,310 @@
+{%- liquid
+  assign st = section.settings
+  assign container = st.container
+  assign style_layout = st.style_layout
+  assign heading = st.heading
+  assign sub_heading = st.sub_heading
+  assign view_all_enable = st.view_all_enable
+  assign text_view_all = st.text_view_all
+  assign cls = st.collection
+  if bl != blank
+    assign cls = bl
+  endif
+  assign limit_products = st.limit_products | plus: 0
+  assign collection = collections[cls]
+-%}
+
+{%- capture style -%}
+  padding-top: {{ st.padding_top }}px; padding-bottom: {{ st.padding_bottom }}px;
+{%- endcapture -%}
+{%- if style_layout == "style-1" -%}
+  <section
+    class="tp-seller-area pb-140"
+    style="{{ style | strip | strip_newlines }}"
+    data-id="{{ section.id }}">
+    <div class="{{ container }}">
+      {%- if heading != blank or sub_heading != blank -%}
+        <div class="row">
+          <div class="col-xl-12">
+            <div class="tp-section-title-wrapper-2 mb-50">
+              {%- if sub_heading != blank -%}
+                <span class="tp-section-title-pre-2">
+                  {{ sub_heading }}
+                  <svg
+                    width="82"
+                    height="22"
+                    viewBox="0 0 82 22"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M81 14.5798C0.890564 -8.05914 -5.81154 0.0503902 5.00322 21"
+                      stroke="currentColor"
+                      stroke-opacity="0.3"
+                      stroke-width="2"
+                      stroke-miterlimit="3.8637"
+                      stroke-linecap="round" />
+                  </svg>
+                </span>
+              {%- endif -%}
+              {%- if heading != blank -%}
+                <h2 class="tp-section-title-2">{{ heading }}</h2>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
+      <div class="row">
+        {%- if collection.products.size == 0 -%}
+          {%- for i in (1..limit_products) -%}
+            <div class="col-xl-3 col-lg-4 col-sm-6">
+              <div class="tp-product-item-2 mb-40">
+                <div class="tp-product-thumb-2 p-relative z-index-1 fix w-img">
+                  {%- render 'placeholder-render' | type: 'product' -%}
+                </div>
+                <div class="tp-product-content-2 pt-15">
+                  <div class="tp-product-tag-2">
+                    <a role="link" aria-disabled="true">demo</a>
+                  </div>
+                  <h3 class="tp-product-title-2">
+                    <a role="link" aria-disabled="true">{{ 'products.product.product_placeholder' | t }}</a>
+                  </h3>
+                  <div class="tp-product-price-wrapper-2">
+                    <span class="tp-product-price-2 new-price">$76.00</span>
+                    <span class="tp-product-price-2 old-price">$120.00</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {%- endfor -%}
+        {%- else -%}
+          {%- for product in collection.products limit: limit_products -%}
+            <div class="col-xl-3 col-lg-4 col-sm-6">
+              {%- render 'product-item' | product: product, product_item: "tp-product-item-2" -%}
+            </div>
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+      {%- if view_all_enable -%}
+        {%- if text_view_all != blank -%}
+          <div class="row">
+            <div class="col-xl-12">
+              <div class="tp-seller-more text-center mt-10">
+                <a href="{% if collection == blank %}#{% else %}{{ collection.url }}{% endif %}" class="tp-btn tp-btn-border tp-btn-border-sm">{{ text_view_all }}</a>
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+  </section>
+
+{%- elsif style_layout == "style-2" -%}
+  <section
+    class="tp-product-area grey-bg-8 pt-95 pb-80"
+    style="{{ style | strip | strip_newlines }}"
+    data-id="{{ section.id }}">
+    <div class="container">
+      <div class="row align-items-end">
+        {%- if heading != blank or sub_heading != blank -%}
+          <div class="col-lg-6 col-md-8">
+            <div class="tp-section-title-wrapper-3 mb-55">
+              {%- if sub_heading != blank -%}
+                <span class="tp-section-title-pre-3">{{ sub_heading }}</span>
+              {%- endif -%}
+              {%- if heading != blank -%}
+                <h3 class="tp-section-title-3">{{ heading }}</h3>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endif -%}
+        {%- if view_all_enable -%}
+          <div class="col-lg-6 col-md-4">
+            <div class="tp-product-more-3 text-md-end mb-65">
+              {%- if text_view_all != blank -%}
+                <a href="{% if collection == blank %}#{% else %}{{ collection.url }}{% endif %}" class="tp-btn">
+                  {{ text_view_all }}
+                  <svg
+                    width="12"
+                    height="10"
+                    viewBox="0 0 12 10"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M10.9994 4.99981L1.04004 4.99981"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path
+                      d="M6.98291 1L10.9998 4.99967L6.98291 9"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                </a>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+      <div class="row">
+        {%- if collection.products.size == 0 -%}
+          {%- for i in (1..limit_products) -%}
+            <div class="col-lg-3 col-md-4 col-sm-6">
+              <div class="tp-product-item-3 mb-50">
+                <div class="tp-product-thumb-3 mb-15 fix p-relative z-index-1">
+                  {%- render 'placeholder-render' | type: 'product' -%}
+                </div>
+                <div class="tp-product-content-3">
+                  <div class="tp-product-tag-3">
+                    <span>Retinol 24</span>
+                  </div>
+                  <h3 class="tp-product-title-3">
+                    <a role="link" aria-disabled="true">{{ 'products.product.product_placeholder' | t }}</a>
+                  </h3>
+                  <div class="tp-product-price-wrapper-3">
+                    <span class="tp-product-price-3">$19.00</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {%- endfor -%}
+        {%- else -%}
+          {%- for product in collection.products limit: limit_products -%}
+            <div class="col-xl-3 col-lg-4 col-sm-6">
+              {%- render 'product-item' | product: product, product_item: "tp-product-item-3" -%}
+            </div>
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Products Fetured Grid",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "select",
+      "id": "style_layout",
+      "label": "Style layout",
+      "default": "style-1",
+      "options": [
+        {
+          "value": "style-1",
+          "label": "Style 1"
+        },
+        {
+          "value": "style-2",
+          "label": "Style 2"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Top Selling Products"
+    },
+    {
+      "type": "text",
+      "id": "sub_heading",
+      "label": "Sub heading",
+      "default": "Best Seller This Weeks"
+    },
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Layout",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Product settings"
+    },
+    {
+      "id": "collection",
+      "type": "collection",
+      "label": "Select collection"
+    },
+    {
+      "type": "range",
+      "id": "limit_products",
+      "label": "Products to show",
+      "min": 1,
+      "max": 20,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "View all"
+    },
+    {
+      "type": "checkbox",
+      "id": "view_all_enable",
+      "label": "Show \"View all\"",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "text_view_all",
+      "label": "Text",
+      "default": "View All"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Products Fetured Grid"
+    }
+  ]
+}
+{% endschema %}

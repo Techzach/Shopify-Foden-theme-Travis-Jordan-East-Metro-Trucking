@@ -1,0 +1,647 @@
+{%- liquid
+  assign st = section.settings
+  assign container = st.container
+  assign image_payment = st.image_payment
+  assign copyright = st.copyright
+  assign blocks = section.blocks
+  assign bg_color = st.footer_background_color | default: '#F4F7F9'
+  assign show_language = st.show_language
+  assign show_country = st.show_country
+  if show_language or show_country or copyright != blank
+  else
+  endif
+
+  assign footer_layout = settings.footer_layout
+
+  if footer_layout == 'footer-1'
+    assign footer_1 = "tp-footer-area"
+  elsif footer_layout == 'footer-2'
+    assign footer_1 = "tp-footer-area tp-footer-style-2"
+  elsif footer_layout == 'footer-3'
+    assign footer_1 = "tp-footer-area tp-footer-style-2 tp-footer-style-primary"
+  elsif footer_layout == 'footer-4'
+    assign footer_1 = "tp-footer-area tp-footer-style-2 tp-footer-style-5"
+  else
+    assign footer_1 = "tp-footer-area"
+  endif
+-%}
+
+
+<footer>
+  <div class="{{ footer_1 }}" data-bg-color="footer-bg-grey" style="background-color: {{ bg_color }};">
+    {%- if blocks.size > 0 -%}
+      <div class="tp-footer-top pt-95">
+        <div class="{{ container }}">
+          <div class="row">
+          {%- for block in blocks -%}
+            {%- liquid
+            case block.settings.width
+              when '8.333%'
+                assign block_width = 'd-none d-xl-flex col-xl-1'
+              when '16%'
+                assign block_width = 'col-xl-2 col-lg-3 col-md-4 col-sm-6'
+              when '25%'
+                assign block_width = 'col-xl-3 col-lg-3 col-md-4 col-sm-6'
+              when '33%'
+                assign block_width = 'col-xl-4 col-lg-3 col-md-4 col-sm-6'
+              when '50%'
+                assign block_width = 'col-md-6 col-xl-6'
+              when '66%'
+                assign block_width = 'col-md-6 col-xl-8'
+              when '75%'
+                assign block_width = 'col-md-6 col-xl-9'
+              when '83%'
+                assign block_width = 'col-md-6 col-xl-10'
+              when '100%'
+                assign block_width = 'col-md-6 col-xl-12'
+            endcase
+
+              assign block_title = block.settings.title
+              if block.type == 'menu' and block_title == blank
+                assign block_title = linklists[block.settings.menu].title
+              endif
+            -%}
+
+            <div class="{{ block_width }}">
+              <div class="tp-footer-widget footer-col-1 mb-50">
+                  <h4 class="tp-footer-widget-title">{{ block_title }}</h4>
+                  <div class="tp-footer-widget-content">
+                    {%- case block.type -%}
+                      {%- when 'menu' -%}
+                        {%- liquid
+                          assign menu = linklists[block.settings.menu]
+                        -%}
+                        {%- if menu.links != blank -%}
+                          <ul>
+                            {%- for link in menu.links -%}
+                              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                            {%- endfor -%}
+                          </ul>
+                        {%- endif -%}
+                      {%- when 'about_us' -%}
+                        {%- if block.settings.logo_about_us != blank -%}
+                        <div class="tp-footer-logo" style="width: {{ block.settings.logo_width }}px">
+                              <a href="index.html">
+                                <img src="{{ block.settings.logo_about_us | image_url }}" alt="logo">
+                              </a>
+                          </div>
+                        {%- endif -%}
+                        {%- if block.settings.description != blank -%}
+                          <p class="tp-footer-desc">{{ block.settings.description }}</p>
+                        {%- endif -%}
+                        {%- if block.settings.show_socials_link -%}
+                          <div class="tp-footer-social">
+                            {%- if settings.social_facebook_link != blank -%}
+                              <a target="_blank" href="{{ settings.social_facebook_link }}"><i class="fa-brands fa-facebook-f"></i></a>
+                            {%- endif -%}
+                            {%- if settings.social_twitter_link != blank -%}
+                              <a href="{{ settings.social_twitter_link }}"><i class="fa-brands fa-twitter"></i></a>
+                            {%- endif -%}
+                            {%- if settings.social_instagram_link != blank -%}
+                              <a href="{{ settings.social_instagram_link }}"><i class="fa-brands fa-instagram"></i></a>
+                            {%- endif -%}
+                            {%- if settings.social_pinterest_link != blank -%}
+                              <a href="{{ settings.social_pinterest_link }}"><i class="fa-brands fa-pinterest-p"></i></a>
+                            {%- endif -%}
+                            {%- if settings.social_youtube_link != blank -%}
+                              <a href="{{ settings.social_youtube_link }}"><i class="fa-brands fa-youtube"></i></a>
+                            {%- endif -%}
+                            {%- if settings.social_vimeo_link != blank -%}
+                              <a href="{{ settings.social_vimeo_link }}"><i class="fa-brands fa-vimeo-v"></i></a>
+                            {%- endif -%}
+                            {%- if settings.social_linkedin_link != blank -%}
+                              <a href="{{ settings.social_linkedin_link }}"><i class="fa-brands fa-linkedin-in"></i></a>
+                            {%- endif -%}
+                          </div>
+                        {%- endif -%}
+
+                      {%- when 'newsletter' -%}
+                        <div class="tp-footer-subscribe">
+                            <p>{{ block.settings.description }}</p>
+                            <div class="tp-footer-subscribe-form mb-30">
+                              {%- form 'customer' -%}
+                                  <div class="tp-footer-subscribe-input">
+                                    <input type="email" placeholder="Enter Your Email" name="contact[email]" autocapitalize="off" autocomplete="off" spellcheck="false">
+                                    <button type="submit" name="commit" aria-label="{{ 'newsletter.button_label' | t }}">{{ block.settings.email_btn_label }} </button>
+                                  </div>
+                              {%- endform -%}
+                            </div>
+                            {%- if block.settings.show_social -%}
+                            <div class="tp-footer-social-4 tp-footer-social">
+                              <h4 class="tp-footer-social-title-4">Follow Us On</h4>
+                                {%- if settings.social_facebook_link != blank -%}
+                                  <a target="_blank" href="{{ settings.social_facebook_link }}"><i class="fa-brands fa-facebook-f"></i></a>
+                                {%- endif -%}
+                                {%- if settings.social_twitter_link != blank -%}
+                                  <a href="{{ settings.social_twitter_link }}"><i class="fa-brands fa-twitter"></i></a>
+                                {%- endif -%}
+                                {%- if settings.social_instagram_link != blank -%}
+                                  <a href="{{ settings.social_instagram_link }}"><i class="fa-brands fa-instagram"></i></a>
+                                {%- endif -%}
+                                {%- if settings.social_pinterest_link != blank -%}
+                                  <a href="{{ settings.social_pinterest_link }}"><i class="fa-brands fa-pinterest-p"></i></a>
+                                {%- endif -%}
+                                {%- if settings.social_youtube_link != blank -%}
+                                  <a href="{{ settings.social_youtube_link }}"><i class="fa-brands fa-youtube"></i></a>
+                                {%- endif -%}
+                                {%- if settings.social_vimeo_link != blank -%}
+                                  <a href="{{ settings.social_vimeo_link }}"><i class="fa-brands fa-vimeo-v"></i></a>
+                                {%- endif -%}
+                                {%- if settings.social_linkedin_link != blank -%}
+                                  <a href="{{ settings.social_linkedin_link }}"><i class="fa-brands fa-linkedin-in"></i></a>
+                                {%- endif -%}
+                            </div>
+                            {%- endif -%}
+                        </div>
+
+                      {%- when 'custom_text' -%}
+                        {%- if block.settings.image != blank -%}
+                          <div
+                            class=""
+                            style="max-width: {{ block.settings.image_max }}"
+                          >
+                            {%- render 'responsive-image', image: block.settings.image -%}
+                          </div>
+                        {%- endif -%}
+                        {%- if block.settings.description != blank -%}
+                          {{ block.settings.description }}
+                        {%- endif -%}
+                      {%- when 'custom_html' -%}
+                        {%- if block.settings.html != blank -%}
+                          {{ block.settings.html }}
+                        {%- endif -%}
+                      {%- else -%}
+                    {%- endcase -%}
+                  </div>
+              </div>
+            </div>
+          {%- endfor -%}
+    {%- endif -%}
+    <div class="tp-footer-bottom">
+        <div class="container">
+          <div class="tp-footer-bottom-wrapper">
+              <div class="row align-items-center">
+                <div class="col-md-6">
+                  {%- if copyright != blank -%}
+                    <div class="tp-footer-copyright">
+                      <p>{{ copyright }}</p>
+                    </div>
+                  {%- endif -%}
+                </div>         
+                <div class="col-md-6">
+                    <div class="tp-footer-payment text-md-end">
+                      <p>
+                        {%- if image_payment != blank -%}
+                          <img src="{{ image_payment | image_url: width: 300, height: 300 }}" alt="payment">
+                      {%- endif -%}
+                      </p>
+                    </div>
+                </div>
+              </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Layout",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Copyright"
+    },
+    {
+      "type": "richtext",
+      "id": "copyright",
+      "label": "Copyright text",
+      "default": "<p>Copyright © Uminex all rights reserved. Powered by Blueskytechco.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Payment icon"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_payment",
+      "label": "Upload payment icons",
+      "info": "Leave blank to use icons by Payment methods"
+    },
+    {
+      "type": "header",
+      "content": "Footer color"
+    },
+    {
+      "type": "color",
+      "id": "footer_background_color",
+      "label": "Background color",
+      "default": "#F4F7F9"
+    }
+  ],
+  "max_blocks": 5,
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Menu",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Footer menu",
+          "default": "main-menu"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Service",
+          "info": "Leave blank to use menu heading"
+        },
+        {
+          "type": "select",
+          "id": "width",
+          "label": "Section width",
+          "default": "25%",
+          "options": [
+            {
+              "value": "16%",
+              "label": "16%"
+            },
+            {
+              "value": "25%",
+              "label": "25%"
+            },
+            {
+              "value": "33%",
+              "label": "33%"
+            },
+            {
+              "value": "50%",
+              "label": "50%"
+            },
+            {
+              "value": "66%",
+              "label": "66%"
+            },
+            {
+              "value": "75%",
+              "label": "75%"
+            },
+            {
+              "value": "83%",
+              "label": "83%"
+            },
+            {
+              "value": "100%",
+              "label": "100%"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "about_us",
+      "name": "About",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description"
+        },
+        {
+          "type": "image_picker",
+          "id": "logo_about_us",
+          "label": "Logo",
+          "info": "90 x 20px recommended"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_socials_link",
+          "label": "Show social icons",
+          "default": false
+        },
+        {
+          "type": "select",
+          "id": "width",
+          "label": "Container width",
+          "default": "25%",
+          "options": [
+            {
+              "value": "16%",
+              "label": "16%"
+            },
+            {
+              "value": "25%",
+              "label": "25%"
+            },
+            {
+              "value": "33%",
+              "label": "33%"
+            },
+            {
+              "value": "50%",
+              "label": "50%"
+            },
+            {
+              "value": "66%",
+              "label": "66%"
+            },
+            {
+              "value": "75%",
+              "label": "75%"
+            },
+            {
+              "value": "83%",
+              "label": "83%"
+            },
+            {
+              "value": "100%",
+              "label": "100%"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "newsletter",
+      "name": "Newsletter",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Subscribe"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Newsletter description</p>"
+        },
+        {
+          "type": "text",
+          "id": "email_placeholder",
+          "label": "Email placeholder",
+          "default": "Enter your email..."
+        },
+        {
+          "type": "text",
+          "id": "email_btn_label",
+          "label": "Button label",
+          "default": "subscribe"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_social",
+          "label": "Show social icons",
+          "default": false
+        },
+        {
+          "type": "select",
+          "id": "width",
+          "label": "Container width",
+          "default": "25%",
+          "options": [
+            {
+              "value": "16%",
+              "label": "16%"
+            },
+            {
+              "value": "25%",
+              "label": "25%"
+            },
+            {
+              "value": "33%",
+              "label": "33%"
+            },
+            {
+              "value": "50%",
+              "label": "50%"
+            },
+            {
+              "value": "66%",
+              "label": "66%"
+            },
+            {
+              "value": "75%",
+              "label": "75%"
+            },
+            {
+              "value": "83%",
+              "label": "83%"
+            },
+            {
+              "value": "100%",
+              "label": "100%"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "custom_text",
+      "name": "Custom content",
+      "limit": 5,
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Content"
+        },
+        {
+          "type": "select",
+          "id": "width",
+          "label": "Container width",
+          "default": "25%",
+          "options": [
+            {
+              "value": "16%",
+              "label": "16%"
+            },
+            {
+              "value": "25%",
+              "label": "25%"
+            },
+            {
+              "value": "33%",
+              "label": "33%"
+            },
+            {
+              "value": "50%",
+              "label": "50%"
+            },
+            {
+              "value": "66%",
+              "label": "66%"
+            },
+            {
+              "value": "75%",
+              "label": "75%"
+            },
+            {
+              "value": "83%",
+              "label": "83%"
+            },
+            {
+              "value": "100%",
+              "label": "100%"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "custom_html",
+      "name": "Custom HTML",
+      "limit": 5,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Custom HTML"
+        },
+        {
+          "type": "liquid",
+          "id": "html",
+          "label": "HTML",
+          "info": "Liquid code supported"
+        },
+        {
+          "type": "select",
+          "id": "width",
+          "label": "Container width",
+          "default": "25%",
+          "options": [
+            {
+              "value": "16%",
+              "label": "16%"
+            },
+            {
+              "value": "25%",
+              "label": "25%"
+            },
+            {
+              "value": "33%",
+              "label": "33%"
+            },
+            {
+              "value": "50%",
+              "label": "50%"
+            },
+            {
+              "value": "66%",
+              "label": "66%"
+            },
+            {
+              "value": "75%",
+              "label": "75%"
+            },
+            {
+              "value": "83%",
+              "label": "83%"
+            },
+            {
+              "value": "100%",
+              "label": "100%"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "spacing",
+      "name": "Spacing",
+      "limit": 5,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Use this block to make a spacing between columns"
+        },
+        {
+          "type": "select",
+          "id": "width",
+          "label": "Container width",
+          "default": "8.333%",
+          "options": [
+            {
+              "value": "8.333%",
+              "label": "8.333%"
+            },
+            {
+              "value": "16%",
+              "label": "16%"
+            },
+            {
+              "value": "20%",
+              "label": "20%"
+            },
+            {
+              "value": "25%",
+              "label": "25%"
+            },
+            {
+              "value": "33%",
+              "label": "33%"
+            },
+            {
+              "value": "50%",
+              "label": "50%"
+            },
+            {
+              "value": "66%",
+              "label": "66%"
+            },
+            {
+              "value": "75%",
+              "label": "75%"
+            },
+            {
+              "value": "83%",
+              "label": "83%"
+            },
+            {
+              "value": "100%",
+              "label": "100%"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

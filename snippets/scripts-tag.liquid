@@ -1,0 +1,44 @@
+{%- assign t = template | split: '.' | first -%}
+<script src="{{ 'jquery.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'waypoints.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'bootstrap-bundle.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'meanmenu.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'swiper-bundle.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'slick.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'range-slider.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'magnific-popup.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'nice-select.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'parallax.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'purecounter.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'countdown.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'wow.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'isotope-pkgd.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'imagesloaded-pkgd.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'ajax-form.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'main.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'add-to-cart-ajax.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'product_action.js' | asset_url }}" defer="defer"></script>
+
+{%- assign admin_vi = request.design_mode -%}
+<script defer="defer">
+  var shofy_app = {
+    shop: '{{ shop.permanent_domain }}',
+    domain: '{{ shop.domain }}',
+    mode: '{%- if admin_vi == true -%}admin{% else %}front{%- endif -%}',
+  };
+</script>
+{% comment %} <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script> {% endcomment %}
+{%- assign t = template | split: '.' | first -%}
+{%- case t -%}
+  {%- when 'product' -%}
+    <script src="{{ 'drift.min.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'main-product.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'glightbox.min.js' | asset_url }}" defer="defer"></script>
+  {%- when 'collection' and collection.handle -%}
+    <script src="{{ 'collection.js' | asset_url }}" defer="defer"></script>
+{%- endcase -%}
+{% if template contains 'customers' %}
+  <script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer></script>
+{% endif %}
+
+<script src="{{ 'custom.js' | asset_url }}" defer="defer"></script>

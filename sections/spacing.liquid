@@ -1,0 +1,34 @@
+<div class="tps__spacing" style="--height-desktop: {{ section.settings.spacing_desktop }}px; --height-mobile: {{ section.settings.spacing_moible }}px;"></div>
+{% schema %}
+{
+  "name": "Spacing",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "spacing_desktop",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "default": 30,
+      "label": "Space"
+    },
+    {
+      "type": "range",
+      "id": "spacing_moible",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 30,
+      "label": "Space on mobile"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Spacing"
+    }
+  ]
+}
+{% endschema %}

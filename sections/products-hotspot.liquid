@@ -1,0 +1,568 @@
+{%- liquid
+  assign st = section.settings
+  assign container = st.container
+  assign product_hotspot_sub_heading = st.product_hotspot_sub_heading
+  assign collection_sub_heading = st.collection_sub_heading
+  assign shop_collection_btn_text = st.shop_collection_btn_text
+  assign product_hotspot_image = st.product_hotspot_image
+  assign product_hotspot_enable_1 = st.product_hotspot_enable_1
+  assign product_hotspot_text_1 = st.product_hotspot_text_1
+  assign product_hotspot_description_1 = st.product_hotspot_description_1
+  assign product_hotspot_enable_2 = st.product_hotspot_enable_2
+  assign product_hotspot_text_2 = st.product_hotspot_text_2
+  assign product_hotspot_description_2 = st.product_hotspot_description_2
+  assign style_layout = st.style_layout
+  assign heading = st.heading
+  assign sub_heading = st.sub_heading
+  assign cls = st.collection
+  if bl != blank
+    assign cls = bl
+  endif
+  assign limit_products = st.limit_products | plus: 0
+  assign collection = collections[cls]
+  assign collection_image = st.collection_image
+  assign collection_side_text_image = st.collection_side_text_image
+-%}
+
+{%- capture style -%}
+  padding-top: {{ st.padding_top }}px; padding-bottom: {{ st.padding_bottom }}px;
+{%- endcapture -%}
+{%- if style_layout == 'style-1' -%}
+  <section
+    class="tp-special-area fix"
+    style="{{ style | strip | strip_newlines }}"
+    data-id="{{ section.id }}"
+  >
+    <div class="{{ container }}">
+      <div class="row gx-2">
+        <div class="col-xl-5 col-md-6">
+          {%- if product_hotspot_image != blank -%}
+            <div class="tp-special-slider-thumb">
+              <div class="tp-special-thumb">
+                <img src="{{ product_hotspot_image | image_url }}" alt="">
+                {%- if product_hotspot_enable_1 == true -%}
+                  <div class="tp-special-hotspot-item tp-special-hotspot-1">
+                    <span class="tp-hotspot tp-pulse-border ">
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 14 14"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M7 1V13"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round" />
+                        <path
+                          d="M1 7H13"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round" />
+                      </svg>
+                    </span>
+                    <div class="tp-special-hotspot-content">
+                      {%- if product_hotspot_text_1 != blank -%}
+                        <h3 class="tp-special-hotspot-title">{{ product_hotspot_text_1 }}</h3>
+                      {%- endif -%}
+                      {%- if product_hotspot_description_1 != blank -%}
+                        <p>{{ product_hotspot_description_1 }}</p>
+                      {%- endif -%}
+                    </div>
+                  </div>
+                {%- endif -%}
+                {%- if product_hotspot_enable_2 == true -%}
+                  <div class="tp-special-hotspot-item tp-special-hotspot-2">
+                    <span class="tp-hotspot tp-pulse-border ">
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 14 14"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M7 1V13"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round" />
+                        <path
+                          d="M1 7H13"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round" />
+                      </svg>
+                    </span>
+                    <div class="tp-special-hotspot-content">
+                      {%- if product_hotspot_text_2 != blank -%}
+                        <h3 class="tp-special-hotspot-title">{{ product_hotspot_text_2 }}</h3>
+                      {%- endif -%}
+                      {%- if product_hotspot_description_2 != blank -%}
+                        <p>{{ product_hotspot_description_2 }}</p>
+                      {%- endif -%}
+                    </div>
+                  </div>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endif -%}
+        </div>
+        <div class="col-xl-7 col-md-6">
+          <div class="tp-special-wrapper grey-bg-9 pt-85 pb-35">
+            {%- if heading != blank or sub_heading != blank -%}
+              <div class="tp-section-title-wrapper-3 mb-40 text-center">
+                {%- if sub_heading != blank -%}
+                  <span class="tp-section-title-pre-3">{{ sub_heading }}</span>
+                {%- endif -%}
+                {%- if heading != blank -%}
+                  <h3 class="tp-section-title-3">{{ heading }}</h3>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+            <div class="tp-special-slider ">
+              <div class="row gx-0 justify-content-center">
+                <div class="col-xl-5 col-lg-7 col-md-9 col-sm-7">
+                  <div class="tp-special-slider-inner p-relative  ">
+                    <div class="tp-special-slider-active swiper-container">
+                      <div class="swiper-wrapper">
+                        {%- if collection.products.size == 0 -%}
+                          {%- for i in (1..limit_products) -%}
+                            <div class="tp-special-i    tem swiper-slide grey-bg-9">
+                              <div class="tp-product-item-3 mb-50 text-center">
+                                <div class="tp-product-thumb-3 mb-15 fix p-relative z-index-1">
+                                  {%- render 'placeholder-render' | type: 'product' -%}
+                                </div>
+                                <div class="tp-product-content-3">
+                                  <h3 class="tp-product-title-3">
+                                    <a role="link" aria-disabled="true">
+                                      {{- 'products.product.product_placeholder' | t -}}
+                                    </a>
+                                  </h3>
+                                  <div class="tp-product-price-wrapper-3">
+                                    <span class="tp-product-price-3">$102.00</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          {%- endfor -%}
+                        {%- else -%}
+                          {%- for product in collection.products limit: limit_products -%}
+                            <div class="tp-special-item swiper-slide grey-bg-9">
+                              {%- render 'product-item' | product: product, product_item: "tp-product-item-3" -%}
+                            </div>
+                          {%- endfor -%}
+                        {%- endif -%}
+                      </div>
+                    </div>
+
+                    <div class="tp-swiper-dot tp-special-slider-dot d-sm-none text-center "></div>
+                    <div class="tp-special-arrow d-none d-sm-block">
+                      <button class="tp-special-slider-button-prev">
+                        <svg
+                          width="8"
+                          height="14"
+                          viewBox="0 0 8 14"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M7 1L1 7L7 13"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        </svg>
+                      </button>
+
+                      <button class="tp-special-slider-button-next">
+                        <svg
+                          width="8"
+                          height="14"
+                          viewBox="0 0 8 14"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M1 1L7 7L1 13"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{%- elsif style_layout == 'style-2' -%}
+  <section class="tp-collection-area">
+    <div class="container-fluid">
+      <div class="tp-collection-inner-4 pl-100 pr-100">
+        <div class="row gx-0">
+          <div class="col-xl-6 col-lg-6">
+            {%- if product_hotspot_image != blank -%}
+              <div class="tp-collection-thumb-wrapper-4 p-relative fix z-index-1">
+                <div
+                  class="tp-collection-thumb-4 include-bg black-bg"
+                  data-background="{{ product_hotspot_image | image_url }}"
+                ></div>
+                {%- if product_hotspot_sub_heading != blank -%}
+                  <span class="tp-collection-thumb-info-4">{{ product_hotspot_sub_heading }}</span>
+                {%- endif -%}
+                {%- if product_hotspot_enable_1 == true -%}
+                  <div class="tp-collection-hotspot-item tp-collection-hotspot-1">
+                    <span class="tp-hotspot tp-pulse-border ">
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 14 14"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M7 1V13"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round" />
+                        <path
+                          d="M1 7H13"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round" />
+                      </svg>
+                    </span>
+                    <div class="tp-collection-hotspot-content">
+                      {%- if product_hotspot_text_1 != blank -%}
+                        <h3 class="tp-collection-hotspot-title">{{ product_hotspot_text_1 }}</h3>
+                      {%- endif -%}
+                      {%- if product_hotspot_description_1 != blank -%}
+                        <p>{{ product_hotspot_description_1 }}</p>
+                      {%- endif -%}
+                    </div>
+                  </div>
+                {%- endif -%}
+                {%- if product_hotspot_enable_2 == true -%}
+                  <div class="tp-collection-hotspot-item tp-collection-hotspot-2">
+                    <span class="tp-hotspot tp-pulse-border ">
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 14 14"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M7 1V13"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round" />
+                        <path
+                          d="M1 7H13"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round" />
+                      </svg>
+                    </span>
+                    <div class="tp-collection-hotspot-content on-top">
+                      {%- if product_hotspot_text_2 != blank -%}
+                        <h3 class="tp-collection-hotspot-title">{{ product_hotspot_text_2 }}</h3>
+                      {%- endif -%}
+                      {%- if product_hotspot_description_2 != blank -%}
+                        <p>{{ product_hotspot_description_2 }}</p>
+                      {%- endif -%}
+                    </div>
+                  </div>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          </div>
+          <div class="col-xl-6 col-lg-6">
+            <div class="tp-collection-wrapper-4 p-relative pt-90 pb-95" data-bg-color="#F6F6F6">
+              <span class="tp-collection-side-text">
+                <a href="{% if collection == blank %}#{% else %}{{ collection.url }}{% endif %}">
+                  {% if collection_side_text_image != blank %}
+                    <img
+                      src="{{ collection_side_text_image | image_url }}"
+                      alt="{{ collection.title }}"
+                      width="auto"
+                      height="auto"
+                    >
+                  {% else %}
+                    <img
+                      src="{{ 'no-image.png' | asset_url }}"
+                      alt="{{ collection.title }}"
+                      width="auto"
+                      height="auto"
+                    >
+                  {% endif %}
+                </a>
+              </span>
+              <div class="row justify-content-center">
+                <div class="col-xl-6 col-lg-8">
+                  <div class="tp-collection-item-4 text-center">
+                    {%- if collection_sub_heading != blank -%}
+                      <span class="tp-collection-subtitle-4">{{ collection_sub_heading }}</span>
+                    {%- endif -%}
+                    <div class="tp-collection-thumb-banner-4 m-img">
+                      <a href="{% if collection == blank %}#{% else %}{{ collection.url }}{% endif %}">
+                        {% if collection_image != blank %}
+                          <img
+                            src="{{ collection_image | image_url }}"
+                            alt="{{ collection.title }}"
+                            width="auto"
+                            height="auto"
+                          >
+                        {% else %}
+                          <img
+                            src="{{ 'no-image.png' | asset_url }}"
+                            alt="{{ collection.title }}"
+                            width="auto"
+                            height="auto"
+                          >
+                        {% endif %}
+                      </a>
+                    </div>
+
+                    {%- if shop_collection_btn_text != blank -%}
+                      <div class="tp-collection-content-4">
+                        <h3 class="tp-collection-title-4">
+                          <a href="{% if collection == blank %}#{% else %}{{ collection.url }}{% endif %}">
+                            {{ collection.title | escape }}
+                          </a>
+                        </h3>
+                        <div class="tp-collection-btn-4">
+                          <a
+                            href="{% if collection == blank %}#{% else %}{{ collection.url }}{% endif %}"
+                            class="tp-link-btn-line-2"
+                          >
+                            {{ shop_collection_btn_text }}
+                            <svg
+                              width="7"
+                              height="12"
+                              viewBox="0 0 7 12"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M1 1L6.02116 5.99958L1 11"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            </svg>
+                          </a>
+                        </div>
+                      </div>
+                    {%- endif -%}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Products Hotspot",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "select",
+      "id": "style_layout",
+      "label": "Style layout",
+      "default": "style-1",
+      "options": [
+        {
+          "value": "style-1",
+          "label": "Style 1"
+        },
+        {
+          "value": "style-2",
+          "label": "Style 2"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Top Selling Products"
+    },
+    {
+      "type": "text",
+      "id": "sub_heading",
+      "label": "Sub heading",
+      "default": "Best Seller This Weeks"
+    },
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Layout",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Collection settings"
+    },
+    {
+      "type": "text",
+      "id": "collection_sub_heading",
+      "label": "Collection sub heading"
+    },
+    {
+      "type": "text",
+      "id": "collection_before_btn_text",
+      "label": "Collection before button text"
+    },
+    {
+      "type": "text",
+      "id": "shop_collection_btn_text",
+      "label": "Shop collection button text"
+    },
+    {
+      "id": "collection",
+      "type": "collection",
+      "label": "Select collection"
+    },
+    {
+      "type": "image_picker",
+      "id": "collection_image",
+      "label": "Collection image"
+    },
+    {
+      "type": "image_picker",
+      "id": "collection_side_text_image",
+      "label": "Collection side text image"
+    },
+    {
+      "type": "range",
+      "id": "limit_products",
+      "label": "Products to show",
+      "min": 1,
+      "max": 20,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Product Hotspot"
+    },
+    {
+      "type": "text",
+      "id": "product_hotspot_sub_heading",
+      "label": "Product Hotspot Sub heading"
+    },
+    {
+      "type": "image_picker",
+      "id": "product_hotspot_image",
+      "label": "Hotspot image"
+    },
+    {
+      "type": "checkbox",
+      "id": "product_hotspot_enable_1",
+      "label": "Show product hotspot 1",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "product_hotspot_text_1",
+      "label": "Hotspot text 1",
+      "default": "Skincare Product"
+    },
+    {
+      "type": "text",
+      "id": "product_hotspot_description_1",
+      "label": "Hotspot description 1",
+      "default": "Lorem ipsum dolor sit amet consectetur."
+    },
+    {
+      "type": "checkbox",
+      "id": "product_hotspot_enable_2",
+      "label": "Show product hotspot 2",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "product_hotspot_text_2",
+      "label": "Hotspot text 2",
+      "default": "Skincare Product"
+    },
+    {
+      "type": "text",
+      "id": "product_hotspot_description_2",
+      "label": "Hotspot description 2",
+      "default": "Lorem ipsum dolor sit amet consectetur."
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Products Hotspot"
+    }
+  ]
+}
+{% endschema %}

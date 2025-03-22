@@ -1,0 +1,58 @@
+{%- liquid
+  assign top_search = settings.show_top_search
+  assign my_account = settings.show_my_account
+  assign compare = settings.show_compare_icon
+  assign wishlist = settings.show_wishlist_icon
+  assign minicart = settings.show_minicart
+-%}
+<div class="tp-header-main tp-header-sticky">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-xl-2 col-lg-2 col-md-4 col-6">
+        <div class="logo">
+          {%- render 'logo' -%}
+        </div>
+      </div>
+      <div class="col-xl-6 col-lg-7 d-none d-lg-block">
+        {%- liquid
+          if top_search
+            render 'top-search' | layout1: true
+          endif
+        -%}
+      </div>
+
+      <div class="col-xl-4 col-lg-3 col-md-8 col-6">
+        <div class="tp-header-main-right d-flex align-items-center justify-content-end">
+          {%- liquid
+            if my_account
+              render 'my-account'
+            endif
+          -%}
+
+          <div class="tp-header-action d-flex align-items-center ml-50">
+            {%- liquid
+              if compare
+                render 'compare'
+              endif
+              if wishlist
+                render 'wishlist'
+              endif
+              if minicart
+                render 'minicart'
+              endif
+            -%}
+            <div class="tp-header-action-item d-lg-none">
+              <button type="button" class="tp-header-action-btn tp-offcanvas-open-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="16" viewBox="0 0 30 16">
+                  <rect x="10" width="20" height="2" fill="currentColor"></rect>
+                  <rect x="5" y="7" width="25" height="2" fill="currentColor"></rect>
+                  <rect x="10" y="14" width="20" height="2" fill="currentColor"></rect>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

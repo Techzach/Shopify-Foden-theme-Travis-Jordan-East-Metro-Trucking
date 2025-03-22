@@ -1,0 +1,319 @@
+{% liquid
+  assign st = section.settings
+  assign container = st.container
+%}
+{%- capture style -%}
+  padding-top: {{ st.padding_top }}px; padding-bottom: {{ st.padding_bottom }}px;
+{%- endcapture -%}
+<section class="tp-banner-area pb-70" style="{{ style | strip | strip_newlines }}">
+  <div class="{{ container }}">
+    <div class="row">
+      {%- for block in section.blocks -%}
+        {% liquid
+          assign bs = block.settings
+        %}
+
+        <div class="{{ bs.banner_width }}">
+          {%- if bs.banner_width == 'col-xl-8 col-lg-7' -%}
+            <div class="tp-banner-item {% if bs.button_type == 'type-2' %}tp-banner-item-sm{% endif %} tp-banner-height p-relative mb-30 z-index-1 fix">
+              <div class="tp-banner-thumb include-bg transition-3" data-background="{%- if bs.image != blank -%}{{ bs.image | image_url }}{%- else -%}{%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%} {%- endif -%}"></div>
+              <div class="tp-banner-content">
+                {%- if bs.subtext != blank -%}
+                  <span>{{ bs.subtext }}</span>
+                {%- endif -%}
+                {%- if bs.title != blank -%}
+                  <h3 class="tp-banner-title">
+                    <a
+                      {% if bs.link == blank %}
+                      role="link"
+                      aria-disabled="true"
+                      {% else %}
+                      href="{{ bs.link }}"
+                      {% endif %}
+                      {%- if bs.open_link == '_blank' -%}
+                      target="_blank"
+                      {%- else -%}
+                      target="_self"
+                      {%- endif -%}>
+                      {{- bs.title -}}
+                    </a>
+                  </h3>
+                {%- endif -%}
+                {%- if bs.btn_content != blank -%}
+                  <div class="tp-banner-btn">
+                    <a
+                      {% if bs.link == blank %}
+                      role="link"
+                      aria-disabled="true"
+                      {% else %}
+                      href="{{ bs.link }}"
+                      {% endif %}
+                      {%- if bs.open_link == '_blank' -%}
+                      target="_blank"
+                      {%- else -%}
+                      target="_self"
+                      {%- endif -%}
+                      class="tp-link-btn {% if bs.button_type == 'link' %}d-flex flex-1 align-items-center justify-content-between{% endif %}">
+                      {{ bs.btn_content | escape }}
+                      <svg
+                        width="15"
+                        height="13"
+                        viewBox="0 0 15 13"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M13.9998 6.19656L1 6.19656"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round" />
+                        <path
+                          d="M8.75674 0.975394L14 6.19613L8.75674 11.4177"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round" />
+                      </svg>
+                    </a>
+                  </div>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- else -%}
+            <div class="tp-banner-item {% if bs.button_type == 'type-2' %}tp-banner-item-sm{% endif %} tp-banner-height p-relative mb-30 z-index-1 fix">
+              <div class="tp-banner-thumb include-bg transition-3" data-background="{%- if bs.image != blank -%}{{ bs.image | image_url }}{%- else -%}{%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%} {%- endif -%}"></div>
+              <div class="tp-banner-content">
+
+                {%- if bs.title != blank -%}
+                  <h3 class="tp-banner-title">
+                    <a
+                      {% if bs.link == blank %}
+                      role="link"
+                      aria-disabled="true"
+                      {% else %}
+                      href="{{ bs.link }}"
+                      {% endif %}
+                      {%- if bs.open_link == '_blank' -%}
+                      target="_blank"
+                      {%- else -%}
+                      target="_self"
+                      {%- endif -%}>
+                      {{- bs.title -}}
+                    </a>
+                  </h3>
+                {%- endif -%}
+                {%- if bs.subtext != blank -%}
+                  <p>{{ bs.subtext }}</p>
+                {%- endif -%}
+                {%- if bs.btn_content != blank -%}
+                  <div class="tp-banner-btn">
+                    <a
+                      {% if bs.link == blank %}
+                      role="link"
+                      aria-disabled="true"
+                      {% else %}
+                      href="{{ bs.link }}"
+                      {% endif %}
+                      {%- if bs.open_link == '_blank' -%}
+                      target="_blank"
+                      {%- else -%}
+                      target="_self"
+                      {%- endif -%}
+                      class="tp-link-btn {% if bs.button_type == 'link' %}d-flex flex-1 align-items-center justify-content-between{% endif %}">
+                      {{ bs.btn_content | escape }}
+                      <svg
+                        width="15"
+                        height="13"
+                        viewBox="0 0 15 13"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M13.9998 6.19656L1 6.19656"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round" />
+                        <path
+                          d="M8.75674 0.975394L14 6.19613L8.75674 11.4177"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round" />
+                      </svg>
+                    </a>
+                  </div>
+                {%- endif -%}
+              </div>
+            </div>
+
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Banner image",
+  "class": "tps__banner-image",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Layout",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px"
+    },
+    {
+      "type": "checkbox",
+      "id": "reset_spacing",
+      "label": "Remove default space between sections",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image_banner",
+      "name": "Banner item",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "select",
+          "id": "banner_width",
+          "label": "Banner width",
+          "options": [
+            {
+              "value": "col-xl-4 col-lg-5",
+              "label": "small"
+            },
+            {
+              "value": "col-xl-8 col-lg-7",
+              "label": "large"
+            }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Banner image",
+          "info": "915 x 500px recommended"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "textarea",
+          "id": "title",
+          "label": "Heading",
+          "default": "Heading"
+        },
+        {
+          "type": "textarea",
+          "id": "subtext",
+          "label": "Subtext",
+          "default": "Subtext"
+        },
+        {
+          "type": "select",
+          "id": "button_type",
+          "label": "Button type",
+          "default": "type-1",
+          "options": [
+            {
+              "value": "type-1",
+              "label": "Type 1"
+            },
+            {
+              "value": "type-2",
+              "label": "Type 2"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "btn_content",
+          "label": "Button label",
+          "default": "Shop now"
+        },
+        {
+          "type": "select",
+          "id": "open_link",
+          "options": [
+            {
+              "value": "_self",
+              "label": "Current tab"
+            },
+            {
+              "value": "_blank",
+              "label": "New tab"
+            }
+          ],
+          "label": "Button open link in",
+          "default": "_blank"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Banner image",
+      "blocks": [
+        {
+          "type": "image_banner"
+        },
+        {
+          "type": "image_banner"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

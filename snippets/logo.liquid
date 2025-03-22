@@ -1,0 +1,21 @@
+{%- liquid
+  assign logo_image = settings.logo_image_1
+  assign logo_width = settings.logo_width
+-%}
+
+{%- if logo_image -%}
+  {%- if request.page_type == 'index' -%}
+    <a href="{{ routes.root_url }}">
+      <img style="max-width: {{ logo_width }}" src="{{ logo_image | image_url }}" alt="{{ logo_image.alt | default: shop.name }}">
+    </a>
+  {%- else -%}
+    <a href="/">
+      <img style="max-width: {{ logo_width }}" src="{{ logo_image | image_url }}" alt="{{ logo_image.alt | default: shop.name }}">
+    </a>
+  {%- endif -%}
+{%- else -%}
+  <a href="/">
+    <span>{{ shop.name }}</span>
+  </a>
+{%- endif -%}
+

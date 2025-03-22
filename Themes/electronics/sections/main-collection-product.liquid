@@ -1,0 +1,609 @@
+{{ 'product.css' | asset_url | stylesheet_tag }}
+{{ 'collection.css' | asset_url | stylesheet_tag }}
+{% # theme-check-disable ContentForHeaderModification %}
+{%- capture contentForQuerystring -%}
+  {{ content_for_header }}
+{%- endcapture -%}
+{% # theme-check-enable ContentForHeaderModification %}
+
+{%- assign pageUrl = contentForQuerystring
+  | split: '"pageurl":"'
+  | last
+  | split: '"'
+  | first
+  | split: request.host
+  | last
+  | replace: '\/', '/'
+  | replace: '%20', ' '
+  | replace: '\u0026', '&'
+-%}
+{%- assign pageQuerystring = pageUrl | split: '?' | last -%}
+{%- liquid
+  assign st = section.settings
+  assign enable_list_view = st.enable_list_view
+  assign sidebar_ps = st.sidebar_position
+  assign products_column = st.products_column
+  assign view = ''
+  if pageQuerystring contains 'view='
+    assign view = pageQuerystring | split: 'view=' | last | split: '&' | first
+  endif
+  if enable_list_view
+    assign view = 'list'
+  endif
+  assign pagination = st.pagination
+  if pageQuerystring contains 'pagination='
+    assign pagination_pr = pageQuerystring | split: 'pagination=' | last | split: '&' | first
+    if pagination_pr == 'default' or pagination_pr == 'load_more' or pagination_pr == 'infinit_scrolling'
+      assign pagination = pagination_pr
+    endif
+  endif
+  if pageQuerystring contains 'column='
+    assign column = pageQuerystring | split: 'column=' | last | split: '&' | first
+    if column == '1' or column == '2' or column == '3' or column == '4'
+      assign products_column = column
+    endif
+  endif
+-%}
+
+<section
+  class="tp-shop-area pb-120 section-collection-product section-{{ section.id }}"
+  data-section-id="{{ section.id }}"
+>
+  <div class="container">
+    <div class="row">
+      {%- if sidebar_ps == 'left_sidebar' -%}
+        {%- render 'collection-sidebar', sidebar_block: section.blocks %}
+      {%- endif -%}
+      <div class="col-xl-9 col-lg-8">
+        {%- liquid
+          assign number_products = section.settings.number_products_grid
+          if view == 'list'
+            assign number_products = section.settings.number_products_list
+          endif
+        -%}
+        {%- paginate collection.products by number_products -%}
+          {%- if collection.products.size == 0 -%}
+            <div
+              class="collection collection--empty page-width"
+              id="product-grid"
+              data-id="{{ section.id }}"
+            >
+              <div class="title-wrapper">
+                <p class="title title--primary">
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 18 18"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M7.97727 1.19847C8.54999 0.715744 9.47454 0.715744 10.0309 1.19847L11.3236 2.30302C11.5691 2.50756 12.0354 2.67938 12.3627 2.67938H13.7536C14.6209 2.67938 15.3327 3.3912 15.3327 4.25847V5.64938C15.3327 5.97665 15.5045 6.43483 15.7091 6.68029L16.8136 7.97302C17.2964 8.54574 17.2964 9.47029 16.8136 10.0267L15.7091 11.3194C15.5045 11.5648 15.3327 12.023 15.3327 12.3503V13.7412C15.3327 14.6085 14.6209 15.3203 13.7536 15.3203H12.3627C12.0354 15.3203 11.5773 15.4921 11.3318 15.6967L10.0391 16.8012C9.46636 17.2839 8.54181 17.2839 7.98545 16.8012L6.69272 15.6967C6.44727 15.4921 5.9809 15.3203 5.66181 15.3203H4.22999C3.36272 15.3203 2.6509 14.6085 2.6509 13.7412V12.3421C2.6509 12.023 2.48727 11.5567 2.28272 11.3194L1.17817 10.0185C0.703629 9.45393 0.703629 8.53756 1.17817 7.97302L2.28272 6.67211C2.48727 6.42665 2.6509 5.96847 2.6509 5.64938V4.26665C2.6509 3.39938 3.36272 2.68756 4.22999 2.68756H5.64545C5.97272 2.68756 6.4309 2.51574 6.67636 2.3112L7.97727 1.19847Z"
+                      stroke="#907341"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path
+                      d="M9 5.8457V9.79752"
+                      stroke="#907341"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path
+                      d="M8.99609 12.2852H9.00344"
+                      stroke="#907341"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                  {{ 'sections.collection_template.empty' | t -}}
+                  {{
+                    'sections.collection_template.use_fewer_filters_html'
+                    | t: link: collection.url, class: 'underlined-link link'
+                  }}
+                </p>
+              </div>
+            </div>
+          {%- else -%}
+            <div class="tp-shop-main-wrapper">
+              <div class="tp-shop-top mb-45">
+                <div class="row">
+                  <div class="col-xl-6">
+                    <div class="tp-shop-top-left d-flex align-items-center ">
+                      <div class="tp-shop-top-tab tp-tab">
+                        <ul
+                          class="nav nav-tabs"
+                          id="productTab"
+                          role="tablist"
+                        >
+                          <li class="nav-item" role="presentation">
+                            <button
+                              class="nav-link active"
+                              id="grid-tab"
+                              data-bs-toggle="tab"
+                              data-bs-target="#grid-tab-pane"
+                              type="button"
+                              role="tab"
+                              aria-controls="grid-tab-pane"
+                              aria-selected="true"
+                            >
+                              <svg
+                                width="18"
+                                height="18"
+                                viewBox="0 0 18 18"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M16.3327 6.01341V2.98675C16.3327 2.04675 15.906 1.66675 14.846 1.66675H12.1527C11.0927 1.66675 10.666 2.04675 10.666 2.98675V6.00675C10.666 6.95341 11.0927 7.32675 12.1527 7.32675H14.846C15.906 7.33341 16.3327 6.95341 16.3327 6.01341Z"
+                                  stroke="currentColor"
+                                  stroke-width="1.5"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round" />
+                                <path
+                                  d="M16.3327 15.18V12.4867C16.3327 11.4267 15.906 11 14.846 11H12.1527C11.0927 11 10.666 11.4267 10.666 12.4867V15.18C10.666 16.24 11.0927 16.6667 12.1527 16.6667H14.846C15.906 16.6667 16.3327 16.24 16.3327 15.18Z"
+                                  stroke="currentColor"
+                                  stroke-width="1.5"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round" />
+                                <path
+                                  d="M7.33268 6.01341V2.98675C7.33268 2.04675 6.90602 1.66675 5.84602 1.66675H3.15268C2.09268 1.66675 1.66602 2.04675 1.66602 2.98675V6.00675C1.66602 6.95341 2.09268 7.32675 3.15268 7.32675H5.84602C6.90602 7.33341 7.33268 6.95341 7.33268 6.01341Z"
+                                  stroke="currentColor"
+                                  stroke-width="1.5"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round" />
+                                <path
+                                  d="M7.33268 15.18V12.4867C7.33268 11.4267 6.90602 11 5.84602 11H3.15268C2.09268 11 1.66602 11.4267 1.66602 12.4867V15.18C1.66602 16.24 2.09268 16.6667 3.15268 16.6667H5.84602C6.90602 16.6667 7.33268 16.24 7.33268 15.18Z"
+                                  stroke="currentColor"
+                                  stroke-width="1.5"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round" />
+                              </svg>
+                            </button>
+                          </li>
+                          <li class="nav-item" role="presentation">
+                            <button
+                              class="nav-link"
+                              id="list-tab"
+                              data-bs-toggle="tab"
+                              data-bs-target="#list-tab-pane"
+                              type="button"
+                              role="tab"
+                              aria-controls="list-tab-pane"
+                              aria-selected="false"
+                            >
+                              <svg
+                                width="16"
+                                height="15"
+                                viewBox="0 0 16 15"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M15 7.11108H1"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round" />
+                                <path
+                                  d="M15 1H1"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round" />
+                                <path
+                                  d="M15 13.2222H1"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round" />
+                              </svg>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="tp-shop-top-result">
+                        <p>There are {{ collection.products.size }} results in total</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xl-6">
+                    {%- liquid
+                      render 'collection-toolbar' | enable_sidebar: enable_sidebar
+                    -%}
+                  </div>
+                </div>
+              </div>
+              <div class="tp-shop-items-wrapper tp-shop-item-primary">
+                <div class="tab-content" id="productTabContent">
+                  <div
+                    class="tab-pane fade show active"
+                    id="grid-tab-pane"
+                    role="tabpanel"
+                    aria-labelledby="grid-tab"
+                    tabindex="0"
+                  >
+                    <div class="row infinite-container">
+                      {%- for product in collection.products -%}
+                        <div class="col-xl-{{ products_column }} col-md-6 col-sm-6 infinite-item">
+                          {%- render 'product-item', product: product, product_item: 'tp-product-item-2' -%}
+                        </div>
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                  <div
+                    class="tab-pane fade"
+                    id="list-tab-pane"
+                    role="tabpanel"
+                    aria-labelledby="list-tab"
+                    tabindex="0"
+                  >
+                    <div class="tp-shop-list-wrapper tp-shop-item-primary mb-70">
+                      <div class="row">
+                        <div class="col-xl-12">
+                          {%- for product in collection.products -%}
+                            {%- render 'product-list-item', product: product -%}
+                          {%- endfor -%}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {%- if paginate.pages > 1 -%}
+                {% render 'pagination', paginate: paginate, st: st, anchor: '', pageurl: view, pagination: pagination %}
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endpaginate -%}
+      </div>
+      {%- if sidebar_ps == 'right_sidebar' -%}
+        {%- render 'collection-sidebar', sidebar_block: section.blocks %}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+{% comment %} Product Model {% endcomment %}
+<div
+  class="modal fade tp-product-modal"
+  id="producQuickViewModal"
+  tabindex="-1"
+  aria-labelledby="producQuickViewModal"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="tp-product-modal-content d-lg-flex align-items-start">
+        <button
+          type="button"
+          class="tp-product-modal-close-btn"
+          data-bs-toggle="modal"
+          data-bs-target="#producQuickViewModal"
+        >
+          <i class="fa-regular fa-xmark"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collection main",
+  "class": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "products_column",
+      "label": "product column",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "number_products_grid",
+      "label": "Max number products grid",
+      "min": 1,
+      "max": 24,
+      "step": 1,
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "number_products_list",
+      "label": "Max number products list",
+      "min": 1,
+      "max": 24,
+      "step": 1,
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "pagination",
+      "label": "Pagination",
+      "default": "default",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Toolbar Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "product_page_count",
+      "label": "Show product per page count",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "product_sort_options",
+      "label": "Show product sort options",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "progress_bar",
+      "label": "Show list, grid bar",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": " Sidebar & Filters"
+    },
+    {
+      "type": "select",
+      "id": "sidebar_position",
+      "label": "Sidebar position on desktop",
+      "default": "left_sidebar",
+      "options": [
+        {
+          "value": "left_sidebar",
+          "label": "Left sidebar"
+        },
+        {
+          "value": "right_sidebar",
+          "label": "Right sidebar"
+        },
+        {
+          "value": "filter_canvas",
+          "label": "full width"
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "categories",
+      "name": "Categories",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Category"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Select Menu"
+        }
+      ]
+    },
+    {
+      "type": "brands",
+      "name": "Brands",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Category"
+        },
+        {
+          "type": "image_picker",
+          "id": "brands_1",
+          "label": "Select Brands 1",
+          "info": "Select brands 1 you want to show"
+        },
+        {
+          "type": "url",
+          "id": "brands_1_link",
+          "label": "Link Brands 1",
+          "info": "Link brands 1 you want to show"
+        },
+        {
+          "type": "image_picker",
+          "id": "brands_2",
+          "label": "Select Brands 2",
+          "info": "Select brands 2 you want to show"
+        },
+        {
+          "type": "url",
+          "id": "brands_2_link",
+          "label": "Link Brands 2",
+          "info": "Link brands 2 you want to show"
+        },
+        {
+          "type": "image_picker",
+          "id": "brands_3",
+          "label": "Select Brands 3",
+          "info": "Select brands 3 you want to show"
+        },
+        {
+          "type": "url",
+          "id": "brands_3_link",
+          "label": "Link Brands 3",
+          "info": "Link brands 3 you want to show"
+        },
+        {
+          "type": "image_picker",
+          "id": "brands_4",
+          "label": "Select Brands 4",
+          "info": "Select brands 4 you want to show"
+        },
+        {
+          "type": "url",
+          "id": "brands_4_link",
+          "label": "Link Brands 4",
+          "info": "Link brands 4 you want to show"
+        },
+        {
+          "type": "image_picker",
+          "id": "brands_5",
+          "label": "Select Brands 5",
+          "info": "Select brands 5 you want to show"
+        },
+        {
+          "type": "url",
+          "id": "brands_5_link",
+          "label": "Link Brands 5",
+          "info": "Link brands 5 you want to show"
+        },
+        {
+          "type": "image_picker",
+          "id": "brands_6",
+          "label": "Select Brands 6",
+          "info": "Select brands 6 you want to show"
+        },
+        {
+          "type": "url",
+          "id": "brands_6_link",
+          "label": "Link Brands 6",
+          "info": "Link brands 6 you want to show"
+        },
+        {
+          "type": "image_picker",
+          "id": "brands_7",
+          "label": "Select Brands 7",
+          "info": "Select brands 7 you want to show"
+        },
+        {
+          "type": "url",
+          "id": "brands_7_link",
+          "label": "Link Brands 7",
+          "info": "Link brands 7 you want to show"
+        },
+        {
+          "type": "image_picker",
+          "id": "brands_8",
+          "label": "Select Brands 8",
+          "info": "Select brands 8 you want to show"
+        },
+        {
+          "type": "url",
+          "id": "brands_8_link",
+          "label": "Link Brands 8",
+          "info": "Link brands 8 you want to show"
+        }
+      ]
+    },
+    {
+      "type": "filter_by_dynamic",
+      "name": "Filter Dynamic",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "This options will not work  with collection contains more than 1000 .[How to set?](/admin/menus)"
+        }
+      ]
+    },
+    {
+      "type": "popular_product",
+      "name": "Popular Product",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Featured Product"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Select collection"
+        },
+        {
+          "type": "select",
+          "id": "type_product",
+          "label": "Product type",
+          "default": "list",
+          "info": "Type is list defaut show 3 products",
+          "options": [
+            {
+              "value": "list",
+              "label": "List"
+            },
+            {
+              "value": "grid",
+              "label": "Grid"
+            }
+          ]
+        },
+        {
+          "type": "range",
+          "id": "maximum",
+          "label": "Maximum products to show",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 3
+        }
+      ]
+    },
+    {
+      "type": "image_banner",
+      "name": "Image Banner",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image Banner",
+          "info": "Upload image: png, jpg or gif file(1920 x 200px recommended)"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_link",
+          "label": "Open link in new window",
+          "default": false
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

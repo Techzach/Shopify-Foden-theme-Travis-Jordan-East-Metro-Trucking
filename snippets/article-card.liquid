@@ -1,0 +1,239 @@
+{%- liquid
+  if show_tag == null
+    assign show_tag = show_tag
+  endif
+  if show_date == null
+    assign show_date = show_date
+  endif
+  if show_excerpt == null
+    assign show_excerpt = show_excerpt
+  endif
+  if show_readmore == null
+    assign show_readmore = show_readmore
+  endif
+  if show_category == null
+    assign show_category = show_category
+  endif
+  if show_author == null
+    assign show_author = show_author
+  endif
+-%}
+{%- case style -%}
+  {%- when 'style-1' -%}
+    <div>
+      <div class="tp-blog-thumb p-relative fix">
+        <a href="{{ article.url }}">
+          <img
+            src="{% if article.image %}{{ article.image | image_url }}{% else %}{{ 'blog-no-image.jpg' | asset_url }}{% endif %}"
+            alt="{{ article.title }}"
+          >
+        </a>
+        {%- if show_date -%}
+          <div class="tp-blog-meta tp-blog-meta-date">
+            <span>{{ article.published_at | date: '%d %b, %Y' }}</span>
+          </div>
+        {%- endif -%}
+      </div>
+      <div class="tp-blog-content">
+        {%- if article.title != blank -%}
+          <h3 class="tp-blog-title">
+            <a href="{{ article.url }}">{{ article.title }}</a>
+          </h3>
+        {%- endif -%}
+
+        {%- if show_excerpt -%}
+          <p>
+            {{ article.content | strip_html | truncatewords: 14, '...' }}
+          </p>
+        {%- endif -%}
+        {%- if show_readmore -%}
+          <div class="tp-blog-btn">
+            <a href="{{ article.url }}" class="tp-btn-2 tp-btn-border-2">
+              {{- 'blog_post.read_more' | t -}}
+              <span>
+                <svg
+                  width="17"
+                  height="15"
+                  viewBox="0 0 17 15"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M16 7.5L1 7.5"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round" />
+                  <path
+                    d="M9.9502 1.47541L16.0002 7.49941L9.9502 13.5244"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </span>
+            </a>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+  {%- when 'style-2' -%}
+    <div class="col-xl-4 col-lg-4 col-md-6">
+      <div class="tp-blog-item-2 mb-40">
+        <div class="tp-blog-thumb-2 p-relative fix">
+          <a href="{{ article.url }}">
+            <img
+              src="
+                {% if article.image %}{{ article.image | image_url }}{% else %}
+                  {{ 'blog-no-image.jpg' | asset_url }}
+                {% endif %}
+              "
+              alt="{{ article.title }}"
+            >
+          </a>
+          {%- if show_date -%}
+            <div class="tp-blog-meta-date-2">
+              <span>{{ article.published_at | date: '%d %b, %Y' }}</span>
+            </div>
+          {%- endif -%}
+        </div>
+        <div class="tp-blog-content-2 has-thumbnail">
+          {%- if show_tag and article.tags != blank and article.tags.size > 0 -%}
+            <div class="tp-blog-meta-2">
+              <span>
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 14 14"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12.636 8.14182L8.14808 12.6297C8.03182 12.7461 7.89375 12.8384 7.74178 12.9014C7.58981 12.9644 7.42691 12.9969 7.26239 12.9969C7.09788 12.9969 6.93498 12.9644 6.78301 12.9014C6.63104 12.8384 6.49297 12.7461 6.37671 12.6297L1 7.25926V1H7.25926L12.636 6.37671C12.8691 6.61126 13 6.92854 13 7.25926C13 7.58998 12.8691 7.90727 12.636 8.14182V8.14182Z"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round" />
+                  <path
+                    d="M4.12964 4.12988H4.13694"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </span>
+              {% for tag in article.tags %}
+                <a href="/blogs/news/tagged/{{ tag | handleize }}">{{ tag }}</a>,
+              {% endfor %}
+            </div>
+          {%- endif -%}
+          {%- if article.title != blank -%}
+            <h3 class="tp-blog-title-2">
+              <a href="{{ article.url }}">{{ article.title }}</a>
+            </h3>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+
+  {%- when 'style-3' -%}
+    <article class="tp-postbox-item format-image mb-50 transition-3">
+      <div class="tp-postbox-thumb w-img">
+        <a href="{{ article.url }}">
+          <img
+            src="{% if article.image %}{{ article.image | image_url }}{% else %}{{ 'blog-no-image.jpg' | asset_url }}{% endif %}"
+            alt="{{ article.title }}"
+            height="auto"
+            width="auto"
+          >
+        </a>
+      </div>
+      <div class="tp-postbox-content">
+        <div class="tp-postbox-meta">
+          {%- if show_date -%}
+            <span>
+              <i class="far fa-calendar-check"></i>
+              {{ article.published_at | date: '%d %b, %Y' }}
+            </span>
+          {%- endif -%}
+          {%- if show_author -%}
+            <span>
+              <a href="#">
+                <i class="far fa-user"></i>
+                {{ article.author | capitalize }}
+              </a>
+            </span>
+          {%- endif -%}
+
+          {%- if show_tag and article.tags != blank and article.tags.size > 0 -%}
+            <span>
+              <i class="fal fa-tags"></i>
+              {% for tag in article.tags limit: 2 %}
+                <a href="/blogs/news/tagged/{{ tag | handleize }}">
+                  {{ tag }}
+                </a>
+                {% if forloop.last == false %},{% endif %}
+              {% endfor %}
+            </span>
+          {%- endif -%}
+        </div>
+
+        <h3 class="tp-postbox-title">
+          <a href="{{ article.url }}">{{ article.title }}</a>
+        </h3>
+
+        {%- if show_excerpt -%}
+          <div class="tp-postbox-text">
+            <p>{{ article.content | strip_html | truncatewords: 55, '[…]' }}</p>
+          </div>
+        {%- endif -%}
+
+        {%- if show_readmore -%}
+          <div class="tp-postbox-read-more">
+            <a href="{{ article.url }}" class="tp-btn">{{- 'blog_post.read_more' | t -}}</a>
+          </div>
+        {%- endif -%}
+      </div>
+    </article>
+
+  {%- when 'style-4' -%}
+    <div class="tp-blog-grid-item p-relative mb-30">
+      <div class="tp-blog-grid-thumb w-img fix mb-30">
+        <a href="{{ article.url }}">
+          <img
+            src="{% if article.image %}{{ article.image | image_url }}{% else %}{{ 'blog-no-image.jpg' | asset_url }}{% endif %}"
+            alt="{{ article.title }}"
+            height="auto"
+            width="auto"
+          >
+        </a>
+      </div>
+      <div class="tp-blog-grid-content">
+        <h3 class="tp-blog-grid-title">
+          <a href="{{ article.url }}">{{ article.title }}</a>
+        </h3>
+        <p>{{ article.content | strip_html | truncatewords: 10, '…' }}</p>
+
+        <div class="tp-blog-grid-btn">
+          <a href="{{ article.url }}" class="tp-link-btn-3">
+            {{- 'blog_post.read_more' | t -}}
+            <span>
+              <svg
+                width="17"
+                height="15"
+                viewBox="0 0 17 15"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M16 7.5L1 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                   stroke-linejoin="round"></path>
+                <path d="M9.9502 1.47541L16.0002 7.49941L9.9502 13.5244" stroke="currentColor"
+                   stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+{%- endcase -%}

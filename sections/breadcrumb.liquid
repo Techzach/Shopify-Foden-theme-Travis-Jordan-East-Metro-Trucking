@@ -1,0 +1,74 @@
+{%- liquid
+  assign st = section.settings
+-%}
+{%- capture style -%}
+  {%- if st.bg_color != blank -%}background-color: {{ st.bg_color }};{%- endif -%}
+  color: {{ st.color }};
+{%- endcapture -%}
+<div
+  class="breadcrumb__area breadcrumb__style-2 include-bg pt-50 pb-20 {{ st.postion }}"
+  style="{{ style | strip | strip_newlines }}"
+>
+  <div class="{{ st.layout }}">
+    {% render 'breadcrumbs' %}
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Breadcrumbs",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color"
+    },
+    {
+      "type": "color",
+      "id": "color",
+      "label": "Text color"
+    },
+    {
+      "type": "select",
+      "id": "postion",
+      "label": "Text alignment",
+      "default": "text-left",
+      "options": [
+        {
+          "label": "Center",
+          "value": "text-center"
+        },
+        {
+          "label": "Left",
+          "value": "text-left"
+        },
+        {
+          "label": "Right",
+          "value": "text-right"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

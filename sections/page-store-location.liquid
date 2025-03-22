@@ -1,0 +1,121 @@
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.css' rel='stylesheet' />
+<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js'></script>
+<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css' type='text/css' />
+
+{% liquid 
+    assign st = section.settings
+    assign container = st.container
+%}
+
+<div class="tps__section tps__location-page">
+    <div class="{{ container }}">
+        <div class="d-flex store-wrapper">
+                <div class="store-infor">
+                {% for block in section.blocks %}
+                    <div class="store-infor__items" data-lng="{{ block.settings.store_lng }}" data-lat="{{ block.settings.store_lat }}" data-name="{{ block.settings.store_name }}" data-address="{{ block.settings.store_address }}" data-phone="{{ block.settings.store_phone }}">
+                        {% if block.settings.store_name != blank %}
+                            <a href="#" id="infor-store_{{ forloop.index | minus: 1 }}" class="store-infor__name fs-18 fw-500">
+                                {{ block.settings.store_name }}
+                            </a>
+                        {% endif %}
+                        {% if block.settings.store_address != blank or block.settings.store_phone %}
+                            <div class="store-infor__information">
+                                {{ block.settings.store_address }} <br>
+                                {{ block.settings.store_phone }}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                </div>
+            <div class="store-map">
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ 'page-store-location.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "Store location page",
+  "class": "tps-store-location-page",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Layout",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Store location",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Store location settings"
+        },
+        {
+          "type": "text",
+          "id": "store_lng",
+          "label": "Longtitude",
+          "info": "Longtitude coordinates at geographic coordinate system. Example: 105.77925"
+        },
+        {
+          "type": "text",
+          "id": "store_lat",
+          "label": "Latitude",
+          "info": "Latitude coordinates at geographic coordinate system. Example: 21.0075"
+        },
+        {
+          "type": "paragraph",
+          "content": "How to get coordinates or search by latitude & longitude[https://support.google.com/maps/answer/18539](https://support.google.com/maps/answer/18539)"
+        },
+        {
+          "type": "header",
+          "content": "Store info settings"
+        },
+        {
+          "type": "text",
+          "id": "store_name",
+          "label": "Store name",
+          "default": "Umino"
+        },
+        {
+          "type": "textarea",
+          "id": "store_address",
+          "label": "Store address",
+          "default": "268 St, South New York/NY 98944, United States."
+        },
+        {
+          "type": "text",
+          "id": "store_phone",
+          "label": "Store phone number",
+          "default": "+222-1800-2628"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

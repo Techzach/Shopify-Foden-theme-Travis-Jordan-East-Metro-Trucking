@@ -1,0 +1,30 @@
+{%- liquid
+    assign placeholder_class = product_placeholder_class
+    if placeholder_class == blank
+        assign placeholder_class = 'product-placeholder'
+    endif
+    assign img_type = 'product'
+    if type != blank
+        assign img_type = type
+    endif
+-%}
+{%- case img_type -%}
+    {%- when 'product' -%}
+        {% assign diff = 6 | minus: 1 %}
+        {% assign randomNumber = "now" | date: "%N" | modulo: diff | plus: 1 %}
+        {{ 'product-' | append: randomNumber | placeholder_svg_tag: placeholder_class }}
+    {%- else -%}
+    {%- when 'collection' -%}
+        {% assign diff = 6 | minus: 1 %}
+        {% assign randomNumber = "now" | date: "%N" | modulo: diff | plus: 1 %}
+        {{ 'collection-' | append: randomNumber | placeholder_svg_tag: placeholder_class }}
+    {%- else -%}
+    {%- when 'image' -%}
+        {{ 'image' | placeholder_svg_tag: placeholder_class }}
+    {%- else -%}
+    {%- when 'lifestyle' -%}
+        {% assign diff = 2 | minus: 1 %}
+        {% assign randomNumber = "now" | date: "%N" | modulo: diff | plus: 1 %}
+        {{ 'lifestyle-' | append: randomNumber | placeholder_svg_tag: placeholder_class }}
+    {%- else -%}
+{%- endcase -%}

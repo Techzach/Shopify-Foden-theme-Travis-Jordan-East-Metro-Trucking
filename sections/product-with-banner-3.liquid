@@ -1,0 +1,233 @@
+{%- liquid
+  assign st = section.settings
+  assign title = st.title
+  assign subtitle = st.subtitle
+  assign limit_products = st.limit_products
+  assign banner_bg_image = st.banner_bg_image
+  assign banner_title = st.banner_title
+  assign banner_btn_text = st.banner_btn_text
+  assign banner_link = st.banner_link
+-%}
+{%- capture style -%}
+    padding-top: {{ st.padding_top }}px; padding-bottom: {{ st.padding_bottom }}px;
+  {%- endcapture -%}
+<section
+  class="tp-trending-area pt-140 pb-150"
+  style="{{ style | strip | strip_newlines }}"
+  id="{{ section.id }}"
+  data-id="{{ section.id }}">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-xl-6 col-lg-6">
+        <div class="tp-trending-wrapper">
+          <div class="tp-section-title-wrapper-2 mb-50">
+            {% if subtitle != blank %}
+              <span class="tp-section-title-pre-2">
+                {{ subtitle }}
+                <svg
+                  width="82"
+                  height="22"
+                  viewBox="0 0 82 22"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M81 14.5798C0.890564 -8.05914 -5.81154 0.0503902 5.00322 21"
+                    stroke="currentColor"
+                    stroke-opacity="0.3"
+                    stroke-width="2"
+                    stroke-miterlimit="3.8637"
+                    stroke-linecap="round" />
+                </svg>
+              </span>
+            {% endif %}
+            {%- if title != blank -%}
+              <h3 class="tp-section-title-2">{{ title }}</h3>
+            {%- endif -%}
+          </div>
+          <div class="tp-trending-slider">
+            <div class="tp-trending-slider-active swiper-container">
+              <div class="swiper-wrapper">
+                {%- assign collection = collections[st.product_collection_link] -%}
+                {%- if collection.products.size == 0 -%}
+                  {%- for i in (1..limit_products) -%}
+                    <div class="tp-trending-item swiper-slide">
+                      <div class="tp-product-item-2">
+                        <div class="tp-product-thumb-2 p-relative z-index-1 fix w-img">
+                          {%- render 'responsive-image' | type: 'product' | cls: 'product_placeholder_class' -%}
+
+                        </div>
+                        <div class="tp-product-content-2 pt-15">
+                          <div class="tp-product-tag-2">
+                            <a role="link" aria-disabled="true">demo</a>
+                          </div>
+                          <h3 class="tp-product-title-2">
+                            <a role="link" aria-disabled="true">{{ 'products.product.product_placeholder' | t }}</a>
+                          </h3>
+                          <div class="tp-product-rating-icon tp-product-rating-icon-2">
+                            <span>
+                              <i class="fa-solid fa-star"></i>
+                            </span>
+                            <span>
+                              <i class="fa-solid fa-star"></i>
+                            </span>
+                            <span>
+                              <i class="fa-solid fa-star"></i>
+                            </span>
+                            <span>
+                              <i class="fa-solid fa-star"></i>
+                            </span>
+                            <span>
+                              <i class="fa-solid fa-star"></i>
+                            </span>
+                          </div>
+                          <div class="tp-product-price-wrapper-2">
+                            <span class="tp-product-price-2 new-price">$340.00</span>
+                            <span class="tp-product-price-2 old-price">$475.00</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  {%- endfor -%}
+                {%- else -%}
+                  {%- for product in collection.products limit: limit_products -%}
+                    <div class="tp-best-item-5 swiper-slide">
+                      {%- render 'product-item' | product: product, product_item: "tp-product-item-2" -%}
+                    </div>
+                  {%- endfor -%}
+                {%- endif -%}
+              </div>
+            </div>
+            <div class="tp-trending-slider-dot tp-swiper-dot text-center mt-45"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-4 col-lg-5 col-md-8 col-sm-10">
+        <div class="tp-trending-banner p-relative ml-35">
+          <div class="tp-trending-banner-thumb w-img include-bg" data-background="{%- if banner_bg_image != blank -%}{{ banner_bg_image | image_url }}{%- else -%}{{ 'product-banner-1.jpg' | asset_url }}{%- endif -%}"></div>
+          <div class="tp-trending-banner-content">
+            {% if banner_title != blank %}
+              <h3 class="tp-trending-banner-title">{{ banner_title }}</h3>
+            {% endif %}
+            {% if banner_btn_text != blank %}
+              <div class="tp-trending-banner-btn">
+                <a href="{{ banner_link }}" class="tp-btn tp-btn-border tp-btn-border-white tp-btn-border-white-sm">
+                  {{ banner_btn_text }}
+                  <svg
+                    width="17"
+                    height="15"
+                    viewBox="0 0 17 15"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M16 7.5L1 7.5"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path
+                      d="M9.9502 1.47541L16.0002 7.49941L9.9502 13.5244"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                </a>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product With Banner 3",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Products Collection"
+    },
+    {
+      "type": "collection",
+      "id": "product_collection_link",
+      "label": "Product collection link"
+    },
+    {
+      "type": "range",
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "default": 6,
+      "label": "Items Limit",
+      "id": "limit_products"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Bestsellers of the week"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "More to Discover"
+    },
+    {
+      "type": "header",
+      "content": "Benner Section"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_bg_image",
+      "label": "Banner Background image"
+    },
+    {
+      "type": "text",
+      "id": "banner_title",
+      "label": "Banner title"
+    },
+    {
+      "type": "text",
+      "id": "banner_btn_text",
+      "label": "Banner button text"
+    },
+    {
+      "type": "url",
+      "id": "banner_link",
+      "label": "Banner link"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product With Banner 3"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,126 @@
+{%- liquid
+  assign st = section.settings
+  assign infinite_scroll = st.collection_infinite_scroll
+  assign limit = st.collection_limit
+-%}
+<div class="page-width">
+  <section class="breadcrumb__area include-bg pt-100 pb-50">
+    <div class="{{ st.container }}">
+      <div class="row">
+        <div class="col-xxl-12">
+          <div class="breadcrumb__content p-relative z-index-1">
+            <h3 class="breadcrumb__title">{{ st.title | escape }}</h3>
+            <div class="breadcrumb__list">
+              <span><a href=" {{ shop.url }}">Home</a></span>
+              <span>{{ st.title | escape }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tp-category-area pb-120">
+    <div class="{{ st.container }}">
+      <div class="row">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign collection = collections[block.settings.collection]
+            if forloop.index > limit and infinite_scroll
+            endif
+            assign count_product = collection.all_products_count | default: 0
+          -%}
+          <div class="col-lg-4 col-sm-6">
+            <div class="tp-category-main-box mb-25 p-relative fix" data-bg-color="#F3F5F7">
+              <div
+                class="tp-category-main-thumb include-bg transition-3"
+                data-background="
+                  {%- if block.settings.image != blank -%}
+                    {{ block.settings.image | image_url: width: 384 , height: 420 }}
+                  {%- elsif collection.image != blank -%}
+                    {{ collection.image | image_url: width: 384 , height: 420 }}
+                  {%- endif -%}
+                "
+              ></div>
+              <div class="tp-category-main-content">
+                <h3 class="tp-category-main-title">
+                  <a href="{% if collection == blank %}#{% else %}{{ collection.url }}{% endif %}">
+                    {%- if block.settings.title_collection != blank -%}
+                      {{ block.settings.title_collection }}
+                    {%- else -%}
+                      {{ collection.title }}
+                    {%- endif -%}
+                  </a>
+                </h3>
+                <span class="tp-category-main-item">
+                  {% if count_product > 1 %}
+                    {{- 'collection.counts_html' | t: count: count_product -}}
+                  {% else %}
+                    {{- 'collection.count_html' | t: count: count_product -}}
+                  {% endif %}
+                </span>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+</div>
+{% schema %}
+{
+  "name": "Collections list page",
+  "class": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Layout",
+      "default": "container-fluid",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "All Collections"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title_collection",
+          "label": "Collection heading"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Select collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Select image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

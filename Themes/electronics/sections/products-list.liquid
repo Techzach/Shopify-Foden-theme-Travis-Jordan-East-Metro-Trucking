@@ -1,0 +1,251 @@
+{%- liquid
+  assign st = section.settings
+  assign container = st.container
+  assign bg_color = st.product_list_background_color
+  assign custom_column = st.custom_column
+  assign column_gap = st.column_gap
+  assign limit_products_desktop = st.limit_products_desktop
+  assign column_gap_tablet = ''
+  if column_gap > 30
+    assign column_gap_tablet = ' gap-tablet'
+  endif
+  assign column_gap_mobile = ''
+  if column_gap > 15
+    assign column_gap_mobile = ' gap-mobile'
+  endif
+
+  if st.reset_spacing
+  endif
+
+  if bg_color != blank
+  endif
+-%}
+{%- capture style -%}
+  padding-top: {{ st.padding_top }}px; padding-bottom: {{ st.padding_bottom }}px;
+{%- endcapture -%}
+<section
+  class="tp-product-sm-area"
+  style="{{ style | strip | strip_newlines }}"
+  id="{{ section.id }}"
+  data-id="{{ section.id }}"
+>
+  <div class="{{ container }}">
+    <div
+      class="row row-cols-xl-{{ custom_column }}{{ column_gap_tablet }}{{ column_gap_mobile }}"
+      style="--bs-gutter-x: {{ column_gap }}px;"
+    >
+      {%- for block in section.blocks limit: section.blocks.size -%}
+        {%- assign collection = collections[block.settings.collection] -%}
+        <div class="col-xl-4 col-md-6">
+          <div class="tp-product-sm-list mb-50">
+            <div class="tp-section-title-wrapper mb-40">
+              <h3 class="tp-section-title tp-section-title-sm">
+                {{ block.settings.column_name }}
+                <svg
+                  width="64"
+                  height="20"
+                  viewBox="0 0 64 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M62 13.1107C1.91792 -5.41202 -3.10865 1.22305 5.00242 18.3636"
+                    stroke="currentColor"
+                    stroke-width="3"
+                    stroke-miterlimit="3.8637"
+                    stroke-linecap="round" />
+                </svg>
+              </h3>
+            </div>
+
+            <div class="tp-product-sm-wrapper mr-20">
+              {%- for product in collection.products limit: limit_products_desktop -%}
+                {%- render 'product-item' | product: product, product_item: "tp-product-sm-item" -%}
+              {% else %}
+                <div class="tp-product-sm-item d-flex align-items-center">
+                  <div class="tp-product-thumb mr-25 fix">
+                    <a role="link" aria-disabled="true">
+                      {%- render 'placeholder-render' | type: 'product' -%}
+                    </a>
+                  </div>
+                  <div class="tp-product-sm-content">
+                    <div class="tp-product-category">
+                      <a role="link" aria-disabled="true">Category</a>
+                    </div>
+                    <h3 class="tp-product-title">
+                      <a role="link" aria-disabled="true">
+                        {{ 'products.product.product_placeholder' | t }}
+                      </a>
+                    </h3>
+                    <div class="tp-product-rating d-sm-flex align-items-center">
+                      <div class="tp-product-rating-icon">
+                        <span>
+                          <i class="fa-solid fa-star"></i>
+                        </span>
+                        <span>
+                          <i class="fa-solid fa-star"></i>
+                        </span>
+                        <span>
+                          <i class="fa-solid fa-star"></i>
+                        </span>
+                        <span>
+                          <i class="fa-solid fa-star"></i>
+                        </span>
+                        <span>
+                          <i class="fa-solid fa-star"></i>
+                        </span>
+                      </div>
+                      <div class="tp-product-rating-text">
+                        <span>(4 Review)</span>
+                      </div>
+                    </div>
+                    <div class="tp-product-price-wrapper">
+                      <span class="tp-product-price">$97.00</span>
+                    </div>
+                  </div>
+                </div>
+              {%- endfor -%}
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Products List",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "header",
+      "content": "General settings"
+    },
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Layout",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "custom_column",
+      "label": "Columns per row",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "limit_products_desktop",
+      "label": "Products per columns (Desktop)",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "min": 0,
+      "max": 50,
+      "unit": "px",
+      "step": 5,
+      "default": 30,
+      "label": "Column gap",
+      "id": "column_gap"
+    },
+    {
+      "type": "color",
+      "id": "product_list_background_color",
+      "label": "Background color"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection_column",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "column_name",
+          "label": "Column heading",
+          "default": "Products list"
+        },
+        {
+          "id": "collection",
+          "type": "collection",
+          "label": "Select Collection"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Products list",
+      "blocks": [
+        {
+          "type": "collection_column",
+          "settings": {
+            "column_name": "Column Name"
+          }
+        },
+        {
+          "type": "collection_column",
+          "settings": {
+            "column_name": "Column Name"
+          }
+        },
+        {
+          "type": "collection_column",
+          "settings": {
+            "column_name": "Column Name"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

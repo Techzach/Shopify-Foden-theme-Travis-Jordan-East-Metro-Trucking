@@ -1,0 +1,202 @@
+{%- liquid
+  assign st = section.settings
+  assign collection_menu_title = st.collection_menu_title
+  assign limit_products = st.limit_products
+  assign collection_menu_list = linklists[st.collection_menu].links
+-%}
+{%- capture style -%}
+    padding-top: {{ st.padding_top }}px; padding-bottom: {{ st.padding_bottom }}px;
+  {%- endcapture -%}
+<section
+  class="tp-product-gadget-area pt-80 pb-75"
+  style="{{ style | strip | strip_newlines }}"
+  id="{{ section.id }}"
+  data-id="{{ section.id }}">
+  <div class="container">
+    <div class="row">
+      <div class="col-xl-4 col-lg-5">
+        <div class="tp-product-gadget-sidebar mb-40">
+          <div class="tp-product-gadget-categories p-relative fix mb-10">
+            {%- if st.collection_menu_image != blank -%}
+              <div class="tp-product-gadget-thumb">
+                <img src="{{ st.collection_menu_image | image_url }}" alt="Colletion Image">
+              </div>
+            {%- endif -%}
+            {%- if collection_menu_title != blank -%}
+              <h3 class="tp-product-gadget-categories-title">{{ collection_menu_title }}</h3>
+            {%- endif -%}
+            {% if collection_menu_list != blank %}
+              <div class="tp-product-gadget-categories-list">
+                <ul>
+                  {% for link in collection_menu_list %}
+                    <li>
+                      <a href="{{ link.url }}">{{ link.title }}</a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endif %}
+          </div>
+          <div class="tp-product-gadget-banner">
+            <div class="tp-product-gadget-banner-slider-active swiper-container">
+              <div class="swiper-wrapper">
+                {%- for block in section.blocks -%}
+                  <div class="tp-product-gadget-banner-item swiper-slide include-bg" data-background="{%- if block.settings.banner_bg_image != blank -%}{{ block.settings.banner_bg_image | image_url }}{%- else -%}{{ 'product-banner-1.jpg' | asset_url }}{%- endif -%}">
+                    <div class="tp-product-gadget-banner-content">
+                      {%- if block.settings.subtitle_banner != blank -%}
+                        <span class="tp-product-gadget-banner-price">{{ block.settings.subtitle_banner }}</span>
+                      {%- endif -%}
+                      {%- if block.settings.title_banner != blank -%}
+                        <h3 class="tp-product-gadget-banner-title">
+                          <a href="{%- if block.settings.banner_link -%}{{ block.settings.banner_link }}{%- else -%} # {%- endif -%}">{{ block.settings.title_banner }}</a>
+                        </h3>
+                      {%- endif -%}
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+              <div class="tp-product-gadget-banner-slider-dot tp-swiper-dot"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-8 col-lg-7">
+        <div class="tp-product-gadget-wrapper">
+          <div class="row">
+            {%- assign collection = collections[st.product_collection_link] -%}
+            {%- if collection.products.size == 0 -%}
+              {%- for i in (1..limit_products) -%}
+                <div class="col-xl-4 col-sm-6">
+                  <h1>Product {{ i }}</h1>
+                </div>
+              {%- endfor -%}
+            {%- else -%}
+              {%- for product in collection.products limit: limit_products -%}
+                <div class="col-xl-4 col-sm-6">
+                  {%- render 'product-item' | product: product, product_item: "tp-product-item" -%}
+                </div>
+              {%- endfor -%}
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product With Banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Products Collection"
+    },
+    {
+      "type": "collection",
+      "id": "product_collection_link",
+      "label": "Product collection link"
+    },
+    {
+      "type": "range",
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "default": 6,
+      "label": "Items Limit",
+      "id": "limit_products"
+    },
+    {
+      "type": "header",
+      "content": "Product Category Menu"
+    },
+    {
+      "type": "textarea",
+      "id": "collection_menu_title",
+      "label": "Collection menu title",
+      "default": "Electronics <br> Gadgets"
+    },
+    {
+      "type": "link_list",
+      "id": "collection_menu",
+      "label": "Select menu collection"
+    },
+    {
+      "type": "image_picker",
+      "id": "collection_menu_image",
+      "label": "Collection menu image"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_banner_item",
+      "name": "Product banner item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "subtitle_banner",
+          "label": "Subtitle banner"
+        },
+        {
+          "type": "text",
+          "id": "title_banner",
+          "label": "Title banner"
+        },
+        {
+          "type": "image_picker",
+          "id": "banner_bg_image",
+          "label": "Banner Background image"
+        },
+        {
+          "type": "url",
+          "id": "banner_link",
+          "label": "Banner link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product With Banner",
+      "blocks": [
+        {
+          "type": "product_banner_item"
+        },
+        {
+          "type": "product_banner_item"
+        },
+        {
+          "type": "product_banner_item"
+        },
+        {
+          "type": "product_banner_item"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

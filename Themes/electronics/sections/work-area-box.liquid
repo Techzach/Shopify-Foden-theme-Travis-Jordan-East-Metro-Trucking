@@ -1,0 +1,128 @@
+{%- liquid
+  assign st = section.settings
+  assign heading = st.heading
+  assign description = st.description
+  assign blocks = section.blocks
+
+-%}
+
+<section class="tp-work-area pt-115 pb-120">
+  <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-xl-6">
+            <div class="tp-work-section-title-wrapper text-center mb-60">
+              <h3 class="tp-work-section-title">{{ heading }}</h3>
+            </div>
+        </div>
+      </div>
+      <div class="row">
+        {%- for block in blocks -%}
+        <div class="col-lg-3 col-sm-6">
+            <div class="tp-work-item mb-35 text-center">
+              <div class="tp-work-icon d-flex align-items-end justify-content-center">
+                {%- if block.settings.icon != blank -%}
+                  <img src="{{ block.settings.icon | image_url }}" alt="{{ block.settings.icon.alt | escape }}" />
+                {%- else -%}
+                  <span>
+                  {{ block.settings.svg_icon }}
+                  </span>
+                {%- endif -%}
+              </div>
+              <div class="tp-work-content">
+                  <h3 class="tp-work-title">{{ block.settings.heading }}</h3>
+              </div>
+            </div>
+        </div>
+        {%- endfor -%}
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-xl-4">
+            <div class="tp-work-quote text-center">
+              {{ description }}
+            </div>
+        </div>
+      </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Work Area box",
+  "class": "tps__image-box",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "iconbox",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Image",
+          "info": "42 x 42px recommended"
+        },
+        {
+          "type": "textarea",
+          "id": "svg_icon",
+          "label": "Svg Icon"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "This is heading text"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Tell about your service.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Work Area box",
+      "blocks": [
+        {
+          "type": "iconbox",
+          "settings": {
+            "heading": "Free Shipping",
+            "description": "<p>Get complimentary ground shipping on every order. Don't love it? Send it back, on us.</p>"
+          }
+        },
+        {
+          "type": "iconbox",
+          "settings": {
+            "heading": "Free Returns",
+            "description": "<p>Free returns within 10 days, please make sure the items are in undamaged condition.</p>"
+          }
+        },
+        {
+          "type": "iconbox",
+          "settings": {
+            "heading": "Support Online",
+            "description": "<p>We support customers 24/7, send questions we will solve for you immediately.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

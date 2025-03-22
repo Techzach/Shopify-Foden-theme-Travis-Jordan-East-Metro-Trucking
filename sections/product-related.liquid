@@ -1,0 +1,245 @@
+{%- liquid
+  assign st = section.settings
+  assign container = st.container
+  assign bg_color = st.product_recommendations_background_color
+  assign heading = st.heading
+  assign subheading = st.subheading
+  assign description = st.description
+-%}
+{%- capture style -%}
+  {%- if bg_color != blank -%}
+    --section-bg-color: {{ bg_color }};
+  {%- endif -%}  --tps_product-item-vertical-space: 0px;
+{%- endcapture -%}
+<section
+  class="tp-related-product pt-95 pb-120"
+  id="{{ section.id }}"
+  data-id="{{ section.id }}"
+  data-type="product_recommendations">
+  <div class="{{ container }}">
+    {% for tag in product.tags %}
+      {% assign related_products = collections.all.products | where: 'tags', tag %}
+      {% if related_products.size > 0 %}
+        <h2>Related Products</h2>
+        <div class="related-products">
+          {% for related_product in related_products %}
+            <div class="related-product">
+              <a href="{{ related_product.url }}" class="related-product-link">
+                <img src="{{ related_product.featured_image | image_url: width: 240, height: 240 }}" alt="{{ related_product.title }}">
+                <p>{{ related_product.title }}</p>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endfor %}
+    {%- if heading != blank or description != blank or subheading != blank -%}
+      <div class="row">
+        <div class="tp-section-title-wrapper-6 text-center mb-40">
+          {%- if subheading != blank -%}
+            <span class="tp-section-title-pre-6">{{ subheading }}</span>
+          {%- endif -%}
+          {%- if heading != blank -%}
+            <h3 class="tp-section-title-6">{{ heading }}</h3>
+          {%- endif -%}
+          {%- if description != blank -%}
+            <p class="tp-section-title-des-6">{{ description }}</p>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+    <div class="row">
+      <h1>{{ recommendations.performed }}</h1>
+      {%- if  recommendations.products_count > 0 -%}
+        <div class="tp-product-related-slider">
+          <div class="tp-product-related-slider-active swiper-container  mb-10">
+            <div class="swiper-wrapper">
+              {%- for product in recommendations.products -%}
+                <div class="swiper-slide">
+                  {%- render 'product-item', product: product -%}
+                </div>
+              {%- endfor -%}
+            </div>
+          </div>
+          <div class="tp-related-swiper-scrollbar tp-swiper-scrollbar"></div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Product recommendations",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Dynamic recommendations use order and product information to change and improve over time. [Learn more](https://help.shopify.com/themes/development/recommended-products)"
+    },
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Sub Heading",
+      "default": "Next Day Products"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "You may also like"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text Alignment",
+      "default": "text-center",
+      "options": [
+        {
+          "value": "text-left",
+          "label": "Left"
+        },
+        {
+          "value": "text-center",
+          "label": "Center"
+        },
+        {
+          "value": "text-right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "General settings"
+    },
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Layout",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "product_recommendations_background_color",
+      "label": "Background color"
+    },
+    {
+      "type": "range",
+      "id": "limit_products",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "default": 4,
+      "label": "Products to show"
+    },
+    {
+      "type": "range",
+      "id": "item_desktop",
+      "label": "Items per row (Desktop)",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "label": "Column gap",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Carousel"
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel_autoplay",
+      "label": "Autoplay",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel_loop",
+      "label": "Infinity",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel_arrows",
+      "label": "Show arrows",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel_bullets",
+      "label": "Show bullets both on desktop and mobile",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_bullet_mobile",
+      "label": "Only show bullets on mobile",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px"
+    }
+  ],
+  "templates": [
+    "product"
+  ],
+  "presets": [
+    {
+      "name": "Product recommendations"
+    }
+  ]
+}
+{% endschema %}

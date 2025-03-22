@@ -1,0 +1,454 @@
+{%- liquid
+  assign th_st = settings
+  assign product_style = th_st.product_style
+  assign st = section.settings
+  assign container = st.container
+  assign heading = st.heading
+  assign subheading = st.subheading
+  assign product_style = st.product_style
+  assign carousel_arrows = st.carousel_arrows
+  assign limit_products = st.limit_products
+
+  assign cls = st.collection
+  assign collection = collections[cls]
+-%}
+
+{%- capture style -%}
+  padding-top: {{ st.padding_top }}px; padding-bottom: {{ st.padding_bottom }}px;
+{%- endcapture -%}
+{%- if product_style == 'style-1' -%}
+  <section class="tp-product-arrival-area" style="{{ style | strip | strip_newlines }}">
+    <div class="{{ container }}">
+      <div class="row align-items-end">
+        <div class="col-xl-5 col-sm-6">
+          {% if heading != blank -%}
+            <div class="tp-section-title-wrapper mb-40">
+              <h3 class="tp-section-title">
+                {{ heading }}
+                <svg
+                  width="114"
+                  height="35"
+                  viewBox="0 0 114 35"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M112 23.275C1.84952 -10.6834 -7.36586 1.48086 7.50443 32.9053"
+                    stroke="currentColor"
+                    stroke-width="4"
+                    stroke-miterlimit="3.8637"
+                    stroke-linecap="round" />
+                </svg>
+              </h3>
+            </div>
+          {%- endif -%}
+        </div>
+        {%- if carousel_arrows != false -%}
+          <div class="col-xl-7 col-sm-6">
+            <div class="tp-product-arrival-more-wrapper d-flex justify-content-end">
+              <div class="tp-product-arrival-arrow tp-swiper-arrow mb-40 text-end tp-product-arrival-border">
+                <button type="button" class="tp-arrival-slider-button-prev">
+                  <svg
+                    width="8"
+                    height="14"
+                    viewBox="0 0 8 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M7 13L1 7L7 1"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                </button>
+                <button type="button" class="tp-arrival-slider-button-next">
+                  <svg
+                    width="8"
+                    height="14"
+                    viewBox="0 0 8 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M1 13L7 7L1 1"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="tp-product-arrival-slider fix">
+            {%- render 'product-carousel-layout' | st: st -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{%- elsif product_style == 'style-2' -%}
+  <section class="tp-category-area pb-95 pt-95">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="tp-section-title-wrapper-2 text-center mb-50">
+            {% if subheading != blank -%}
+              <span class="tp-section-title-pre-2">
+                {{ subheading }}
+                <svg
+                  width="82"
+                  height="22"
+                  viewBox="0 0 82 22"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M81 14.5798C0.890564 -8.05914 -5.81154 0.0503902 5.00322 21"
+                    stroke="currentColor"
+                    stroke-opacity="0.3"
+                    stroke-width="2"
+                    stroke-miterlimit="3.8637"
+                    stroke-linecap="round" />
+                </svg>
+              </span>
+            {%- endif -%}
+            {% if heading != blank -%}
+              <h3 class="tp-section-title-2">{{ heading }}</h3>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="tp-category-slider-2">
+            <div class="tp-category-slider-active-2 swiper-container mb-50">
+              <div class="swiper-wrapper">
+                {%- if collection.products.size == 0 -%}
+                  {%- for i in (1..limit_products) -%}
+                    <div class="tp-category-item-2 p-relative z-index-1 text-center swiper-slide">
+                      <div class="tp-category-thumb-2">
+                        <a role="link" aria-disabled="true">
+                          {%- render 'responsive-image' | type: 'product' | cls: 'product_placeholder_class' -%}
+                        </a>
+                      </div>
+                      <div class="tp-category-content-2">
+                        <span>From $34.95</span>
+                        <h3 class="tp-category-title-2">
+                          <a role="link" aria-disabled="true">{{ 'products.product.product_placeholder' | t }}</a>
+                        </h3>
+                      </div>
+                    </div>
+                  {%- endfor -%}
+                {%- else -%}
+                  {%- for product in collection.products limit: limit_products -%}
+                    {%- if product.available -%}
+                    {%- endif -%}
+                    {%- render 'product-item' | product: product, product_item: "tp-category-item-2" -%}
+                  {%- endfor -%}
+                {%- endif -%}
+              </div>
+            </div>
+            <div class="swiper-scrollbar tp-swiper-scrollbar tp-swiper-scrollbar-drag"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{%- elsif product_style == 'style-3' -%}
+  <section
+    class="tp-category-area pt-115 pb-105 tp-category-plr-85"
+    data-bg-color="#EFF1F5"
+    style="background-color: rgb(239, 241, 245);"
+  >
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="tp-section-title-wrapper-4 mb-60 text-center">
+            <span class="tp-section-title-pre-4">Shop by Category</span>
+            <h3 class="tp-section-title-4">Popular on the Shofy store.</h3>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="tp-category-slider-4">
+            <div class="tp-category-slider-active-4 swiper-container mb-70 swiper-container-initialized swiper-container-horizontal swiper-container-pointer-events">
+              <div
+                class="swiper-wrapper"
+                id="swiper-wrapper-0f841d8f192a21050"
+                aria-live="polite"
+                style="transition-duration: 0ms; transform: translate3d(-3046.4px, 0px, 0px);"
+              >
+                {%- if collection.products.size == 0 -%}
+                  {%- for i in (1..limit_products) -%}
+                    <div class="tp-category-item-2 p-relative z-index-1 text-center swiper-slide">
+                      <div class="tp-category-thumb-2">
+                        <a role="link" aria-disabled="true">
+                          {%- render 'responsive-image' | type: 'product' | cls: 'product_placeholder_class' -%}
+                        </a>
+                      </div>
+                      <div class="tp-category-content-2">
+                        <span>From $34.95</span>
+                        <h3 class="tp-category-title-2">
+                          <a role="link" aria-disabled="true">{{ 'products.product.product_placeholder' | t }}</a>
+                        </h3>
+                      </div>
+                    </div>
+                  {%- endfor -%}
+                {%- else -%}
+                  {%- for product in collection.products limit: limit_products -%}
+                    {%- render 'product-item' | product: product, product_item: "tp-category-item-2" -%}
+                  {%- endfor -%}
+                {%- endif -%}
+              </div>
+              <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+            </div>
+            <div class="tp-category-swiper-scrollbar tp-swiper-scrollbar">
+              <div
+                class="tp-swiper-scrollbar-drag"
+                style="transform: translate3d(406.579px, 0px, 0px); transition-duration: 0ms; width: 250.776px;"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{%- elsif product_style == 'style-4' -%}
+  <section
+    class="tp-category-area pt-115 pb-105 tp-category-plr-85"
+    data-bg-color="#EFF1F5"
+  >
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="tp-section-title-wrapper-4 mb-60 text-center">
+            {%- if subheading != blank -%}
+              <span class="tp-section-title-pre-4">{{ subheading }}</span>
+            {%- endif -%}
+            {%- if heading != blank -%}
+              <h3 class="tp-section-title-4">{{ heading }}</h3>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="tp-category-slider-4">
+            <div class="tp-category-slider-active-4 swiper-container mb-70">
+              <div
+                class="swiper-wrapper"
+                id="swiper-wrapper-0f841d8f192a21050"
+                aria-live="polite"
+              >
+                {%- if collection.products.size == 0 -%}
+                  {%- for i in (1..limit_products) -%}
+                    <div class="tp-product-item-4 p-relative z-index-1 text-center swiper-slide">
+                      <div class="tp-category-thumb-2">
+                        <a role="link" aria-disabled="true">
+                          {%- render 'responsive-image' | type: 'product' | cls: 'product_placeholder_class' -%}
+                        </a>
+                      </div>
+                      <div class="tp-category-content-2">
+                        <span>From $34.95</span>
+                        <h3 class="tp-category-title-2">
+                          <a role="link" aria-disabled="true">{{ 'products.product.product_placeholder' | t }}</a>
+                        </h3>
+                      </div>
+                    </div>
+                  {%- endfor -%}
+                {%- else -%}
+                  {%- for product in collection.products limit: limit_products -%}
+                    {%- render 'product-item' | product: product, product_item: "tp-category-item-4" -%}
+                  {%- endfor -%}
+                {%- endif -%}
+              </div>
+              <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+            </div>
+            <div class="tp-category-swiper-scrollbar tp-swiper-scrollbar"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Products carousel",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "select",
+      "id": "product_style",
+      "label": "Product style",
+      "default": "style-1",
+      "options": [
+        {
+          "value": "style-1",
+          "label": "Style 1"
+        },
+        {
+          "value": "style-2",
+          "label": "Style 2"
+        },
+        {
+          "value": "style-3",
+          "label": "Style 3"
+        },
+        {
+          "value": "style-4",
+          "label": "Style 4"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Bestseller Product"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "info": "Leave blank to hide"
+    },
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Layout",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "product_carousel_background_color",
+      "label": "Background color"
+    },
+    {
+      "type": "header",
+      "content": "Product settings"
+    },
+    {
+      "id": "collection",
+      "type": "collection",
+      "label": "Select collection"
+    },
+    {
+      "type": "range",
+      "id": "limit_products",
+      "label": "Products to show",
+      "min": 1,
+      "max": 20,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "item_desktop",
+      "label": "Items per row (Desktop)",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Carousel settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel_autoplay",
+      "label": "Autoplay",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel_loop",
+      "label": "Infinity",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel_arrows",
+      "label": "Show arrows",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel_bullets",
+      "label": "Show bullets both on desktop and mobile",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_bullet_mobile",
+      "label": "Only show bullets on mobile",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel_pagination_progress",
+      "label": "Show progressbar",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Products carousel"
+    }
+  ]
+}
+{% endschema %}

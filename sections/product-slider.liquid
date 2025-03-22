@@ -1,0 +1,183 @@
+<div class="tp-product-banner-area pb-90">
+  <div class="container">
+     <div class="tp-product-banner-slider fix">
+        <div class="tp-product-banner-slider-active swiper-container">
+           <div class="swiper-wrapper">
+            {% for block in section.blocks %}
+              <div class="tp-product-banner-inner theme-bg p-relative z-index-1 fix swiper-slide">
+                {% if block.settings.bg_text != blank %}
+                  <h4 class="tp-product-banner-bg-text">{{ block.settings.bg_text }}</h4>
+                 {% endif %}
+                 <div class="row align-items-center">
+                    <div class="col-xl-6 col-lg-6">
+                       <div class="tp-product-banner-content p-relative z-index-1">
+                        {% if block.settings.product_slogan != blank %}
+                          <span class="tp-product-banner-subtitle">
+                            {{ block.settings.product_slogan }}
+                          </span>
+                        {% endif %}
+                        {% if block.settings.product_name != blank %}
+                          <h3 class="tp-product-banner-title">
+                            {{ block.settings.product_name }}
+                          </h3>
+                        {% endif %}
+                          <div class="tp-product-banner-price mb-40">
+                              <span class="old-price">
+                                {% if block.settings.product_old_price != blank %}
+                                  {{ block.settings.product_old_price }}
+                                {% endif %}
+                              </span>
+                              <p class="new-price">
+                                {% if block.settings.product_price != blank %}
+                                  {{ block.settings.product_price }}
+                                {% endif %}
+                              </p>
+                          </div>
+                          {% if block.settings.button_text != blank %}
+                          <div class="tp-product-banner-btn">
+                             <a 
+                              href="{% if block.settings.button_link != blank %}{{ block.settings.button_link }}{% endif %}"
+                              class="tp-btn tp-btn-2">
+                                {{ block.settings.button_text }}
+                            </a>
+                          </div>
+                          {% endif %}
+                       </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6">
+                       <div class="tp-product-banner-thumb-wrapper p-relative">
+                        {% if block.settings.product_discount_tag != blank %}
+                          <div class="tp-product-banner-thumb-shape">
+                             <span class="tp-product-banner-thumb-gradient"></span>
+                             <img class="tp-offer-shape" src="{{ block.settings.product_discount_tag | image_url: width: 200 }}" alt="{{ block.settings.product_discount_tag.alt }}">
+                          </div>
+                        {% endif %}
+                          {% if block.settings.image != blank %}
+                          <div class="tp-product-banner-thumb text-end p-relative z-index-1">
+                              <img src="{{ block.settings.image | image_url: width: 3840 }}" alt="{{ block.settings.image.alt }}">
+                          </div>
+                        {% endif %}
+                       </div>
+                    </div>
+                 </div>
+              </div>  
+            {% endfor %}                
+           </div>
+           <div class="tp-product-banner-slider-dot tp-swiper-dot"></div>
+        </div>
+     </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product slider",
+  "max_blocks": 10,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Slider Area"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slider_item",
+      "name": "Image slide",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Image settings"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Slide image"
+        },
+        {
+          "type": "image_picker",
+          "id": "product_discount_tag",
+          "label": "Product discount tag image"
+        },
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "type": "text",
+          "id": "bg_text",
+          "label": "Background text",
+          "default": "tablet"
+        },
+        {
+          "type": "text",
+          "id": "product_slogan",
+          "label": "Product slogan",
+          "default": "Latest Technology Added"
+        },
+        {
+          "type": "text",
+          "id": "product_name",
+          "label": "Product name",
+          "default": "Samsung Galaxy Tab S6, Wifi Tablet"
+        },
+        {
+          "type": "text",
+          "id": "product_price",
+          "label": "Product price",
+          "default": "$975.00"
+        },
+        {
+          "type": "text",
+          "id": "product_old_price",
+          "label": "Product old price",
+          "default": "$1240.00"
+        },
+        {
+          "type": "textarea",
+          "id": "title",
+          "label": "Heading",
+          "default": "Heading",
+          "info": "Allow custom HTML"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description"
+        },
+        {
+          "type": "header",
+          "content": "Button"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button label",
+          "default": "Shop now"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product slider",
+      "category": "Image",
+      "blocks": [
+        {
+          "type": "slider_item"
+        },
+        {
+          "type": "slider_item"
+        },
+        {
+          "type": "slider_item"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

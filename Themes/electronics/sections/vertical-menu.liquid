@@ -1,0 +1,466 @@
+{%- liquid
+  assign enable = section.settings.enable
+  assign title = section.settings.title
+-%}
+{%- if enable != blank -%}
+  <div class="tp-header-category tp-category-menu tp-header-category-toggle">
+    <button class="tp-category-menu-btn tp-category-menu-toggle">
+      <span>
+        <svg
+          width="18"
+          height="14"
+          viewBox="0 0 18 14"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M0 1C0 0.447715 0.447715 0 1 0H15C15.5523 0 16 0.447715 16 1C16 1.55228 15.5523 2 15 2H1C0.447715 2 0 1.55228 0 1ZM0 7C0 6.44772 0.447715 6 1 6H17C17.5523 6 18 6.44772 18 7C18 7.55228 17.5523 8 17 8H1C0.447715 8 0 7.55228 0 7ZM1 12C0.447715 12 0 12.4477 0 13C0 13.5523 0.447715 14 1 14H11C11.5523 14 12 13.5523 12 13C12 12.4477 11.5523 12 11 12H1Z"
+            fill="currentColor" />
+        </svg>
+      </span>
+      {%- if title != blank -%}
+        {{ title }}
+      {%- endif -%}
+    </button>
+    <nav class="tp-category-menu-content">
+      {%- if section.blocks.size > 0 -%}
+        <ul>
+          {%- assign splits_main = 1 -%}
+          {%- for block in section.blocks -%}
+            {%- liquid
+              assign block_st = block.settings
+            -%}
+
+            {%- capture menuLevel0 -%}
+                
+                {%- assign icon_image = block_st.icon_image -%}
+                {%- assign svg_icon = block_st.svg_icon -%}
+     
+              <a href="{{ block_st.url }}" class="has-mega-menu">
+                <span>
+                  {%- if icon_image != blank -%}
+                    {%- liquid
+                        assign icon_width = block_st.icon_width_image
+                        assign icon_height = icon_width | divided_by: icon_image.aspect_ratio | round
+                    -%}
+                    <img loading="lazy" class="menu-thumb-icon mr-10" src="{{ icon_image | image_url: width: icon_width }}" alt="{{ block_st.title }}" width="{{ icon_width }}" height="{{ icon_height }}"/>
+                {%- elsif svg_icon != blank -%}
+                    {{- svg_icon | svg_icon: 'icon-menu' -}}
+                {%- endif -%}
+                </span>
+                {%- if block.type == 'single_link' -%}
+                  {{ block_st.title }}
+                {%- else -%}
+                 {{ block_st.title }}
+                {%- endif -%}
+              </a>
+            {%- endcapture -%}
+            {%- case block.type -%}
+              {%- when 'menu_item' -%}
+                {%- if block_st.title != blank -%}
+                  <li class="has-dropdown" {{ block.shopify_attributes }}>
+                    {{ menuLevel0 }}
+                    <ul class="mega-menu tp-submenu">
+                      {%- assign splits_main = splits_main | plus: 1 -%}
+                      {%- for block in section.blocks -%}
+                        {%- liquid
+                          assign block_st = block.settings
+                        -%}
+                        {%- assign linkl = linklists[block_st.menu].links -%}
+
+                        {%- if linkl.size == 0 -%}
+                          {% continue %}
+                        {%- endif -%}
+
+                        <li>
+                          {%- if block_st.title != blank %}
+                            {%- liquid
+                              assign link_heading = block_st.url | default: '#'
+                            -%}
+                            <a href="{{ link_heading }}" class="mega-menu-title">
+                              {{- block_st.title | split: '[label' | first -}}
+                            </a>
+                          {% else -%}
+                            {%- assign menu_title = linklists[block_st.menu].title -%}
+                            <a class="shop-mega-menu-title" role="link">
+                              {{ menu_title }}
+                            </a>
+                          {% endif -%}
+                          <ul>
+                            {%- if block_st.link_list_image != blank -%}
+                              <li class="menu-banner">
+                                <a href="{{ block_st.url }}" class="hover-zoom">
+                                  <img
+                                    loading="lazy"
+                                    src="{{ block_st.link_list_image | image_url }}"
+                                    alt="{{ block_st.title }}"
+                                  >
+                                </a>
+                              </li>
+                            {%- endif -%}
+
+                            {%- for link in linkl -%}
+                              <li>
+                                <a href="{{ link.url }}">
+                                  {{ link.title | split: '[label' | first }}
+                                  {%- if link.title contains '[label' -%}
+                                    {%- liquid
+                                      assign label1 = link.title | split: '[label' | last | split: ']' | first | prepend: 'label'
+                                      assign label_bg1 = label1 | split: 'label' | last | prepend: 'label_color_'
+                                    -%}
+                                    <span
+                                      class="px-6 d-inline-block label {{ label1 }}"
+                                      style="--navigation-bg-label:{{ section.settings[label_bg1] }};"
+                                    >
+                                      {{ section.settings[label1] }}
+                                    </span>
+                                  {%- endif -%}
+                                </a>
+                              </li>
+                            {%- endfor -%}
+                          </ul>
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                  </li>
+                {%- endif -%}
+              {%- when 'dropdown' -%}
+                {%- if block_st.title != blank -%}
+                  <li class="has-dropdown" {{ block.shopify_attributes }}>
+                    {{ menuLevel0 }}
+                    {%- if linklists[block_st.menu].links.size > 0 -%}
+                      <ul class="tp-submenu">
+                        {%- render 'menu-dropdown',
+                          handle_menu: block_st.menu,
+                          menu_title: menu_title,
+                          block_title: block_st.title
+                        -%}
+                      </ul>
+                    {%- endif -%}
+                  </li>
+                {%- endif -%}
+              {%- when 'single_link' -%}
+                <li>
+                  {{ menuLevel0 }}
+                </li>
+            {%- endcase -%}
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </nav>
+  </div>
+{%- endif -%}
+{% schema %}
+{
+  "name": "Vertical Menu",
+  "tag": "section",
+  "class": "tps_vertical_menu",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable",
+      "label": "Show vertical menu",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Shop by category"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu_item",
+      "name": "Menu Item (Parent)",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Mega Menu"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_link",
+          "label": "Open link in new window",
+          "default": false
+        },
+        {
+          "type": "select",
+          "id": "label",
+          "options": [
+            {
+              "value": "",
+              "label": "Select"
+            },
+            {
+              "value": "label1",
+              "label": "Label 1"
+            },
+            {
+              "value": "label2",
+              "label": "Label 2"
+            },
+            {
+              "value": "label3",
+              "label": "Label 3"
+            }
+          ],
+          "label": "Select label"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Icon image",
+          "info": "Upload image: png, jpg or gif file"
+        },
+        {
+          "type": "textarea",
+          "id": "svg_icon",
+          "label": "Icon SVG",
+          "info": "Paste SVG code"
+        }
+      ]
+    },
+    {
+      "type": "link",
+      "name": "Link List (child)",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_link",
+          "label": "Open link in new window",
+          "default": false
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Add Menu"
+        },
+        {
+          "type": "image_picker",
+          "id": "link_list_image",
+          "label": "Link list image",
+          "info": "Upload image: png, jpg"
+        },
+        {
+          "type": "select",
+          "id": "col",
+          "default": "4",
+          "options": [
+            {
+              "value": "1",
+              "label": "1/12 (8.333333%)"
+            },
+            {
+              "value": "2",
+              "label": "2/12 (16.666667%)"
+            },
+            {
+              "value": "3",
+              "label": "3/12 (25%)"
+            },
+            {
+              "value": "4",
+              "label": "4/12 (33.333333%)"
+            },
+            {
+              "value": "5",
+              "label": "5/12 (41.66666667%)"
+            },
+            {
+              "value": "6",
+              "label": "6/12 (50%)"
+            },
+            {
+              "value": "7",
+              "label": "7/12 (58.333333%)"
+            },
+            {
+              "value": "8",
+              "label": "8/12 (66.666667%)"
+            },
+            {
+              "value": "9",
+              "label": "9/12 (75%)"
+            },
+            {
+              "value": "10",
+              "label": "10/12 (83.333333%)"
+            },
+            {
+              "value": "11",
+              "label": "11/12 (91.666667%)"
+            },
+            {
+              "value": "12",
+              "label": "12/12 (100%)"
+            }
+          ],
+          "label": "Width col:"
+        }
+      ]
+    },
+    {
+      "type": "dropdown",
+      "name": "Dropdown Menu",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Dropdown"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Select Menu",
+          "default": "main-menu"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_link",
+          "label": "Open link in new window",
+          "default": false
+        },
+        {
+          "type": "select",
+          "id": "label",
+          "options": [
+            {
+              "value": "",
+              "label": "Select"
+            },
+            {
+              "value": "label1",
+              "label": "Label 1"
+            },
+            {
+              "value": "label2",
+              "label": "Label 2"
+            },
+            {
+              "value": "label3",
+              "label": "Label 3"
+            }
+          ],
+          "label": "Select label"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Icon image",
+          "info": "Upload image: png, jpg or gif file"
+        },
+        {
+          "type": "textarea",
+          "id": "svg_icon",
+          "label": "Icon SVG",
+          "info": "Paste SVG code"
+        },
+        {
+          "type": "range",
+          "id": "icon_width_image",
+          "label": "Icon image width",
+          "min": 20,
+          "max": 100,
+          "step": 5,
+          "unit": "px",
+          "default": 50
+        }
+      ]
+    },
+    {
+      "type": "single_link",
+      "name": "Single Link",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Single"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_link",
+          "label": "Open link in new window",
+          "default": false
+        },
+        {
+          "type": "select",
+          "id": "label",
+          "options": [
+            {
+              "value": "",
+              "label": "Select"
+            },
+            {
+              "value": "label1",
+              "label": "Label 1"
+            },
+            {
+              "value": "label2",
+              "label": "Label 2"
+            },
+            {
+              "value": "label3",
+              "label": "Label 3"
+            }
+          ],
+          "label": "Select label"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Icon image",
+          "info": "Upload image: png, jpg or gif file"
+        },
+        {
+          "type": "textarea",
+          "id": "svg_icon",
+          "label": "Icon SVG",
+          "info": "Paste SVG code"
+        },
+        {
+          "type": "range",
+          "id": "icon_width_image",
+          "label": "Icon image width",
+          "min": 20,
+          "max": 100,
+          "step": 5,
+          "unit": "px",
+          "default": 50
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

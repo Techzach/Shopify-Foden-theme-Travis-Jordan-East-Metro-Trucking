@@ -1,0 +1,500 @@
+{{ 'video.css' | asset_url | stylesheet_tag }}
+{%- liquid
+  assign st = section.settings
+  assign container = st.container
+  assign heading_size = st.heading_size
+  assign t_heading = st.thumbnail_heading
+  assign t_subheading = st.thumbnail_subheading
+  assign t_desc = st.thumbnail_desc
+  assign t_button = st.thumbnail_button
+  assign t_link = st.thumbnail_link
+  assign thumbnail = st.image_thumbnail
+  assign thumbnail_color = st.thumbnail_color
+  assign video_url = st.video_url
+  assign video_local = st.video_local
+  assign video_options = st.video_options
+  assign text_position = st.text_position
+  assign text_content = st.text_content
+  assign aspect_ratio = st.aspect_ratio
+  assign custom_ratio = st.custom_ratio
+  assign video_type = st.video_type
+  assign video_height = st.video_height
+  assign video_full_screen = st.video_full_screen
+  assign desktop_height = st.desktop_height
+  assign mobile_height = st.mobile_height
+  assign enabled_animations = settings.animations_enabled
+
+  assign video_id = ''
+  if video_url.type == 'youtube'
+    assign video_id = video_url | replace: 'https://www.youtube.com/watch?v=', ''
+  elsif video_url.type == 'vimeo'
+    assign video_id = video_url | replace: 'https://vimeo.com/', ''
+  endif
+  assign reset_spacing = ''
+  if st.reset_spacing
+    assign reset_spacing = ' remove_spacing'
+  endif
+
+  assign container-box = ''
+  if st.content_box == 'content_in_container'
+    assign container-box = 'container'
+  elsif st.content_box == 'content_in_container_fluid'
+    assign container-box = 'container-fluid'
+  else
+    assign container-box = 'full-width-content'
+  endif
+-%}
+<section class="tps__section tps__video {{ reset_spacing }}">
+  <div class="{{ container }} section-full">
+    <div class="tps__video-content {% if enabled_animations %}scroll-trigger animate--slide-in{% endif %} overflow-hidden relative {% if video_type == 'popup' %}tps__video-popup {% endif %}">
+      {%- if video_type == 'popup' -%}
+        <div class="tps__video-thumb">
+          {%- if thumbnail == blank -%}
+            {%- render 'responsive-image', type: 'lifestyle', cls: 'tps__placeholder' -%}
+          {%- else -%}
+            {% render 'responsive-image', image: thumbnail, aspect_ratio: aspect_ratio, custom_ratio: custom_ratio %}
+          {%- endif -%}
+        </div>
+      {%- else -%}
+        <div class="tps__video-thumb">
+          {%- if video_options == 'online' -%}
+            <div class="tps__thmbnail-video fs-0">
+              {%- if thumbnail == blank -%}
+                {%- render 'responsive-image', type: 'lifestyle', cls: 'tps__placeholder' -%}
+              {%- else -%}
+                {% render 'responsive-image',
+                  image: thumbnail,
+                  aspect_ratio: aspect_ratio,
+                  custom_ratio: custom_ratio
+                %}
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+          {%- if video_options == 'online' -%}
+            <div
+              class="video-container {% if video_height == 'height_custom' %}custom-height{% endif %} {% if video_full_screen %}video-full-screen{% endif %}"
+              style="--video-mobile-height: {{ mobile_height }}px; --video-desktop-height: {{ desktop_height }}px"
+            >
+              <div class="video-foreground">
+                {%- if video_url.type == 'youtube' -%}
+                  <video-youtube data-id="{{ section.id }}">
+                    <iframe
+                      src="https://www.youtube.com/embed/{{ video_id }}?controls=0&autoplay=1&mute=1&playsinline=1&loop=1&playlist={{ video_id }}"
+                    ></iframe>
+                  </video-youtube>
+                {%- elsif video_url.type == 'vimeo' -%}
+                  <iframe
+                    src="https://player.vimeo.com/video/{{ video_id }}?controls=0background=1&autoplay=1&muted=1&loop=1"
+                    frameborder="0"
+                    allowfullscreen
+                  ></iframe>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- else -%}
+            <div
+              class="{% if video_height == 'height_custom' %}local-video custom-height{% endif %} {% if video_full_screen %}video-full-screen{% endif %}"
+              style="--video-mobile-height: {{ mobile_height }}px; --video-desktop-height: {{ desktop_height }}px"
+            >
+              {{
+                video_local
+                | video_tag: loop: 'loop', muted: true, playsinline: true, autoplay: true, controls: true
+              }}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+      {%- if t_heading != blank or t_subheading != blank -%}
+        <div class="tps__video-info {{ thumbnail_color }} {{ text_position }} {{ container-box }}">
+          <div class="tps__video-info-inner {{ text_content }} py-30">
+            {%- if video_type == 'popup' -%}
+              {%- if video_url.type == 'youtube' -%}
+                <a class="btn-play {% if enabled_animations %}scroll-trigger animate--slide-in{% endif %}" data-fslightbox="youtube-videos-{{ section.id }}" href="{{ video_url }}">
+                  <svg class="w-20 h-20" viewBox="0 0 18 18" fill="currentColor">
+                    <path d="M15.562 8.1L3.87.225c-.818-.562-1.87 0-1.87.9v15.75c0 .9 1.052 1.462 1.87.9L15.563 9.9c.584-.45.584-1.35 0-1.8z" fill="currentColor"></path>
+                  </svg>
+                </a>
+              {%- elsif video_url.type == 'vimeo' -%}
+                <a
+                  data-fslightbox="custom-vimeo-{{ section.id }}"
+                  data-class="block"
+                  href="#vimeo-{{ section.id }}"
+                  class="btn-play {% if enabled_animations %}scroll-trigger animate--slide-in{% endif %}"
+                >
+                  <svg class="w-20 h-20" viewBox="0 0 18 18" fill="currentColor">
+                    <path d="M15.562 8.1L3.87.225c-.818-.562-1.87 0-1.87.9v15.75c0 .9 1.052 1.462 1.87.9L15.563 9.9c.584-.45.584-1.35 0-1.8z" fill="currentColor"></path>
+                  </svg>
+                </a>
+                <iframe
+                  src="https://player.vimeo.com/video/{{ video_id }}?autoplay=1"
+                  width="1920"
+                  height="1080"
+                  frameborder="0"
+                  allow="autoplay; fullscreen"
+                  allowfullscreen
+                  id="vimeo-{{ section.id }}"
+                  class="d-none"
+                ></iframe>
+              {%- endif -%}
+            {%- endif -%}
+            {%- if t_subheading != blank -%}
+              <h5 class="tps__section-subtext heading-weight {% if enabled_animations %}scroll-trigger animate--slide-in{% endif %}">
+                {{ t_subheading }}
+              </h5>
+            {%- endif -%}
+            {%- if t_heading != blank -%}
+              <h3 class="tps__section-heading {% if enabled_animations %}scroll-trigger animate--slide-in{% endif %}" style="--heading-size: {{ heading_size }}px">
+                {{ t_heading }}
+              </h3>
+            {%- endif -%}
+            {%- if t_desc != blank -%}
+              <div class="tps__section-desc {% if enabled_animations %}scroll-trigger animate--slide-in{% endif %}">
+                {{ t_desc }}
+              </div>
+            {%- endif -%}
+            {%- if t_button != blank -%}
+              <div class="tps__section-link {% if enabled_animations %}scroll-trigger animate--slide-in{% endif %}">
+                <a href="{{ t_link | default: "#" }}" class="whitespace-nowrap btn-primary">
+                  {{ t_button }}
+                </a>
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Video",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Layout",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "reset_spacing",
+      "label": "Remove default space between sections",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "video_type",
+      "label": "Section type",
+      "default": "popup",
+      "options": [
+        {
+          "value": "popup",
+          "label": "Popup"
+        },
+        {
+          "value": "background",
+          "label": "Background"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Thumbnail settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_thumbnail",
+      "label": "Banner image",
+      "info": "1920 x 700px recommended"
+    },
+    {
+      "type": "select",
+      "id": "aspect_ratio",
+      "label": "Aspect ratio",
+      "default": "1/1",
+      "options": [
+        {
+          "value": "original",
+          "label": "Original aspect ratio"
+        },
+        {
+          "value": "16/9",
+          "label": "16:9"
+        },
+        {
+          "value": "3/4",
+          "label": "3:4"
+        },
+        {
+          "value": "4/3",
+          "label": "4:3"
+        },
+        {
+          "value": "1/1",
+          "label": "1:1"
+        },
+        {
+          "value": "custom",
+          "label": "Custom"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "custom_ratio",
+      "label": "Custom ratio",
+      "default": "21:9"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "select",
+      "id": "content_box",
+      "label": "Content box",
+      "default": "content_in_container",
+      "options": [
+        {
+          "label": "Content in container",
+          "value": "content_in_container"
+        },
+        {
+          "label": "Content in container fluid",
+          "value": "content_in_container_fluid"
+        },
+        {
+          "label": "Content full width",
+          "value": "content_in_container_fullwidth"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "text_position",
+      "label": "Content position",
+      "default": "position-cc",
+      "options": [
+        {
+          "value": "position-lt",
+          "label": "Left top"
+        },
+        {
+          "value": "position-lc",
+          "label": "Left center"
+        },
+        {
+          "value": "position-lb",
+          "label": "Left bottom"
+        },
+        {
+          "value": "position-rt",
+          "label": "Right top"
+        },
+        {
+          "value": "position-rc",
+          "label": "Right center"
+        },
+        {
+          "value": "position-rb",
+          "label": "Right bottom"
+        },
+        {
+          "value": "position-ct",
+          "label": "Center top"
+        },
+        {
+          "value": "position-cc",
+          "label": "Center center"
+        },
+        {
+          "value": "position-cb",
+          "label": "Center bottom"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "text_content",
+      "label": "Content alignment",
+      "default": "text-center",
+      "options": [
+        {
+          "value": "text-left",
+          "label": "Left"
+        },
+        {
+          "value": "text-center",
+          "label": "Center"
+        },
+        {
+          "value": "text-right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "default": 80,
+      "min": 60,
+      "max": 110,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "type": "text",
+      "id": "thumbnail_subheading",
+      "label": "Subheading",
+      "default": "SALE UP TO 50% OFF"
+    },
+    {
+      "type": "text",
+      "id": "thumbnail_heading",
+      "label": "Heading",
+      "default": "Made for Your"
+    },
+    {
+      "type": "richtext",
+      "id": "thumbnail_desc",
+      "label": "Description",
+      "default": "<p>Explore our latest considered collection for the new season.</p>"
+    },
+    {
+      "type": "select",
+      "id": "thumbnail_color",
+      "label": "Text color",
+      "default": "text-black",
+      "options": [
+        {
+          "value": "text-black",
+          "label": "Black"
+        },
+        {
+          "value": "text-white",
+          "label": "Light"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "thumbnail_button",
+      "label": "Button label",
+      "default": "Shop now"
+    },
+    {
+      "type": "url",
+      "id": "thumbnail_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Video Setting"
+    },
+    {
+      "type": "select",
+      "id": "video_options",
+      "label": "Video options",
+      "default": "local",
+      "options": [
+        {
+          "value": "local",
+          "label": "Local"
+        },
+        {
+          "value": "online",
+          "label": "Online"
+        }
+      ]
+    },
+    {
+      "id": "video_local",
+      "type": "video",
+      "label": "Upload local video"
+    },
+    {
+      "id": "video_url",
+      "type": "video_url",
+      "label": "Video url",
+      "accept": [
+        "youtube",
+        "vimeo"
+      ],
+      "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc"
+    },
+    {
+      "type": "select",
+      "id": "video_height",
+      "label": "Height",
+      "default": "height_default",
+      "options": [
+        {
+          "value": "height_default",
+          "label": "Default"
+        },
+        {
+          "value": "height_custom",
+          "label": "Custom"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "desktop_height",
+      "min": 600,
+      "max": 1100,
+      "step": 5,
+      "unit": "px",
+      "label": "Desktop height",
+      "default": 650,
+      "info": "Only active when choosing custom height"
+    },
+    {
+      "type": "range",
+      "id": "mobile_height",
+      "min": 200,
+      "max": 600,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile height",
+      "default": 300,
+      "info": "Only active when choosing custom height"
+    },
+    {
+      "type": "checkbox",
+      "id": "video_full_screen",
+      "label": "Full screen (desktop)",
+      "default": false,
+      "info": "Only active when choosing custom height"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Video"
+    }
+  ]
+}
+{% endschema %}

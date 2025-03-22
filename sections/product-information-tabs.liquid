@@ -1,0 +1,266 @@
+{%- assign pageUrl = contentForQuerystring | split: '"pageurl":"' | last | split: '"' | first | split: request.host | last | replace: '\/', '/' | replace: '%20', ' ' | replace: '\u0026', '&'
+-%}
+{%- assign pageQuerystring = pageUrl | split: '?' | last -%}
+{%- liquid
+  assign st = section.settings
+  if pageQuerystring contains 'tab_info='
+    assign tab = pageQuerystring | split: 'tab_info=' | last | split: '&' | first
+    if tab == 'tab' or tab == 'accordition' or tab == 'show_all'
+    endif
+  endif
+  if pageQuerystring contains 'position_tab='
+    assign position_tab = pageQuerystring | split: 'position_tab=' | last | split: '&' | first
+    if position_tab == 'default'
+    elsif position_tab == 'accordions-inner'
+    endif
+  endif
+
+  assign infomation_meta = product.metafields.tps.information_product_tab
+-%}
+{%- if section.blocks.size > 0 -%}
+  <div
+    class="tp-product-details-bottom pb-140"
+    id="{{ section.id }}"
+    data-section-id="{{ section.id }}">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="tp-product-details-tab-nav tp-tab">
+            <nav>
+              <div
+                class="nav nav-tabs justify-content-center p-relative tp-product-tab"
+                id="navPresentationTab"
+                role="tablist">
+                {%- for block in section.blocks %}
+                  <button
+                    class="nav-link {% if forloop.first %} active{% endif %}"
+                    id="nav-{{ block.id }}-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#nav-{{ block.id }}"
+                    type="button"
+                    role="tab"
+                    aria-controls="nav-{{ block.id }}"
+                    aria-selected="false">
+                    {{ block.settings.title }}
+                    {%- if block.type == '@app' -%}
+                      {{ 'products.product.review' | t }}
+                    {%- endif -%}
+                  </button>
+                {%- endfor -%}
+                <span id="productTabMarker" class="tp-product-details-tab-line"></span>
+              </div>
+            </nav>
+            <div class="tab-content" id="navPresentationTabContent">
+              {%- for block in section.blocks %}
+                <div
+                  class="tab-pane fade {% if forloop.first %} show active{% endif %}"
+                  id="nav-{{ block.id }}"
+                  role="tabpanel"
+                  aria-labelledby="nav-{{ block.id }}-tab"
+                  tabindex="0">
+                  {%- case block.type -%}
+                    {%- when '@app' -%}
+                      {% render block %}
+                    {%- when 'description' -%}
+                      {% render 'product-description'
+                        , product: product %}
+                    {%- when 'review' -%}
+                      <div class="tp-product-details-additional-info " data-id="{{ product.id }}">
+                        <div class="row justify-content-center">
+                          {{ product.metafields.spr.reviews }}
+                        </div>
+                      </div>
+                    {%- when 'custom_tab' -%}
+                      <div class="tp-product-details-additional-info " data-id="{{ product.id }}">
+                        <div class="row justify-content-center">
+                          {% assign tab_content = block.settings.tab_content %}
+                          {%- case tab_content -%}
+                            {%- when 'content' -%}
+                              {{ block.settings.content }}
+                            {%- when 'content_page' -%}
+                              {%- if block.settings.page != blank -%}
+                                {{ pages[block.settings.page].content }}
+                              {%- endif -%}
+                            {% when 'content_custom' %}
+                              {% if infomation_meta.value.informethion_text != blank %}
+                              {% elsif infomation_meta.value.information_in_page != blank %}
+                                {{ pages[infomation_meta.value.information_in_page].content }}
+                              {% endif %}
+                          {%- endcase -%}
+                        </div>
+                      </div>
+                  {%- endcase -%}
+
+                </div>
+              {%- endfor -%}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Product information tabs",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color"
+    },
+    {
+      "type": "select",
+      "id": "design",
+      "label": "Design",
+      "default": "tab",
+      "options": [
+        {
+          "value": "tab",
+          "label": "Tabs"
+        },
+        {
+          "value": "accordition",
+          "label": "Accordition"
+        },
+        {
+          "value": "show_all",
+          "label": "Show open all"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "position",
+      "label": "Position (only for accordition)",
+      "default": "1",
+      "options": [
+        {
+          "value": "1",
+          "label": "Default"
+        },
+        {
+          "value": "2",
+          "label": "Inside Product main infomation"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "open_first_tab",
+      "label": "Enable auto open first tab",
+      "info": "Only working with layout 'Accordion'",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom class"
+    },
+    {
+      "type": "checkbox",
+      "id": "reset_spacing",
+      "label": "Remove default space between sections",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "description",
+      "name": "Description",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Description"
+        }
+      ]
+    },
+    {
+      "type": "review",
+      "name": "Review",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Review"
+        }
+      ]
+    },
+    {
+      "type": "custom_tab",
+      "name": "Custom tab",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Custom Tab"
+        },
+        {
+          "type": "select",
+          "id": "tab_content",
+          "label": "Tab content",
+          "default": "content",
+          "options": [
+            {
+              "value": "content",
+              "label": "Content"
+            },
+            {
+              "value": "content_page",
+              "label": "Content page"
+            },
+            {
+              "value": "content_custom",
+              "label": "Content in metafields"
+            }
+          ]
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Tab content",
+          "default": "<p></p>"
+        },
+        {
+          "type": "page",
+          "id": "page",
+          "label": "Tab content from page"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

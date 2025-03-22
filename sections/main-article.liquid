@@ -1,0 +1,791 @@
+{%- liquid
+  assign st = section.settings
+  assign show_author = st.post_show_author
+  assign show_tag = st.post_show_tags
+  assign show_date = st.post_show_date
+  assign show_share = st.post_show_share
+-%}
+<script src="{{ 'blog.js' | asset_url }}" defer="defer"></script>
+
+<section class="tp-postbox-details-area pb-120 pt-95">
+  <div class="{{ st.container }}">
+    <div class="row">
+      <div class="col-xl-9">
+        <div class="tp-postbox-details-top">
+          {%- if show_tag and article.tags != blank and article.tags.size > 0 -%}
+            <div class="tp-postbox-details-category">
+              {% for tag in article.tags limit: 2 %}
+                <span>
+                  <a href="/blogs/news/tagged/{{ tag | handleize }}">
+                    {{ tag }}
+                  </a>
+                  {% if forloop.last == false %},{% endif %}
+                </span>
+              {% endfor %}
+            </div>
+          {%- endif -%}
+          <h3 class="tp-postbox-details-title">{{ article.title | escape }}</h3>
+          <div class="tp-postbox-details-meta mb-50">
+            {%- if show_author -%}
+              <span data-meta="author">
+                <svg
+                  width="15"
+                  height="16"
+                  viewBox="0 0 15 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M7.4104 8C9.33922 8 10.9028 6.433 10.9028 4.5C10.9028 2.567 9.33922 1 7.4104 1C5.48159 1 3.91797 2.567 3.91797 4.5C3.91797 6.433 5.48159 8 7.4104 8Z"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round" />
+                  <path
+                    d="M13.4102 15.0001C13.4102 12.2911 10.721 10.1001 7.41016 10.1001C4.09933 10.1001 1.41016 12.2911 1.41016 15.0001"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+                By
+                <a role="link" aria-disabled="true">{{ article.author | capitalize }}</a>
+              </span>
+            {%- endif -%}
+            {%- if show_date -%}
+              <span>
+                <svg
+                  width="16"
+                  height="17"
+                  viewBox="0 0 16 17"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15 8.5C15 12.364 11.864 15.5 8 15.5C4.136 15.5 1 12.364 1 8.5C1 4.636 4.136 1.5 8 1.5C11.864 1.5 15 4.636 15 8.5Z"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round" />
+                  <path
+                    d="M10.5972 10.7259L8.42721 9.43093C8.04921 9.20693 7.74121 8.66793 7.74121 8.22693V5.35693"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+                <a role="link" aria-disabled="true">{{- article.published_at | date: '%b %d %Y' -}}</a>
+              </span>
+            {%- endif -%}
+            <span>
+              <svg
+                width="16"
+                height="17"
+                viewBox="0 0 16 17"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12.5287 11.881L12.8017 14.093C12.8717 14.674 12.2487 15.08 11.7517 14.779L8.8187 13.036C8.4967 13.036 8.1817 13.015 7.8737 12.973C8.3917 12.364 8.6997 11.594 8.6997 10.761C8.6997 8.77299 6.9777 7.16302 4.8497 7.16302C4.0377 7.16302 3.2887 7.394 2.6657 7.8C2.6447 7.625 2.6377 7.44999 2.6377 7.26799C2.6377 4.08299 5.4027 1.5 8.8187 1.5C12.2347 1.5 14.9997 4.08299 14.9997 7.26799C14.9997 9.15799 14.0267 10.831 12.5287 11.881Z"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path
+                  d="M8.7 10.7611C8.7 11.5941 8.39201 12.3641 7.87401 12.9731C7.18101 13.8131 6.082 14.3521 4.85 14.3521L3.023 15.437C2.715 15.626 2.323 15.3671 2.365 15.0101L2.54 13.6311C1.602 12.9801 1 11.9371 1 10.7611C1 9.52905 1.658 8.44407 2.666 7.80007C3.289 7.39407 4.038 7.16309 4.85 7.16309C6.978 7.16309 8.7 8.77305 8.7 10.7611Z"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+              <a role="link" aria-disabled="true">{{ 'blogs.article.comments' | t: count: article.comments_count }}</a>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-12">
+        <div class="tp-postbox-details-thumb">
+          <img
+            srcset="
+              {% if article.image.width >= 350 %}{{ article.image | image_url: width: 350 }} 350w,{% endif %}
+              {% if article.image.width >= 750 %}{{ article.image | image_url: width: 750 }} 750w,{% endif %}
+              {% if article.image.width >= 1100 %}{{ article.image | image_url: width: 1100 }} 1100w,{% endif %}
+              {% if article.image.width >= 1500 %}{{ article.image | image_url: width: 1500 }} 1500w,{% endif %}
+              {% if article.image.width >= 2200 %}{{ article.image | image_url: width: 2200 }} 2200w,{% endif %}
+              {% if article.image.width >= 3000 %}{{ article.image | image_url: width: 3000 }} 3000w,{% endif %}
+              {{ article.image | image_url }} {{ article.image.width }}w
+            "
+            sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 }}px, (min-width: 750px) calc(100vw - 10rem), 100vw"
+            src="{{ article.image | image_url: width: "master" }}"
+            loading="lazy"
+            alt="{{ article.image.alt | escape }}"
+          >
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-9 col-lg-8">
+        <div class="tp-postbox-details-main-wrapper">
+          <div class="tp-postbox-details-content">
+            {{ article.content }}
+            <div class="tp-postbox-details-share-wrapper">
+              <div class="row">
+                {%- if show_tag and article.tags != blank and article.tags.size > 0 -%}
+                  <div class="col-xl-8 col-lg-6">
+                    <div class="tp-postbox-details-tags tagcloud">
+                      <span>Tags:</span>
+                      {% for tag in article.tags limit: 2 %}
+                        <a href="/blogs/{{ blog_name }}/tagged/{{ tag | handleize }}">{{ tag }}</a>
+                      {% endfor %}
+                    </div>
+                  </div>
+                {%- endif -%}
+                {%- if show_share -%}
+                  <div class="col-xl-4 col-lg-6">
+                    <div class="tp-postbox-details-share text-md-end">
+                      <span>Share:</span>
+                      <a
+                        target="_blank"
+                        href='https://www.facebook.com/sharer/sharer.php?u={{ canonical_url }}&p[images][0]={{ article.image | image_url: width: 480, height: 480 }}", "sharer", "toolbar=0,status=0,width=660,height=445'
+                        class="btn-sharing btnTwitter"
+                      >
+                        <i class="fa-brands fa-facebook-f"></i>
+                      </a>
+                      <a
+                        target="_blank"
+                        href='https://twitter.com/intent/tweet?text={{ article.title | truncate: 30 | url_param_escape }} {{ canonical_url }}", "sharertwt", "toolbar=0,status=0,width=640,height=445'
+                      >
+                        <i class="fa-brands fa-twitter"></i>
+                      </a>
+                      <a
+                        target="_blank"
+                        href='http://pinterest.com/pin/create/button/?url={{ canonical_url }}&amp;media={{ article.image | image_url: width: 480, height: 480 }}", "sharerpinterest", "toolbar=0,status=0,width=660,height=445'
+                      >
+                        <i class="fa-brands fa-pinterest"></i>
+                      </a>
+                    </div>
+                  </div>
+                {%- endif -%}
+              </div>
+            </div>
+
+            <div class="tp-postbox-details-comment-wrapper">
+              {%- if article.comments_count > 0 -%}
+                {%- assign anchorId = '#Comments-' | append: article.id -%}
+                <h3
+                  class="tp-postbox-details-comment-title"
+                  id="Comments-{{ article.id }}"
+                  tabindex="-1"
+                >
+                  {{ 'blogs.article.comments' | t: count: article.comments_count }}
+                </h3>
+                <div class="tp-postbox-details-comment-inner">
+                  <ul>
+                    {% paginate article.comments by 5 %}
+                      {%- if comment.status == 'pending' and comment.content -%}
+                      {%- endif -%}
+                      {%- for comment in article.comments -%}
+                        <li id="{{ comment.id }}">
+                          <div class="tp-postbox-details-comment-box d-sm-flex align-items-start">
+                            <div class="tp-postbox-details-comment-thumb">
+                              <svg
+                                width="70"
+                                height="70"
+                                viewBox="0 0 70 70"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <rect
+                                  width="70"
+                                  height="70"
+                                  rx="35"
+                                  fill="#F5F5F5" />
+                                <path d="M51.7693 48.6584C42.4282 39.554 27.5718 39.554 18.2307 48.6584C17.9297 48.9605 17.92 49.4577 18.221 49.7599C18.522 50.062 19.0075 50.0718 19.3085 49.7794C28.0476 41.2696 41.9427 41.2696 50.6818 49.7794C50.9925 50.0815 51.4877 50.0718 51.779 49.7599C52.08 49.4479 52.0703 48.9605 51.7693 48.6584Z" fill="#BBBBBB" />
+                                <path d="M35.0014 38.7157C40.1477 38.7157 44.3231 34.5241 44.3231 29.3578C44.3231 24.1915 40.1477 20 35.0014 20C29.855 20 25.6797 24.1915 25.6797 29.3578C25.6894 34.5241 29.855 38.7059 35.0014 38.7157ZM35.0014 21.5596C39.2932 21.5596 42.7694 25.0493 42.7694 29.3578C42.7694 33.6663 39.2932 37.156 35.0014 37.156C30.7095 37.156 27.2333 33.6663 27.2333 29.3578C27.243 25.0493 30.7095 21.5694 35.0014 21.5596Z" fill="#BBBBBB" />
+                              </svg>
+                            </div>
+                            <div class="tp-postbox-details-comment-content">
+                              <div class="tp-postbox-details-comment-top d-flex justify-content-between align-items-start">
+                                <div class="tp-postbox-details-comment-avater">
+                                  <h4 class="tp-postbox-details-comment-avater-title">{{- comment.author -}}</h4>
+                                  <span class="tp-postbox-details-avater-meta">
+                                    {{- comment.created_at | time_tag: format: 'date' -}}
+                                  </span>
+                                </div>
+                              </div>
+                              <p>{{ comment.content }}</p>
+                            </div>
+                          </div>
+                        </li>
+                      {%- endfor -%}
+                      {% render 'pagination', paginate: paginate, anchor: anchorId %}
+                    {% endpaginate %}
+                  </ul>
+                </div>
+              {%- endif -%}
+            </div>
+            {% form 'new_comment', article %}
+              {%- liquid
+                assign post_message = 'blogs.article.success'
+                if blog.moderated? and comment.status == 'unapproved'
+                  assign post_message = 'blogs.article.success_moderated'
+                endif
+              -%}
+              <div class="tp-postbox-details-form">
+                <h3 class="tp-postbox-details-form-title">{{ 'blogs.article.comment_form_title' | t }}</h3>
+                {%- if form.errors -%}
+                  <div class="form__message error mb-30 icons-not-translate" role="alert">
+                    <h3 class="form-status caption-large text-body fs-20 mb-10" tabindex="-1">
+                      {{ 'templates.contact.form.error_heading' | t }}
+                    </h3>
+                    <ul class="form-status-list caption-large">
+                      {%- for field in form.errors -%}
+                        <li>
+                          <a href="#CommentForm-{{ field }}" class="link">
+                            {%- if form.errors.translated_fields[field] contains 'author' -%}
+                              {{ 'blogs.article.name' | t }}
+                            {%- elsif form.errors.translated_fields[field] contains 'body' -%}
+                              {{ 'blogs.article.message' | t }}
+                            {%- else -%}
+                              {{ form.errors.translated_fields[field] }}
+                            {%- endif -%}
+                            {{ form.errors.messages[field] }}
+                          </a>
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                  </div>
+                {%- elsif form.posted_successfully? -%}
+                  <div class="form-status-list form__message mb-30" role="status">
+                    <p class="success d-inline-block" tabindex="-1">{{ post_message | t }}</p>
+                  </div>
+                {%- endif -%}
+
+                <div class="tp-postbox-details-form-wrapper">
+                  <div class="tp-postbox-details-form-inner mt-25">
+                    <div class="tp-postbox-details-input-box">
+                      <div class="tp-contact-input">
+                        <input
+                          name="comment[author]"
+                          id="CommentForm-author"
+                          name="comment[author]"
+                          type="text"
+                          autocomplete="name"
+                          value="{{ form.author }}"
+                          aria-required="true"
+                          required
+                          {% if form.errors contains 'author' %}
+                            aria-invalid="true"
+                            aria-describedby="name-author-error"
+                          {% endif %}
+                          placeholder="Mojahid Islam"
+                        >
+                        {%- if form.errors contains 'author' -%}
+                          <small id="CommentForm-author-error">
+                            <span class="form__message error d-block mt-10">
+                              {{- 'blogs.article.name' | t }}
+                              {{ form.errors.messages.author }}.</span
+                            >
+                          </small>
+                        {%- endif -%}
+                      </div>
+                      <div class="tp-postbox-details-input-title">
+                        <label for="name">{{- 'blogs.article.name' | t }}</label>
+                      </div>
+                    </div>
+                    <div class="tp-postbox-details-input-box">
+                      <div class="tp-contact-input">
+                        <input
+                          name="comment[email]"
+                          id="CommentForm-email"
+                          name="comment[email]"
+                          type="email"
+                          value="{{ form.email }}"
+                          required
+                          autocomplete="email"
+                          autocorrect="off"
+                          autocapitalize="off"
+                          aria-required="true"
+                          required
+                          {% if form.errors contains 'email' %}
+                            aria-invalid="true"
+                            aria-describedby="CommentForm-email-error"
+                          {% endif %}
+                          placeholder="{{ 'blogs.article.email' | t }}"
+                        >
+                      </div>
+                      <div class="tp-postbox-details-input-title">
+                        <label for="email">
+                          {{- 'blogs.article.email' | t }}
+                          <span aria-hidden="true">*</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="tp-postbox-details-input-box">
+                      <div class="tp-contact-input">
+                        <textarea
+                          id="CommentForm-body"
+                          placeholder="Write your message here..."
+                          aria-required="true"
+                          name="comment[body]"
+                          aria-required="true"
+                          required
+                          {% if form.errors contains 'body' %}
+                            aria-invalid="true"
+                            aria-describedby="CommentForm-body-error"
+                          {% endif -%}
+                        >{{ form.body }}</textarea>
+                        {%- if form.errors contains 'body' -%}
+                          <small id="CommentForm-body-error">
+                            <span class="form__message error d-block mt-10">
+                              {{- 'blogs.article.message' | t }}
+                              {{ form.errors.messages.body }}.</span
+                            >
+                          </small>
+                        {%- endif -%}
+                      </div>
+                      <div class="tp-postbox-details-input-title">
+                        <label for="msg">
+                          {{- 'blogs.article.message' | t -}}
+                          <span aria-hidden="true">*</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tp-postbox-details-input-box mt-20">
+                    <button class="tp-postbox-details-input-btn" type="submit">{{ 'blogs.article.post' | t }}</button>
+                  </div>
+                </div>
+              </div>
+            {% endform %}
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-lg-4">
+        <div class="tp-sidebar-wrapper tp-sidebar-ml--24">
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'author_info' -%}
+                <div class="tp-sidebar-widget mb-35">
+                  <div class="tp-sidebar-search">
+                    <form
+                      action="{{ routes.search_url }}"
+                      method="get"
+                      role="search"
+                    >
+                      <div class="tp-sidebar-search-input">
+                        <button type="submit">
+                          <svg
+                            width="18"
+                            height="18"
+                            viewBox="0 0 18 18"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M8.11111 15.2222C12.0385 15.2222 15.2222 12.0385 15.2222 8.11111C15.2222 4.18375 12.0385 1 8.11111 1C4.18375 1 1 4.18375 1 8.11111C1 12.0385 4.18375 15.2222 8.11111 15.2222Z"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round" />
+                            <path
+                              d="M16.9995 17L13.1328 13.1333"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round" />
+                          </svg>
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              {%- when 'author_info' -%}
+                {% # about %}
+                <div class="tp-sidebar-widget mb-35">
+                  <h3 class="tp-sidebar-widget-title">{{ block.settings.title | escape }}</h3>
+                  <div class="tp-sidebar-widget-content">
+                    <div class="tp-sidebar-about">
+                      <div class="tp-sidebar-about-thumb mb-25">
+                        <a href="{{ block.settings.author_link }}">
+                          <img src="{{ block.settings.author_avatar | image_url }}">
+                        </a>
+                      </div>
+                      <div class="tp-sidebar-about-content">
+                        <h3 class="tp-sidebar-about-title">
+                          <a href="{{ block.settings.author_link }}">{{ block.settings.title | escape }}</a>
+                        </h3>
+                        <span class="tp-sidebar-about-designation">
+                          {{- block.settings.author_designation | escape -}}
+                        </span>
+                        <p>{{ block.settings.author_bio | escape }}</p>
+                        <div class="tp-sidebar-about-signature">
+                          <img src="{{ block.settings.author_signature | image_url: width: 270, height: 80 }}">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% # about end %}
+
+              {%- when 'recent_post' -%}
+                <div class="tp-sidebar-widget mb-35">
+                  <h3 class="tp-sidebar-widget-title">{{ block.settings.title | escape }}</h3>
+                  <div class="tp-sidebar-widget-content">
+                    <div class="tp-sidebar-blog-item-wrapper">
+                      {% for article in blogs[blog.handle].articles limit: block.settings.maximum %}
+                        <div class="tp-sidebar-blog-item d-flex align-items-center">
+                          <div class="tp-sidebar-blog-thumb">
+                            <a href="{{ article.url }}">
+                              <img
+                                src="{% if article.image %}{{ article.image | image_url }}{% else %}{{ 'blog-no-image.jpg' | asset_url }} {% endif %}"
+                                alt="{{ article.title }}"
+                                height="auto"
+                                width="auto"
+                              >
+                            </a>
+                          </div>
+                          <div class="tp-sidebar-blog-content">
+                            <div class="tp-sidebar-blog-meta">
+                              <span>{{ article.published_at | date: '%d %b, %Y' }}</span>
+                            </div>
+                            <h3 class="tp-sidebar-blog-title">
+                              <a href="{{ article.url }}">{{ article.title }}</a>
+                            </h3>
+                          </div>
+                        </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+
+              {%- when 'categories' -%}
+                {% # categories start %}
+                <div class="tp-sidebar-widget widget_categories mb-35">
+                  <h3 class="tp-sidebar-widget-title">{{ block.settings.title | escape }}</h3>
+                  <div class="tp-sidebar-widget-content">
+                    {%- if linklists[block.settings.menu].links.size > 0 -%}
+                      <ul>
+                        {%- for link in linklists[block.settings.menu].links -%}
+                          <li>
+                            <a href="{{ link.url }}">{{ link.title | split: '[label' | first }}</a>
+                          </li>
+                        {%- endfor -%}
+                      </ul>
+                    {%- endif -%}
+                  </div>
+                </div>
+                {% # categories end %}
+              {%- when 'tags' -%}
+                {% # tag cloud start %}
+                <div class="tp-sidebar-widget mb-35">
+                  <h3 class="tp-sidebar-widget-title">{{ block.settings.title | escape }}</h3>
+                  <div class="tp-sidebar-widget-content tagcloud">
+                    {% for tag in blog.all_tags limit: 8 %}
+                      {% if current_tags contains tag %}
+                        <a href="{{ tag | link_to_tag: tag }}" class="active">{{ tag }}</a>
+                      {% else %}
+                        {{ tag | link_to_tag: tag }}
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                </div>
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "articleBody": {{ article.content | strip_html | json }},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": {{ request.origin | append: page.url | json }}
+    },
+    "headline": {{ article.title | json }},
+    {% if article.excerpt != blank %}
+      "description": {{ article.excerpt | strip_html | json }},
+      {% endif %}
+      {% if article.image %}
+        "image" : [{{ article | image_url: width: article.image.width | prepend: "https:" | json }}],
+        {% endif %}
+        "datePublished": {{ article.published_at | date: '%Y-%m-%dT%H:%M:%SZ' | json }},
+        "dateCreated": {{ article.created_at | date: '%Y-%m-%dT%H:%M:%SZ' | json }},
+        "author": {
+          "@type": "Person",
+          "name": {{ article.author | json }}
+        },
+        "publisher": {
+          "@type": "Organization",
+          {% if settings.share_image %}
+            "logo" : {
+              "@type": "ImageObject",
+              "height": {{ settings.share_image.height | json }},
+              "url": {{ settings.share_image | image_url: width: settings.share_image.width | prepend: "https:" | json }},
+              "width": {{ settings.share_image.width | json }}
+            },
+            {% endif %}
+            "name": {{ shop.name | json }}
+          }
+        }
+</script>
+
+{% schema %}
+{
+  "name": "Blog post",
+  "class": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Container type",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "post_show_author",
+      "label": "Show author",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "post_show_date",
+      "label": "Show publised date",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "post_show_tags",
+      "label": "Show tags",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "post_show_share",
+      "label": "Show share",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "post_next_previous",
+      "label": "Show next and previous",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Related Articles"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_related_articles",
+      "label": "Show related articles",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "related_articles_title",
+      "label": "Title",
+      "default": "Related Articles"
+    },
+    {
+      "type": "select",
+      "id": "aspect_ratio",
+      "label": "Aspect ratio",
+      "default": "original",
+      "options": [
+        {
+          "value": "original",
+          "label": "Original aspect ratio"
+        },
+        {
+          "value": "16/9",
+          "label": "16:9"
+        },
+        {
+          "value": "3/4",
+          "label": "3:4"
+        },
+        {
+          "value": "4/3",
+          "label": "4:3"
+        },
+        {
+          "value": "1/1",
+          "label": "1:1"
+        },
+        {
+          "value": "custom",
+          "label": "Custom"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "custom_ratio",
+      "label": "Custom ratio",
+      "default": "21:9"
+    },
+    {
+      "type": "select",
+      "id": "hover_effect",
+      "label": "Hover effect",
+      "default": "zoom",
+      "options": [
+        {
+          "value": "zoom",
+          "label": "Zoom"
+        },
+        {
+          "value": "translate-to-top",
+          "label": "Translate to top"
+        },
+        {
+          "value": "translate-to-bottom",
+          "label": "Translate to bottom"
+        },
+        {
+          "value": "none",
+          "label": "None"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "hover_effect_infor",
+      "label": "Hover infor posts",
+      "default": "none",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "text_overlay",
+          "label": "Text overlay"
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "author_info",
+      "name": "Author info",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "About me"
+        },
+        {
+          "type": "url",
+          "id": "author_link",
+          "label": "Author link"
+        },
+        {
+          "type": "image_picker",
+          "id": "author_avatar",
+          "label": "Author avatar",
+          "info": "Upload image: png, jpg or gif file (240 x 260px recommended)"
+        },
+        {
+          "type": "text",
+          "id": "author_name",
+          "label": "Author name",
+          "default": "Ravi O'Leigh"
+        },
+        {
+          "type": "text",
+          "id": "author_designation",
+          "label": "Author designation",
+          "default": "CEO & Founder"
+        },
+        {
+          "type": "text",
+          "id": "author_bio",
+          "label": "Author Bio"
+        },
+        {
+          "type": "image_picker",
+          "id": "author_signature",
+          "label": "Author signature",
+          "info": "Upload image: png, jpg or gif file (130 x 40px recommended)"
+        }
+      ]
+    },
+    {
+      "type": "categories",
+      "name": "Categories",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Blog Category"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Select Menu"
+        }
+      ]
+    },
+    {
+      "type": "tags",
+      "name": "Tags",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Tags"
+        }
+      ]
+    },
+    {
+      "type": "recent_post",
+      "name": "Recent post",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Recent Post"
+        },
+        {
+          "type": "range",
+          "id": "maximum",
+          "label": "Maximum to show",
+          "min": 1,
+          "max": 8,
+          "step": 1,
+          "default": 3
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,56 @@
+{% liquid
+  assign design = design
+  for option in product.options_with_values
+    if option.name == option_name
+    endif
+  endfor
+%}
+
+{%- assign media = product.selected_or_first_available_variant.featured_media -%}
+<div class="tp-product-details-thumb-wrapper tp-tab d-sm-flex">
+  <nav>
+    <div
+      class="nav nav-tabs flex-sm-column "
+      id="productDetailsNavThumb"
+      role="tablist"
+    >
+      {% for image in product.images %}
+        <button
+          class="nav-link {% if forloop.first %}active{% endif %}"
+          id="nav-{{ image.id }}-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#nav-{{ image.id }}"
+          data-media-id="{{ media.id }}"
+          data-image-id="{{ image.id }}"
+          type="button"
+          role="tab"
+          aria-controls="nav-{{ image.id }}"
+          aria-selected="true"
+        >
+          <img src="{{ image.src | image_url }}" alt="{{ image.alt | escape }}">
+        </button>
+      {% endfor %}
+    </div>
+  </nav>
+
+  <div class="tab-content m-img" id="productDetailsNavContent">
+    {% for image in product.images %}
+      <div
+        class="tab-pane fade {% if forloop.first %}show active{% endif %}"
+        id="nav-{{ image.id }}"
+        role="tabpanel"
+        aria-labelledby="nav-{{ image.id }}-tab"
+        tabindex="0"
+      >
+        <div
+          class="tp-product-details-nav-main-thumb"
+          data-image="{{ image.src | image_url }}"
+          data-image-id="{{ image.id }}"
+          data-media-id="{{ media.id }}"
+        >
+          <img src="{{ image.src | image_url }}" alt="{{ image.alt | escape }}" height="auto" width="auto">
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>

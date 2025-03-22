@@ -1,0 +1,238 @@
+{%- liquid
+  assign header_layout = settings.header_layout
+  assign container = settings.container
+  assign dark_logo = settings.dark_logo
+  assign logo_image = settings.logo_image_1
+  assign logo_width = settings.logo_width
+  assign compare = settings.show_compare_icon
+  assign wishlist = settings.show_wishlist_icon
+  assign minicart = settings.show_minicart
+-%}
+<header>
+  {%- if header_layout == 'header_layout_1' -%}
+    <div class="tp-header-area p-relative z-index-11">
+      {%- liquid
+        section 'top-bar'
+      -%}
+      {%- liquid
+        section 'header-layout-1'
+      -%}
+
+      <div class="tp-header-bottom tp-header-bottom-border d-none d-lg-block">
+        <div class="{{ container }}">
+          <div class="tp-mega-menu-wrapper p-relative">
+            <div class="row align-items-center">
+              <div class="col-xl-3 col-lg-3">
+                {%- liquid
+                  section 'vertical-menu'
+                -%}
+              </div>
+              <div class="col-xl-6 col-lg-6">
+                {%- liquid
+                  section 'horizontal-menu'
+                -%}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="header-sticky-2" class="tp-header-sticky-area">
+      <div class="container">
+        <div class="tp-mega-menu-wrapper p-relative">
+          <div class="row align-items-center">
+            <div class="col-xl-3 col-lg-3 col-md-3 col-6">
+              <div class="logo">
+                {%- render 'logo' -%}
+              </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 d-none d-md-block">
+              {%- liquid
+                section 'horizontal-menu'
+              -%}
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-3 col-6">
+              <div class="tp-header-action d-flex align-items-center justify-content-end ml-50 tp-header-action-main">
+                {%- liquid
+                  if compare
+                    render 'compare'
+                  endif
+                  if wishlist
+                    render 'wishlist'
+                  endif
+                  if minicart
+                    render 'minicart'
+                  endif
+                -%}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {%- elsif header_layout == 'header_layout_2' -%}
+    <div class="tp-header-area tp-header-style-darkRed tp-header-height">
+      {%- liquid
+        section 'top-bar-2'
+      -%}
+      <div id="header-sticky" class="tp-header-bottom-2 tp-header-sticky">
+        <div class="container">
+          <div class="tp-mega-menu-wrapper p-relative">
+            <div class="row align-items-center">
+              <div class="col-xl-2 col-lg-5 col-md-5 col-sm-4 col-6">
+                <div class="logo">
+                  {%- render 'logo' -%}
+                </div>
+              </div>
+              <div class="col-xl-5 d-none d-xl-block">
+                {%- liquid
+                  section 'horizontal-menu-2'
+                -%}
+              </div>
+              <div class="col-xl-5 col-lg-7 col-md-7 col-sm-8 col-6">
+                {%- liquid
+                  section 'header-layout-2'
+                -%}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {%- elsif header_layout == 'header_layout_3' -%}
+    <div
+      id="header-sticky"
+      class="tp-header-area tp-header-style-transparent-white tp-header-transparent tp-header-sticky has-dark-logo tp-header-height"
+    >
+      <div class="tp-header-bottom-3 pl-35 pr-35">
+        <div class="container-fluid">
+          <div class="row align-items-center">
+            <div class="col-xl-2 col-lg-2 col-6">
+              <div class="logo">
+                {%- if logo_image -%}
+                  <a href="{{ routes.root_url }}">
+                    <img
+                      class="logo-light"
+                      style="max-width: {{ logo_width }}"
+                      src="{{ logo_image | image_url }}"
+                      alt="{{ logo_image.alt | default: shop.name }}"
+                      height="auto"
+                      width="auto"
+                    >
+                    {%- if dark_logo -%}
+                      <img
+                        class="logo-dark"
+                        style="max-width: {{ logo_width }}"
+                        src="{{ dark_logo | image_url }}"
+                        alt="{{ dark_logo.alt | default: shop.name }}"
+                        height="auto"
+                        width="auto"
+                      >
+                    {%- endif -%}
+                  </a>
+                {%- else -%}
+                  <a href="/">
+                    <span>{{ shop.name }}</span>
+                  </a>
+                {%- endif -%}
+              </div>
+            </div>
+            <div class="col-xl-8 col-lg-8 d-none d-lg-block">
+              {%- liquid
+                section 'horizontal-menu-3'
+              -%}
+            </div>
+            <div class="col-xl-2 col-lg-2 col-6">
+              {%- liquid
+                section 'header-layout-3'
+              -%}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {%- elsif header_layout == 'header_layout_4' -%}
+    <div
+      id="header-sticky"
+      class="tp-header-area tp-header-style-transparent-white tp-header-sticky tp-header-transparent has-dark-logo tp-header-height"
+    >
+      <div class="tp-header-bottom-3 pl-85 pr-85">
+        <div class="container-fluid">
+          <div class="row align-items-center">
+            <div class="col-xl-2 col-lg-2 col-6">
+              <div class="logo">
+                {%- if logo_image -%}
+                  <a href="{{ routes.root_url }}">
+                    <img
+                      class="logo-light"
+                      style="max-width: {{ logo_width }}"
+                      src="{{ logo_image | image_url }}"
+                      alt="{{ logo_image.alt | default: shop.name }}"
+                      height="auto"
+                      width="auto"
+                    >
+                    {%- if dark_logo -%}
+                      <img
+                        class="logo-dark"
+                        style="max-width: {{ logo_width }}"
+                        src="{{ dark_logo | image_url }}"
+                        alt="{{ dark_logo.alt | default: shop.name }}"
+                        height="auto"
+                        width="auto"
+                      >
+                    {%- endif -%}
+                  </a>
+                {%- else -%}
+                  <a href="/">
+                    <span>{{ shop.name }}</span>
+                  </a>
+                {%- endif -%}
+              </div>
+            </div>
+            <div class="col-xl-8 col-lg-8 d-none d-lg-block">
+              {%- liquid
+                section 'horizontal-menu-4'
+              -%}
+            </div>
+            <div class="col-xl-2 col-lg-2 col-6">
+              {%- liquid
+                section 'header-layout-4'
+              -%}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {%- elsif header_layout == 'header_layout_5' - %}
+    <div id="header-sticky" class="tp-header-area p-relative tp-header-sticky tp-header-height">
+      {%- liquid
+        section 'header-layout-5'
+      -%}
+      <div class="tp-header-side-menu tp-side-menu-5">
+        {%- liquid
+          section 'vertical-menu-home-5'
+        -%}
+      </div>
+    </div>
+  {%- endif -%}
+</header>
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Organization",
+    "name": {{ shop.name | json }},
+    "sameAs": [
+      {{ settings.social_twitter_link | json }},
+      {{ settings.social_facebook_link | json }},
+      {{ settings.social_pinterest_link | json }},
+      {{ settings.social_instagram_link | json }},
+      {{ settings.social_tiktok_link | json }},
+      {{ settings.social_tumblr_link | json }},
+      {{ settings.social_snapchat_link | json }},
+      {{ settings.social_youtube_link | json }},
+      {{ settings.social_vimeo_link | json }}
+    ],
+    "url": {{ request.origin | append: page.url | json }}
+  }
+</script>

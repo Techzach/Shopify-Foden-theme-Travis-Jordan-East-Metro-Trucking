@@ -1,0 +1,48 @@
+{{ 'page-heading.css' | asset_url | stylesheet_tag }}
+{%- liquid
+  assign st = section.settings
+  assign image_bg = st.image
+  if st.use_collection_image
+    assign image_bg = collection.featured_image | default: image_bg
+  endif
+  assign title = st.title
+-%}
+
+<section class="breadcrumb__area include-bg pt-100 pb-50">
+  <div class="container">
+    <div class="row">
+      <div class="col-xxl-12">
+        <div class="breadcrumb__content p-relative z-index-1">
+          <h3 class="breadcrumb__title">
+            {{ title }}
+          </h3>
+          <div class="breadcrumb__list">
+            <span><a href="{{ shop.url }}">Home</a></span>
+            <span>
+              {{ title }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Page heading",
+  "class": "tps_page_section_heading_collection",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Shop"
+    }
+  ]
+}
+{% endschema %}

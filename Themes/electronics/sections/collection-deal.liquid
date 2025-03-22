@@ -1,0 +1,276 @@
+{%- liquid
+  assign st = section.settings
+  assign container = st.container
+
+  assign image_1 = st.image_1
+  assign collection_1 = st.collection_1
+  assign heading_1 = st.heading_1
+  assign subheading_1 = st.subheading_1
+  assign button_text_1 = st.button_text_1
+
+  assign image_2 = st.image_2
+  assign collection_2 = st.collection_2
+  assign heading_2 = st.heading_2
+  assign subheading_2 = st.subheading_2
+  assign end_time = st.end_time
+  assign deal_description = st.deal_description
+-%}
+
+{%- capture style -%}
+  padding-top: {{ st.padding_top }}px; padding-bottom:{{ st.padding_bottom }}px;
+{%- endcapture -%}
+<section
+  class="tp-collection-area pt-120"
+  style="{{ style | strip | strip_newlines }}"
+  data-id="{{ section.id }}"
+  data-type="product_deal"
+>
+  <div class="{{ container }}">
+    <div class="row gx-2 gy-2 gy-md-0">
+      <div class="col-xl-7 col-md-6">
+        <div class="tp-collection-item tp-collection-height grey-bg p-relative z-index-1 fix">
+          <div
+            class="tp-collection-thumb include-bg include-bg transition-3"
+            data-background="{{ image_1 | image_url }}"
+          ></div>
+          <div class="tp-collection-content">
+            {%- if subheading_1 != blank -%}
+              <span>{{ subheading_1 }}</span>
+            {%- endif -%}
+            {%- if heading_1 != blank -%}
+              <h3 class="tp-collection-title">
+                <a href="{{ collection_1.url }}">{{ heading_1 }}</a>
+              </h3>
+            {%- endif -%}
+            {%- if button_text_1 != blank -%}
+              <div class="tp-collection-btn">
+                <a href="{{ collection_1.url }}" class="tp-btn">
+                  {{ button_text_1 }}
+                  <svg
+                    width="12"
+                    height="10"
+                    viewBox="0 0 12 10"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M10.9994 4.99981L1.04004 4.99981"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path
+                      d="M6.98291 1L10.9998 4.99967L6.98291 9"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                </a>
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-5 col-md-6">
+        <div class="tp-collection-item tp-collection-height grey-bg p-relative z-index-1 fix">
+          <div
+            class="tp-collection-thumb has-overlay include-bg transition-3"
+            data-background="{{ image_2 | image_url }}"
+          ></div>
+          <div class="tp-collection-content-1">
+            {%- if heading_2 != blank -%}
+              <h3 class="tp-collection-title-1">
+                <a href="{{ collection_2.url }}">{{ heading_2 }}</a>
+              </h3>
+            {%- endif -%}
+            {%- if subheading_2 != blank -%}
+              <div class="tp-collection-btn-1">
+                <a href="{{ collection_2.url }}" class="tp-link-btn-line">{{ subheading_2 }}</a>
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-xl-3 col-lg-4 col-md-5">
+        <div class="tp-collection-offer-wrapper mt-20">
+          <p>{{ deal_description }}</p>
+        </div>
+      </div>
+      <div class="col-xl-3 col-lg-4 col-md-5">
+        {% if end_time != blank %}
+          <div class="tp-collection-countdown d-flex align-items-center justify-content-center justify-content-md-start ml-20 mt-20">
+            <div
+              class="tp-product-countdown"
+              data-countdown
+              data-date="{{ end_time }}"
+            >
+              <div class="tp-product-countdown-inner">
+                <ul>
+                  <li>
+                    <span data-days>0</span>
+                    Days
+                  </li>
+                  <li>
+                    <span data-hours>0</span>
+                    Hrs
+                  </li>
+                  <li>
+                    <span data-minutes>0</span>
+                    Min
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div
+              class="tp-product-countdown has-second"
+              data-countdown
+              data-date="{{ end_time }}"
+            >
+              <div class="tp-product-countdown-inner">
+                <ul>
+                  <li>
+                    <span data-seconds>0</span>
+                    Sec
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection Deal",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Collection 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Image 1",
+      "info": "690 × 700px recommended"
+    },
+    {
+      "type": "collection",
+      "id": "collection_1",
+      "label": "Collection 1"
+    },
+    {
+      "type": "text",
+      "id": "heading_1",
+      "label": "Heading 1",
+      "default": "Bestseller Product"
+    },
+    {
+      "type": "text",
+      "id": "subheading_1",
+      "label": "Subheading 1"
+    },
+    {
+      "type": "text",
+      "id": "button_text_1",
+      "label": "Button text 1",
+      "default": "Shop now"
+    },
+    {
+      "type": "header",
+      "content": "Collection 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Image 2",
+      "info": "690 × 700px recommended"
+    },
+    {
+      "type": "collection",
+      "id": "collection_2",
+      "label": "Collection 2"
+    },
+    {
+      "type": "text",
+      "id": "heading_2",
+      "label": "Heading 2",
+      "default": "Bestseller Product"
+    },
+    {
+      "type": "text",
+      "id": "subheading_2",
+      "label": "Subheading 2"
+    },
+    {
+      "type": "text",
+      "id": "button_text_2",
+      "label": "Button text 2",
+      "default": "Shop now"
+    },
+    {
+      "type": "textarea",
+      "id": "deal_description",
+      "label": "Deal description",
+      "default": "Discover our Beauty Selection <span>75% Extra Discount</span> for your..."
+    },
+    {
+      "type": "text",
+      "id": "end_time",
+      "label": "Deal end time",
+      "default": "12-24-2025",
+      "info": "e.g. mm-dd-yyyy"
+    },
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Layout",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Deal "
+    }
+  ]
+}
+{% endschema %}

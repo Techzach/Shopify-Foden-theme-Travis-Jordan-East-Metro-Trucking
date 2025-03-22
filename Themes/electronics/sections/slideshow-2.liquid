@@ -1,0 +1,404 @@
+{%- capture style -%}
+  --slider-2-section-heading-font-size: {{ section.settings.heading_font_size }}px;
+  --slider-2-section-heading-font-weight: {{ section.settings.heading_font_weight }};
+  --slider-2-section-subheading-font-size: {{ section.settings.subheading_font_size }}px;
+  --slider-2-section-subheading-font-weight: {{ section.settings.subheading_font_weight }};
+{%- endcapture -%}
+
+<section
+  class="tp-slider-area p-relative z-index-1"
+  style="{{ style | strip | strip_newlines }}"
+>
+  <div class="tp-slider-active-2 swiper-container">
+    <div class="swiper-wrapper">
+      {% for block in section.blocks %}
+        <div class="tp-slider-item-2 tp-slider-height-2 p-relative swiper-slide grey-bg-5 d-flex align-items-end">
+          {%- if section.settings.show_shape_1 -%}
+            <div class="tp-slider-2-shape">
+              {%- if section.settings.slider_shape_1 != blank -%}
+                <img
+                  src="{{ section.settings.slider_shape_1 | image_url }}"
+                  alt=""
+                  class="tp-slider-2-shape-1"
+                  height="auto"
+                  width="auto"
+                >
+              {%- else -%}
+                {{ 'image' | placeholder_svg_tag: 'custom_slider_placeholder_shape_image tp-slider-2-shape-1' }}
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+          <div class="container">
+            <div class="row align-items-center">
+              <div class="col-xl-6 col-lg-6 col-md-6">
+                <div class="tp-slider-content-2">
+                  {%- if block.settings.subheading -%}
+                    <span>
+                      {{- block.settings.subheading -}}
+                    </span>
+                  {%- endif -%}
+                  {%- if block.settings.title -%}
+                    <h3
+                      class="tp-slider-title-2"
+                    >
+                      {{ block.settings.title }}
+                    </h3>
+                  {%- endif -%}
+                  {%- if block.settings.button_text -%}
+                    <div class="tp-slider-btn-2">
+                      <a href="{{ block.settings.button_link }}" class="tp-btn tp-btn-border">
+                        {{- block.settings.button_text -}}
+                      </a>
+                    </div>
+                  {%- endif -%}
+                </div>
+              </div>
+              <div class="col-xl-6 col-lg-6 col-md-6">
+                <div class="tp-slider-thumb-2-wrapper p-relative">
+                  <div class="tp-slider-thumb-2-shape">
+                    {%- if section.settings.slider_shape_2 -%}
+                      {%- if section.settings.slider_shape_2 != blank -%}
+                        <img
+                          src="{{ section.settings.slider_shape_2 | image_url }}"
+                          alt=""
+                          height="auto"
+                          width="auto"
+                          class="tp-slider-thumb-2-shape-1"
+                        >
+                      {%- else -%}
+                        {{
+                          'image'
+                          | placeholder_svg_tag: 'custom_slider_placeholder_shape_image tp-slider-thumb-2-shape-1'
+                        }}
+                      {%- endif -%}
+                    {%- endif -%}
+
+                    {%- if section.settings.slider_shape_3 -%}
+                      {%- if section.settings.slider_shape_3 != blank -%}
+                        <img
+                          src="{{ section.settings.slider_shape_3 | image_url }}"
+                          alt=""
+                          class="tp-slider-thumb-2-shape-2"
+                          height="auto"
+                          width="auto"
+                        >
+                      {%- else -%}
+                        {{
+                          'image'
+                          | placeholder_svg_tag: 'custom_slider_placeholder_shape_image tp-slider-thumb-2-shape-2'
+                        }}
+                      {%- endif -%}
+                    {%- endif -%}
+                  </div>
+                  {%- if block.settings.show_image != blank -%}
+                    <div class="tp-slider-thumb-2 text-end">
+                      <span class="tp-slider-thumb-2-gradient"></span>
+                      {%- if block.settings.image != blank -%}
+                        <img src="{{ block.settings.image | image_url }}" alt="" height="auto" width="auto">
+                      {%- else -%}
+                        {{ 'image' | placeholder_svg_tag: 'custom_slider_2_placeholder_image' }}
+                      {%- endif -%}
+                    </div>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="tp-swiper-dot tp-slider-2-dot"></div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Slider 2",
+  "max_blocks": 10,
+  "settings": [
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "header",
+      "content": "Custom height"
+    },
+    {
+      "type": "number",
+      "id": "slider_height",
+      "label": "Slider height"
+    },
+    {
+      "type": "header",
+      "content": "Settings for content"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_size",
+      "label": "Heading font-size",
+      "default": "110",
+      "options": [
+        {
+          "label": "40px",
+          "value": "40"
+        },
+        {
+          "label": "45px",
+          "value": "45"
+        },
+        {
+          "label": "50px",
+          "value": "50"
+        },
+        {
+          "label": "60px",
+          "value": "60"
+        },
+        {
+          "label": "64px",
+          "value": "64"
+        },
+        {
+          "label": "70px",
+          "value": "70"
+        },
+        {
+          "label": "80px",
+          "value": "80"
+        },
+        {
+          "label": "90px",
+          "value": "90"
+        },
+        {
+          "label": "100px",
+          "value": "100"
+        },
+        {
+          "label": "110px",
+          "value": "110"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Heading font weight",
+      "default": "400",
+      "options": [
+        {
+          "label": "300",
+          "value": "300"
+        },
+        {
+          "label": "400",
+          "value": "400"
+        },
+        {
+          "label": "500",
+          "value": "500"
+        },
+        {
+          "label": "600",
+          "value": "600"
+        },
+        {
+          "label": "700",
+          "value": "700"
+        },
+        {
+          "label": "800",
+          "value": "800"
+        },
+        {
+          "label": "900",
+          "value": "900"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "subheading_font_size",
+      "label": "Subheading font size",
+      "default": "12",
+      "options": [
+        {
+          "label": "12px",
+          "value": "12"
+        },
+        {
+          "label": "13px",
+          "value": "13"
+        },
+        {
+          "label": "14px",
+          "value": "14"
+        },
+        {
+          "label": "15px",
+          "value": "15"
+        },
+        {
+          "label": "16px",
+          "value": "16"
+        },
+        {
+          "label": "17px",
+          "value": "17"
+        },
+        {
+          "label": "18px",
+          "value": "18"
+        },
+        {
+          "label": "19px",
+          "value": "19"
+        },
+        {
+          "label": "20px",
+          "value": "20"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "subheading_font_weight",
+      "label": "Subheading font weight",
+      "default": "500",
+      "options": [
+        {
+          "label": "300",
+          "value": "300"
+        },
+        {
+          "label": "400",
+          "value": "400"
+        },
+        {
+          "label": "500",
+          "value": "500"
+        },
+        {
+          "label": "600",
+          "value": "600"
+        },
+        {
+          "label": "700",
+          "value": "700"
+        },
+        {
+          "label": "900",
+          "value": "900"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shape_1",
+      "label": "Show shape 1",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "slider_shape_1",
+      "label": "Slider shape 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shape_2",
+      "label": "Show shape 2",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "slider_shape_2",
+      "label": "Slider shape 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shape_3",
+      "label": "Show shape 3",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "slider_shape_3",
+      "label": "Slider shape 3"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slider_item",
+      "name": "Image slide",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Image settings"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_image",
+          "label": "Show image",
+          "default": true
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Slide image"
+        },
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "type": "textarea",
+          "id": "subheading",
+          "label": "Subheading",
+          "default": "Subheading",
+          "info": "Allow custom HTML"
+        },
+        {
+          "type": "textarea",
+          "id": "title",
+          "label": "Heading",
+          "default": "Heading",
+          "info": "Allow custom HTML"
+        },
+        {
+          "type": "header",
+          "content": "Button"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button label",
+          "default": "Shop now"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Slider 2",
+      "category": "Image",
+      "blocks": [
+        {
+          "type": "slider_item"
+        },
+        {
+          "type": "slider_item"
+        },
+        {
+          "type": "slider_item"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

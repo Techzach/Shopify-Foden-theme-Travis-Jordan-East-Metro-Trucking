@@ -1,0 +1,114 @@
+{%- liquid
+  assign st = section.settings
+  assign image = st.image
+  assign heading = st.heading
+  assign sub_heading = st.sub_heading
+  assign label = st.label
+  assign link = st.link
+-%}
+
+
+<section class="tp-error-area pt-110 pb-110">
+  <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-xl-6 col-lg-8 col-md-10">
+            <div class="tp-error-content text-center">
+              <div class="tp-error-thumb">
+                {%- if image != blank -%}
+                  <img
+                    src="{{ image | image_url }}"
+                    alt="{{ image.alt | escape }}"
+                  >
+                {%- else -%}
+                  <h1>404</h1>
+                {%- endif -%}
+              </div>
+
+              {%- if heading != blank or sub_heading != blank -%}
+                  {%- if heading != blank -%}
+                    <h3
+                      class="tp-error-title"
+                    >
+                      {{ heading }}
+                    </h3>
+                  {%- endif -%}
+                  {%- if sub_heading != blank -%}
+                    <p>
+                      {{ sub_heading }}
+                    </p>
+                  {%- endif -%}
+              {%- endif -%}
+
+              <a href="{%- if link != blank -%}{{ link }}{%- else -%}{{ routes.root_url }}{%- endif -%}" class="tp-error-btn">{{- label -}}</a>
+            </div>
+        </div>
+      </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "404 page",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Layout",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "*Choose image type png(440 x 255px recommended)"
+    },
+    {
+      "type": "text",
+      "id": "custom_width",
+      "label": "Custom width",
+      "default": "440"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Oops...That link is broken."
+    },
+    {
+      "type": "textarea",
+      "id": "sub_heading",
+      "label": "Sub heading",
+      "default": "Sorry for the inconvenience. Go to our homepage or check out our latest collections."
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label button",
+      "default": "Back to homepage"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link button"
+    }
+  ]
+}
+{% endschema %}

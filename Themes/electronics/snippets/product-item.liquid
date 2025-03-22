@@ -1,0 +1,2872 @@
+{%- liquid
+  assign sold_out = false
+  assign th_st = settings
+  assign option_name = 'Color'
+  if th_st.option_name_color != blank
+    assign option_name = th_st.option_name_color
+  endif
+  assign show_quick_view = th_st.show_quick_view
+  assign show_add_to_cart = th_st.show_add_to_cart
+  assign show_wishlist = th_st.show_wishlist
+  assign show_compare = th_st.show_compare
+  assign show_review = th_st.show_review
+  assign show_action = true
+  if show_add_to_cart != true and show_compare != true and show_wishlist != true and show_quick_view != true
+    assign show_action = false
+  endif
+  assign compare_at_price = product.compare_at_price
+  assign price = product.price
+  assign sale = false
+  if compare_at_price > price and compare_at_price != blank
+    assign sale = true
+  endif
+  assign product_avail = false
+  assign product_qty = 0
+  assign pre_order = false
+  if product.has_only_default_variant == false
+    if product.options_with_values[0].name == option_name
+      if product.options_with_values.size < 2
+        for variant in product.variants limit: 1
+          assign product_qty = product_qty | plus: variant.inventory_quantity
+          assign product_avail = variant.available
+          assign product_management = variant.inventory_management
+          assign compare_at_price = variant.compare_at_price
+          assign price = variant.price
+        endfor
+        if product_management != null
+          if product_qty < 1
+            if product_avail == true
+              assign pre_order = true
+              assign sold_out = false
+            else
+              assign pre_order = false
+              assign sold_out = true
+            endif
+          else
+            assign pre_order = false
+            assign sold_out = false
+          endif
+        else
+          assign pre_order = false
+          assign sold_out = false
+        endif
+      else
+        assign prod = product.variants | where: 'option1', product.options_with_values[0].values[0]
+        assign product_management = 'shopify'
+        for p in prod
+          assign product_qty = product_qty | plus: p.inventory_quantity
+          if p.available
+            assign product_avail = true
+          endif
+          if p.inventory_management == null
+            assign product_management = 'null'
+          endif
+        endfor
+        assign compare_at_price = prod[0].compare_at_price
+        assign price = prod[0].price
+        if product_management != null
+          if product_qty < 1
+            if product_avail == true
+              assign pre_order = true
+              assign sold_out = false
+            else
+              assign pre_order = false
+              assign sold_out = true
+            endif
+          else
+            assign pre_order = false
+            assign sold_out = false
+          endif
+        else
+          assign pre_order = false
+          assign sold_out = false
+        endif
+      endif
+    else
+      assign product_management = 'shopify'
+      for variant in product.variants
+        assign product_qty = product_qty | plus: variant.inventory_quantity
+        if variant.available == true
+          assign product_avail = true
+        endif
+        if variant.inventory_management == null
+          assign product_management = 'null'
+        endif
+      endfor
+      assign compare_at_price = product.variants[0].compare_at_price
+      assign price = product.variants[0].price
+
+      if product_management != 'null'
+        if product_qty < 1
+          if product_avail == true
+            assign pre_order = true
+            assign sold_out = false
+          else
+            assign pre_order = false
+            assign sold_out = true
+          endif
+        else
+          assign pre_order = false
+          assign sold_out = false
+        endif
+      else
+        assign pre_order = false
+        assign sold_out = false
+      endif
+    endif
+  else
+    if product.available != true
+      assign sold_out = true
+    endif
+    assign qty = 0
+    for v in product.variants
+      if v.inventory_quantity
+        assign qty = qty | plus: v.inventory_quantity
+      endif
+    endfor
+    if qty < 1 and product.available == true
+      assign pre_order = true
+      assign sold_out = false
+    endif
+    for v in product.variants
+      if v.inventory_management == null
+        assign pre_order = false
+        assign sold_out = false
+      endif
+    endfor
+  endif
+
+  assign d_none = ''
+  if sold_out == true
+    assign d_none = 'd-none'
+  endif
+  assign p = compare_at_price | minus: price
+  if p > 0
+    assign p = p | times: 100.0 | divided_by: compare_at_price | round
+  endif
+  if product == blank
+    assign pre_order = false
+    assign sold_out = false
+  endif
+  assign img = product.media
+-%}
+
+{%- if product_item == 'tp-product-item-2' -%}
+  <div class="tp-product-item-2 mb-40 tps__product-item" data-product-handle="{{ product.handle }}">
+    <div class="tp-product-thumb-2 p-relative z-index-1 fix w-img">
+      <a href="{{ product.url | within: collection }}">
+        {%- if product.has_only_default_variant -%}
+          {%- if img[0] != blank -%}
+            {% comment %} single variant With Image  {% endcomment %}
+            <img
+              src="{{ img[0] | image_url }}"
+              height="auto"
+              width="auto"
+              alt="{{ img[0].alt | escape }}"
+              class="tp_image_product"
+            >
+          {%- else -%}
+            {% comment %} if single variant and Without image {% endcomment %}
+            {%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%}
+          {%- endif -%}
+        {%- else -%}
+          {%- assign hasColor = false -%}
+          {%- for o in product.options_with_values -%}
+            {%- if o == option_name -%}
+              {%- assign hasColor = true -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- if hasColor -%}
+            {%- for variant in product.variants limit: 1 -%}
+              {%- if variant.featured_image != blank -%}
+                {% comment %}  single variant With Image {% endcomment %}
+                <img
+                  src="{{ variant.featured_image | image_url }}"
+                  alt="{{ variant.featured_image.alt | escape }}"
+                  class="tp_image_product"
+                  width="auto"
+                  height="auto"
+                >
+              {%- else -%}
+                {%- if img[0] != blank -%}
+                  {% comment %} single variant Without image {% endcomment %}
+                  <img
+                    src="{{ img[0] | image_url }}"
+                    height="auto"
+                    width="auto"
+                    alt="{{ img[0].alt | escape }}"
+                    class="tp_image_product"
+                  >
+                {%- else -%}
+                  {% comment %} single variant Without image {% endcomment %}
+                  {%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%}
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- else -%}
+            {%- if img[0] != blank -%}
+              {% comment %} Multiple Varients With Image {% endcomment %}
+              <img
+                src="{{ img[0] | image_url }}"
+                height="auto"
+                width="auto"
+                alt="{{ img[0].alt | escape }}"
+                class="tp_image_product"
+              >
+            {%- else -%}
+              {% comment %} Multiple Varients Without image {% endcomment %}
+              {%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endif -%}
+      </a>
+      {%- if sale -%}
+        <div class="tp-product-badge">
+          <span class="product-salet"> {{ 'products.product.on_sale' | t }}</span>
+        </div>
+      {%- endif -%}
+
+      {% comment %} sold out {% endcomment %}
+      {%- if sold_out -%}
+        <div class="tp-product-badge">
+          <span class="product-hot">{{ 'products.product.sold_out' | t }}</span>
+        </div>
+      {%- endif -%}
+
+      {% comment %} pre order {% endcomment %}
+      {%- if pre_order -%}
+        <div class="tp-product-badge">
+          <span class="product-trending">{{ 'products.product.pre_order' | t }}</span>
+        </div>
+      {%- endif -%}
+
+      {%- if product.metafields.tps.custom_product_badge %}
+        <div class="tp-product-badge">
+          <span class="product-hot">{{ product.metafields.tps.custom_product_badge }}</span>
+        </div>
+      {%- endif -%}
+
+      {% comment %} Hot {% endcomment %}
+      {%- if product.metafields.tps.hot_product %}
+        <div class="tp-product-badge">
+          <span class="product-hot">{{ 'products.product.hot' | t }}</span>
+        </div>
+      {%- endif -%}
+
+      {% comment %} New {% endcomment %}
+      {%- if product.metafields.tps.new_product %}
+        <div class="tp-product-badge">
+          <span class="product-new">{{ 'products.product.new' | t }}</span>
+        </div>
+      {%- endif -%}
+
+      {%- if show_action -%}
+        <div class="tp-product-action-2 tp-product-action-blackStyle">
+          {%- if show_wishlist or show_compare or show_quick_view -%}
+            <div class="tp-product-action-item-2 d-flex flex-column">
+              {%- form 'product',
+                product,
+                id: product_form_id,
+                class: 'form add-to-cart-rendom',
+                novalidate: 'novalidate',
+                data-type: 'add-to-cart-form'
+              -%}
+                <input
+                  type="hidden"
+                  name="id"
+                  class="variation_id"
+                  value="{{ product.selected_or_first_available_variant.id }}"
+                >
+                <input min="1" type="hidden" id="quantity" name="quantity" value="1">
+                <button
+                  class="product-form__submit tp-product-action-btn-2 tp-product-add-cart-btn tps__js-addtocart btn-secondary border-none button tps_tooltip button--full-width add-product-cart-btn"
+                  type="submit"
+                  name="add"
+                  role="button"
+                  aria-label="button"
+                >
+                  <span class="cart_btn_svg">
+                    <svg
+                      width="17"
+                      height="17"
+                      viewBox="0 0 17 17"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M3.34706 4.53799L3.85961 10.6239C3.89701 11.0923 4.28036 11.4436 4.74871 11.4436H4.75212H14.0265H14.0282C14.4711 11.4436 14.8493 11.1144 14.9122 10.6774L15.7197 5.11162C15.7384 4.97924 15.7053 4.84687 15.6245 4.73995C15.5446 4.63218 15.4273 4.5626 15.2947 4.54393C15.1171 4.55072 7.74498 4.54054 3.34706 4.53799ZM4.74722 12.7162C3.62777 12.7162 2.68001 11.8438 2.58906 10.728L1.81046 1.4837L0.529505 1.26308C0.181854 1.20198 -0.0501969 0.873587 0.00930333 0.526523C0.0705036 0.17946 0.406255 -0.0462578 0.746256 0.00805037L2.51426 0.313534C2.79901 0.363599 3.01576 0.5995 3.04042 0.888012L3.24017 3.26484C15.3748
+                        3.26993 15.4139 3.27587 15.4726 3.28266C15.946 3.3514 16.3625 3.59833 16.6464 3.97849C16.9303 4.35779 17.0493 4.82535 16.9813 5.29376L16.1747 10.8586C16.0225 11.9177 15.1011 12.7162 14.0301 12.7162H14.0259H4.75402H4.74722Z"
+                        fill="currentColor" />
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M12.6629 7.67446H10.3067C9.95394 7.67446 9.66919 7.38934 9.66919 7.03804C9.66919 6.68673 9.95394 6.40161 10.3067 6.40161H12.6629C13.0148 6.40161 13.3004 6.68673 13.3004 7.03804C13.3004 7.38934 13.0148 7.67446 12.6629 7.67446Z"
+                        fill="currentColor" />
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M4.38171 15.0212C4.63756 15.0212 4.84411 15.2278 4.84411 15.4836C4.84411 15.7395 4.63756 15.9469 4.38171 15.9469C4.12501 15.9469 3.91846 15.7395 3.91846 15.4836C3.91846 15.2278 4.12501 15.0212 4.38171 15.0212Z"
+                        fill="currentColor" />
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M4.38082 15.3091C4.28477 15.3091 4.20657 15.3873 4.20657 15.4833C4.20657 15.6763 4.55592 15.6763 4.55592 15.4833C4.55592 15.3873 4.47687 15.3091 4.38082 15.3091ZM4.38067 16.5815C3.77376 16.5815 3.28076 16.0884 3.28076 15.4826C3.28076 14.8767 3.77376 14.3845 4.38067 14.3845C4.98757 14.3845 5.48142 14.8767 5.48142 15.4826C5.48142 16.0884 4.98757 16.5815 4.38067 16.5815Z"
+                        fill="currentColor" />
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M13.9701 15.0212C14.2259 15.0212 14.4333 15.2278 14.4333 15.4836C14.4333 15.7395 14.2259 15.9469 13.9701 15.9469C13.7134 15.9469 13.5068 15.7395 13.5068 15.4836C13.5068 15.2278 13.7134 15.0212 13.9701 15.0212Z"
+                        fill="currentColor" />
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M13.9692 15.3092C13.874 15.3092 13.7958 15.3874 13.7958 15.4835C13.7966 15.6781 14.1451 15.6764 14.1443 15.4835C14.1443 15.3874 14.0652 15.3092 13.9692 15.3092ZM13.969 16.5815C13.3621 16.5815 12.8691 16.0884 12.8691 15.4826C12.8691 14.8767 13.3621 14.3845 13.969 14.3845C14.5768 14.3845 15.0706 14.8767 15.0706 15.4826C15.0706 16.0884 14.5768 16.5815 13.969 16.5815Z"
+                        fill="currentColor" />
+                    </svg>
+                  </span>
+                  <span class="loading-icon">
+                    <svg
+                      class="cart_load_spinning text-white"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 18 18"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M9 1V4.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                      <path d="M9 13.8V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                      <path d="M3.34424 3.34399L5.60824 5.60799" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                      <path d="M12.3921 12.392L14.6561 14.656" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                      <path d="M1 9H4.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                      <path d="M13.8003 9H17.0003" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                      <path d="M3.34424 14.656L5.60824 12.392" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                      <path d="M12.3921 5.60799L14.6561 3.34399" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </span>
+                  <span class="tp-product-tooltip tp-product-tooltip-right">Add to Cart</span>
+                </button>
+              {%- endform -%}
+
+              {%- if show_quick_view -%}
+                <button
+                  type="button"
+                  class="tp-product-action-btn-2 tp-product-quick-view-btn btn-reset tps__product-quickview tps_tooltip"
+                  data-bs-toggle="modal"
+                  name="add"
+                  role="button"
+                  aria-label="button"
+                  data-bs-target="#producQuickViewModal"
+                >
+                  <span>
+                    <svg
+                      width="18"
+                      height="15"
+                      viewBox="0 0 18 15"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M8.99948 5.06828C7.80247 5.06828 6.82956 6.04044 6.82956 7.23542C6.82956 8.42951 7.80247 9.40077 8.99948 9.40077C10.1965 9.40077 11.1703 8.42951 11.1703 7.23542C11.1703 6.04044 10.1965 5.06828 8.99948 5.06828ZM8.99942 10.7482C7.0581 10.7482 5.47949 9.17221 5.47949 7.23508C5.47949 5.29705 7.0581 3.72021 8.99942 3.72021C10.9407 3.72021 12.5202 5.29705 12.5202 7.23508C12.5202 9.17221 10.9407 10.7482 8.99942 10.7482Z"
+                        fill="currentColor" />
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M1.41273 7.2346C3.08674 10.9265 5.90646 13.1215 8.99978 13.1224C12.0931 13.1215 14.9128 10.9265 16.5868 7.2346C14.9128 3.54363 12.0931 1.34863 8.99978 1.34773C5.90736 1.34863 3.08674 3.54363 1.41273 7.2346ZM9.00164 14.4703H8.99804H8.99714C5.27471 14.4676 1.93209 11.8629 0.0546754 7.50073C-0.0182251 7.33091 -0.0182251 7.13864 0.0546754 6.96883C1.93209 2.60759 5.27561 0.00288103 8.99714 0.000185582C8.99894 -0.000712902 8.99894 -0.000712902 8.99984 0.000185582C9.00164 -0.000712902 9.00164 -0.000712902 9.00254 0.000185582C12.725 0.00288103 16.0676 2.60759 17.945 6.96883C18.0188 7.13864 18.0188 7.33091 17.945 7.50073C16.0685 11.8629 12.725 14.4676 9.00254 14.4703H9.00164Z"
+                        fill="currentColor" />
+                    </svg>
+                  </span>
+                  <span class="tp-product-tooltip tp-product-tooltip-right tps_tooltip-content">
+                    {{- 'products.product.quickview' | t -}}
+                  </span>
+                </button>
+              {%- endif -%}
+              {%- if show_wishlist -%}
+                <button
+                  type="button"
+                  class="tp-product-details-action-sm-btn tp-product-details-action-sm-btn-wishlist tps__product-wishlist tps__product-wishlist-js tps__product-action-btn-js tp-product-action-btn-2 tp-product-add-to-wishlist-btn"
+                  name="add"
+                  role="button"
+                  aria-label="button"
+                  data-pro-add-wishlist="{{ 'products.product.wishlist' | t }}"
+                  data-pro-remove-wishlist="{{ 'products.product.browse_wishlist' | t }}"
+                  data-product-handle="{{ product.handle }}"
+                >
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 18 18"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M1.60355 7.98635C2.83622 11.8048 7.7062 14.8923 9.0004 15.6565C10.299 14.8844 15.2042 11.7628 16.3973 7.98985C17.1806 5.55102 16.4535 2.46177 13.5644 1.53473C12.1647 1.08741 10.532 1.35966 9.40484 2.22804C9.16921 2.40837 8.84214 2.41187 8.60476 2.23329C7.41078 1.33952 5.85105 1.07778 4.42936 1.53473C1.54465 2.4609 0.820172 5.55014 1.60355 7.98635ZM9.00138 17.0711C8.89236 17.0711 8.78421 17.0448 8.68574 16.9914C8.41055 16.8417 1.92808 13.2841 0.348132 8.3872C0.347252 8.3872 0.347252 8.38633 0.347252 8.38633C-0.644504 5.30321 0.459792 1.42874 4.02502 0.284605C5.69904 -0.254635 7.52342 -0.0174044 8.99874 0.909632C10.4283 0.00973263 12.3275 -0.238878 13.9681 0.284605C17.5368 1.43049 18.6446 5.30408 17.6538 8.38633C16.1248 13.2272 9.59485 16.8382 9.3179 16.9896C9.21943 17.0439 9.1104 17.0711 9.00138 17.0711Z"
+                      fill="currentColor" />
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M14.203 6.67473C13.8627 6.67473 13.5743 6.41474 13.5462 6.07159C13.4882 5.35202 13.0046 4.7445 12.3162 4.52302C11.9689 4.41097 11.779 4.04068 11.8906 3.69666C12.0041 3.35175 12.3724 3.16442 12.7206 3.27297C13.919 3.65901 14.7586 4.71561 14.8615 5.96479C14.8905 6.32632 14.6206 6.64322 14.2575 6.6721C14.239 6.67385 14.2214 6.67473 14.203 6.67473Z"
+                      fill="currentColor" />
+                  </svg>
+                  <span class="tp-product-tooltip tp-product-tooltip-right">
+                    {{ 'products.product.wishlist' | t -}}
+                  </span>
+                </button>
+              {%- endif -%}
+              {%- if show_compare -%}
+                <button
+                  type="button"
+                  name="add"
+                  role="button"
+                  aria-label="button"
+                  class="tp-product-action-btn-2 tp-product-add-to-compare-btn btn-reset tp-product-details-action-sm-btn-compare tp-product-details-action-sm-btn-compare-js tps__product-action-btn-js tps_tooltip"
+                  data-pro-add-compare="{{ 'products.product.compare' | t }}"
+                  data-pro-remove-compare="{{ 'products.product.browse_compare' | t }}"
+                  data-product-handle="{{ product.handle }}"
+                >
+                  <svg
+                    width="15"
+                    height="15"
+                    viewBox="0 0 15 15"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M11.4144 6.16828L14 3.58412L11.4144 1"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path
+                      d="M1.48883 3.58374L14 3.58374"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path
+                      d="M4.07446 8.32153L1.48884 10.9057L4.07446 13.4898"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path
+                      d="M14 10.9058H1.48883"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                  <span class="tp-product-tooltip tp-product-tooltip-right">Add To Compare</span>
+                </button>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+    <div class="tp-product-content-2 pt-15">
+      <div class="tp-product-tag-2">
+        {% for collection in product.collections limit: 2 %}
+          <a href="{{ collection.url }}">{{ collection.title }}</a>
+          {% if forloop.last == false -%}
+            ,
+          {% endif %}
+        {% endfor %}
+      </div>
+      <h3 class="tp-product-title-2">
+        <a href="{{ product.url | within: collection }}">{{ product.title }}</a>
+      </h3>
+
+      <div class="tp-product-rating d-flex align-items-center">
+        {%- if show_review -%}
+          {%- if product.metafields.judgeme.badge -%}
+            <div
+              style="{{ jm_style }}"
+              class="jdgm-widget jdgm-preview-badge mt-5 tp-product-rating-icon"
+              data-id="{{ product.id }}"
+              {%- if block -%}
+                {{ block.shopify_attributes }}
+              {%- endif -%}
+            >
+              {{ product.metafields.judgeme.badge }}
+            </div>
+          {%- endif -%}
+          {%- if product.metafields.reviews.rating.value == null -%}
+            <span class="shopify-product-reviews-badge" data-id="{{ product.id }}">
+              <div class="tp-product-rating-icon tp-product-rating-icon-2">
+                <span><i class="fa-regular fa-star"></i></span>
+                <span><i class="fa-regular fa-star"></i></span>
+                <span><i class="fa-regular fa-star"></i></span>
+                <span><i class="fa-regular fa-star"></i></span>
+                <span><i class="fa-regular fa-star"></i></span>
+              </div>
+            </span>
+          {% endif %}
+          {%- if product.metafields.spr.reviews -%}
+            <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+          {% endif %}
+        {%- endif -%}
+      </div>
+
+      {% comment %} ratting {% endcomment %}
+      <div class="tp-product-price-wrapper-2">
+        {% comment %} variation price {% endcomment %}
+        {%- assign minPrice = null -%}
+        {%- assign maxPrice = null -%}
+
+        {%- for variant in product.variants -%}
+          {%- if minPrice == null or variant.price < minPrice -%}
+            {%- assign minPrice = variant.price -%}
+          {%- endif -%}
+
+          {%- if maxPrice == null or variant.price > maxPrice -%}
+            {%- assign maxPrice = variant.price -%}
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- if minPrice != maxPrice -%}
+          <span class="tp-product-price-2 new-price">{{ minPrice | money }} - {{ maxPrice | money }}</span>
+        {%- else -%}
+          {%- if product.selected_or_first_available_variant.compare_at_price -%}
+            <span class="tp-product-price-2 new-price">
+              {{- product.selected_or_first_available_variant.price | money -}}
+            </span>
+            <span class="tp-product-price-2 old-price">
+              {{- product.selected_or_first_available_variant.compare_at_price | money -}}
+            </span>
+          {%- else -%}
+            <span class="tp-product-price-2 new-price">
+              {{- product.selected_or_first_available_variant.price | money -}}
+            </span>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+{%- elsif product_item == 'tp-product-item' -%}
+  <div class="tp-product-item transition-3 mb-25 tps__product-item" data-product-handle="{{ product.handle }}">
+    <div class="tp-product-thumb p-relative fix m-img">
+      <a href="{{ product.url | within: collection }}">
+        {%- if product.has_only_default_variant -%}
+          {%- if img[0] != blank -%}
+            {% comment %} single variant With Image  {% endcomment %}
+            <img
+              src="{{ img[0] | image_url }}"
+              alt="{{ img[0].alt | escape }}"
+              class="tp_image_product"
+              height="auto"
+              width="auto"
+            >
+          {%- else -%}
+            {% comment %} if single variant and Without image {% endcomment %}
+            {%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%}
+          {%- endif -%}
+        {%- else -%}
+          {%- assign hasColor = false -%}
+          {%- for o in product.options_with_values -%}
+            {%- if o == option_name -%}
+              {%- assign hasColor = true -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- if hasColor -%}
+            {%- for variant in product.variants limit: 1 -%}
+              {%- if variant.featured_image != blank -%}
+                {% comment %}  single variant With Image {% endcomment %}
+                <img
+                  src="{{ variant.featured_image | image_url }}"
+                  alt="{{ variant.featured_image.alt | escape }}"
+                  class="tp_image_product"
+                  height="auto"
+                  width="auto"
+                >
+              {%- else -%}
+                {%- if img[0] != blank -%}
+                  {% comment %} single variant Without image {% endcomment %}
+                  <img
+                    src="{{ img[0] | image_url }}"
+                    alt="{{ img[0].alt | escape }}"
+                    class="tp_image_product"
+                    height="auto"
+                    width="auto"
+                  >
+                {%- else -%}
+                  {% comment %} single variant Without image {% endcomment %}
+                  {%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%}
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- else -%}
+            {%- if img[0] != blank -%}
+              {% comment %} Multiple Varients With Image {% endcomment %}
+              <img
+                src="{{ img[0] | image_url }}"
+                alt="{{ img[0].alt | escape }}"
+                class="tp_image_product"
+                height="auto"
+                width="auto"
+              >
+            {%- else -%}
+              {% comment %} Multiple Varients Without image {% endcomment %}
+              {%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endif -%}
+      </a>
+
+      {%- if sale -%}
+        <div class="tp-product-badge">
+          <span class="product-salet"> {{ 'products.product.on_sale' | t }}</span>
+        </div>
+      {%- endif -%}
+
+      {% comment %} sold out {% endcomment %}
+      {%- if sold_out -%}
+        <div class="tp-product-badge">
+          <span class="product-hot">{{ 'products.product.sold_out' | t }}</span>
+        </div>
+      {%- endif -%}
+
+      {% comment %} pre order {% endcomment %}
+      {%- if pre_order -%}
+        <div class="tp-product-badge">
+          <span class="product-trending">{{ 'products.product.pre_order' | t }}</span>
+        </div>
+      {%- endif -%}
+
+      {%- if product.metafields.tps.custom_product_badge %}
+        <div class="tp-product-badge">
+          <span class="product-hot">{{ product.metafields.tps.custom_product_badge }}</span>
+        </div>
+      {%- endif -%}
+
+      {% comment %} Hot {% endcomment %}
+      {%- if product.metafields.tps.hot_product %}
+        <div class="tp-product-badge">
+          <span class="product-hot">{{ 'products.product.hot' | t }}</span>
+        </div>
+      {%- endif -%}
+
+      {% comment %} New {% endcomment %}
+      {%- if product.metafields.tps.new_product %}
+        <div class="tp-product-badge">
+          <span class="product-new">{{ 'products.product.new' | t }}</span>
+        </div>
+      {%- endif -%}
+      {%- if show_action -%}
+        <div class="tp-product-action">
+          {%- if show_wishlist or show_compare or show_quick_view -%}
+            <div class="tp-product-action-item d-flex flex-column">
+              <div
+                class="tps__product-addtocart tps__product-addtocart-js {{ d_none }}"
+                data-product-variant-id="{{ product.selected_or_first_available_variant.id }}"
+              >
+                {%- form 'product',
+                  product,
+                  id: product_form_id,
+                  class: 'form add-to-cart-rendom',
+                  novalidate: 'novalidate',
+                  data-type: 'add-to-cart-form'
+                -%}
+                  <input
+                    type="hidden"
+                    class="variation_id"
+                    name="id"
+                    value="{{ product.selected_or_first_available_variant.id }}"
+                  >
+                  <input min="1" type="hidden" id="quantity" name="quantity" value="1">
+                  <button
+                    class="product-form__submit tp-product-action-btn tp-product-add-cart-btn add-product-cart-btn"
+                    type="submit"
+                    name="add"
+                    role="button"
+                    aria-label="button"
+                  >
+                    <span class="cart_btn_svg">
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M3.93795 5.34749L4.54095 12.5195C4.58495 13.0715 5.03594 13.4855 5.58695 13.4855H5.59095H16.5019H16.5039C17.0249 13.4855 17.4699 13.0975 17.5439 12.5825L18.4939 6.02349C18.5159 5.86749 18.4769 5.71149 18.3819 5.58549C18.2879 5.45849 18.1499 5.37649 17.9939 5.35449C17.7849 5.36249 9.11195 5.35049 3.93795 5.34749ZM5.58495 14.9855C4.26795 14.9855 3.15295 13.9575 3.04595 12.6425L2.12995 1.74849L0.622945 1.48849C0.213945 1.41649 -0.0590549 1.02949 0.0109451 0.620487C0.082945 0.211487 0.477945 -0.054513 0.877945 0.00948704L2.95795 0.369487C3.29295 0.428487 3.54795 0.706487 3.57695 1.04649L3.81194 3.84749C18.0879 3.85349 18.1339 3.86049 18.2029 3.86849C18.7599 3.94949 19.2499 4.24049 19.5839 4.68849C19.9179 5.13549 20.0579 5.68649 19.9779 6.23849L19.0289 12.7965C18.8499 14.0445 17.7659 14.9855 16.5059 14.9855H16.5009H5.59295H5.58495Z"
+                            fill="currentColor" />
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M14.8979 9.04382H12.1259C11.7109 9.04382 11.3759 8.70782 11.3759 8.29382C11.3759 7.87982 11.7109 7.54382 12.1259 7.54382H14.8979C15.3119 7.54382 15.6479 7.87982 15.6479 8.29382C15.6479 8.70782 15.3119 9.04382 14.8979 9.04382Z"
+                            fill="currentColor" />
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M5.15474 17.702C5.45574 17.702 5.69874 17.945 5.69874 18.246C5.69874 18.547 5.45574 18.791 5.15474 18.791C4.85274 18.791 4.60974 18.547 4.60974 18.246C4.60974 17.945 4.85274 17.702 5.15474 17.702Z"
+                            fill="currentColor" />
+
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M5.15374 18.0409C5.04074 18.0409 4.94874 18.1329 4.94874 18.2459C4.94874 18.4729 5.35974 18.4729 5.35974 18.2459C5.35974 18.1329 5.26674 18.0409 5.15374 18.0409ZM5.15374 19.5409C4.43974 19.5409 3.85974 18.9599 3.85974 18.2459C3.85974 17.5319 4.43974 16.9519 5.15374 16.9519C5.86774 16.9519 6.44874 17.5319 6.44874 18.2459C6.44874 18.9599 5.86774 19.5409 5.15374 19.5409Z"
+                            fill="currentColor" />
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M16.435 17.702C16.736 17.702 16.98 17.945 16.98 18.246C16.98 18.547 16.736 18.791 16.435 18.791C16.133 18.791 15.89 18.547 15.89 18.246C15.89 17.945 16.133 17.702 16.435 17.702Z"
+                            fill="currentColor" />
+
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M16.434 18.0409C16.322 18.0409 16.23 18.1329 16.23 18.2459C16.231 18.4749 16.641 18.4729 16.64 18.2459C16.64 18.1329 16.547 18.0409 16.434 18.0409ZM16.434 19.5409C15.72 19.5409 15.14 18.9599 15.14 18.2459C15.14 17.5319 15.72 16.9519 16.434 16.9519C17.149 16.9519 17.73 17.5319 17.73 18.2459C17.73 18.9599 17.149 19.5409 16.434 19.5409Z"
+                            fill="currentColor" />
+                      </svg>
+                    </span>
+                    <span class="loading-icon">
+                      <svg
+                        class="cart_load_spinning"
+                        width="18"
+                        height="18"
+                        viewBox="0 0 18 18"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path d="M9 1V4.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M9 13.8V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M3.34424 3.34399L5.60824 5.60799" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M12.3921 12.392L14.6561 14.656" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M1 9H4.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M13.8003 9H17.0003" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M3.34424 14.656L5.60824 12.392" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M12.3921 5.60799L14.6561 3.34399" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                      </svg>
+                    </span>
+                    <span class="tp-product-tooltip">Add to Cart</span>
+                  </button>
+                {%- endform -%}
+              </div>
+              {%- if show_quick_view -%}
+                <button
+                  type="button"
+                  class="tp-product-action-btn tp-product-quick-view-btn tps__product-quickview"
+                  data-bs-toggle="modal"
+                  name="add"
+                  role="button"
+                  aria-label="button"
+                  data-bs-target="#producQuickViewModal"
+                >
+                  <svg width="20" height="17" viewBox="0 0 20 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M9.99938 5.64111C8.66938 5.64111 7.58838 6.72311 7.58838 8.05311C7.58838 9.38211 8.66938 10.4631 9.99938 10.4631C11.3294 10.4631 12.4114 9.38211 12.4114 8.05311C12.4114 6.72311 11.3294 5.64111 9.99938 5.64111ZM9.99938 11.9631C7.84238 11.9631 6.08838 10.2091 6.08838 8.05311C6.08838 5.89611 7.84238 4.14111 9.99938 4.14111C12.1564 4.14111 13.9114 5.89611 13.9114 8.05311C13.9114 10.2091 12.1564 11.9631 9.99938 11.9631Z"
+                        fill="currentColor" />
+                    <g mask="url(#mask0_1211_721)">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                          d="M1.56975 8.05226C3.42975 12.1613 6.56275 14.6043 9.99975 14.6053C13.4368 14.6043 16.5697 12.1613 18.4298 8.05226C16.5697 3.94426 13.4368 1.50126 9.99975 1.50026C6.56375 1.50126 3.42975 3.94426 1.56975 8.05226ZM10.0017 16.1053H9.99775H9.99675C5.86075 16.1023 2.14675 13.2033 0.06075 8.34826C-0.02025 8.15926 -0.02025 7.94526 0.06075 7.75626C2.14675 2.90226 5.86175 0.00326172 9.99675 0.000261719C9.99875 -0.000738281 9.99875 -0.000738281 9.99975 0.000261719C10.0017 -0.000738281 10.0017 -0.000738281 10.0028 0.000261719C14.1388 0.00326172 17.8527 2.90226 19.9387 7.75626C20.0208 7.94526 20.0208 8.15926 19.9387 8.34826C17.8537 13.2033 14.1388 16.1023 10.0028 16.1053H10.0017Z"
+                          fill="currentColor" />
+                    </g>
+                  </svg>
+
+                  <span class="tp-product-tooltip">Quick View</span>
+                </button>
+              {%- endif -%}
+              {%- if show_wishlist -%}
+                <button
+                  type="button"
+                  name="add"
+                  role="button"
+                  aria-label="button"
+                  class="tp-product-action-btn tp-product-details-action-sm-btn-wishlist tp-product-add-to-wishlist-btn btn-reset tps__product-wishlist tps__product-wishlist-js tps__product-action-btn-js tps_tooltip"
+                  data-pro-add-wishlist="{{ 'products.product.wishlist' | t }}"
+                  data-pro-remove-wishlist="{{ 'products.product.browse_wishlist' | t }}"
+                  data-product-handle="{{ product.handle }}"
+                >
+                  <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M1.78158 8.88867C3.15121 13.1386 8.5623 16.5749 10.0003 17.4255C11.4432 16.5662 16.8934 13.0918 18.219 8.89257C19.0894 6.17816 18.2815 2.73984 15.0714 1.70806C13.5162 1.21019 11.7021 1.5132 10.4497 2.4797C10.1879 2.68041 9.82446 2.68431 9.56069 2.48555C8.23405 1.49079 6.50102 1.19947 4.92136 1.70806C1.71613 2.73887 0.911158 6.17718 1.78158 8.88867ZM10.0013 19C9.88015 19 9.75999 18.9708 9.65058 18.9113C9.34481 18.7447 2.14207 14.7852 0.386569 9.33491C0.385592 9.33491 0.385592 9.33394 0.385592 9.33394C-0.71636 5.90244 0.510636 1.59018 4.47199 0.316764C6.33203 -0.283407 8.35911 -0.019371 9.99836 1.01242C11.5868 0.0108324 13.6969 -0.26587 15.5198 0.316764C19.4851 1.59213 20.716 5.90342 19.615 9.33394C17.9162 14.7218 10.6607 18.7408 10.353 18.9094C10.2436 18.9698 10.1224 19 10.0013 19Z"
+                        fill="currentColor" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M15.7806 7.42904C15.4025 7.42904 15.0821 7.13968 15.0508 6.75775C14.9864 5.95687 14.4491 5.2807 13.6841 5.03421C13.2983 4.9095 13.0873 4.49737 13.2113 4.11446C13.3373 3.73059 13.7467 3.52209 14.1335 3.6429C15.4651 4.07257 16.398 5.24855 16.5123 6.63888C16.5445 7.04127 16.2446 7.39397 15.8412 7.42612C15.8206 7.42807 15.8011 7.42904 15.7806 7.42904Z"
+                        fill="currentColor" />
+                  </svg>
+
+                  <span class="tp-product-tooltip tps_tooltip-content">{{ 'products.product.wishlist' | t }}</span>
+                </button>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+    <div class="tp-product-content">
+      <div class="tp-product-category">
+        {% for collection in product.collections limit: 1 %}
+          <a href="{{ collection.url }}">{{ collection.title }}</a>
+        {% endfor %}
+      </div>
+
+      <h3 class="tp-product-title">
+        <a href="{{ product.url | within: collection }}">
+          {{ product.title }}
+        </a>
+      </h3>
+
+      <div class="tp-product-rating d-flex align-items-center">
+        {%- if show_review -%}
+          {%- if product.metafields.judgeme.badge -%}
+            <div
+              style="{{ jm_style }}"
+              class="jdgm-widget jdgm-preview-badge mt-5 tp-product-rating-icon"
+              data-id="{{ product.id }}"
+              {%- if block -%}
+                {{ block.shopify_attributes }}
+              {%- endif -%}
+            >
+              {{ product.metafields.judgeme.badge }}
+            </div>
+          {%- endif -%}
+          {%- if product.metafields.reviews.rating.value == null -%}
+            <span class="shopify-product-reviews-badge" data-id="{{ product.id }}">
+              <div class="tp-product-rating-icon">
+                <span><i class="fa-regular fa-star"></i></span>
+                <span><i class="fa-regular fa-star"></i></span>
+                <span><i class="fa-regular fa-star"></i></span>
+                <span><i class="fa-regular fa-star"></i></span>
+                <span><i class="fa-regular fa-star"></i></span>
+              </div>
+            </span>
+          {% endif %}
+          {%- if product.metafields.spr.reviews -%}
+            <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+          {% endif %}
+        {%- endif -%}
+      </div>
+
+      <div class="tp-product-price-wrapper">
+        {% comment %} variation price {% endcomment %}
+        {%- assign minPrice = null -%}
+        {%- assign maxPrice = null -%}
+
+        {%- for variant in product.variants -%}
+          {%- if minPrice == null or variant.price < minPrice -%}
+            {%- assign minPrice = variant.price -%}
+          {%- endif -%}
+
+          {%- if maxPrice == null or variant.price > maxPrice -%}
+            {%- assign maxPrice = variant.price -%}
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- if minPrice != maxPrice -%}
+          <span class="tp-product-price new-price">{{ minPrice | money }} - {{ maxPrice | money }}</span>
+        {%- else -%}
+          {%- if product.selected_or_first_available_variant.compare_at_price -%}
+            <span class="tp-product-price old-price">
+              {{- product.selected_or_first_available_variant.compare_at_price | money -}}
+            </span>
+            <span class="tp-product-price new-price">
+              {{- product.selected_or_first_available_variant.price | money -}}
+            </span>
+          {%- else -%}
+            <span class="tp-product-price new-price">
+              {{- product.selected_or_first_available_variant.price | money -}}
+            </span>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+{%- elsif product_item == 'tp-product-item-3' -%}
+  <div class="tp-product-item-3 mb-50 tps__product-item" data-product-handle="{{ product.handle }}">
+    <div class="tp-product-thumb-3 mb-15 fix p-relative z-index-1">
+      <a href="{{ product.url | within: collection }}">
+        {%- if product.has_only_default_variant -%}
+          {%- if img[0] != blank -%}
+            {% comment %} single variant With Image  {% endcomment %}
+            <img
+              src="{{ img[0] | image_url }}"
+              alt="{{ img[0].alt | escape }}"
+              class="tp_image_product"
+              height="auto"
+              width="auto"
+            >
+          {%- else -%}
+            {% comment %} if single variant and Without image {% endcomment %}
+            {%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%}
+          {%- endif -%}
+        {%- else -%}
+          {%- assign hasColor = false -%}
+          {%- for o in product.options_with_values -%}
+            {%- if o == option_name -%}
+              {%- assign hasColor = true -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- if hasColor -%}
+            {%- for variant in product.variants limit: 1 -%}
+              {%- if variant.featured_image != blank -%}
+                {% comment %}  single variant With Image {% endcomment %}
+                <img
+                  src="{{ variant.featured_image | image_url }}"
+                  alt="{{ variant.featured_image.alt | escape }}"
+                  class="tp_image_product"
+                  height="auto"
+                  width="auto"
+                >
+              {%- else -%}
+                {%- if img[0] != blank -%}
+                  {% comment %} single variant Without image {% endcomment %}
+                  <img
+                    src="{{ img[0] | image_url }}"
+                    alt="{{ img[0].alt | escape }}"
+                    class="tp_image_product"
+                    height="auto"
+                    width="auto"
+                  >
+                {%- else -%}
+                  {% comment %} single variant Without image {% endcomment %}
+                  {%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%}
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- else -%}
+            {%- if img[0] != blank -%}
+              {% comment %} Multiple Varients With Image {% endcomment %}
+              <img
+                src="{{ img[0] | image_url }}"
+                alt="{{ img[0].alt | escape }}"
+                class="tp_image_product"
+                height="auto"
+                width="auto"
+              >
+            {%- else -%}
+              {% comment %} Multiple Varients Without image {% endcomment %}
+              {%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endif -%}
+      </a>
+
+      {% comment %} sold out {% endcomment %}
+      {%- if sold_out -%}
+        <div class="tp-product-badge">
+          <span class="product-hot">{{ 'products.product.sold_out' | t }}</span>
+        </div>
+      {%- endif -%}
+
+      {% comment %} pre order {% endcomment %}
+      {%- if pre_order -%}
+        <div class="tp-product-badge">
+          <span class="product-trending">{{ 'products.product.pre_order' | t }}</span>
+        </div>
+      {%- endif -%}
+
+      {%- if product.metafields.tps.custom_product_badge %}
+        <div class="tp-product-badge">
+          <span class="product-hot">{{ product.metafields.tps.custom_product_badge }}</span>
+        </div>
+      {%- endif -%}
+
+      {% comment %} Hot {% endcomment %}
+      {%- if product.metafields.tps.hot_product %}
+        <div class="tp-product-badge">
+          <span class="product-hot">{{ 'products.product.hot' | t }}</span>
+        </div>
+      {%- endif -%}
+
+      {% comment %} New {% endcomment %}
+      {%- if product.metafields.tps.new_product %}
+        <div class="tp-product-badge">
+          <span class="product-new">{{ 'products.product.new' | t }}</span>
+        </div>
+      {%- endif -%}
+
+      {%- if show_action -%}
+        <div class="tp-product-action-3 tp-product-action-blackStyle">
+          {%- if show_wishlist or show_compare or show_quick_view -%}
+            <div class="tp-product-action-item-3 d-flex flex-column">
+              {%- if show_compare -%}
+                <button
+                  type="button"
+                  name="add"
+                  role="button"
+                  aria-label="button"
+                  class="tp-product-action-btn-3 tp-product-add-to-compare-btn btn-reset tp-product-details-action-sm-btn-compare tp-product-details-action-sm-btn-compare-js tps__product-action-btn-js tps_tooltip"
+                  data-pro-add-compare="{{ 'products.product.compare' | t }}"
+                  data-pro-remove-compare="{{ 'products.product.browse_compare' | t }}"
+                  data-product-handle="{{ product.handle }}"
+                >
+                  <svg
+                    width="15"
+                    height="15"
+                    viewBox="0 0 15 15"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M11.4144 6.16828L14 3.58412L11.4144 1"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path
+                      d="M1.48883 3.58374L14 3.58374"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path
+                      d="M4.07446 8.32153L1.48884 10.9057L4.07446 13.4898"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path
+                      d="M14 10.9058H1.48883"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                  <span class="tp-product-tooltip">Add To Compare</span>
+                </button>
+              {%- endif -%}
+              {%- if show_quick_view -%}
+                <button
+                  type="button"
+                  class="tp-product-action-btn-3 tp-product-quick-view-btn tps__product-quickview tps_tooltip"
+                  data-bs-toggle="modal"
+                  name="add"
+                  role="button"
+                  aria-label="button"
+                  data-bs-target="#producQuickViewModal"
+                >
+                  <svg
+                    width="18"
+                    height="15"
+                    viewBox="0 0 18 15"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M8.99948 5.06828C7.80247 5.06828 6.82956 6.04044 6.82956 7.23542C6.82956 8.42951 7.80247 9.40077 8.99948 9.40077C10.1965 9.40077 11.1703 8.42951 11.1703 7.23542C11.1703 6.04044 10.1965 5.06828 8.99948 5.06828ZM8.99942 10.7482C7.0581 10.7482 5.47949 9.17221 5.47949 7.23508C5.47949 5.29705 7.0581 3.72021 8.99942 3.72021C10.9407 3.72021 12.5202 5.29705 12.5202 7.23508C12.5202 9.17221 10.9407 10.7482 8.99942 10.7482Z"
+                      fill="currentColor" />
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M1.41273 7.2346C3.08674 10.9265 5.90646 13.1215 8.99978 13.1224C12.0931 13.1215 14.9128 10.9265 16.5868 7.2346C14.9128 3.54363 12.0931 1.34863 8.99978 1.34773C5.90736 1.34863 3.08674 3.54363 1.41273 7.2346ZM9.00164 14.4703H8.99804H8.99714C5.27471 14.4676 1.93209 11.8629 0.0546754 7.50073C-0.0182251 7.33091 -0.0182251 7.13864 0.0546754 6.96883C1.93209 2.60759 5.27561 0.00288103 8.99714 0.000185582C8.99894 -0.000712902 8.99894 -0.000712902 8.99984 0.000185582C9.00164 -0.000712902 9.00164 -0.000712902 9.00254 0.000185582C12.725 0.00288103 16.0676 2.60759 17.945 6.96883C18.0188 7.13864 18.0188 7.33091 17.945 7.50073C16.0685 11.8629 12.725 14.4676 9.00254 14.4703H9.00164Z"
+                      fill="currentColor" />
+                  </svg>
+                  <span class="tp-product-tooltip tps_tooltip-content">{{ 'products.product.quickview' | t }}</span>
+                </button>
+              {%- endif -%}
+              {%- if show_wishlist -%}
+                <button
+                  type="button"
+                  class="tp-product-action-btn-3 tp-product-details-action-sm-btn-wishlist tp-product-add-to-wishlist-btn tps_tooltip tps__product-action-btn-js tps__product-wishlist-js tps__product-wishlist"
+                  name="add"
+                  role="button"
+                  aria-label="button"
+                  data-pro-add-wishlist="{{ 'products.product.wishlist' | t }}"
+                  data-pro-remove-wishlist="{{ 'products.product.browse_wishlist' | t }}"
+                  data-product-handle="{{ product.handle }}"
+                >
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 18 18"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M1.60355 7.98635C2.83622 11.8048 7.7062 14.8923 9.0004 15.6565C10.299 14.8844 15.2042 11.7628 16.3973 7.98985C17.1806 5.55102 16.4535 2.46177 13.5644 1.53473C12.1647 1.08741 10.532 1.35966 9.40484 2.22804C9.16921 2.40837 8.84214 2.41187 8.60476 2.23329C7.41078 1.33952 5.85105 1.07778 4.42936 1.53473C1.54465 2.4609 0.820172 5.55014 1.60355 7.98635ZM9.00138 17.0711C8.89236 17.0711 8.78421 17.0448 8.68574 16.9914C8.41055 16.8417 1.92808 13.2841 0.348132 8.3872C0.347252 8.3872 0.347252 8.38633 0.347252 8.38633C-0.644504 5.30321 0.459792 1.42874 4.02502 0.284605C5.69904 -0.254635 7.52342 -0.0174044 8.99874 0.909632C10.4283 0.00973263 12.3275 -0.238878 13.9681 0.284605C17.5368 1.43049 18.6446 5.30408 17.6538 8.38633C16.1248 13.2272 9.59485 16.8382 9.3179 16.9896C9.21943 17.0439 9.1104 17.0711 9.00138 17.0711Z"
+                      fill="currentColor" />
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M14.203 6.67473C13.8627 6.67473 13.5743 6.41474 13.5462 6.07159C13.4882 5.35202 13.0046 4.7445 12.3162 4.52302C11.9689 4.41097 11.779 4.04068 11.8906 3.69666C12.0041 3.35175 12.3724 3.16442 12.7206 3.27297C13.919 3.65901 14.7586 4.71561 14.8615 5.96479C14.8905 6.32632 14.6206 6.64322 14.2575 6.6721C14.239 6.67385 14.2214 6.67473 14.203 6.67473Z"
+                      fill="currentColor" />
+                  </svg>
+                  <span class="tp-product-tooltip">{{ 'products.product.wishlist' | t }}</span>
+                </button>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      <div class="tp-product-add-cart-btn-large-wrapper">
+        {%- form 'product',
+          product,
+          id: product_form_id,
+          class: 'form add-to-cart-rendom',
+          novalidate: 'novalidate',
+          data-type: 'add-to-cart-form'
+        -%}
+          <input
+            type="hidden"
+            name="id"
+            class="variation_id"
+            value="{{ product.selected_or_first_available_variant.id }}"
+          >
+          <input min="1" type="hidden" id="quantity" name="quantity" value="1">
+          <button
+            type="submit"
+            class="product-form__submit tp-product-add-cart-btn-large add-product-cart-btn"
+            name="add"
+            role="button"
+            aria-label="button"
+          >
+            <span class="cart_btn_svg">
+              <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M3.34706 4.53799L3.85961 10.6239C3.89701 11.0923 4.28036 11.4436 4.74871 11.4436H4.75212H14.0265H14.0282C14.4711 11.4436 14.8493 11.1144 14.9122 10.6774L15.7197 5.11162C15.7384 4.97924 15.7053 4.84687 15.6245 4.73995C15.5446 4.63218 15.4273 4.5626 15.2947 4.54393C15.1171 4.55072 7.74498 4.54054 3.34706 4.53799ZM4.74722 12.7162C3.62777 12.7162 2.68001 11.8438 2.58906 10.728L1.81046 1.4837L0.529505 1.26308C0.181854 1.20198 -0.0501969 0.873587 0.00930333 0.526523C0.0705036 0.17946 0.406255 -0.0462578 0.746256 0.00805037L2.51426 0.313534C2.79901 0.363599 3.01576 0.5995 3.04042 0.888012L3.24017 3.26484C15.3748 3.26993 15.4139 3.27587 15.4726 3.28266C15.946 3.3514 16.3625 3.59833 16.6464 3.97849C16.9303 4.35779 17.0493 4.82535 16.9813 5.29376L16.1747 10.8586C16.0225 11.9177 15.1011 12.7162 14.0301 12.7162H14.0259H4.75402H4.74722Z" fill="currentColor"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12.6629 7.67446H10.3067C9.95394 7.67446 9.66919 7.38934 9.66919 7.03804C9.66919 6.68673 9.95394 6.40161 10.3067 6.40161H12.6629C13.0148 6.40161 13.3004 6.68673 13.3004 7.03804C13.3004 7.38934 13.0148 7.67446 12.6629 7.67446Z" fill="currentColor"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M4.38171 15.0212C4.63756 15.0212 4.84411 15.2278 4.84411 15.4836C4.84411 15.7395 4.63756 15.9469 4.38171 15.9469C4.12501 15.9469 3.91846 15.7395 3.91846 15.4836C3.91846 15.2278 4.12501 15.0212 4.38171 15.0212Z" fill="currentColor"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M4.38082 15.3091C4.28477 15.3091 4.20657 15.3873 4.20657 15.4833C4.20657 15.6763 4.55592 15.6763 4.55592 15.4833C4.55592 15.3873 4.47687 15.3091 4.38082 15.3091ZM4.38067 16.5815C3.77376 16.5815 3.28076 16.0884 3.28076 15.4826C3.28076 14.8767 3.77376 14.3845 4.38067 14.3845C4.98757 14.3845 5.48142 14.8767 5.48142 15.4826C5.48142 16.0884 4.98757 16.5815 4.38067 16.5815Z" fill="currentColor"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M13.9701 15.0212C14.2259 15.0212 14.4333 15.2278 14.4333 15.4836C14.4333 15.7395 14.2259 15.9469 13.9701 15.9469C13.7134 15.9469 13.5068 15.7395 13.5068 15.4836C13.5068 15.2278 13.7134 15.0212 13.9701 15.0212Z" fill="currentColor"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M13.9692 15.3092C13.874 15.3092 13.7958 15.3874 13.7958 15.4835C13.7966 15.6781 14.1451 15.6764 14.1443 15.4835C14.1443 15.3874 14.0652 15.3092 13.9692 15.3092ZM13.969 16.5815C13.3621 16.5815 12.8691 16.0884 12.8691 15.4826C12.8691 14.8767 13.3621 14.3845 13.969 14.3845C14.5768 14.3845 15.0706 14.8767 15.0706 15.4826C15.0706 16.0884 14.5768 16.5815 13.969 16.5815Z" fill="currentColor"/>
+              </svg>
+            </span>
+            <span class="loading-icon">
+              <svg
+                class="cart_load_spinning"
+                width="18"
+                height="18"
+                viewBox="0 0 18 18"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M9 1V4.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M9 13.8V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M3.34424 3.34399L5.60824 5.60799" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M12.3921 12.392L14.6561 14.656" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M1 9H4.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M13.8003 9H17.0003" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M3.34424 14.656L5.60824 12.392" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M12.3921 5.60799L14.6561 3.34399" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </span>
+            Add To Cart
+          </button>
+        {%- endform -%}
+      </div>
+    </div>
+    <div class="tp-product-content-3">
+      <div class="tp-product-tag-3">
+        {% for collection in product.collections limit: 2 %}
+          <a href="{{ collection.url }}">{{ collection.title }}</a>
+          {% if forloop.last == false -%}
+            ,
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <h3 class="tp-product-title-3">
+        <a href="{{ product.url | within: collection }}">{{ product.title }}</a>
+      </h3>
+      <div class="tp-product-rating d-flex align-items-center">
+        {%- if show_review -%}
+          {%- if product.metafields.judgeme.badge -%}
+            <div
+              style="{{ jm_style }}"
+              class="jdgm-widget jdgm-preview-badge mt-5 tp-product-rating-icon"
+              data-id="{{ product.id }}"
+              {%- if block -%}
+                {{ block.shopify_attributes }}
+              {%- endif -%}
+            >
+              {{ product.metafields.judgeme.badge }}
+            </div>
+          {%- endif -%}
+          {%- if product.metafields.reviews.rating.value == null -%}
+            <span class="shopify-product-reviews-badge" data-id="{{ product.id }}">
+              <div class="tp-product-rating-icon">
+                <span><i class="fa-regular fa-star"></i></span>
+                <span><i class="fa-regular fa-star"></i></span>
+                <span><i class="fa-regular fa-star"></i></span>
+                <span><i class="fa-regular fa-star"></i></span>
+                <span><i class="fa-regular fa-star"></i></span>
+              </div>
+            </span>
+          {% endif %}
+          {%- if product.metafields.spr.reviews -%}
+            <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+          {% endif %}
+        {%- endif -%}
+      </div>
+
+      <div class="tp-product-price-wrapper-3">
+        {% comment %} variation price {% endcomment %}
+        {%- assign minPrice = null -%}
+        {%- assign maxPrice = null -%}
+
+        {%- for variant in product.variants -%}
+          {%- if minPrice == null or variant.price < minPrice -%}
+            {%- assign minPrice = variant.price -%}
+          {%- endif -%}
+
+          {%- if maxPrice == null or variant.price > maxPrice -%}
+            {%- assign maxPrice = variant.price -%}
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- if minPrice != maxPrice -%}
+          <span class="tp-product-price-3 new-price">{{ minPrice | money }} - {{ maxPrice | money }}</span>
+        {%- else -%}
+          {%- if product.selected_or_first_available_variant.compare_at_price -%}
+            <span class="tp-product-price-3 new-price">
+              {{- product.selected_or_first_available_variant.price | money -}}
+            </span>
+            <span class="tp-product-price-3 old-price">
+              {{- product.selected_or_first_available_variant.compare_at_price | money -}}
+            </span>
+          {%- else -%}
+            <span class="tp-product-price-3 new-price">
+              {{- product.selected_or_first_available_variant.price | money -}}
+            </span>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+{%- elsif product_item == 'tp-product-item-4' -%}
+  <div class="tp-product-item-4 p-relative mb-40 tps__product-item" data-product-handle="{{ product.handle }}">
+    <div class="tp-product-thumb-4 w-img fix">
+      <a href="{{ product.url | within: collection }}">
+        {%- if product.has_only_default_variant -%}
+          {%- if img[0] != blank -%}
+            {% comment %} single variant With Image  {% endcomment %}
+            <img
+              src="{{ img[0] | image_url }}"
+              width="auto"
+              height="auto"
+              alt="{{ img[0].alt | escape }}"
+              class="tp_image_product"
+            >
+          {%- else -%}
+            {% comment %} if single variant and Without image {% endcomment %}
+            {%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%}
+          {%- endif -%}
+        {%- else -%}
+          {%- assign hasColor = false -%}
+          {%- for o in product.options_with_values -%}
+            {%- if o == option_name -%}
+              {%- assign hasColor = true -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- if hasColor -%}
+            {%- for variant in product.variants limit: 1 -%}
+              {%- if variant.featured_image != blank -%}
+                {% comment %}  single variant With Image {% endcomment %}
+                <img
+                  src="{{ variant.featured_image | image_url }}"
+                  alt="{{ variant.featured_image.alt | escape }}"
+                  class="tp_image_product"
+                  width="auto"
+                  height="auto"
+                >
+              {%- else -%}
+                {%- if img[0] != blank -%}
+                  {% comment %} single variant Without image {% endcomment %}
+                  <img
+                    src="{{ img[0] | image_url }}"
+                    alt="{{ img[0].alt | escape }}"
+                    class="tp_image_product"
+                    width="auto"
+                    height="auto"
+                  >
+                {%- else -%}
+                  {% comment %} single variant Without image {% endcomment %}
+                  {%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%}
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- else -%}
+            {%- if img[0] != blank -%}
+              {% comment %} Multiple Varients With Image {% endcomment %}
+              <img
+                src="{{ img[0] | image_url }}"
+                width="auto"
+                height="auto"
+                alt="{{ img[0].alt | escape }}"
+                class="tp_image_product"
+              >
+            {%- else -%}
+              {% comment %} Multiple Varients Without image {% endcomment %}
+              {%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endif -%}
+      </a>
+      {%- if show_action -%}
+        <div class="tp-product-action-3 tp-product-action-4 has-shadow tp-product-action-blackStyle tp-product-action-brownStyle">
+          {%- if show_wishlist or show_compare or show_quick_view -%}
+            <div class="tp-product-action-item-3 d-flex flex-column">
+              {%- if show_compare -%}
+                <button
+                  type="button"
+                  name="add"
+                  role="button"
+                  aria-label="button"
+                  class="tp-product-action-btn-3 tp-product-add-to-compare-btn btn-reset tp-product-details-action-sm-btn-compare tp-product-details-action-sm-btn-compare-js tps__product-action-btn-js tps_tooltip"
+                  data-pro-add-compare="{{ 'products.product.compare' | t }}"
+                  data-pro-remove-compare="{{ 'products.product.browse_compare' | t }}"
+                  data-product-handle="{{ product.handle }}"
+                >
+                  <svg
+                    width="15"
+                    height="15"
+                    viewBox="0 0 15 15"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M11.4144 6.16828L14 3.58412L11.4144 1"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path
+                      d="M1.48883 3.58374L14 3.58374"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path
+                      d="M4.07446 8.32153L1.48884 10.9057L4.07446 13.4898"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path
+                      d="M14 10.9058H1.48883"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                  <span class="tp-product-tooltip">Add To Compare</span>
+                </button>
+              {%- endif -%}
+
+              {%- if show_quick_view -%}
+                <button
+                  type="button"
+                  class="tp-product-action-btn-3 tp-product-quick-view-btn tps__product-quickview tps_tooltip"
+                  data-bs-toggle="modal"
+                  data-bs-target="#producQuickViewModal"
+                  role="button"
+                  aria-label="button"
+                >
+                  <svg
+                    width="18"
+                    height="15"
+                    viewBox="0 0 18 15"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M8.99948 5.06828C7.80247 5.06828 6.82956 6.04044 6.82956 7.23542C6.82956 8.42951 7.80247 9.40077 8.99948 9.40077C10.1965 9.40077 11.1703 8.42951 11.1703 7.23542C11.1703 6.04044 10.1965 5.06828 8.99948 5.06828ZM8.99942 10.7482C7.0581 10.7482 5.47949 9.17221 5.47949 7.23508C5.47949 5.29705 7.0581 3.72021 8.99942 3.72021C10.9407 3.72021 12.5202 5.29705 12.5202 7.23508C12.5202 9.17221 10.9407 10.7482 8.99942 10.7482Z"
+                      fill="currentColor" />
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M1.41273 7.2346C3.08674 10.9265 5.90646 13.1215 8.99978 13.1224C12.0931 13.1215 14.9128 10.9265 16.5868 7.2346C14.9128 3.54363 12.0931 1.34863 8.99978 1.34773C5.90736 1.34863 3.08674 3.54363 1.41273 7.2346ZM9.00164 14.4703H8.99804H8.99714C5.27471 14.4676 1.93209 11.8629 0.0546754 7.50073C-0.0182251 7.33091 -0.0182251 7.13864 0.0546754 6.96883C1.93209 2.60759 5.27561 0.00288103 8.99714 0.000185582C8.99894 -0.000712902 8.99894 -0.000712902 8.99984 0.000185582C9.00164 -0.000712902 9.00164 -0.000712902 9.00254 0.000185582C12.725 0.00288103 16.0676 2.60759 17.945 6.96883C18.0188 7.13864 18.0188 7.33091 17.945 7.50073C16.0685 11.8629 12.725 14.4676 9.00254 14.4703H9.00164Z"
+                      fill="currentColor" />
+                  </svg>
+                  <span class="tp-product-tooltip">{{ 'products.product.quickview' | t }}</span>
+                </button>
+              {%- endif -%}
+              {%- if show_wishlist -%}
+                <button
+                  type="button"
+                  class="tp-product-action-btn-3 tp-product-details-action-sm-btn-wishlist tp-product-add-to-wishlist-btn tps__product-action-btn-js tps__product-wishlist-js tps__product-wishlist"
+                  name="add"
+                  role="button"
+                  aria-label="button"
+                  data-pro-add-wishlist="{{ 'products.product.wishlist' | t }}"
+                  data-pro-remove-wishlist="{{ 'products.product.browse_wishlist' | t }}"
+                  data-product-handle="{{ product.handle }}"
+                >
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 18 18"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M1.60355 7.98635C2.83622 11.8048 7.7062 14.8923 9.0004 15.6565C10.299 14.8844 15.2042 11.7628 16.3973 7.98985C17.1806 5.55102 16.4535 2.46177 13.5644 1.53473C12.1647 1.08741 10.532 1.35966 9.40484 2.22804C9.16921 2.40837 8.84214 2.41187 8.60476 2.23329C7.41078 1.33952 5.85105 1.07778 4.42936 1.53473C1.54465 2.4609 0.820172 5.55014 1.60355 7.98635ZM9.00138 17.0711C8.89236 17.0711 8.78421 17.0448 8.68574 16.9914C8.41055 16.8417 1.92808 13.2841 0.348132 8.3872C0.347252 8.3872 0.347252 8.38633 0.347252 8.38633C-0.644504 5.30321 0.459792 1.42874 4.02502 0.284605C5.69904 -0.254635 7.52342 -0.0174044 8.99874 0.909632C10.4283 0.00973263 12.3275 -0.238878 13.9681 0.284605C17.5368 1.43049 18.6446 5.30408 17.6538 8.38633C16.1248 13.2272 9.59485 16.8382 9.3179 16.9896C9.21943 17.0439 9.1104 17.0711 9.00138 17.0711Z"
+                      fill="currentColor" />
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M14.203 6.67473C13.8627 6.67473 13.5743 6.41474 13.5462 6.07159C13.4882 5.35202 13.0046 4.7445 12.3162 4.52302C11.9689 4.41097 11.779 4.04068 11.8906 3.69666C12.0041 3.35175 12.3724 3.16442 12.7206 3.27297C13.919 3.65901 14.7586 4.71561 14.8615 5.96479C14.8905 6.32632 14.6206 6.64322 14.2575 6.6721C14.239 6.67385 14.2214 6.67473 14.203 6.67473Z"
+                      fill="currentColor" />
+                  </svg>
+                  <span class="tp-product-tooltip">{{ 'products.product.wishlist' | t }}</span>
+                </button>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+    <div class="tp-product-content-4">
+      <h3 class="tp-product-title-4">
+        <a href="{{ product.url | within: collection }}">{{ product.title }}</a>
+      </h3>
+      <div class="tp-product-info-4">
+        <p>
+          {% for collection in product.collections limit: 2 %}
+            {{ collection.title }}
+            {% if forloop.last == false -%}
+              ,
+            {% endif %}
+          {% endfor %}
+        </p>
+      </div>
+
+      <div class="tp-product-price-inner-4">
+        <div class="tp-product-price-wrapper-4">
+          {% comment %} variation price {% endcomment %}
+          {%- assign minPrice = null -%}
+          {%- assign maxPrice = null -%}
+
+          {%- for variant in product.variants -%}
+            {%- if minPrice == null or variant.price < minPrice -%}
+              {%- assign minPrice = variant.price -%}
+            {%- endif -%}
+
+            {%- if maxPrice == null or variant.price > maxPrice -%}
+              {%- assign maxPrice = variant.price -%}
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- if minPrice != maxPrice -%}
+            <span class="tp-product-price-4 new-price">{{ minPrice | money }} - {{ maxPrice | money }}</span>
+          {%- else -%}
+            {%- if product.selected_or_first_available_variant.compare_at_price -%}
+              <span class="tp-product-price-4 new-price">
+                {{- product.selected_or_first_available_variant.price | money -}}
+              </span>
+              <span class="tp-product-price-4 old-price">
+                {{- product.selected_or_first_available_variant.compare_at_price | money -}}
+              </span>
+            {%- else -%}
+              <span class="tp-product-price-4 new-price">
+                {{- product.selected_or_first_available_variant.price | money -}}
+              </span>
+            {%- endif -%}
+          {%- endif -%}
+        </div>
+
+        <div class="tp-product-price-add-to-cart">
+          {%- form 'product',
+            product,
+            id: product_form_id,
+            class: 'form add-to-cart-rendom',
+            novalidate: 'novalidate',
+            data-type: 'add-to-cart-form'
+          -%}
+            <input
+              type="hidden"
+              name="id"
+              class="variation_id"
+              value="{{ product.selected_or_first_available_variant.id }}"
+            >
+            <input min="1" type="hidden" id="quantity" name="quantity" value="1">
+            <button
+              type="submit"
+              class="product-form__submit tp-product-add-to-cart-4 add-product-cart-btn"
+              name="add"
+              role="button"
+              aria-label="button"
+            >
+              <span class="cart_btn_svg">
+                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M3.34706 4.53799L3.85961 10.6239C3.89701 11.0923 4.28036 11.4436 4.74871 11.4436H4.75212H14.0265H14.0282C14.4711 11.4436 14.8493 11.1144 14.9122 10.6774L15.7197 5.11162C15.7384 4.97924 15.7053 4.84687 15.6245 4.73995C15.5446 4.63218 15.4273 4.5626 15.2947 4.54393C15.1171 4.55072 7.74498 4.54054 3.34706 4.53799ZM4.74722 12.7162C3.62777 12.7162 2.68001 11.8438 2.58906 10.728L1.81046 1.4837L0.529505 1.26308C0.181854 1.20198 -0.0501969 0.873587 0.00930333 0.526523C0.0705036 0.17946 0.406255 -0.0462578 0.746256 0.00805037L2.51426 0.313534C2.79901 0.363599 3.01576 0.5995 3.04042 0.888012L3.24017 3.26484C15.3748 3.26993 15.4139 3.27587 15.4726 3.28266C15.946 3.3514 16.3625 3.59833 16.6464 3.97849C16.9303 4.35779 17.0493 4.82535 16.9813 5.29376L16.1747 10.8586C16.0225 11.9177 15.1011 12.7162 14.0301 12.7162H14.0259H4.75402H4.74722Z" fill="currentColor"/>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12.6629 7.67446H10.3067C9.95394 7.67446 9.66919 7.38934 9.66919 7.03804C9.66919 6.68673 9.95394 6.40161 10.3067 6.40161H12.6629C13.0148 6.40161 13.3004 6.68673 13.3004 7.03804C13.3004 7.38934 13.0148 7.67446 12.6629 7.67446Z" fill="currentColor"/>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M4.38171 15.0212C4.63756 15.0212 4.84411 15.2278 4.84411 15.4836C4.84411 15.7395 4.63756 15.9469 4.38171 15.9469C4.12501 15.9469 3.91846 15.7395 3.91846 15.4836C3.91846 15.2278 4.12501 15.0212 4.38171 15.0212Z" fill="currentColor"/>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M4.38082 15.3091C4.28477 15.3091 4.20657 15.3873 4.20657 15.4833C4.20657 15.6763 4.55592 15.6763 4.55592 15.4833C4.55592 15.3873 4.47687 15.3091 4.38082 15.3091ZM4.38067 16.5815C3.77376 16.5815 3.28076 16.0884 3.28076 15.4826C3.28076 14.8767 3.77376 14.3845 4.38067 14.3845C4.98757 14.3845 5.48142 14.8767 5.48142 15.4826C5.48142 16.0884 4.98757 16.5815 4.38067 16.5815Z" fill="currentColor"/>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M13.9701 15.0212C14.2259 15.0212 14.4333 15.2278 14.4333 15.4836C14.4333 15.7395 14.2259 15.9469 13.9701 15.9469C13.7134 15.9469 13.5068 15.7395 13.5068 15.4836C13.5068 15.2278 13.7134 15.0212 13.9701 15.0212Z" fill="currentColor"/>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M13.9692 15.3092C13.874 15.3092 13.7958 15.3874 13.7958 15.4835C13.7966 15.6781 14.1451 15.6764 14.1443 15.4835C14.1443 15.3874 14.0652 15.3092 13.9692 15.3092ZM13.969 16.5815C13.3621 16.5815 12.8691 16.0884 12.8691 15.4826C12.8691 14.8767 13.3621 14.3845 13.969 14.3845C14.5768 14.3845 15.0706 14.8767 15.0706 15.4826C15.0706 16.0884 14.5768 16.5815 13.969 16.5815Z" fill="currentColor"/>
+                </svg>
+              </span>
+              <span class="loading-icon">
+                <svg
+                  class="cart_load_spinning"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 18 18"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M9 1V4.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <path d="M9 13.8V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <path d="M3.34424 3.34399L5.60824 5.60799" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <path d="M12.3921 12.392L14.6561 14.656" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <path d="M1 9H4.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <path d="M13.8003 9H17.0003" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <path d="M3.34424 14.656L5.60824 12.392" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <path d="M12.3921 5.60799L14.6561 3.34399" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </span>
+              Add to Cart
+            </button>
+          {%- endform -%}
+        </div>
+      </div>
+    </div>
+  </div>
+{%- elsif product_item == 'tp-product-item-5' -%}
+  <div class="tp-best-item-5 swiper-slide tps__product-item" data-product-handle="{{ product.handle }}">
+    <div class="tp-product-item-5 p-relative white-bg mb-40">
+      <div class="tp-product-thumb-5 w-img fix mb-15">
+        <a href="{{ product.url | within: collection }}">
+          {%- if product.has_only_default_variant -%}
+            {%- if img[0] != blank -%}
+              {% comment %} single variant With Image  {% endcomment %}
+              <img
+                src="{{ img[0] | image_url }}"
+                alt="{{ img[0].alt | escape }}"
+                class="tp_image_product"
+                width="auto"
+                height="auto"
+              >
+            {%- else -%}
+              {% comment %} if single variant and Without image {% endcomment %}
+              {%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%}
+            {%- endif -%}
+          {%- else -%}
+            {%- assign hasColor = false -%}
+            {%- for o in product.options_with_values -%}
+              {%- if o == option_name -%}
+                {%- assign hasColor = true -%}
+              {%- endif -%}
+            {%- endfor -%}
+            {%- if hasColor -%}
+              {%- for variant in product.variants limit: 1 -%}
+                {%- if variant.featured_image != blank -%}
+                  {% comment %}  single variant With Image {% endcomment %}
+                  <img
+                    src="{{ variant.featured_image | image_url }}"
+                    alt="{{ variant.featured_image.alt | escape }}"
+                    class="tp_image_product"
+                    width="auto"
+                    height="auto"
+                  >
+                {%- else -%}
+                  {%- if img[0] != blank -%}
+                    {% comment %} single variant Without image {% endcomment %}
+                    <img
+                      src="{{ img[0] | image_url }}"
+                      alt="{{ img[0].alt | escape }}"
+                      class="tp_image_product"
+                      width="auto"
+                      height="auto"
+                    >
+                  {%- else -%}
+                    {% comment %} single variant Without image {% endcomment %}
+                    {%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%}
+                  {%- endif -%}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- else -%}
+              {%- if img[0] != blank -%}
+                {% comment %} Multiple Varients With Image {% endcomment %}
+                <img
+                  src="{{ img[0] | image_url }}"
+                  alt="{{ img[0].alt | escape }}"
+                  class="tp_image_product"
+                  width="auto"
+                  height="auto"
+                >
+              {%- else -%}
+                {% comment %} Multiple Varients Without image {% endcomment %}
+                {%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%}
+              {%- endif -%}
+            {%- endif -%}
+          {%- endif -%}
+        </a>
+
+        {%- if show_action -%}
+          <div class="tp-product-action-2 tp-product-action-5 tp-product-action-greenStyle">
+            {%- if show_wishlist or show_compare or show_quick_view -%}
+              <div class="tp-product-action-item-2 d-flex flex-column">
+                <div>
+                  {%- form 'product',
+                    product,
+                    id: product_form_id,
+                    class: 'form add-to-cart-rendom',
+                    novalidate: 'novalidate',
+                    data-type: 'add-to-cart-form'
+                  -%}
+                    <input
+                      type="hidden"
+                      class="variation_id"
+                      name="id"
+                      value="{{ product.selected_or_first_available_variant.id }}"
+                    >
+                    <input min="1" type="hidden" id="quantity" name="quantity" value="1">
+                    <button
+                      type="submit"
+                      class="product-form__submit tp-product-action-btn-2 tp-product-add-cart-btn add-product-cart-btn"
+                      name="add"
+                      role="button"
+                      aria-label="button"
+                    >
+                      <span class="cart_btn_svg">
+                        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path fill-rule="evenodd" clip-rule="evenodd" d="M3.34706 4.53799L3.85961 10.6239C3.89701 11.0923 4.28036 11.4436 4.74871 11.4436H4.75212H14.0265H14.0282C14.4711 11.4436 14.8493 11.1144 14.9122 10.6774L15.7197 5.11162C15.7384 4.97924 15.7053 4.84687 15.6245 4.73995C15.5446 4.63218 15.4273 4.5626 15.2947 4.54393C15.1171 4.55072 7.74498 4.54054 3.34706 4.53799ZM4.74722 12.7162C3.62777 12.7162 2.68001 11.8438 2.58906 10.728L1.81046 1.4837L0.529505 1.26308C0.181854 1.20198 -0.0501969 0.873587 0.00930333 0.526523C0.0705036 0.17946 0.406255 -0.0462578 0.746256 0.00805037L2.51426 0.313534C2.79901 0.363599 3.01576 0.5995 3.04042 0.888012L3.24017 3.26484C15.3748 3.26993 15.4139 3.27587 15.4726 3.28266C15.946 3.3514 16.3625 3.59833 16.6464 3.97849C16.9303 4.35779 17.0493 4.82535 16.9813 5.29376L16.1747 10.8586C16.0225 11.9177 15.1011 12.7162 14.0301 12.7162H14.0259H4.75402H4.74722Z" fill="currentColor"/>
+                          <path fill-rule="evenodd" clip-rule="evenodd" d="M12.6629 7.67446H10.3067C9.95394 7.67446 9.66919 7.38934 9.66919 7.03804C9.66919 6.68673 9.95394 6.40161 10.3067 6.40161H12.6629C13.0148 6.40161 13.3004 6.68673 13.3004 7.03804C13.3004 7.38934 13.0148 7.67446 12.6629 7.67446Z" fill="currentColor"/>
+                          <path fill-rule="evenodd" clip-rule="evenodd" d="M4.38171 15.0212C4.63756 15.0212 4.84411 15.2278 4.84411 15.4836C4.84411 15.7395 4.63756 15.9469 4.38171 15.9469C4.12501 15.9469 3.91846 15.7395 3.91846 15.4836C3.91846 15.2278 4.12501 15.0212 4.38171 15.0212Z" fill="currentColor"/>
+                          <path fill-rule="evenodd" clip-rule="evenodd" d="M4.38082 15.3091C4.28477 15.3091 4.20657 15.3873 4.20657 15.4833C4.20657 15.6763 4.55592 15.6763 4.55592 15.4833C4.55592 15.3873 4.47687 15.3091 4.38082 15.3091ZM4.38067 16.5815C3.77376 16.5815 3.28076 16.0884 3.28076 15.4826C3.28076 14.8767 3.77376 14.3845 4.38067 14.3845C4.98757 14.3845 5.48142 14.8767 5.48142 15.4826C5.48142 16.0884 4.98757 16.5815 4.38067 16.5815Z" fill="currentColor"/>
+                          <path fill-rule="evenodd" clip-rule="evenodd" d="M13.9701 15.0212C14.2259 15.0212 14.4333 15.2278 14.4333 15.4836C14.4333 15.7395 14.2259 15.9469 13.9701 15.9469C13.7134 15.9469 13.5068 15.7395 13.5068 15.4836C13.5068 15.2278 13.7134 15.0212 13.9701 15.0212Z" fill="currentColor"/>
+                          <path fill-rule="evenodd" clip-rule="evenodd" d="M13.9692 15.3092C13.874 15.3092 13.7958 15.3874 13.7958 15.4835C13.7966 15.6781 14.1451 15.6764 14.1443 15.4835C14.1443 15.3874 14.0652 15.3092 13.9692 15.3092ZM13.969 16.5815C13.3621 16.5815 12.8691 16.0884 12.8691 15.4826C12.8691 14.8767 13.3621 14.3845 13.969 14.3845C14.5768 14.3845 15.0706 14.8767 15.0706 15.4826C15.0706 16.0884 14.5768 16.5815 13.969 16.5815Z" fill="currentColor"/>
+                        </svg>
+                      </span>
+                      <span class="loading-icon">
+                        <svg
+                          class="cart_load_spinning"
+                          width="18"
+                          height="18"
+                          viewBox="0 0 18 18"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path d="M9 1V4.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                          <path d="M9 13.8V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                          <path d="M3.34424 3.34399L5.60824 5.60799" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                          <path d="M12.3921 12.392L14.6561 14.656" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                          <path d="M1 9H4.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                          <path d="M13.8003 9H17.0003" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                          <path d="M3.34424 14.656L5.60824 12.392" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                          <path d="M12.3921 5.60799L14.6561 3.34399" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                      </span>
+                      <span class="tp-product-tooltip tp-product-tooltip-right">Add to Cart</span>
+                    </button>
+                  {%- endform -%}
+                </div>
+                {%- if show_quick_view -%}
+                  <button
+                    type="button"
+                    class="tp-product-action-btn-2 tp-product-quick-view-btn tps__product-quickview tps_tooltip"
+                    data-bs-toggle="modal"
+                    name="add"
+                    role="button"
+                    aria-label="button"
+                    data-bs-target="#producQuickViewModal"
+                  >
+                    <svg width="18" height="15" viewBox="0 0 18 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M8.99948 5.06828C7.80247 5.06828 6.82956 6.04044 6.82956 7.23542C6.82956 8.42951 7.80247 9.40077 8.99948 9.40077C10.1965 9.40077 11.1703 8.42951 11.1703 7.23542C11.1703 6.04044 10.1965 5.06828 8.99948 5.06828ZM8.99942 10.7482C7.0581 10.7482 5.47949 9.17221 5.47949 7.23508C5.47949 5.29705 7.0581 3.72021 8.99942 3.72021C10.9407 3.72021 12.5202 5.29705 12.5202 7.23508C12.5202 9.17221 10.9407 10.7482 8.99942 10.7482Z" fill="currentColor"/>
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M1.41273 7.2346C3.08674 10.9265 5.90646 13.1215 8.99978 13.1224C12.0931 13.1215 14.9128 10.9265 16.5868 7.2346C14.9128 3.54363 12.0931 1.34863 8.99978 1.34773C5.90736 1.34863 3.08674 3.54363 1.41273 7.2346ZM9.00164 14.4703H8.99804H8.99714C5.27471 14.4676 1.93209 11.8629 0.0546754 7.50073C-0.0182251 7.33091 -0.0182251 7.13864 0.0546754 6.96883C1.93209 2.60759 5.27561 0.00288103 8.99714 0.000185582C8.99894 -0.000712902 8.99894 -0.000712902 8.99984 0.000185582C9.00164 -0.000712902 9.00164 -0.000712902 9.00254 0.000185582C12.725 0.00288103 16.0676 2.60759 17.945 6.96883C18.0188 7.13864 18.0188 7.33091 17.945 7.50073C16.0685 11.8629 12.725 14.4676 9.00254 14.4703H9.00164Z" fill="currentColor"/>
+                    </svg>
+                    <span class="tp-product-tooltip tp-product-tooltip-right">
+                      {{- 'products.product.quickview' | t -}}
+                    </span>
+                  </button>
+                {%- endif -%}
+                {%- if show_wishlist -%}
+                  <button
+                    type="button"
+                    class="tp-product-action-btn-2 tp-product-details-action-sm-btn-wishlist tp-product-add-to-wishlist-btn tps__product-wishlist-js tps__product-wishlist"
+                    name="add"
+                    role="button"
+                    aria-label="button"
+                    data-pro-add-wishlist="{{ 'products.product.wishlist' | t }}"
+                    data-pro-remove-wishlist="{{ 'products.product.browse_wishlist' | t }}"
+                    data-product-handle="{{ product.handle }}"
+                  >
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M1.60355 7.98635C2.83622 11.8048 7.7062 14.8923 9.0004 15.6565C10.299 14.8844 15.2042 11.7628 16.3973 7.98985C17.1806 5.55102 16.4535 2.46177 13.5644 1.53473C12.1647 1.08741 10.532 1.35966 9.40484 2.22804C9.16921 2.40837 8.84214 2.41187 8.60476 2.23329C7.41078 1.33952 5.85105 1.07778 4.42936 1.53473C1.54465 2.4609 0.820172 5.55014 1.60355 7.98635ZM9.00138 17.0711C8.89236 17.0711 8.78421 17.0448 8.68574 16.9914C8.41055 16.8417 1.92808 13.2841 0.348132 8.3872C0.347252 8.3872 0.347252 8.38633 0.347252 8.38633C-0.644504 5.30321 0.459792 1.42874 4.02502 0.284605C5.69904 -0.254635 7.52342 -0.0174044 8.99874 0.909632C10.4283 0.00973263 12.3275 -0.238878 13.9681 0.284605C17.5368 1.43049 18.6446 5.30408 17.6538 8.38633C16.1248 13.2272 9.59485 16.8382 9.3179 16.9896C9.21943 17.0439 9.1104 17.0711 9.00138 17.0711Z" fill="currentColor"/>
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M14.203 6.67473C13.8627 6.67473 13.5743 6.41474 13.5462 6.07159C13.4882 5.35202 13.0046 4.7445 12.3162 4.52302C11.9689 4.41097 11.779 4.04068 11.8906 3.69666C12.0041 3.35175 12.3724 3.16442 12.7206 3.27297C13.919 3.65901 14.7586 4.71561 14.8615 5.96479C14.8905 6.32632 14.6206 6.64322 14.2575 6.6721C14.239 6.67385 14.2214 6.67473 14.203 6.67473Z" fill="currentColor"/>
+                    </svg>
+                    <span class="tp-product-tooltip tp-product-tooltip-right">
+                      {{- 'products.product.wishlist' | t -}}
+                    </span>
+                  </button>
+                {%- endif -%}
+                {%- if show_compare -%}
+                  <button
+                    type="button"
+                    class="tp-product-action-btn-2 tp-product-add-to-compare-btn tp-product-details-action-sm-btn-compare tps__product-action-btn-js tps_tooltip tp-product-details-action-sm-btn-compare-js "
+                    name="add"
+                    role="button"
+                    aria-label="button"
+                    data-pro-add-compare="{{ 'products.product.compare' | t }}"
+                    data-pro-remove-compare="{{ 'products.product.browse_compare' | t }}"
+                    data-product-handle="{{ product.handle }}"
+                  >
+                    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M11.4144 6.16828L14 3.58412L11.4144 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M1.48883 3.58374L14 3.58374" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M4.07446 8.32153L1.48884 10.9057L4.07446 13.4898" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M14 10.9058H1.48883" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="tp-product-tooltip tp-product-tooltip-right">Add To Compare</span>
+                  </button>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+      <div class="tp-product-content-5">
+        <div class="tp-product-tag-5">
+          {% for collection in product.collections limit: 2 %}
+            <span
+              ><a href="{{ collection.url }}">{{ collection.title }}</a></span
+            >
+            {% if forloop.last == false -%}
+              ,
+            {% endif %}
+          {% endfor %}
+        </div>
+        <h3 class="tp-product-title-5">
+          <a href="{{ product.url | within: collection }}">
+            {{ product.title }}
+          </a>
+        </h3>
+        <div class="tp-product-rating-5 d-flex align-items-center">
+          {%- if show_review -%}
+            {%- if product.metafields.judgeme.badge -%}
+              <div
+                style="{{ jm_style }}"
+                class="jdgm-widget jdgm-preview-badge mt-5 tp-product-rating-icon"
+                data-id="{{ product.id }}"
+                {%- if block -%}
+                  {{ block.shopify_attributes }}
+                {%- endif -%}
+              >
+                {{ product.metafields.judgeme.badge }}
+              </div>
+            {%- endif -%}
+            {%- if product.metafields.reviews.rating.value == null -%}
+              <span class="shopify-product-reviews-badge" data-id="{{ product.id }}">
+                <div class="tp-product-rating-icon">
+                  <span><i class="fa-regular fa-star"></i></span>
+                  <span><i class="fa-regular fa-star"></i></span>
+                  <span><i class="fa-regular fa-star"></i></span>
+                  <span><i class="fa-regular fa-star"></i></span>
+                  <span><i class="fa-regular fa-star"></i></span>
+                </div>
+              </span>
+            {% endif %}
+            {%- if product.metafields.spr.reviews -%}
+              <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+            {% endif %}
+          {%- endif -%}
+        </div>
+
+        <div class="tp-product-price-wrapper-5">
+          {% comment %} variation price {% endcomment %}
+          {%- assign minPrice = null -%}
+          {%- assign maxPrice = null -%}
+
+          {%- for variant in product.variants -%}
+            {%- if minPrice == null or variant.price < minPrice -%}
+              {%- assign minPrice = variant.price -%}
+            {%- endif -%}
+
+            {%- if maxPrice == null or variant.price > maxPrice -%}
+              {%- assign maxPrice = variant.price -%}
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- if minPrice != maxPrice -%}
+            <span class="tp-product-price-5 new-price">{{ minPrice | money }} - {{ maxPrice | money }}</span>
+          {%- else -%}
+            {%- if product.selected_or_first_available_variant.compare_at_price -%}
+              <span class="tp-product-price-5 new-price">
+                {{- product.selected_or_first_available_variant.price | money -}}
+              </span>
+              <span class="tp-product-price-5 old-price">
+                {{- product.selected_or_first_available_variant.compare_at_price | money -}}
+              </span>
+            {%- else -%}
+              <span class="tp-product-price-5 new-price">
+                {{- product.selected_or_first_available_variant.price | money -}}
+              </span>
+            {%- endif -%}
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+{%- elsif product_item == 'tp-product-sm-item' -%}
+  <div class="tp-product-sm-item d-flex align-items-center">
+    <div class="tp-product-thumb mr-25 fix">
+      <a href="{{ product.url | within: collection }}">
+        {%- if product.has_only_default_variant -%}
+          {%- if img[0] != blank -%}
+            {% comment %} single variant With Image  {% endcomment %}
+            <img
+              src="{{ img[0] | image_url }}"
+              alt="{{ img[0].alt | escape }}"
+              height="auto"
+              width="auto"
+            >
+          {%- else -%}
+            {% comment %} if single variant and Without image {% endcomment %}
+            {%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%}
+          {%- endif -%}
+        {%- else -%}
+          {%- assign hasColor = false -%}
+          {%- for o in product.options_with_values -%}
+            {%- if o == option_name -%}
+              {%- assign hasColor = true -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- if hasColor -%}
+            {%- for variant in product.variants limit: 1 -%}
+              {%- if variant.featured_image != blank -%}
+                {% comment %}  single variant With Image {% endcomment %}
+                <img
+                  src="{{ variant.featured_image | image_url }}"
+                  alt="{{ variant.featured_image.alt | escape }}"
+                  height="auto"
+                  width="auto"
+                >
+              {%- else -%}
+                {%- if img[0] != blank -%}
+                  {% comment %} single variant Without image {% endcomment %}
+                  <img
+                    src="{{ img[0] | image_url }}"
+                    alt="{{ img[0].alt | escape }}"
+                    height="auto"
+                    width="auto"
+                  >
+                {%- else -%}
+                  {% comment %} single variant Without image {% endcomment %}
+                  {%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%}
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- else -%}
+            {%- if img[0] != blank -%}
+              {% comment %} Multiple Varients With Image {% endcomment %}
+              <img src="{{ img[0] | image_url }}" width="auto" height="auto" alt="{{ img[0].alt | escape }}">
+            {%- else -%}
+              {% comment %} Multiple Varients Without image {% endcomment %}
+              {%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endif -%}
+      </a>
+    </div>
+
+    <div class="tp-product-sm-content">
+      <div class="tp-product-category">
+        {% for collection in product.collections limit: 1 %}
+          <a href="{{ collection.url }}">{{ collection.title }}</a>
+        {% endfor %}
+      </div>
+      <h3 class="tp-product-title">
+        <a href="{{ product.url | within: collection }}">
+          {{ product.title }}
+        </a>
+      </h3>
+
+      <div class="tp-product-rating d-sm-flex align-items-center">
+        {%- if show_review -%}
+          {%- if product.metafields.judgeme.badge -%}
+            <div
+              style="{{ jm_style }}"
+              class="jdgm-widget jdgm-preview-badge mt-5 tp-product-rating-icon"
+              data-id="{{ product.id }}"
+              {%- if block -%}
+                {{ block.shopify_attributes }}
+              {%- endif -%}
+            >
+              {{ product.metafields.judgeme.badge }}
+            </div>
+          {%- endif -%}
+          {%- if product.metafields.reviews.rating.value == null -%}
+            <span class="shopify-product-reviews-badge" data-id="{{ product.id }}">
+              <div class="tp-product-rating-icon">
+                <span><i class="fa-regular fa-star"></i></span>
+                <span><i class="fa-regular fa-star"></i></span>
+                <span><i class="fa-regular fa-star"></i></span>
+                <span><i class="fa-regular fa-star"></i></span>
+                <span><i class="fa-regular fa-star"></i></span>
+              </div>
+            </span>
+          {% endif %}
+          {%- if product.metafields.spr.reviews -%}
+            <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+          {% endif %}
+        {%- endif -%}
+      </div>
+
+      <div class="tp-product-price-wrapper">
+        {% comment %} variation price {% endcomment %}
+        {%- assign minPrice = null -%}
+        {%- assign maxPrice = null -%}
+
+        {%- for variant in product.variants -%}
+          {%- if minPrice == null or variant.price < minPrice -%}
+            {%- assign minPrice = variant.price -%}
+          {%- endif -%}
+
+          {%- if maxPrice == null or variant.price > maxPrice -%}
+            {%- assign maxPrice = variant.price -%}
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- if minPrice != maxPrice -%}
+          <span class="tp-product-price new-price">{{ minPrice | money }} - {{ maxPrice | money }}</span>
+        {%- else -%}
+          {%- if product.selected_or_first_available_variant.compare_at_price -%}
+            <span class="tp-product-price old-price">
+              {{- product.selected_or_first_available_variant.compare_at_price | money -}}
+            </span>
+            <span class="tp-product-price new-price">
+              {{- product.selected_or_first_available_variant.price | money -}}
+            </span>
+          {%- else -%}
+            <span class="tp-product-price new-price">
+              {{- product.selected_or_first_available_variant.price | money -}}
+            </span>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+{%- elsif product_item == 'tp-shop-widget-product-item' -%}
+  <div class="tp-shop-widget-product-item d-flex align-items-center">
+    <div class="tp-shop-widget-product-thumb">
+      <a href="{{ product.url | within: collection }}">
+        {%- if product.has_only_default_variant -%}
+          {%- if img[0] != blank -%}
+            {% comment %} single variant With Image  {% endcomment %}
+            <img
+              src="{{ img[0] | image_url }}"
+              alt="{{ img[0].alt | escape }}"
+              height="auto"
+              width="auto"
+            >
+          {%- else -%}
+            {% comment %} if single variant and Without image {% endcomment %}
+            {%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%}
+          {%- endif -%}
+        {%- else -%}
+          {%- assign hasColor = false -%}
+          {%- for o in product.options_with_values -%}
+            {%- if o == option_name -%}
+              {%- assign hasColor = true -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- if hasColor -%}
+            {%- for variant in product.variants limit: 1 -%}
+              {%- if variant.featured_image != blank -%}
+                {% comment %}  single variant With Image {% endcomment %}
+                <img
+                  src="{{ variant.featured_image | image_url }}"
+                  alt="{{ variant.featured_image.alt | escape }}"
+                  height="auto"
+                  width="auto"
+                >
+              {%- else -%}
+                {%- if img[0] != blank -%}
+                  {% comment %} single variant Without image {% endcomment %}
+                  <img
+                    src="{{ img[0] | image_url }}"
+                    alt="{{ img[0].alt | escape }}"
+                    height="auto"
+                    width="auto"
+                  >
+                {%- else -%}
+                  {% comment %} single variant Without image {% endcomment %}
+                  {%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%}
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- else -%}
+            {%- if img[0] != blank -%}
+              {% comment %} Multiple Varients With Image {% endcomment %}
+              <img src="{{ img[0] | image_url }}" width="auto" height="auto" alt="{{ img[0].alt | escape }}">
+            {%- else -%}
+              {% comment %} Multiple Varients Without image {% endcomment %}
+              {%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endif -%}
+      </a>
+    </div>
+
+    <div class="tp-shop-widget-product-content">
+      <div class="tp-shop-widget-product-rating-wrapper">
+        {%- if show_review -%}
+          {%- if product.metafields.judgeme.badge -%}
+            <div
+              style="{{ jm_style }}"
+              class="jdgm-widget jdgm-preview-badge mt-5 tp-product-rating-icon"
+              data-id="{{ product.id }}"
+              {%- if block -%}
+                {{ block.shopify_attributes }}
+              {%- endif -%}
+            >
+              {{ product.metafields.judgeme.badge }}
+            </div>
+          {%- endif -%}
+          {%- if product.metafields.reviews.rating.value == null -%}
+            <span class="shopify-product-reviews-badge" data-id="{{ product.id }}">
+              <div class="tp-product-rating-icon">
+                <span><i class="fa-regular fa-star"></i></span>
+                <span><i class="fa-regular fa-star"></i></span>
+                <span><i class="fa-regular fa-star"></i></span>
+                <span><i class="fa-regular fa-star"></i></span>
+                <span><i class="fa-regular fa-star"></i></span>
+              </div>
+            </span>
+          {% endif %}
+          {%- if product.metafields.spr.reviews -%}
+            <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+          {% endif %}
+        {%- endif -%}
+      </div>
+      <h3 class="tp-shop-widget-product-title">
+        <a href="{{ product.url | within: collection }}">
+          {{ product.title | truncate: 40, '' }}
+        </a>
+      </h3>
+      <div class="tp-shop-widget-product-price-wrapper">
+        {% comment %} variation price {% endcomment %}
+        {%- assign minPrice = null -%}
+        {%- assign maxPrice = null -%}
+
+        {%- for variant in product.variants -%}
+          {%- if minPrice == null or variant.price < minPrice -%}
+            {%- assign minPrice = variant.price -%}
+          {%- endif -%}
+
+          {%- if maxPrice == null or variant.price > maxPrice -%}
+            {%- assign maxPrice = variant.price -%}
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- if minPrice != maxPrice -%}
+          <span class="tp-product-price new-price">{{ minPrice | money }} - {{ maxPrice | money }}</span>
+        {%- else -%}
+          {%- if product.selected_or_first_available_variant.compare_at_price -%}
+            <span class="tp-product-price old-price">
+              {{- product.selected_or_first_available_variant.compare_at_price | money -}}
+            </span>
+            <span class="tp-product-price new-price">
+              {{- product.selected_or_first_available_variant.price | money -}}
+            </span>
+          {%- else -%}
+            <span class="tp-product-price new-price">
+              {{- product.selected_or_first_available_variant.price | money -}}
+            </span>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+{%- elsif product_item == 'fetured-slider-item' -%}
+  <div
+    class="tp-featured-thumb include-bg"
+    data-background="{%- if img[0] != blank -%}{{ img[0] | image_url }}{%- else -%}{{ 'product-placeholder.png' | asset_url }}{%- endif -%}"
+  ></div>
+  <div class="tp-featured-content">
+    <h3 class="tp-featured-title">
+      <a href="{{ product.url | within: collection }}">
+        {{ product.title }}
+      </a>
+    </h3>
+
+    <div class="tp-featured-price-wrapper">
+      {% comment %} variation price {% endcomment %}
+      {%- assign minPrice = null -%}
+      {%- assign maxPrice = null -%}
+
+      {%- for variant in product.variants -%}
+        {%- if minPrice == null or variant.price < minPrice -%}
+          {%- assign minPrice = variant.price -%}
+        {%- endif -%}
+
+        {%- if maxPrice == null or variant.price > maxPrice -%}
+          {%- assign maxPrice = variant.price -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- if minPrice != maxPrice -%}
+        <span class="tp-featured-price new-price">{{ minPrice | money }} - {{ maxPrice | money }}</span>
+      {%- else -%}
+        {%- if product.selected_or_first_available_variant.compare_at_price -%}
+          <span class="tp-featured-price new-price">
+            {{- product.selected_or_first_available_variant.price | money -}}
+          </span>
+          <span class="tp-featured-price old-price">
+            {{- product.selected_or_first_available_variant.compare_at_price | money -}}
+          </span>
+        {%- else -%}
+          <span class="tp-featured-price new-price">
+            {{- product.selected_or_first_available_variant.price | money -}}
+          </span>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+
+    <div class="tp-product-rating-icon tp-product-rating-icon-2">
+      {%- if show_review -%}
+        {%- if product.metafields.judgeme.badge -%}
+          <div
+            style="{{ jm_style }}"
+            class="jdgm-widget jdgm-preview-badge mt-5 tp-product-rating-icon"
+            data-id="{{ product.id }}"
+            {%- if block -%}
+              {{ block.shopify_attributes }}
+            {%- endif -%}
+          >
+            {{ product.metafields.judgeme.badge }}
+          </div>
+        {%- endif -%}
+        {%- if product.metafields.reviews.rating.value == null -%}
+          <span class="shopify-product-reviews-badge" data-id="{{ product.id }}">
+            <div class="tp-product-rating-icon">
+              <span><i class="fa-regular fa-star"></i></span>
+              <span><i class="fa-regular fa-star"></i></span>
+              <span><i class="fa-regular fa-star"></i></span>
+              <span><i class="fa-regular fa-star"></i></span>
+              <span><i class="fa-regular fa-star"></i></span>
+            </div>
+          </span>
+        {% endif %}
+        {%- if product.metafields.spr.reviews -%}
+          <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+        {% endif %}
+      {%- endif -%}
+    </div>
+
+    <div class="tp-featured-btn">
+      <a href="{{ product.url | within: collection }}" class="tp-btn tp-btn-border tp-btn-border-sm"
+        >Shop Now
+        <svg width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 7.49988L1 7.49988" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M9.9502 1.47554L16.0002 7.49954L9.9502 13.5245" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+{%- elsif product_item == 'tp-category-item-2' -%}
+  <div class="tp-category-item-2 p-relative z-index-1 text-center swiper-slide">
+    <div class="tp-category-thumb-2">
+      <a href="{{ product.url | within: collection }}">
+        {%- if product.has_only_default_variant -%}
+          {%- if img[0] != blank -%}
+            {% comment %} single variant With Image  {% endcomment %}
+            <img
+              src="{{ img[0] | image_url }}"
+              alt="{{ img[0].alt | escape }}"
+              class="tp_image_product"
+              width="auto"
+              height="auto"
+            >
+          {%- else -%}
+            {% comment %} if single variant and Without image {% endcomment %}
+            {%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%}
+          {%- endif -%}
+        {%- else -%}
+          {%- assign hasColor = false -%}
+          {%- for o in product.options_with_values -%}
+            {%- if o == option_name -%}
+              {%- assign hasColor = true -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- if hasColor -%}
+            {%- for variant in product.variants limit: 1 -%}
+              {%- if variant.featured_image != blank -%}
+                {% comment %}  single variant With Image {% endcomment %}
+                <img
+                  src="{{ variant.featured_image | image_url }}"
+                  alt="{{ variant.featured_image.alt | escape }}"
+                  class="tp_image_product"
+                  width="auto"
+                  height="auto"
+                >
+              {%- else -%}
+                {%- if img[0] != blank -%}
+                  {% comment %} single variant Without image {% endcomment %}
+                  <img
+                    src="{{ img[0] | image_url }}"
+                    alt="{{ img[0].alt | escape }}"
+                    class="tp_image_product"
+                    height="auto"
+                    width="auto"
+                  >
+                {%- else -%}
+                  {% comment %} single variant Without image {% endcomment %}
+                  {%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%}
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- else -%}
+            {%- if img[0] != blank -%}
+              {% comment %} Multiple Varients With Image {% endcomment %}
+              <img
+                src="{{ img[0] | image_url }}"
+                alt="{{ img[0].alt | escape }}"
+                class="tp_image_product"
+                width="auto"
+                height="auto"
+              >
+            {%- else -%}
+              {% comment %} Multiple Varients Without image {% endcomment %}
+              {%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endif -%}
+      </a>
+    </div>
+    <div class="tp-category-content-2">
+      {%- if minPrice != maxPrice -%}
+        <span>From {{ minPrice | money }} - {{ maxPrice | money }}</span>
+      {%- else -%}
+        {%- if product.selected_or_first_available_variant.compare_at_price -%}
+          <span>From {{ product.selected_or_first_available_variant.compare_at_price | money }}</span>
+        {%- else -%}
+          <span>From {{ product.selected_or_first_available_variant.price | money }}</span>
+        {%- endif -%}
+      {%- endif -%}
+
+      <h3 class="tp-category-title-2">
+        <a href="{{ product.url | within: collection }}">{{ product.title }}</a>
+      </h3>
+      <div class="tp-category-btn-2">
+        {%- form 'product',
+          product,
+          id: product_form_id,
+          class: 'form add-to-cart-rendom',
+          novalidate: 'novalidate',
+          data-type: 'add-to-cart-form'
+        -%}
+          <input
+            type="hidden"
+            class="variation_id"
+            name="id"
+            value="{{ product.selected_or_first_available_variant.id }}"
+          >
+          <input min="1" type="hidden" id="quantity" name="quantity" value="1">
+          <button
+            type="submit"
+            class="product-form__submit tp-btn tp-btn-border add-product-cart-btn"
+            name="add"
+            role="button"
+            aria-label="button"
+          >
+            <span class="cart_btn_svg">
+              <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M3.34706 4.53799L3.85961 10.6239C3.89701 11.0923 4.28036 11.4436 4.74871 11.4436H4.75212H14.0265H14.0282C14.4711 11.4436 14.8493 11.1144 14.9122 10.6774L15.7197 5.11162C15.7384 4.97924 15.7053 4.84687 15.6245 4.73995C15.5446 4.63218 15.4273 4.5626 15.2947 4.54393C15.1171 4.55072 7.74498 4.54054 3.34706 4.53799ZM4.74722 12.7162C3.62777 12.7162 2.68001 11.8438 2.58906 10.728L1.81046 1.4837L0.529505 1.26308C0.181854 1.20198 -0.0501969 0.873587 0.00930333 0.526523C0.0705036 0.17946 0.406255 -0.0462578 0.746256 0.00805037L2.51426 0.313534C2.79901 0.363599 3.01576 0.5995 3.04042 0.888012L3.24017 3.26484C15.3748 3.26993 15.4139 3.27587 15.4726 3.28266C15.946 3.3514 16.3625 3.59833 16.6464 3.97849C16.9303 4.35779 17.0493 4.82535 16.9813 5.29376L16.1747 10.8586C16.0225 11.9177 15.1011 12.7162 14.0301 12.7162H14.0259H4.75402H4.74722Z" fill="currentColor"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12.6629 7.67446H10.3067C9.95394 7.67446 9.66919 7.38934 9.66919 7.03804C9.66919 6.68673 9.95394 6.40161 10.3067 6.40161H12.6629C13.0148 6.40161 13.3004 6.68673 13.3004 7.03804C13.3004 7.38934 13.0148 7.67446 12.6629 7.67446Z" fill="currentColor"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M4.38171 15.0212C4.63756 15.0212 4.84411 15.2278 4.84411 15.4836C4.84411 15.7395 4.63756 15.9469 4.38171 15.9469C4.12501 15.9469 3.91846 15.7395 3.91846 15.4836C3.91846 15.2278 4.12501 15.0212 4.38171 15.0212Z" fill="currentColor"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M4.38082 15.3091C4.28477 15.3091 4.20657 15.3873 4.20657 15.4833C4.20657 15.6763 4.55592 15.6763 4.55592 15.4833C4.55592 15.3873 4.47687 15.3091 4.38082 15.3091ZM4.38067 16.5815C3.77376 16.5815 3.28076 16.0884 3.28076 15.4826C3.28076 14.8767 3.77376 14.3845 4.38067 14.3845C4.98757 14.3845 5.48142 14.8767 5.48142 15.4826C5.48142 16.0884 4.98757 16.5815 4.38067 16.5815Z" fill="currentColor"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M13.9701 15.0212C14.2259 15.0212 14.4333 15.2278 14.4333 15.4836C14.4333 15.7395 14.2259 15.9469 13.9701 15.9469C13.7134 15.9469 13.5068 15.7395 13.5068 15.4836C13.5068 15.2278 13.7134 15.0212 13.9701 15.0212Z" fill="currentColor"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M13.9692 15.3092C13.874 15.3092 13.7958 15.3874 13.7958 15.4835C13.7966 15.6781 14.1451 15.6764 14.1443 15.4835C14.1443 15.3874 14.0652 15.3092 13.9692 15.3092ZM13.969 16.5815C13.3621 16.5815 12.8691 16.0884 12.8691 15.4826C12.8691 14.8767 13.3621 14.3845 13.969 14.3845C14.5768 14.3845 15.0706 14.8767 15.0706 15.4826C15.0706 16.0884 14.5768 16.5815 13.969 16.5815Z" fill="currentColor"/>
+              </svg>
+            </span>
+            <span class="loading-icon">
+              <svg
+                class="cart_load_spinning"
+                width="18"
+                height="18"
+                viewBox="0 0 18 18"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M9 1V4.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M9 13.8V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M3.34424 3.34399L5.60824 5.60799" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M12.3921 12.392L14.6561 14.656" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M1 9H4.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M13.8003 9H17.0003" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M3.34424 14.656L5.60824 12.392" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M12.3921 5.60799L14.6561 3.34399" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </span>
+            Add to Cart
+          </button>
+        {%- endform -%}
+      </div>
+    </div>
+  </div>
+{%- elsif product_item == 'tp-category-item-3' -%}
+  <div
+    class="tp-category-item-4 p-relative z-index-1 fix swiper-slide text-center swiper-slide-duplicate swiper-slide-duplicate-next"
+    data-swiper-slide-index="4"
+    role="group"
+    aria-label="15 / 15"
+    style="width: 355.8px; margin-right: 25px;"
+  >
+    <div class="tp-category-thumb-2">
+      <a href="{{ product.url | within: collection }}">
+        {%- if product.has_only_default_variant -%}
+          {%- if img[0] != blank -%}
+            {% comment %} single variant With Image  {% endcomment %}
+            <img
+              src="{{ img[0] | image_url }}"
+              alt="{{ img[0].alt | escape }}"
+              class="tp_image_product"
+              width="auto"
+              height="auto"
+            >
+          {%- else -%}
+            {% comment %} if single variant and Without image {% endcomment %}
+            {%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%}
+          {%- endif -%}
+        {%- else -%}
+          {%- assign hasColor = false -%}
+          {%- for o in product.options_with_values -%}
+            {%- if o == option_name -%}
+              {%- assign hasColor = true -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- if hasColor -%}
+            {%- for variant in product.variants limit: 1 -%}
+              {%- if variant.featured_image != blank -%}
+                {% comment %}  single variant With Image {% endcomment %}
+                <img
+                  src="{{ variant.featured_image | image_url }}"
+                  alt="{{ variant.featured_image.alt | escape }}"
+                  class="tp_image_product"
+                  width="auto"
+                  height="auto"
+                >
+              {%- else -%}
+                {%- if img[0] != blank -%}
+                  {% comment %} single variant Without image {% endcomment %}
+                  <img src="{{ img[0] | image_url }}" alt="{{ img[0].alt | escape }}" class="tp_image_product">
+                {%- else -%}
+                  {% comment %} single variant Without image {% endcomment %}
+                  {%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%}
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- else -%}
+            {%- if img[0] != blank -%}
+              {% comment %} Multiple Varients With Image {% endcomment %}
+              <img
+                src="{{ img[0] | image_url }}"
+                alt="{{ img[0].alt | escape }}"
+                class="tp_image_product"
+                width="auto"
+                height="auto"
+              >
+            {%- else -%}
+              {% comment %} Multiple Varients Without image {% endcomment %}
+              {%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endif -%}
+      </a>
+    </div>
+    <div class="tp-category-content-2">
+      {%- if minPrice != maxPrice -%}
+        <span>From {{ minPrice | money }} - {{ maxPrice | money }}</span>
+      {%- else -%}
+        {%- if product.selected_or_first_available_variant.compare_at_price -%}
+          <span>From {{ product.selected_or_first_available_variant.compare_at_price | money }}</span>
+        {%- else -%}
+          <span>From {{ product.selected_or_first_available_variant.price | money }}</span>
+        {%- endif -%}
+      {%- endif -%}
+
+      <h3 class="tp-category-title-2">
+        <a href="{{ product.url | within: collection }}">{{ product.title }}</a>
+      </h3>
+      <div class="tp-category-btn-2">
+        {%- form 'product',
+          product,
+          id: product_form_id,
+          class: 'form add-to-cart-rendom',
+          novalidate: 'novalidate',
+          data-type: 'add-to-cart-form'
+        -%}
+          <input
+            type="hidden"
+            class="variation_id"
+            name="id"
+            value="{{ product.selected_or_first_available_variant.id }}"
+          >
+          <input min="1" type="hidden" id="quantity" name="quantity" value="1">
+          <button
+            type="submit"
+            class="product-form__submit tp-btn tp-btn-border add-product-cart-btn"
+            name="add"
+            role="button"
+            aria-label="button"
+          >
+            Add to Cart
+          </button>
+        {%- endform -%}
+      </div>
+    </div>
+  </div>
+{%- elsif product_item == 'tp-product-sm-item-5' -%}
+  <div class="tp-product-sm-item-5 d-flex align-items-center">
+    <div class="tp-product-sm-thumb-5 fix">
+      <a href="{{ product.url | within: collection }}">
+        {%- if product.has_only_default_variant -%}
+          {%- if img[0] != blank -%}
+            {% comment %} single variant With Image  {% endcomment %}
+            <img
+              src="{{ img[0] | image_url }}"
+              alt="{{ img[0].alt | escape }}"
+              class="tp_image_product"
+              width="auto"
+              height="auto"
+            >
+          {%- else -%}
+            {% comment %} if single variant and Without image {% endcomment %}
+            {%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%}
+          {%- endif -%}
+        {%- else -%}
+          {%- assign hasColor = false -%}
+          {%- for o in product.options_with_values -%}
+            {%- if o == option_name -%}
+              {%- assign hasColor = true -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- if hasColor -%}
+            {%- for variant in product.variants limit: 1 -%}
+              {%- if variant.featured_image != blank -%}
+                {% comment %}  single variant With Image {% endcomment %}
+                <img
+                  src="{{ variant.featured_image | image_url }}"
+                  alt="{{ variant.featured_image.alt | escape }}"
+                  class="tp_image_product"
+                  width="auto"
+                  height="auto"
+                >
+              {%- else -%}
+                {%- if img[0] != blank -%}
+                  {% comment %} single variant Without image {% endcomment %}
+                  <img
+                    src="{{ img[0] | image_url }}"
+                    alt="{{ img[0].alt | escape }}"
+                    class="tp_image_product"
+                    width="auto"
+                    height="auto"
+                  >
+                {%- else -%}
+                  {% comment %} single variant Without image {% endcomment %}
+                  {%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%}
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- else -%}
+            {%- if img[0] != blank -%}
+              {% comment %} Multiple Varients With Image {% endcomment %}
+              <img
+                src="{{ img[0] | image_url }}"
+                alt="{{ img[0].alt | escape }}"
+                class="tp_image_product"
+                width="auto"
+                height="auto"
+              >
+            {%- else -%}
+              {% comment %} Multiple Varients Without image {% endcomment %}
+              {%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endif -%}
+      </a>
+    </div>
+    <div class="tp-product-sm-content-5">
+      <div class="tp-product-sm-tag-5">
+        {% for collection in product.collections limit: 2 %}
+          <span
+            ><a href="{{ collection.url }}">{{ collection.title }}</a></span
+          >
+          {% if forloop.last == false -%}
+            ,
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <h4 class="tp-product-sm-title-5">
+        <a href="{{ product.url | within: collection }}">
+          {{ product.title }}
+        </a>
+      </h4>
+
+      <div class="tp-product-sm-rating-5">
+        {%- if show_review -%}
+          {%- if product.metafields.judgeme.badge -%}
+            <div
+              style="{{ jm_style }}"
+              class="jdgm-widget jdgm-preview-badge mt-5 tp-product-rating-icon"
+              data-id="{{ product.id }}"
+              {%- if block -%}
+                {{ block.shopify_attributes }}
+              {%- endif -%}
+            >
+              {{ product.metafields.judgeme.badge }}
+            </div>
+          {%- endif -%}
+          {%- if product.metafields.reviews.rating.value == null -%}
+            <span class="shopify-product-reviews-badge" data-id="{{ product.id }}">
+              <div class="tp-product-rating-icon">
+                <span><i class="fa-regular fa-star"></i></span>
+                <span><i class="fa-regular fa-star"></i></span>
+                <span><i class="fa-regular fa-star"></i></span>
+                <span><i class="fa-regular fa-star"></i></span>
+                <span><i class="fa-regular fa-star"></i></span>
+              </div>
+            </span>
+          {% endif %}
+          {%- if product.metafields.spr.reviews -%}
+            <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+          {% endif %}
+        {%- endif -%}
+      </div>
+
+      <div class="tp-product-sm-price-wrapper-5">
+        {%- if minPrice != maxPrice -%}
+          <span class="tp-product-sm-price-5">{{ minPrice | money }} - {{ maxPrice | money }}</span>
+        {%- else -%}
+          {%- if product.selected_or_first_available_variant.compare_at_price -%}
+            <span class="tp-product-sm-price-5">
+              {{- product.selected_or_first_available_variant.compare_at_price | money -}}
+            </span>
+          {%- else -%}
+            <span class="tp-product-sm-price-5">{{ product.selected_or_first_available_variant.price | money }}</span>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+{%- elsif product_item == 'simple-3-product' -%}
+  <div class="tp-featured-item-3 text-center">
+    <div class="tp-featured-thumb-3 d-flex align-items-end justify-content-center">
+      {%- if product.has_only_default_variant -%}
+        {%- if img[0] != blank -%}
+          {% comment %} single variant With Image  {% endcomment %}
+          <img
+            src="{{ img[0] | image_url: width: 250, height: 180 }}"
+            alt="{{ img[0].alt | escape }}"
+            class="tp_image_product"
+            width="auto"
+            height="auto"
+          >
+        {%- else -%}
+          {% comment %} if single variant and Without image {% endcomment %}
+          {%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%}
+        {%- endif -%}
+      {%- else -%}
+        {%- assign hasColor = false -%}
+        {%- for o in product.options_with_values -%}
+          {%- if o == option_name -%}
+            {%- assign hasColor = true -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if hasColor -%}
+          {%- for variant in product.variants limit: 1 -%}
+            {%- if variant.featured_image != blank -%}
+              {% comment %}  single variant With Image {% endcomment %}
+              <img
+                src="{{ variant.featured_image | image_url: width: 250, height: 180 }}"
+                alt="{{ variant.featured_image.alt | escape }}"
+                class="tp_image_product"
+                width="auto"
+                height="auto"
+              >
+            {%- else -%}
+              {%- if img[0] != blank -%}
+                {% comment %} single variant Without image {% endcomment %}
+                <img
+                  src="{{ img[0] | image_url: width: 250, height: 180 }}"
+                  alt="{{ img[0].alt | escape }}"
+                  class="tp_image_product"
+                  width="auto"
+                  height="auto"
+                >
+              {%- else -%}
+                {% comment %} single variant Without image {% endcomment %}
+                {%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%}
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- else -%}
+          {%- if img[0] != blank -%}
+            {% comment %} Multiple Varients With Image {% endcomment %}
+            <img
+              src="{{ img[0] | image_url: width: 250, height: 180 }}"
+              alt="{{ img[0].alt | escape }}"
+              class="tp_image_product"
+              width="auto"
+              height="auto"
+            >
+          {%- else -%}
+            {% comment %} Multiple Varients Without image {% endcomment %}
+            {%- render 'placeholder-render', placeholder_class: 'product_placeholder_class', type: 'product' -%}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+    <div class="tp-featured-content-3">
+      <h3 class="tp-featured-title-3">
+        <a href="{{ product.url | within: collection }}">
+          {{ product.title | truncate: 32 }}
+        </a>
+      </h3>
+      <p>
+        {{ product.description | strip_html | truncate: 64, '.' }}
+      </p>
+      <div class="tp-featured-price-3">
+        {%- if minPrice != maxPrice -%}
+          <span class="tp-product-sm-price-5">{{ minPrice | money }} - {{ maxPrice | money }}</span>
+        {%- else -%}
+          {%- if product.selected_or_first_available_variant.compare_at_price -%}
+            <span class="tp-product-sm-price-5">
+              {{- product.selected_or_first_available_variant.compare_at_price | money -}}
+            </span>
+          {%- else -%}
+            <span class="tp-product-sm-price-5">{{ product.selected_or_first_available_variant.price | money }}</span>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+{%- elsif product_item == 'tp-category-item-4' -%}
+  <div
+    class="tp-category-item-4 p-relative z-index-1 fix swiper-slide text-center tps__product-item"
+    data-product-handle="{{ product.handle }}"
+  >
+    <div
+      class="tp-category-thumb-4 include-bg"
+      data-background="{%- if img[0] != blank -%}{{ img[0] | image_url }}{%- else -%}{{ 'product-placeholder.png' | asset_url }}{%- endif -%}"
+    ></div>
+    <div
+      class="tp-product-action-3 tp-product-action-4 tp-product-action-blackStyle tp-product-action-brownStyle"
+    >
+      <div class="tp-product-action-item-3 d-flex flex-column">
+        {%- if show_compare -%}
+          <button
+            type="button"
+            name="add"
+            role="button"
+            aria-label="button"
+            class="tp-product-action-btn-3 tp-product-add-to-compare-btn btn-reset tp-product-details-action-sm-btn-compare tp-product-details-action-sm-btn-compare-js tps__product-action-btn-js tps_tooltip"
+            data-pro-add-compare="{{ 'products.product.compare' | t }}"
+            data-pro-remove-compare="{{ 'products.product.browse_compare' | t }}"
+            data-product-handle="{{ product.handle }}"
+          >
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 15 15"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M11.4144 6.16828L14 3.58412L11.4144 1"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path
+                d="M1.48883 3.58374L14 3.58374"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path
+                d="M4.07446 8.32153L1.48884 10.9057L4.07446 13.4898"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path
+                d="M14 10.9058H1.48883"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+            <span class="tp-product-tooltip">Add To Compare</span>
+          </button>
+        {%- endif -%}
+        {%- if show_quick_view -%}
+          <button
+            type="button"
+            class="tp-product-action-btn-3 tp-product-quick-view-btn btn-reset tps__product-quickview tps_tooltip"
+            data-bs-toggle="modal"
+            name="add"
+            role="button"
+            aria-label="button"
+            data-bs-target="#producQuickViewModal"
+          >
+            <span>
+              <svg
+                width="18"
+                height="15"
+                viewBox="0 0 18 15"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M8.99948 5.06828C7.80247 5.06828 6.82956 6.04044 6.82956 7.23542C6.82956 8.42951 7.80247 9.40077 8.99948 9.40077C10.1965 9.40077 11.1703 8.42951 11.1703 7.23542C11.1703 6.04044 10.1965 5.06828 8.99948 5.06828ZM8.99942 10.7482C7.0581 10.7482 5.47949 9.17221 5.47949 7.23508C5.47949 5.29705 7.0581 3.72021 8.99942 3.72021C10.9407 3.72021 12.5202 5.29705 12.5202 7.23508C12.5202 9.17221 10.9407 10.7482 8.99942 10.7482Z"
+                  fill="currentColor" />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M1.41273 7.2346C3.08674 10.9265 5.90646 13.1215 8.99978 13.1224C12.0931 13.1215 14.9128 10.9265 16.5868 7.2346C14.9128 3.54363 12.0931 1.34863 8.99978 1.34773C5.90736 1.34863 3.08674 3.54363 1.41273 7.2346ZM9.00164 14.4703H8.99804H8.99714C5.27471 14.4676 1.93209 11.8629 0.0546754 7.50073C-0.0182251 7.33091 -0.0182251 7.13864 0.0546754 6.96883C1.93209 2.60759 5.27561 0.00288103 8.99714 0.000185582C8.99894 -0.000712902 8.99894 -0.000712902 8.99984 0.000185582C9.00164 -0.000712902 9.00164 -0.000712902 9.00254 0.000185582C12.725 0.00288103 16.0676 2.60759 17.945 6.96883C18.0188 7.13864 18.0188 7.33091 17.945 7.50073C16.0685 11.8629 12.725 14.4676 9.00254 14.4703H9.00164Z"
+                  fill="currentColor" />
+              </svg>
+            </span>
+            <span class="tp-product-tooltip tps_tooltip-content">
+              {{- 'products.product.quickview' | t -}}
+            </span>
+          </button>
+        {%- endif -%}
+        {%- if show_wishlist -%}
+          <button
+            type="button"
+            class="tp-product-action-btn-3 tp-product-details-action-sm-btn-wishlist tps__product-wishlist tps__product-wishlist-js tps__product-action-btn-js tp-product-add-to-wishlist-btn"
+            name="add"
+            role="button"
+            aria-label="button"
+            data-pro-add-wishlist="{{ 'products.product.wishlist' | t }}"
+            data-pro-remove-wishlist="{{ 'products.product.browse_wishlist' | t }}"
+            data-product-handle="{{ product.handle }}"
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 18 18"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M1.60355 7.98635C2.83622 11.8048 7.7062 14.8923 9.0004 15.6565C10.299 14.8844 15.2042 11.7628 16.3973 7.98985C17.1806 5.55102 16.4535 2.46177 13.5644 1.53473C12.1647 1.08741 10.532 1.35966 9.40484 2.22804C9.16921 2.40837 8.84214 2.41187 8.60476 2.23329C7.41078 1.33952 5.85105 1.07778 4.42936 1.53473C1.54465 2.4609 0.820172 5.55014 1.60355 7.98635ZM9.00138 17.0711C8.89236 17.0711 8.78421 17.0448 8.68574 16.9914C8.41055 16.8417 1.92808 13.2841 0.348132 8.3872C0.347252 8.3872 0.347252 8.38633 0.347252 8.38633C-0.644504 5.30321 0.459792 1.42874 4.02502 0.284605C5.69904 -0.254635 7.52342 -0.0174044 8.99874 0.909632C10.4283 0.00973263 12.3275 -0.238878 13.9681 0.284605C17.5368 1.43049 18.6446 5.30408 17.6538 8.38633C16.1248 13.2272 9.59485 16.8382 9.3179 16.9896C9.21943 17.0439 9.1104 17.0711 9.00138 17.0711Z"
+                fill="currentColor" />
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M14.203 6.67473C13.8627 6.67473 13.5743 6.41474 13.5462 6.07159C13.4882 5.35202 13.0046 4.7445 12.3162 4.52302C11.9689 4.41097 11.779 4.04068 11.8906 3.69666C12.0041 3.35175 12.3724 3.16442 12.7206 3.27297C13.919 3.65901 14.7586 4.71561 14.8615 5.96479C14.8905 6.32632 14.6206 6.64322 14.2575 6.6721C14.239 6.67385 14.2214 6.67473 14.203 6.67473Z"
+                fill="currentColor" />
+            </svg>
+            <span class="tp-product-tooltip">
+              {{ 'products.product.wishlist' | t -}}
+            </span>
+          </button>
+        {%- endif -%}
+      </div>
+    </div>
+    <div class="tp-category-content-4">
+      <h3 class="tp-category-title-4">
+        <a href="{{ product.url | within: collection }}">
+          {{ product.title }}
+        </a>
+      </h3>
+      <div class="tp-category-price-wrapper-4">
+        <span class="tp-category-price-4">$48.00</span>
+
+        <div class="tp-category-price-4-wrapper">
+          {% comment %} variation price {% endcomment %}
+          {%- assign minPrice = null -%}
+          {%- assign maxPrice = null -%}
+
+          {%- for variant in product.variants -%}
+            {%- if minPrice == null or variant.price < minPrice -%}
+              {%- assign minPrice = variant.price -%}
+            {%- endif -%}
+
+            {%- if maxPrice == null or variant.price > maxPrice -%}
+              {%- assign maxPrice = variant.price -%}
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- if minPrice != maxPrice -%}
+            <span class="tp-category-price-4 new-price">{{ minPrice | money }} - {{ maxPrice | money }}</span>
+          {%- else -%}
+            {%- if product.selected_or_first_available_variant.compare_at_price -%}
+              <span class="tp-category-price-4 new-price">
+                {{- product.selected_or_first_available_variant.price | money -}}
+              </span>
+              <span class="tp-category-price-4 old-price">
+                {{- product.selected_or_first_available_variant.compare_at_price | money -}}
+              </span>
+            {%- else -%}
+              <span class="tp-category-price-4 new-price">
+                {{- product.selected_or_first_available_variant.price | money -}}
+              </span>
+            {%- endif -%}
+          {%- endif -%}
+        </div>
+        {%- form 'product',
+          product,
+          id: product_form_id,
+          class: 'form add-to-cart-rendom',
+          novalidate: 'novalidate',
+          data-type: 'add-to-cart-form'
+        -%}
+          <input
+            type="hidden"
+            name="id"
+            class="variation_id"
+            value="{{ product.selected_or_first_available_variant.id }}"
+          >
+          <input min="1" type="hidden" id="quantity" name="quantity" value="1">
+          <div class="tp-category-add-to-cart">
+            <button
+              class="tp-category-add-to-cart-4 product-form__submit tp-product-add-cart-btn tps__js-addtocart add-product-cart-btn"
+              type="submit"
+              name="add"
+              role="button"
+              aria-label="button"
+            >
+              <span class="cart_btn_svg">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M5.76447 1L3.23047 3.541" stroke="currentColor" stroke-width="1.5"
+                     stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M10.2305 1L12.7645 3.541" stroke="currentColor" stroke-width="1.5"
+                     stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+                  <path
+                     d="M1 5.09507C1 3.80007 1.693 3.69507 2.554 3.69507H13.446C14.307 3.69507 15 3.80007 15 5.09507C15 6.60007 14.307 6.49507 13.446 6.49507H2.554C1.693 6.49507 1 6.60007 1 5.09507Z"
+                     stroke="currentColor" stroke-width="1.5" />
+                  <path d="M6.42969 9.3999V11.8849" stroke="currentColor" stroke-width="1.5"
+                     stroke-linecap="round" />
+                  <path d="M9.65234 9.3999V11.8849" stroke="currentColor" stroke-width="1.5"
+                     stroke-linecap="round" />
+                  <path
+                     d="M2.05078 6.6001L3.03778 12.6481C3.26178 14.0061 3.80078 15.0001 5.80278 15.0001H10.0238C12.2008 15.0001 12.5228 14.0481 12.7748 12.7321L13.9508 6.6001"
+                     stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg>
+              </span>
+              <span class="loading-icon">
+                <svg
+                  class="cart_load_spinning text-black"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 18 18"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M9 1V4.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <path d="M9 13.8V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <path d="M3.34424 3.34399L5.60824 5.60799" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <path d="M12.3921 12.392L14.6561 14.656" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <path d="M1 9H4.2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <path d="M13.8003 9H17.0003" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <path d="M3.34424 14.656L5.60824 12.392" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <path d="M12.3921 5.60799L14.6561 3.34399" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </span>
+              Add to Cart
+            </button>
+          </div>
+        {%- endform -%}
+      </div>
+    </div>
+  </div>
+{%- endif -%}

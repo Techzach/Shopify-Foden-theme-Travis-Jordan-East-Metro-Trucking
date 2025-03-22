@@ -1,0 +1,175 @@
+{%- liquid
+  assign st = section.settings
+  assign container = st.container
+  assign background_image = st.background_image | image_url
+-%}
+
+<section class="tp-author-area pb-120">
+  <div class="{{ container }}">
+    <div class="tp-author-inner p-relative z-index-1 tp-author-bg-overlay fix" data-bg-color="#821F40">
+      <span class="tp-author-shape-1"></span>
+      <div class="tp-author-bg include-bg " data-background="{{ background_image }}"></div>
+      <div class="row align-items-center">
+        <div class="col-xl-6 col-lg-6">
+          <div class="tp-author-wrapper p-relative z-index-1">
+            <div class="tp-author-info-wrapper d-flex align-items-center mb-30">
+              {%- if st.autor_image -%}
+                <div class="tp-author-info-avater mr-10">
+                  <img src="{{ st.autor_image | image_url }}" alt="author">
+                </div>
+              {%- endif -%}
+              <div class="tp-author-info">
+                {%- if st.author_name -%}
+                  <h3 class="tp-author-info-title">{{ st.author_name }}</h3>
+                {%- endif -%}
+                {%- if st.author_designation -%}
+                  <span class="tp-author-info-designation">{{ st.author_designation }}</span>
+                {%- endif -%}
+              </div>
+            </div>
+            {%- if st.author_description -%}
+              <div class="tp-author-content">
+                {{ st.author_description }}
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+        <div class="col-xl-6 col-lg-6">
+          <div class="tp-author-brand-wrapper d-flex flex-wrap align-items-center justify-content-lg-end">
+            {%- if st.brand_logo_1 -%}
+              <div class="tp-author-brand-item text-center">
+                <img src="{{ st.brand_logo_1 | image_url }}" alt="brand">
+              </div>
+            {%- endif -%}
+            {%- if st.brand_logo_2 -%}
+              <div class="tp-author-brand-item text-center">
+                <img src="{{ st.brand_logo_2 | image_url }}" alt="brand">
+              </div>
+            {%- endif -%}
+            {%- if st.brand_logo_3 -%}
+              <div class="tp-author-brand-item text-center">
+                <img src="{{ st.brand_logo_3 | image_url }}" alt="brand">
+              </div>
+            {%- endif -%}
+            {%- if st.brand_logo_4 -%}
+              <div class="tp-author-brand-item text-center">
+                <img src="{{ st.brand_logo_4 | image_url }}" alt="brand">
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Author Area",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Image And Background"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image"
+    },
+    {
+      "type": "image_picker",
+      "id": "autor_image",
+      "label": "autor image"
+    },
+    {
+      "type": "image_picker",
+      "id": "brand_logo_1",
+      "label": "Brand Logo 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "brand_logo_2",
+      "label": "Brand Logo 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "brand_logo_3",
+      "label": "Brand Logo 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "brand_logo_4",
+      "label": "Brand Logo 4"
+    },
+    {
+      "type": "header",
+      "content": "Autor Settings"
+    },
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Layout",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "author_name",
+      "label": "Author Name"
+    },
+    {
+      "type": "text",
+      "id": "author_designation",
+      "label": "autor Designation"
+    },
+    {
+      "type": "richtext",
+      "id": "author_description",
+      "label": "Author Description",
+      "default": "<p></p>"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Author Area"
+    }
+  ]
+}
+{% endschema %}

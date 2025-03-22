@@ -1,0 +1,62 @@
+/* Page faqs
+-----------------------------------------------------------------*/
+.tps__faqs-right>div:not(:last-child) {
+    margin-bottom: clamp(4rem, 5vw, 6rem);
+}
+
+.tps__page-faq-content {
+    display: none;
+}
+
+.tps__faqs-content h3 {
+    font-size: clamp(2.5rem, 5vw, 3rem);
+}
+
+.btn-faqs>a svg {
+    vertical-align: -5px;
+    margin-right: 5px;
+}
+
+.btn-faqs>a:hover svg path {
+    stroke: var(--color-white);
+    fill: none !important;
+}
+
+.tps__page-faq-items .tps__page-faq-title {
+    padding-right: 5rem;
+    position: relative;
+    color: inherit;
+}
+
+.tps__page-faq-items.active .tps__page-faq-title {
+    color: var(--color-link);
+    border: 0;
+}
+
+.tps__page-faq-items.active .open-children-toggle:before {
+    opacity: 0;
+}
+
+.opened .open-children-toggle::before, .opened~.open-children-toggle::before{
+    opacity: 0;
+    -webkit-transform: translate(-50%,-50%) rotate(90deg);
+    transform: translate(-50%,-50%) rotate(90deg);
+}
+
+@media only screen and (min-width: 992px) {
+    .tps__faqs-right {
+        padding-left: 8.6rem;
+    }
+
+    .tps__faqs-right:before {
+        content: "";
+        position: absolute;
+        left: 3.6rem;
+        top: 0;
+        bottom: 0;
+        border-left: 1px solid var(--border-color-base);
+    }
+}
+.tps__page-faq-items h4[class~=opened] {
+    border-bottom: 0px!important;
+}

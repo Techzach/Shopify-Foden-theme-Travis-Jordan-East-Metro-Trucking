@@ -1,0 +1,40 @@
+{
+  "sections": {
+    "page-heading": {
+      "type": "page-heading",
+      "blocks": {
+        "title": {
+          "type": "1",
+          "settings": {
+            "page_title": "Your order",
+            "text_cl": "#111111",
+            "text_fs": 36
+          }
+        }
+      },
+      "block_order": [
+        "title"
+      ],
+      "settings": {
+        "layout": "container",
+        "background_heading_color": "rgba(0,0,0,0)",
+        "show_banner": false,
+        "min_height": 200,
+        "parallax": false,
+        "show_overlay": false,
+        "overlay": 54,
+        "design": "text-overlay-image",
+        "text_postion": "text-center"
+      }
+    },
+    "main": {
+      "type": "main-order",
+      "settings": {
+      }
+    }
+  },
+  "order": [
+    "page-heading",
+    "main"
+  ]
+}

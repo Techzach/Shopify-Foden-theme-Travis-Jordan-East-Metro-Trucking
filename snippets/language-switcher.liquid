@@ -1,0 +1,29 @@
+{% if localization.available_countries.size > 1 %}
+  <localization-form>
+    {% form 'localization' %}
+      <div class="tp-header-top-menu-item tp-header-currency">
+        <span class="tp-header-currency-toggle" id="tp-header-currency-toggle">USD</span>
+        <ul>
+          {% for language in localization.available_languages %}
+            <li>
+              {% for country in localization.available_countries %}
+                <li class="disclosure__item" tabindex="-1">
+                  <a
+                    href="#"
+                    {% if country.iso_code == localization.country.iso_code %}
+                      aria-current="true"
+                    {% endif %}
+                    data-value="{{ country.iso_code }}"
+                  >
+                    {{ country.name }} ({{ country.currency.iso_code }}
+                    {{ country.currency.symbol }})
+                  </a>
+                </li>
+              {% endfor %}
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endform %}
+  </localization-form>
+{% endif %}

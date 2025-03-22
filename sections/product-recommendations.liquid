@@ -1,0 +1,348 @@
+{%- liquid
+  assign th_st = settings
+  assign product_style = th_st.product_style
+  assign st = section.settings
+  assign container = st.container
+  assign bg_color = st.product_recommendations_background_color
+  assign text_align = st.text_alignment
+  assign heading = st.heading
+  assign description = st.description
+  assign item_desktop = st.item_desktop
+  assign carousel_autoplay = st.carousel_autoplay
+  assign carousel_loop = st.carousel_loop
+  assign carousel_arrows = st.carousel_arrows
+  assign carousel_bullets = st.carousel_bullets
+  assign show_bullet_mobile = st.show_bullet_mobile
+  assign limit_products = st.limit_products
+  assign column_gap = st.column_gap
+  assign reset_spacing = ''
+  if st.reset_spacing
+    assign reset_spacing = ' remove_spacing'
+  endif
+-%}
+{%- capture style -%}
+  {%- if bg_color != blank -%}
+    --section-bg-color: {{ bg_color }};
+  {%- endif -%}  --tps_product-item-vertical-space: 0px;
+{%- endcapture -%}
+
+<section
+  class="tps__product-recommendations-section tps__section tps__product{{ reset_spacing }}"
+  style="{{ style | strip | strip_newlines }}"
+  id="{{ section.id }}"
+  data-id="{{ section.id }}"
+  data-type="product_recommendations"
+>
+  <div class="{{ container }}">
+    {%- if heading != blank or description != blank -%}
+      <div class="tps__section-header {{ text_align }}">
+        {%- if heading != blank -%}
+          <h2 class="tps__section-heading mb-5">{{ heading }}</h2>
+        {%- endif -%}
+        {%- if description != blank -%}
+          <div class="tps__section-des">
+            {{ description }}
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    <div
+      class="product-recommendations tps__grid {{ product_style }}"
+      data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ limit_products }}&intent=related"
+    >
+      {%- if recommendations.performed and recommendations.products_count > 0 -%}
+        <div
+          class="swiper tps__swiper grid-{{ product_style }} hover__show-nav"
+          id="tps__swiper-{{ section.id }}"
+          data-section-id="{{ section.id }}"
+          data-autoplay="{{ carousel_autoplay }}"
+          data-loop="{{ carousel_loop }}"
+          data-mobile="2"
+          data-tablet="3"
+          data-desktop="{{ item_desktop }}"
+          data-spacing="{{ column_gap }}"
+        >
+          {%- if carousel_arrows != false -%}
+            <div class="swipper-next-back">
+              <div class="swiper-arrow swiper-next swiper-button-next box-shadow">
+                <i class="icon-chevron-right"></i>
+              </div>
+              <div class="swiper-arrow swiper-prev swiper-button-prev box-shadow">
+                <i class="icon-chevron-left"></i>
+              </div>
+            </div>
+          {%- endif -%}
+          <div class="swiper-wrapper">
+            {%- for product in recommendations.products -%}
+              <div class="swiper-slide tps__product-preload-js tps__rcm-product-js">
+                {%- render 'product-item' | product: product -%}
+              </div>
+            {%- endfor -%}
+          </div>
+          {%- if carousel_bullets != false -%}
+            <div class="swiper-pagination"></div>
+          {%- endif -%}
+          {%- if show_bullet_mobile != false -%}
+            <div class="swiper-pagination show-on-mobile"></div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+<div class="tp-product-details-variation">
+  <div class="tp-product-details-variation-item">
+    <h4 class="tp-product-details-variation-title">Color :</h4>
+    <div class="tp-product-details-variation-list">
+      <button type="button" class="color tp-color-variation-btn">
+        <span data-bg-color="#F8B655"></span>
+        <span class="tp-color-variation-tootltip">Yellow</span>
+      </button>
+      <button type="button" class="color tp-color-variation-btn active">
+        <span data-bg-color="#CBCBCB"></span>
+        <span class="tp-color-variation-tootltip">Gray</span>
+      </button>
+      <button type="button" class="color tp-color-variation-btn">
+        <span data-bg-color="#494E52"></span>
+        <span class="tp-color-variation-tootltip">Black</span>
+      </button>
+      <button type="button" class="color tp-color-variation-btn">
+        <span data-bg-color="#B4505A"></span>
+        <span class="tp-color-variation-tootltip">Brown</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="tp-product-details-action-wrapper">
+  <h3 class="tp-product-details-action-title">Quantity</h3>
+  <div class="tp-product-details-action-item-wrapper d-flex align-items-center">
+    <div class="tp-product-details-quantity">
+      <div class="tp-product-quantity mb-15 mr-15">
+        <span class="tp-cart-minus">
+          <svg
+            width="11"
+            height="2"
+            viewBox="0 0 11 2"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M1 1H10"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </span>
+        <input
+          class="tp-cart-input"
+          type="text"
+          value="1"
+        >
+        <span class="tp-cart-plus">
+          <svg
+            width="11"
+            height="12"
+            viewBox="0 0 11 12"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M1 6H10"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round" />
+            <path
+              d="M5.5 10.5V1.5"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </span>
+      </div>
+    </div>
+    <div class="tp-product-details-add-to-cart mb-15 w-100">
+      <button class="tp-product-details-add-to-cart-btn w-100">Add To Cart</button>
+    </div>
+  </div>
+  <button class="tp-product-details-buy-now-btn w-100">Buy Now</button>
+</div>
+{% schema %}
+{
+  "name": "Product recommendations",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Dynamic recommendations use order and product information to change and improve over time. [Learn more](https://help.shopify.com/themes/development/recommended-products)"
+    },
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "You may also like"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text Alignment",
+      "default": "text-center",
+      "options": [
+        {
+          "value": "text-left",
+          "label": "Left"
+        },
+        {
+          "value": "text-center",
+          "label": "Center"
+        },
+        {
+          "value": "text-right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "General settings"
+    },
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Layout",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "product_recommendations_background_color",
+      "label": "Background color"
+    },
+    {
+      "type": "range",
+      "id": "limit_products",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "default": 4,
+      "label": "Products to show"
+    },
+    {
+      "type": "range",
+      "id": "item_desktop",
+      "label": "Items per row (Desktop)",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "label": "Column gap",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Carousel"
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel_autoplay",
+      "label": "Autoplay",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel_loop",
+      "label": "Infinity",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel_arrows",
+      "label": "Show arrows",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel_bullets",
+      "label": "Show bullets both on desktop and mobile",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_bullet_mobile",
+      "label": "Only show bullets on mobile",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px"
+    },
+    {
+      "type": "checkbox",
+      "id": "reset_spacing",
+      "label": "Remove default space between sections",
+      "default": false
+    }
+  ],
+  "templates": [
+    "product"
+  ],
+  "presets": [
+    {
+      "name": "Product recommendations"
+    }
+  ]
+}
+{% endschema %}

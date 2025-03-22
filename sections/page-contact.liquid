@@ -1,0 +1,302 @@
+{%- liquid
+  assign st = section.settings
+  assign gg_map = st.iframe
+  assign show_map = st.show_map
+  assign contact_form_heading = st.contact_form_heading
+-%}
+<section class="breadcrumb__area include-bg text-center pt-95 pb-50">
+  <div class="container">
+    <div class="row">
+      <div class="col-xxl-12">
+        <div class="breadcrumb__content p-relative z-index-1">
+          <h3 class="breadcrumb__title">{{ contact_form_heading }}</h3>
+          <div class="breadcrumb__list">
+            <span><a href="#">Home</a></span>
+            <span>Contact</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="tp-contact-area pb-100">
+  <div class="container">
+    <div class="tp-contact-inner">
+      <div class="row">
+        <div class="col-xl-9 col-lg-8">
+          <div class="tp-contact-wrapper">
+            <h3 class="tp-contact-title">Sent A Message</h3>
+
+            <div class="tp-contact-form">
+              {% form 'contact' %}
+                {% if form.posted_successfully? %}
+                  <p
+                    class="success"
+                  >
+                    {{ 'templates.contact.form.page_contact_successs' | t }}
+                  </p>
+                {% else %}
+                  {{ form.errors | default_errors }}
+                {% endif %}
+                <div class="tp-contact-input-wrapper">
+                  <div class="tp-contact-input-box">
+                    <div class="tp-contact-input">
+                      <input
+                        name="contact[name]"
+                        id="name"
+                        type="text"
+                        placeholder="{{ 'templates.contact.form.name' | t }}"
+                        value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+                      >
+                    </div>
+                    <div class="tp-contact-input-title">
+                      <label for="name">{{ 'templates.contact.form.name' | t }}</label>
+                    </div>
+                  </div>
+                  <div class="tp-contact-input-box">
+                    <div class="tp-contact-input">
+                      <input
+                        name="contact[email]"
+                        id="email"
+                        type="email"
+                        placeholder="{{ 'templates.contact.form.email' | t }}"
+                        value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+                      >
+                    </div>
+                    <div class="tp-contact-input-title">
+                      <label for="email">{{ 'templates.contact.form.email' | t }}</label>
+                    </div>
+                  </div>
+                  <div class="tp-contact-input-box">
+                    <div class="tp-contact-input">
+                      <textarea
+                        id="message"
+                        name="contact[body]"
+                        placeholder="{{ 'templates.contact.form.comment' | t }}"
+                      ></textarea>
+                    </div>
+                    <div class="tp-contact-input-title">
+                      <label for="message">{{ 'templates.contact.form.comment' | t }}</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="tp-contact-suggetions mb-20">
+                  <div class="tp-contact-remeber">
+                    <input id="remeber" type="checkbox" name="contact[saveInfo]">
+                    <label for="remeber">{{ 'templates.contact.form.save_info' | t }}</label>
+                  </div>
+                </div>
+                <input
+                  type="submit"
+                  class="tp-contact-btn"
+                  value="{{ 'templates.contact.form.send_message' | t }}"
+                >
+              {% endform %}
+              <p class="ajax-response"></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-4">
+          <div class="tp-contact-info-wrapper">
+            {%- if st.contact_info_image != blank or st.contact_email != blank or st.contact_phone != blank -%}
+              <div class="tp-contact-info-item">
+                <div class="tp-contact-info-icon">
+                  <span>
+                    <img src="{{ st.contact_info_image | image_url: width: 50 }}" alt="">
+                  </span>
+                </div>
+                <div class="tp-contact-info-content">
+                  <p data-info="mail">
+                    <a href="mailto:{{ st.contact_email }}">{{ st.contact_email }}</a>
+                  </p>
+                  <p data-info="phone">
+                    <a href="tel:{{ st.contact_phone }}">{{ st.contact_phone }}</a>
+                  </p>
+                </div>
+              </div>
+            {%- endif -%}
+            {%- if st.contact_address_image != blank
+              or st.contact_address_content != blank
+              or st.address_link != blank
+            -%}
+              <div class="tp-contact-info-item">
+                <div class="tp-contact-info-icon">
+                  <span>
+                    <img src="{{ st.contact_address_image | image_url: width: 50 }}" alt="">
+                  </span>
+                </div>
+                <div class="tp-contact-info-content">
+                  <p>
+                    <a href="{{ st.address_link }}">{{ st.contact_address_content }}</a>
+                  </p>
+                </div>
+              </div>
+            {%- endif -%}
+            {%- if st.contact_social_image != blank
+              or st.social_heading != blank
+              or st.social_facebook != blank
+              or st.social_twitter != blank
+              or st.social_linkedin != blank
+            -%}
+              <div class="tp-contact-info-item">
+                <div class="tp-contact-info-icon">
+                  <span>
+                    <img src="{{ st.contact_social_image | image_url: width: 50 }}" alt="">
+                  </span>
+                </div>
+                <div class="tp-contact-info-content">
+                  <div class="tp-contact-social-wrapper mt-5">
+                    {%- if st.social_heading != blank -%}
+                      <h4 class="tp-contact-social-title">
+                        {{ st.social_heading }}
+                      </h4>
+                    {%- endif -%}
+
+                    <div class="tp-contact-social-icon">
+                      {%- if st.social_facebook != blank -%}
+                        <a href="{{ st.social_facebook }}"><i class="fa-brands fa-facebook-f"></i></a>
+                      {%- endif -%}
+                      {%- if st.social_twitter != blank -%}
+                        <a href="{{ st.social_twitter }}"><i class="fa-brands fa-twitter"></i></a>
+                      {%- endif -%}
+                      {%- if st.social_linkedin != blank -%}
+                        <a href="{{ st.social_linkedin }}"><i class="fa-brands fa-linkedin-in"></i></a>
+                      {%- endif -%}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{%- if show_map != false -%}
+  <section class="tp-map-area pb-120">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="tp-map-wrapper">
+            <div class="tp-map-hotspot">
+              <span class="tp-hotspot tp-pulse-border">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="6" cy="6" r="6" fill="#821F40"/>
+                </svg>
+              </span>
+            </div>
+            <div class="tp-map-iframe">
+              {{ gg_map }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+{% schema %}
+{
+  "name": "Contact page",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Maps"
+    },
+    {
+      "type": "textarea",
+      "id": "iframe",
+      "label": "Google map iframe",
+      "default": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3154.8939060848147!2d144.81158271584684!3d-37.74563313792195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65fa6debeb781%3A0xe1d23f5d1759961e!2s184%20Main%20Rd%20E%2C%20St%20Albans%20VIC%203021%2C%20%C3%9Ac!5e0!3m2!1svi!2s!4v1618277125252!5m2!1svi!2s\" width=\"100%\" height=\"500\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_map",
+      "label": "Show google map",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Contact form"
+    },
+    {
+      "type": "text",
+      "id": "contact_form_heading",
+      "label": "Heading",
+      "default": "Get in Touch"
+    },
+    {
+      "type": "header",
+      "content": "Contact"
+    },
+    {
+      "type": "image_picker",
+      "id": "contact_info_image",
+      "label": "Contact Image"
+    },
+    {
+      "type": "text",
+      "id": "contact_email",
+      "label": "Contact Email",
+      "default": "contact@shofy.com"
+    },
+    {
+      "type": "text",
+      "id": "contact_phone",
+      "label": "Contact Phone",
+      "default": "+67041390762"
+    },
+    {
+      "type": "header",
+      "content": "Address"
+    },
+    {
+      "type": "image_picker",
+      "id": "contact_address_image",
+      "label": "Address Image"
+    },
+    {
+      "type": "richtext",
+      "id": "contact_address_content",
+      "label": "Address Content",
+      "default": "<p>84 sleepy hollow st. <br> jamaica, New York 1432</p>"
+    },
+    {
+      "type": "text",
+      "id": "address_link",
+      "label": "Address Link",
+      "default": "https://www.google.com/maps/place/New+York,+NY,+USA/@40.6976637,-74.1197638,11z/data=!3m1!4b1!4m6!3m5!1s0x89c24fa5d33f083b:0xc80b8f06e177fe62!8m2!3d40.7127753!4d-74.0059728!16zL20vMDJfMjg2"
+    },
+    {
+      "type": "header",
+      "content": "Social Area"
+    },
+    {
+      "type": "image_picker",
+      "id": "contact_social_image",
+      "label": "Social Image"
+    },
+    {
+      "type": "text",
+      "id": "social_heading",
+      "label": "Social Heading",
+      "default": "Find on social media"
+    },
+    {
+      "type": "text",
+      "id": "social_facebook",
+      "label": "Facebook"
+    },
+    {
+      "type": "text",
+      "id": "social_twitter",
+      "label": "Twitter"
+    },
+    {
+      "type": "text",
+      "id": "social_linkedin",
+      "label": "Linkedin"
+    }
+  ]
+}
+{% endschema %}

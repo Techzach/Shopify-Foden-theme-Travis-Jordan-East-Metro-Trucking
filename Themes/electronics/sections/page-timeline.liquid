@@ -1,0 +1,142 @@
+{% liquid 
+    assign st = section.settings
+    assign container = st.container
+    assign heading = st.heading
+    assign description = st.description
+    assign text_alignment = st.text_alignment
+    assign enabled_animations = settings.animations_enabled
+
+%}
+
+<div class="tps__section tps__timeline-page">
+    <div class="{{ container }}">
+        {%- if heading != blank or description != blank -%}
+            <div class="tps__section-header {{ text_alignment }}">
+              {%- if heading != blank -%}
+                <h2 class="tps__section-heading mb-5 {% if enabled_animations %}scroll-trigger animate--slide-in{% endif %}">{{ heading }}</h2>
+              {%- endif -%}
+              {%- if description != blank -%}
+                <div class="tps__section-des {% if enabled_animations %}scroll-trigger animate--slide-in{% endif %}">
+                  {{ description }}
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        <div class="timeline-main relative">
+            {% for block in section.blocks %}
+                <div class="timeline-item" {{ block.shopify_attributes }}>
+                    {% if block.settings.time != blank %}
+                        <div class="timeline-item__time">{{ block.settings.time }}</div>
+                    {% endif %}
+                    {% if block.settings.timeline_title != blank or block.settings.timeline_content != blank %}
+                        <div class="timeline-item__content--block {% if enabled_animations %}scroll-trigger animate--slide-in{% endif %}"
+                            {% if enabled_animations %}
+                                data-cascade
+                                style="--animation-order: {{ forloop.index }};"
+                              {% endif %}>
+                            {% if block.settings.timeline_title != blank %}
+                                <h3 class="timeline-item__title">{{ block.settings.timeline_title }}</h3>
+                            {% endif %}
+                            {% if block.settings.timeline_content != blank %}
+                                <p class="timeline-item__content">
+                                    {{ block.settings.timeline_content }}
+                                </p>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% schema %}
+{
+  "name": "Timeline page",
+  "class": "tps-timeline-page",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Layout",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Our Timelines"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Here’s some of our most popular products people are in love with.</p>"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "default": "text-center",
+      "options": [
+        {
+          "value": "text-left",
+          "label": "Left"
+        },
+        {
+          "value": "text-center",
+          "label": "Center"
+        },
+        {
+          "value": "text-right",
+          "label": "Right"
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Timeline Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "time",
+          "label": "Time",
+          "default": "2023"
+        },
+        {
+          "type": "text",
+          "id": "timeline_title",
+          "label": "Timeline title",
+          "default": "Timeline title"
+        },
+        {
+          "type": "textarea",
+          "id": "timeline_content",
+          "label": "Timeline content",
+          "default": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique minus inventore, possimus ratione saepe magnam maxime quae vitae, fuga dolor natus. Porro deserunt quis repellendus qui officiis, assumenda fugiat aliquid aliquam adipisci, ab quaerat sapiente autem quas! Sit debitis facere quam deleniti aliquam quod, iure aliquid dolor assumenda mollitia explicabo."
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

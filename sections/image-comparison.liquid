@@ -1,0 +1,290 @@
+{{ 'image-comparison.css' | asset_url | stylesheet_tag }}
+{% liquid
+  assign st = section.settings
+  assign container_st = st.container
+  assign text_align = st.text_alignment
+  assign heading = st.heading
+  assign description = st.description
+  assign height_image = st.height_image
+  assign enabled_animations = settings.animations_enabled
+  assign th_st = settings
+  assign container = th_st.general_layout
+  assign custom_container = th_st.custom_width_bd
+  assign container_width = ''
+  if container == 'default'
+    assign container_width = '1260'
+  elsif container == custom_container
+    assign container_width = custom_container
+  endif
+
+  assign spt_tablet = ''
+  if st.padding_top > 50
+    assign spt_tablet = ' spt-tablet'
+  endif
+  assign spt_mobile = ''
+  if st.padding_top > 30
+    assign spt_mobile = ' spt-mobile'
+  endif
+  assign spb_tablet = ''
+  if st.padding_bottom > 50
+    assign spb_tablet = ' spb-tablet'
+  endif
+  assign spb_mobile = ''
+  if st.padding_bottom > 30
+    assign spb_mobile = ' spb-mobile'
+  endif
+
+  assign reset_spacing = ''
+  if st.reset_spacing
+    assign reset_spacing = ' remove_spacing'
+  endif
+%}
+{%- capture style -%}
+--section-padding-top: {{ st.padding_top }}px; --section-padding-bottom: {{ st.padding_bottom }}px;
+{%- endcapture -%}
+
+<section
+  class="tps__section{{ spt_tablet }}{{ spb_tablet }}{{ spt_mobile }}{{ spb_mobile }} tps__comparison {{ reset_spacing }}"
+  style="{{ style | strip | strip_newlines }}"
+>
+  <div class="{{ container_st }} section-full">
+    {%- if heading != blank or description != blank -%}
+      <div class="tps__section-header {{ text_align }}">
+        {%- if heading != blank -%}
+          <h2 class="tps__section-heading mb-5 {% if enabled_animations %}scroll-trigger animate--slide-in{% endif %}">
+            {{ heading }}
+          </h2>
+        {%- endif -%}
+        {%- if description != blank -%}
+          <div class="tps__section-des {% if enabled_animations %}scroll-trigger animate--slide-in{% endif %}">
+            {{ description }}
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    <div
+      class="img-comp-container {% if enabled_animations %}scroll-trigger animate--slide-in{% endif %}"
+      style="--percent:50%; --height:{{ height_image }}px;"
+    >
+      <button type="button" class="image-comparison__button">
+        <span>
+          <svg width="10" height="12" viewBox="0 0 10 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="2" height="12" rx="1" fill="#111111"/>
+            <rect x="4" width="2" height="12" rx="1" fill="#111111"/>
+            <rect x="8" width="2" height="12" rx="1" fill="#111111"/>
+          </svg>
+        </span>
+      </button>
+
+      {%- for block in section.blocks -%}
+        {% liquid
+          assign bs = block.settings
+          assign image = bs.image
+          assign image_mobile = bs.image_mobile | default: image
+        %}
+        <div class="img-comp-img{% if forloop.last == true %} img-comp-overlay{% endif %}">
+          {% if forloop.first == true %}
+            <span class="button-comparison button-before absolute left-30 top-30 uppercase fs-12">
+              {{- 'sections.button_comparison.before' | t -}}
+            </span>
+          {% endif %}
+          {% if forloop.last == true %}
+            <span class="button-comparison button-after absolute right-30 bottom-30 uppercase fs-12">
+              {{- 'sections.button_comparison.after' | t -}}
+            </span>
+          {% endif %}
+          <div
+            class="tps__responsive-image tps-image-js desktop medium-hide {% if image != blank %}tps-loading-image{% endif %} h-full"
+          >
+            {%- if image != blank -%}
+              <img
+                srcset="
+                  {%- if image.width >= 165 -%}{{ image | image_url: width: 165 }} 165w,{%- endif -%}
+                  {%- if image.width >= 330 -%}{{ image | image_url: width: 330 }} 330w,{%- endif -%}
+                  {%- if image.width >= 535 -%}{{ image | image_url: width: 535 }} 535w,{%- endif -%}
+                  {%- if image.width >= 750 -%}{{ image | image_url: width: 750 }} 750w,{%- endif -%}
+                  {%- if image.width >= 1000 -%}{{ image | image_url: width: 1000 }} 1000w,{%- endif -%}
+                  {%- if image.width >= 1500 -%}{{ image | image_url: width: 1500 }} 1500w,{%- endif -%}
+                  {%- if image.width >= 3000 -%}{{ image | image_url: width: 3000 }} 3000w,{%- endif -%}
+                  {{ image | image_url }} {{ image.width }}w
+                "
+                src="{{ image | image_url: width: 535 }}"
+                sizes="(min-width: {{ container_width }}px) 100vw, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+                alt="{{ image.alt | escape }}"
+                loading="lazy"
+                width="{{ image.width }}"
+                height="{{ image.height }}"
+              >
+            {%- else -%}
+              {%- render 'placeholder-render' -%}
+            {%- endif -%}
+          </div>
+          <div
+            class="tps__responsive-image tps-image-js mobile d-block d-md-none {% if image != blank %}tps-loading-image{% endif %} h-full"
+          >
+            {%- if image_mobile != blank -%}
+              <img
+                srcset="
+                  {%- if image_mobile.width >= 165 -%}{{ image_mobile | image_url: width: 165 }} 165w,{%- endif -%}
+                  {%- if image_mobile.width >= 330 -%}{{ image_mobile | image_url: width: 330 }} 330w,{%- endif -%}
+                  {%- if image_mobile.width >= 535 -%}{{ image_mobile | image_url: width: 535 }} 535w,{%- endif -%}
+                  {%- if image_mobile.width >= 750 -%}{{ image_mobile | image_url: width: 750 }} 750w,{%- endif -%}
+                  {%- if image_mobile.width >= 1000 -%}{{ image_mobile | image_url: width: 1000 }} 1000w,{%- endif -%}
+                  {{ image_mobile | image_url }} {{ image_mobile.width }}w
+                "
+                src="{{ image_mobile | image_url: width: 535 }}"
+                sizes="(min-width: {{ container_width }}px) 100vw, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+                alt="{{ image_mobile.alt | escape }}"
+                loading="lazy"
+                width="{{ image_mobile.width }}"
+                height="{{ image_mobile.height }}"
+              >
+            {%- else -%}
+              {%- render 'placeholder-render' -%}
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Image comparison slider",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p></p>"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "default": "text-center",
+      "options": [
+        {
+          "value": "text-left",
+          "label": "Left"
+        },
+        {
+          "value": "text-center",
+          "label": "Center"
+        },
+        {
+          "value": "text-right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Layout",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "min": 400,
+      "max": 900,
+      "unit": "px",
+      "step": 10,
+      "default": 600,
+      "label": "Height image",
+      "id": "height_image"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px"
+    },
+    {
+      "type": "checkbox",
+      "id": "reset_spacing",
+      "label": "Remove default space between sections",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image_banner",
+      "name": "Banner item",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Banner image",
+          "info": "950 x 700px recommended"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Banner image mobile",
+          "info": "380 x 280px recommended"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image comparison slider",
+      "blocks": [
+        {
+          "type": "image_banner"
+        },
+        {
+          "type": "image_banner"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

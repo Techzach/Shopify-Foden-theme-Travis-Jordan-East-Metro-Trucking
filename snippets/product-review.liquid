@@ -1,0 +1,19 @@
+<review-scroll class="tps__pro-reviews mr-20 pointer">
+    {% if review_star %}
+        {%- if product.metafields.judgeme.badge -%}
+            <div style='{{ jm_style }}' class='jdgm-widget jdgm-preview-badge tps__pro-reviews no-js-hidden mt-5'  data-id='{{ product.id }}'
+              {%- if block -%}
+                {{ block.shopify_attributes }}
+              {%- endif -%}
+            >
+              {{ product.metafields.judgeme.badge }}
+            </div>
+          {% endif %}
+          {%- if product.metafields.spr.reviews -%}
+          <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+        {% endif %}
+        {% endif %}
+    {% if review_widget %}
+        <div id="shopify-product-reviews" data-id="{{ product.id }}">{{ product.metafields.spr.reviews }}</div>
+    {% endif %}
+</review-scroll>

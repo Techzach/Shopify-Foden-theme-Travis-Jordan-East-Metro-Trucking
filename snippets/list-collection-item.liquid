@@ -1,0 +1,197 @@
+{%- liquid
+  assign st = block.settings
+  assign block_st = block.settings
+  assign show_count_product = st.show_count_product
+  assign count_product = collection_item.all_products_count | default: 0
+  assign featured_image = collection_item.featured_image
+  if type == 'custom' and block_st.image
+    assign featured_image = block_st.image | default: featured_image
+  endif
+-%}
+{%- if design_layout == 'design-1' -%}
+  <div class="col">
+    <div class="tp-product-category-item text-center mb-40">
+      <div class="tp-product-category-thumb fix">
+        <a href="{% if collection_item == blank %}#{% else %}{{ collection_item.url }}{% endif %}">
+          {% if featured_image != blank %}
+            <img src="{{ featured_image | image_url: width: 300, height: 300 }}" alt="{{ collection_item.title }}">
+          {% else %}
+            <img src="{{ 'no-image.png' | asset_url }}" alt="{{ collection_item.title }}">
+          {% endif %}
+        </a>
+      </div>
+      <div class="tp-product-category-content">
+        <h3 class="tp-product-category-title">
+          <a href="{% if collection_item == blank %}#{% else %}{{ collection_item.url }}{% endif %}">
+            {%- if block_st.title_collection != blank -%}
+              {{ block_st.title_collection }}
+            {%- else -%}
+              {{ collection_item.title }}
+            {%- endif -%}
+          </a>
+        </h3>
+        {%- if show_count_product != blank and show_count_product != false -%}
+          <p>
+            {% if count_product > 1 %}
+              {{- 'collection.counts_html' | t: count: count_product -}}
+            {% else %}
+              {{- 'collection.count_html' | t: count: count_product -}}
+            {% endif %}
+          </p>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+{%- elsif design_layout == 'design-2' -%}
+  <div class="col-xxl-4 col-lg-6">
+    <div class="tp-banner-item-2 p-relative z-index-1 grey-bg-2 mb-20 fix">
+      <div
+        class="tp-banner-thumb-2 include-bg transition-3"
+        data-background="{% if featured_image != blank %}{{ featured_image | image_url }}{% else %}{{ 'no-image.png' | asset_url }}{% endif %}"
+      ></div>
+      <h3 class="tp-banner-title-2">
+        <a href="{% if collection_item == blank %}#{% else %}{{ collection_item.url }}{% endif %}">
+          {%- if block_st.title_collection != blank -%}
+            {{ block_st.title_collection }}
+          {%- else -%}
+            {{ collection_item.title }}
+          {%- endif -%}
+        </a>
+      </h3>
+
+      {%- if collection_item != blank -%}
+        {%- if show_count_product != blank and show_count_product != false -%}
+          <p>
+            {% if count_product > 1 %}
+              {{- 'collection.counts_html' | t: count: count_product -}}
+            {% else %}
+              {{- 'collection.count_html' | t: count: count_product -}}
+            {% endif %}
+          </p>
+        {%- endif -%}
+
+        <div class="tp-banner-btn-2">
+          <a
+            href="{% if collection_item == blank %}#{% else %}{{ collection_item.url }}{% endif %}"
+            class="tp-btn tp-btn-border tp-btn-border-sm"
+          >
+            {{- 'collection.shop_now' | t: count: count_product -}}
+            <svg
+              width="17"
+              height="15"
+              viewBox="0 0 17 15"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M16 7.49988L1 7.49988"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path
+                d="M9.9502 1.47554L16.0002 7.49954L9.9502 13.5245"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </a>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+{%- elsif design_layout == 'design-3' -%}
+  <div class="col-lg-3 col-sm-6">
+    <div class="tp-category-item-3 p-relative black-bg text-center z-index-1 fix mb-30">
+      <div
+        class="tp-category-thumb-3 include-bg"
+        data-background="{% if featured_image != blank %}{{ featured_image | image_url }}{% else %}{{ 'no-image.png' | asset_url }}{% endif %}"
+      ></div>
+      <div class="tp-category-content-3 transition-3">
+        <h3 class="tp-category-title-3">
+          <a href="{% if collection_item == blank %}#{% else %}{{ collection_item.url }}{% endif %}">
+            {%- if block_st.title_collection != blank -%}
+              {{ block_st.title_collection }}
+            {%- else -%}
+              {{ collection_item.title }}
+            {%- endif -%}
+          </a>
+        </h3>
+
+        <span class="tp-categroy-ammount-3">
+          {% if count_product > 1 %}
+            {{- 'collection.counts_html' | t: count: count_product -}}
+          {% else %}
+            {{- 'collection.count_html' | t: count: count_product -}}
+          {% endif %}
+        </span>
+
+        {%- if collection_item != blank -%}
+          {%- if show_count_product != blank and show_count_product != false -%}
+          {%- endif -%}
+          <div class="tp-category-btn-3">
+            <a
+              href="{% if collection_item == blank %}#{% else %}{{ collection_item.url }}{% endif %}"
+              class="tp-link-btn tp-link-btn-2"
+            >
+              {{- 'collection.view_all' | t: count: count_product -}}
+              <svg
+                width="7"
+                height="12"
+                viewBox="0 0 7 12"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M1 1L6.02116 5.99958L1 11"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </a>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+{%- elsif design_layout == 'design-4' -%}
+  {%- if collection_item != blank -%}
+    <div class="tp-category-item-5 p-relative z-index-1 fix swiper-slide" data-bg-color="#E5EFE2">
+      <a href="{% if collection_item == blank %}#{% else %}{{ collection_item.url }}{% endif %}">
+        {% if featured_image != blank %}
+          <div
+            class="tp-category-thumb-5 include-bg"
+            data-background="{% if featured_image != blank %}{{ featured_image | image_url }}{% else %}{{ 'no-image.png' | asset_url }}{% endif %}"
+          ></div>
+        {% endif %}
+        <div class="tp-category-content-5">
+          <h3 class="tp-category-title-5">
+            {%- if block_st.title_collection != blank -%}
+              {{ block_st.title_collection }}
+            {%- else -%}
+              {{ collection_item.title }}
+            {%- endif -%}
+          </h3>
+
+          <span
+            data-text-color="
+              #{%- if block_st.product_count_color != blank -%}{{ block_st.product_count_color }}
+              {%- else -%}000000{%- endif -%}
+            "
+          >
+            {% if count_product > 1 %}              {{- 'collection.counts_html_collection' | t: count: count_product -}}
+            {% else %}
+              {{- 'collection.counts_html_collection' | t: count: count_product -}}
+            {% endif -%}
+            Items
+          </span>
+        </div>
+      </a>
+    </div>
+  {%- endif -%}
+{%- endif -%}

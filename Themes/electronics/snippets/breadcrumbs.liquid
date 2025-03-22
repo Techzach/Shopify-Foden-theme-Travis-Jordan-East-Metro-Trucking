@@ -1,0 +1,71 @@
+{%- unless template == 'index' or template == 'list-collections' or template == '404' -%}
+  {%- assign t = template | split: '.' | first -%}
+  <div class="breadcrumb__list">
+      <span>
+        <a class="tps__breadcrumb-link" href="/">{{ 'general.breadcrumb.home' | t }}</a>
+      </span>
+      {%- case t -%}
+        {%- when 'page' -%}
+          <span>
+            <span class="tps__breadcrumb-link" aria-current="page">{{ page.title }}</span>
+          </span>
+        {%- when 'product' -%}
+          {%- if collection.url -%}
+            <span>
+              {{ collection.title | link_to: collection.url }}
+            </span>
+          {%- endif -%}
+          <span>
+            <span class="tps__breadcrumb-link" aria-current="page">{{ product.title }}<span>
+          </span>
+        {%- when 'collection' and collection.handle -%}
+          {%- if current_tags -%}
+            <span>
+              {{ collection.title | link_to: collection.url }}
+            </span>
+            <span>
+              {%- capture tag_url -%}{{ collection.url }}/{{ current_tags | join: '+' }}{%- endcapture -%}
+              <span aria-hidden="true" class="tps__breadcrumb-separator px-4">/</span>
+              <span class="tps__breadcrumb-link" aria-current="page">
+                {{- current_tags | join: ' + ' -}}
+              </span>
+            </span>
+          {%- else -%}
+            <span>
+              <span class="tps__breadcrumb-link" aria-current="page">
+                {{- collection.title -}}
+              </span>
+            </span>
+          {%- endif -%}
+        {%- when 'blog' -%}
+          {%- if current_tags -%}
+            <span>
+              {{ blog.title | link_to: blog.url }}
+            </span>
+            <span>
+              {%- capture tag_url -%}{{ blog.url }}/tagged/{{ current_tags | join: '+' }}{%- endcapture -%}
+              <span aria-hidden="true" class="tps__breadcrumb-separator px-4">/</span>
+              <span class="tps__breadcrumb-link" aria-current="page">
+                {{- current_tags | join: ' + ' -}}
+              </span>
+            </span>
+          {%- else -%}
+            <span>
+              <span class="tps__breadcrumb-link" aria-current="page">{{ blog.title }}</span>
+            </span>
+          {%- endif -%}
+        {%- when 'article' -%}
+          <span>
+            {{ blog.title | link_to: blog.url }}
+          </span>
+          <span>
+            <span aria-hidden="true" class="tps__breadcrumb-separator px-4">/</span>
+            <span class="tps__breadcrumb-link" aria-current="page">{{ article.title }}</span>
+          </span>
+        {%- else -%}
+          <span>
+            <span class="tps__breadcrumb-link" aria-current="page">{{ page_title }}</span>
+          </span>
+      {%- endcase -%}
+  </div>
+{%- endunless -%}

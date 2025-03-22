@@ -1,0 +1,313 @@
+{% liquid
+  assign st = section.settings
+  assign th_st = settings
+  assign gift_wrap_pr = all_products[th_st.gift_wrap]
+  assign gift_pr_id = gift_wrap_pr.id
+  assign gift_wrap = cart.items | where: 'product_id', gift_pr_id
+  if settings.currency_code_enabled
+    assign gift_pr_price = gift_wrap_pr.selected_or_first_available_variant.price | money_with_currency
+  else
+    assign gift_pr_price = gift_wrap_pr.selected_or_first_available_variant.price | money
+  endif
+%}
+<script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
+
+<div class="page-heading mb-45 mt-90">
+  <div class="page-head page-title text-center">
+    <h1 class="title title--primary m-0">{{ 'sections.cart.title' | t }}</h1>
+    {%- render 'breadcrumbs' -%}
+  </div>
+</div>
+<div
+  class="cart__warnings text-center page-heading cart-empty-svg {% if cart.item_count > 0 %} d-none {% endif %}"
+>
+  <div class="page-head page-title">
+    <div class="{{ st.container }}">
+      <div class="row">
+        <div id="main-cart-items text-center" class="cart-wrapper" data-id="{{ section.id }}">
+          <span>
+            <svg xmlns="http://www.w3.org/2000/svg" height="520" viewBox="0 0 512 512" width="520">
+              <g><g opacity=".2"><rect fill="#6556ff" height="400" rx="200" width="400" x="28.151" y="80.034"/></g><g><path d="m474.561 448.88h-179.954a2.5 2.5 0 0 1 -2.127-3.814l31.433-50.854-30.219-169.746-39.584-.024a2.5 2.5 0 0 1 0-5l41.678.025a2.5 2.5 0 0 1 2.46 2.062l30.752 172.747a2.5 2.5 0 0 1 -.334 1.753l-29.574 47.851h175.469a2.5 2.5 0 1 1 0 5z" fill="#080717"/><path d="m325.988 396.012a2.5 2.5 0 0 1 -2.469-2.11c-2.466-15.618-5.37-31.512-8.177-46.883-2.811-15.39-5.718-31.305-8.193-46.972a2.5 2.5 0 0 1 2.47-2.89h165.512a2.5 2.5 0 0 1 2.384 3.255l-29.7 93.849a2.5 2.5 0 0 1 -2.383 1.746zm-13.438-93.855c2.361 14.675 5.078 29.55 7.711 43.964 2.686 14.709 5.461 29.9 7.861 44.891h115.477l28.119-88.85z" fill="#080717"/><g><circle cx="307.6" cy="457.728" fill="#fff" r="22.306"/><path d="m307.6 481.034a23.306 23.306 0 1 1 23.3-23.306 23.332 23.332 0 0 1 -23.3 23.306zm0-44.612a21.306 21.306 0 1 0 21.3 21.306 21.33 21.33 0 0 0 -21.3-21.306z" fill="#090817"/></g><g><circle cx="461.543" cy="457.728" fill="#fff" r="22.306"/><path d="m461.543 481.034a23.306 23.306 0 1 1 23.306-23.306 23.332 23.332 0 0 1 -23.306 23.306zm0-44.612a21.306 21.306 0 1 0 21.306 21.306 21.33 21.33 0 0 0 -21.306-21.306z" fill="#090817"/></g><g fill="#080717"><path d="m343.03 394.507a1 1 0 0 1 -1-1v-93.85a1 1 0 1 1 2 0v93.85a1 1 0 0 1 -1 1z"/><path d="m368.139 394.507a1 1 0 0 1 -1-1v-93.85a1 1 0 0 1 2 0v93.85a1 1 0 0 1 -1 1z"/><path d="m394.513 394.507a1 1 0 0 1 -1-1v-93.85a1 1 0 0 1 2 0v93.85a1 1 0 0 1 -1 1z"/><path d="m420.886 394.507a1 1 0 0 1 -1-1v-93.85a1 1 0 0 1 2 0v93.85a1 1 0 0 1 -1 1z"/><path d="m447.26 392.423a1 1 0 0 1 -1-1v-91.766a1 1 0 1 1 2 0v91.766a1 1 0 0 1 -1 1z"/><path d="m464.58 333.994h-146.78a1 1 0 0 1 0-2h146.78a1 1 0 1 1 0 2z"/><path d="m454.145 366.968h-129.195a1 1 0 0 1 0-2h129.2a1 1 0 0 1 0 2z"/></g></g><g><path d="m183.293 157.335c-.48-6.76-1.112-16.612-7.833-24.484a33.69 33.69 0 0 0 -15.219-9.767 5.345 5.345 0 0 1 -3.652-5.084v-16.11h-20.9v15.935a4.989 4.989 0 0 1 -3.574 4.8 36.231 36.231 0 0 0 -16.3 9.491c-7.413 7.787-8.529 17.429-10.193 34.487-2.3 23.642-4.734 52.029-6.8 84.4h94.648c-5.77-41.503-8.622-71.742-10.177-93.668z" fill="#fff"/><path d="m193.461 252.008h-94.649a1 1 0 0 1 -1-1.064c1.805-28.212 4.1-56.62 6.809-84.435 1.719-17.634 2.966-27.2 10.463-35.079a37.3 37.3 0 0 1 16.746-9.763 4 4 0 0 0 2.853-3.842v-15.935a1 1 0 0 1 1-1h20.9a1 1 0 0 1 1 1v16.11a4.333 4.333 0 0 0 2.966 4.131 34.742 34.742 0 0 1 15.672 10.069c6.864 8.04 7.58 18.155 8.054 24.848l.015.216c1.992 28.073 5.316 58.692 10.161 93.606a1 1 0 0 1 -.99 1.137zm-93.582-2h92.433c-4.765-34.486-8.043-64.789-10.016-92.6l-.016-.216c-.482-6.816-1.143-16.151-7.581-23.69a32.731 32.731 0 0 0 -14.771-9.466 6.331 6.331 0 0 1 -4.339-6.036v-15.11h-18.9v14.935a6.01 6.01 0 0 1 -4.3 5.763 35.3 35.3 0 0 0 -15.854 9.221c-7.058 7.415-8.2 16.233-9.922 33.894-2.676 27.444-4.941 55.465-6.734 83.305z" fill="#090817"/></g><path d="m98.812 480.887a1.054 1.054 0 0 1 -1.051-.97 1468.592 1468.592 0 0 1 -3.916-165.57c.857-25.9 2.426-52.109 4.665-77.9a1.053 1.053 0 0 1 1.05-.963l58.711 1.549a1.054 1.054 0 0 1 1 1.284 912.047 912.047 0 0 0 -20.879 241.466 1.055 1.055 0 0 1 -1.054 1.1z" fill="#080717"/><path d="m164.574 480.912a1.053 1.053 0 0 1 -1.046-.948c-4.432-44.116-9.6-88.745-15.373-132.648-4.761-36.234-10.054-72.929-15.731-109.065a1.055 1.055 0 0 1 1.014-1.218l58.712-1.549a1.053 1.053 0 0 1 1.05.963c.959 11.054 1.8 22.247 2.505 33.27.013.208 1.338 21.118 2.16 44.628.877 25.086 2.028 83.508 2.387 165.6a1.053 1.053 0 0 1 -1.052 1.055z" fill="#080717"/><g><path d="m85.145 479.833s1.71-11.5 12.585-14.349v-9.175l38.773-1.864.837 25.388z" fill="#fff"/><path d="m137.34 480.833h-52.2a1 1 0 0 1 -.99-1.147c.018-.12 1.855-11.656 12.575-14.957v-8.419a1 1 0 0 1 .953-1l38.773-1.865a1 1 0 0 1 1.047.967l.836 25.387a1 1 0 0 1 -1 1.033zm-50.962-2h49.929l-.769-23.34-36.808 1.77v8.221a1 1 0 0 1 -.747.968c-8.232 2.156-10.875 9.508-11.605 12.381z" fill="#090817"/></g><g><path d="m212.728 479.833a23.036 23.036 0 0 0 -7.82-13.331 19.213 19.213 0 0 0 -5.776-3.175l-.076-8.882h-37.107l2.951 23.245a19.334 19.334 0 0 0 .3 2.344z" fill="#fff"/><path d="m165.192 481.034a1 1 0 0 1 -.982-.811 20.476 20.476 0 0 1 -.313-2.467l-2.94-23.185a1 1 0 0 1 .992-1.126h37.107a1 1 0 0 1 1 .992l.07 8.188a19.982 19.982 0 0 1 5.407 3.1 24.091 24.091 0 0 1 8.175 13.911 1 1 0 0 1 -.976 1.2l-47.536.2zm-2.108-25.589 2.8 22.119c.038.565.093 1.057.151 1.466l45.433-.192a21.712 21.712 0 0 0 -7.189-11.555 18.113 18.113 0 0 0 -5.478-3.011 1 1 0 0 1 -.673-.936l-.068-7.891z" fill="#090817"/></g><path d="m132.791 121.074s16.146 4.942 26.426 0c0 0 22.319 3.673 23.2 19.967s13.971 112.3 13.971 112.3-57.992 10.544-99.378 0c0 0 6.59-93.579 10.281-108.868s7.773-21.488 25.5-23.399z" fill="#6556ff"/><rect fill="#080717" height="10.419" rx="2.966" width="38.528" x="251.259" y="216.732"/><g><path d="m371.239 173.856a44.5 44.5 0 0 0 22.26 84.538l16.228 19.629a.965.965 0 0 0 1.7-.707l-2.191-22.989c.137-.064.277-.12.414-.185a44.5 44.5 0 1 0 -38.415-80.286z" fill="#fff"/><path d="m410.467 279.375a1.954 1.954 0 0 1 -1.51-.715l-15.9-19.236a45.5 45.5 0 1 1 17.249-4.485l2.125 22.283a1.969 1.969 0 0 1 -1.96 2.153zm-16.967-21.981a1 1 0 0 1 .771.363l16.229 19.629-2.254-22.964a1 1 0 0 1 .574-1l.405-.18a43.508 43.508 0 1 0 -15.792 4.156z" fill="#090817"/></g><g fill="#080717"><path d="m374.934 238.353a1.016 1.016 0 0 1 -.723-.3l-8.438-8.439a1.024 1.024 0 0 1 0-1.445l40.411-40.411a1.022 1.022 0 0 1 1.445 0l8.439 8.438a1.025 1.025 0 0 1 0 1.446l-40.411 40.411a1.018 1.018 0 0 1 -.723.3z"/><path d="m406.906 238.353a1.014 1.014 0 0 1 -.722-.3l-40.411-40.411a1.025 1.025 0 0 1 0-1.446l8.438-8.438a1.024 1.024 0 0 1 1.446 0l40.411 40.411a1.024 1.024 0 0 1 0 1.445l-8.439 8.439a1.016 1.016 0 0 1 -.723.3z"/></g><g><path d="m284.441 216.732a15.725 15.725 0 0 0 -5.711-7.549s-2.191-1.481-12.27-3.667q-22.615-12.568-45.233-25.135a242.545 242.545 0 0 1 -29.874-35.649c-2.719-4-5.713-9.212-11.951-13.557-9.393-6.543-17.205-3.152-24.842-2.749 1.316 6.8.788 12.192 5.828 22.725 10.132 21.174 24.36 33.417 31.221 39.247a131.106 131.106 0 0 0 57.859 28.258s12.571 3.132 16.174 7.35 3.778 4.921 7.227 4.042 4.723-2.021 3.053-2.9c-2.059-1.083-3-5.8-1.23-8.611 1.693-2.68 5.981-3.792 9.749-1.805z" fill="#fff"/><path d="m270.807 231.378c-1.942 0-2.9-1.135-5.033-3.662l-.9-1.057c-3.356-3.929-15.532-7-15.655-7.03l-.048-.013a132.885 132.885 0 0 1 -58.213-28.456c-6.322-5.372-21.128-17.953-31.477-39.577a52.1 52.1 0 0 1 -5.151-18.024c-.221-1.671-.429-3.25-.756-4.943a1 1 0 0 1 .929-1.189c1.682-.089 3.356-.324 5.131-.573 5.972-.838 12.742-1.79 20.336 3.5 5.638 3.927 8.725 8.582 11.207 12.321.341.513.672 1.013 1 1.495a244.132 244.132 0 0 0 29.655 35.4l44.981 25c9.86 2.147 12.236 3.622 12.475 3.784a16.975 16.975 0 0 1 6.079 8.006 1 1 0 0 1 -1.394 1.257c-3.371-1.779-7.088-.682-8.441 1.458a6.541 6.541 0 0 0 -.535 4.947 3.627 3.627 0 0 0 1.385 2.245c1.21.636 1.3 1.463 1.253 1.9-.142 1.2-1.579 2.1-4.525 2.854a9.587 9.587 0 0 1 -2.303.357zm-21.007-13.667c1.246.317 12.96 3.384 16.6 7.649l.9 1.066c2.733 3.237 2.782 3.3 5.316 2.656a9.4 9.4 0 0 0 2.812-1.058 5.377 5.377 0 0 1 -2.363-3.485 8.566 8.566 0 0 1 .777-6.533c1.686-2.667 5.246-3.814 8.666-3.043a13.824 13.824 0 0 0 -4.339-4.952c-.01-.006-2.345-1.441-11.923-3.518a.979.979 0 0 1 -.273-.1l-45.234-25.135a.964.964 0 0 1 -.22-.166 246.342 246.342 0 0 1 -30-35.795q-.5-.732-1.011-1.513c-2.508-3.784-5.353-8.079-10.678-11.784-6.95-4.841-13.033-3.987-18.915-3.162-1.369.193-2.774.39-4.173.511.232 1.357.4 2.672.573 3.953a50.418 50.418 0 0 0 4.974 17.421c10.164 21.24 24.742 33.627 30.967 38.916a130.868 130.868 0 0 0 57.419 28.043 1.2 1.2 0 0 1 .125.029z" fill="#090817"/></g><path d="m157.243 122.99s13.263-2.617 26.9 9.089c9.809 8.418 30.182 39.584 30.182 39.584s-5.4 17.178-17.354 24.735l-22.23-19.067c-23.519-14.774-35.055-34.337-30.188-46.834.992-2.537 7.207-4.216 12.69-7.507z" fill="#6556ff"/><path d="m144.7 322.638a1 1 0 0 1 -1-.959l-1.257-30.447-4.943-13.205a1 1 0 1 1 1.873-.7l5.007 13.355a.966.966 0 0 1 .062.31l1.258 30.608a1 1 0 0 1 -.958 1.04z" fill="#fff"/><path d="m187.724 182.109a1 1 0 0 1 -1-.97l-1.055-34.8a1 1 0 0 1 2-.061l1.055 34.8a1 1 0 0 1 -.97 1.029z" fill="#fff"/><g><path d="m102.455 127.66c-17.078 9.393-50.47 23.065-49.909 43.934.151 5.616 2.68 9.561 7.733 17.222a104.211 104.211 0 0 0 29.644 29.536 20.049 20.049 0 0 1 1.719 4.142c2.129 7.424-1.007 13.16 2.108 15.948.718.642 2.063 1.393 4.745 1.187.694-2.484 3.55-12.617 6.458-20.166.619-1.606 1.309-3.274 2.9-3.954 2.4-1.024 4.62 1.14 7.908-.132.851-.329 1.928-.746 2.109-1.581.453-2.1-5.075-5.392-9.885-6.854a19.665 19.665 0 0 0 -3.691-.816q-11.419-18.571-22.84-37.143c8.381-2.143 34.611-10 47.185-34a57.386 57.386 0 0 0 4.827-12.723s-16.952-2.332-31.011 5.4z" fill="#fff"/><path d="m97.626 240.663a6.6 6.6 0 0 1 -4.542-1.475c-2.017-1.8-1.884-4.479-1.73-7.575a25.8 25.8 0 0 0 -.673-8.842 19.083 19.083 0 0 0 -1.518-3.723 104.827 104.827 0 0 1 -29.72-29.681c-4.987-7.564-7.735-11.73-7.9-17.746-.5-18.509 24.214-31.244 42.257-40.542 2.95-1.52 5.736-2.956 8.171-4.3 14.183-7.8 30.924-5.616 31.628-5.519a1 1 0 0 1 .834 1.234 58.52 58.52 0 0 1 -4.911 12.943c-11.337 21.641-33.465 30.628-46.513 34.165l21.88 35.582a22.046 22.046 0 0 1 3.383.8c3.617 1.1 11.3 4.645 10.573 8.021-.3 1.366-1.759 1.93-2.727 2.3a8.42 8.42 0 0 1 -5.084.158 4.6 4.6 0 0 0 -2.79-.04c-1.167.5-1.737 1.776-2.361 3.4-2.7 7.011-5.395 16.374-6.428 20.074a1 1 0 0 1 -.886.728q-.485.038-.943.038zm29.782-117.724c-6.1 0-15.889.877-24.471 5.6-2.458 1.351-5.255 2.793-8.218 4.319-17.572 9.056-41.637 21.458-41.173 38.711.141 5.225 2.422 8.895 7.567 16.7a102.857 102.857 0 0 0 29.362 29.252 1.01 1.01 0 0 1 .324.351 21.112 21.112 0 0 1 1.8 4.35 27.835 27.835 0 0 1 .749 9.493c-.14 2.8-.24 4.817 1.065 5.985a4.738 4.738 0 0 0 3.311.966c1.156-4.106 3.716-12.873 6.292-19.559.593-1.539 1.405-3.645 3.441-4.515a6.312 6.312 0 0 1 3.975-.081 6.468 6.468 0 0 0 3.964-.064c.427-.165 1.426-.55 1.493-.86.195-.9-3.645-4-9.2-5.685a18.647 18.647 0 0 0 -3.5-.778 1 1 0 0 1 -.756-.472l-22.833-37.145a1 1 0 0 1 .6-1.492c12.5-3.2 35.182-11.8 46.548-33.5a56.424 56.424 0 0 0 4.45-11.384c-1.014-.087-2.681-.192-4.79-.192z" fill="#090817"/></g><path d="m133.033 121.074s-14.806-1.582-23.966 1.581-35.125 19.375-35.125 19.375 6.9 17.288 17.09 25.547c0 0 23.2-4.042 35.323-16.343s12.745-29.799 6.678-30.16z" fill="#6556ff"/><path d="m104.558 164.872a.955.955 0 0 1 -.13-.008 1 1 0 0 1 -.863-1.121l3.034-23.358a1 1 0 1 1 1.982.258l-3.033 23.357a1 1 0 0 1 -.99.872z" fill="#fff"/><g><path d="m183.3 75.317a35.692 35.692 0 0 0 -70.675-5.782 7.121 7.121 0 1 0 -.233 13.107c.159 1.508 2.294 18.821 18.274 27.465a35.206 35.206 0 0 0 34.53-.632 35.994 35.994 0 0 0 15.154-18.691q.363-.833.684-1.686a7.12 7.12 0 1 0 2.266-13.781z" fill="#fff"/><path d="m147.4 115.326a36.175 36.175 0 0 1 -17.211-4.34c-14.478-7.832-17.9-22.485-18.629-27.036a7.924 7.924 0 0 1 -1.544.2 8.121 8.121 0 0 1 -.545-16.232 8.038 8.038 0 0 1 2.415.287 36.693 36.693 0 0 1 72.369 6.134 8.121 8.121 0 0 1 -.444 16.205 8.025 8.025 0 0 1 -2.185-.224q-.174.432-.361.859a36.739 36.739 0 0 1 -15.559 19.151 35.833 35.833 0 0 1 -18.306 4.996zm-35.008-33.684a1 1 0 0 1 .994.9c.2 1.854 2.357 18.361 17.756 26.69a34.165 34.165 0 0 0 33.544-.612 34.793 34.793 0 0 0 14.722-18.168c.261-.6.482-1.15.691-1.7a1 1 0 0 1 1.288-.582 6.12 6.12 0 1 0 1.946-11.846 1.033 1.033 0 0 1 -1.032-.966 34.693 34.693 0 0 0 -68.7-5.62 1 1 0 0 1 -1.386.719 6.041 6.041 0 0 0 -2.68-.527 6.12 6.12 0 1 0 2.481 11.791 1.016 1.016 0 0 1 .376-.079z" fill="#090817"/></g><g fill="#080717"><path d="m122.745 72.25a1 1 0 0 1 -.648-1.762 15.634 15.634 0 0 1 16-2.922 1 1 0 0 1 -.808 1.83 13.64 13.64 0 0 0 -13.9 2.615 1 1 0 0 1 -.644.239z"/><circle cx="133.146" cy="79.18" r="3.826"/><path d="m170.74 72.985a1 1 0 0 1 -.731-.318 11.047 11.047 0 0 0 -11.954-2.83 1 1 0 0 1 -.7-1.875 13.227 13.227 0 0 1 7.688-.441 13.053 13.053 0 0 1 6.427 3.783 1 1 0 0 1 -.732 1.681z"/><circle cx="163.082" cy="79.361" r="3.826"/><path d="m147.849 89.349a18.752 18.752 0 0 1 -2.126-.127 1 1 0 0 1 .234-1.986c2.064.241 4.318.055 4.631-.386.26-.82-1.069-5.519-2.5-9.35a1 1 0 0 1 1.875-.7c1.6 4.287 3.288 9.707 2.266 11.184-.763 1.116-2.744 1.365-4.38 1.365z"/></g><ellipse cx="127.227" cy="88.698" fill="#6556ff" rx="3.45" ry="5.286" transform="matrix(.049 -.999 .999 .049 32.358 211.393)"/><ellipse cx="165.952" cy="89.65" fill="#6556ff" rx="3.45" ry="5.286" transform="matrix(.049 -.999 .999 .049 68.221 250.975)"/><path d="m108.362 69.062a4.7 4.7 0 0 1 3.877 2.815c1.413 2.8 5.783 3.354 7.517-3.913s11.233-22.677 22.912-24.594c0 0 1.33 14.066 16.951 14.861s17.381 17.909 19.281 19.413 3.74-1.963 5.552-2.267 4.817 2.828 4.817 2.828c3.406-6.757 6.418-15.5 2.719-21.852-1.955-3.354-4.1-3.152-10.8-7.55-13.661-8.965-15.02-16.554-23.451-17.675-2.616-.348-6.725-.182-12.206 3.047-17.759 1.117-30.947 5.55-34.64 10.482a15.225 15.225 0 0 0 -2.943 6.605c-.351 2.929.642 4.489 1.138 7.7a23.817 23.817 0 0 1 -.724 10.1z" fill="#080717"/><path d="m110.488 79.875a1 1 0 0 1 -.549-.165 3.883 3.883 0 0 1 -1.917-2.882 4.475 4.475 0 0 1 .529-2.445h-2.451a1 1 0 0 1 0-2h4.393a1 1 0 0 1 .7 1.712 3.847 3.847 0 0 0 -1.177 2.541 1.963 1.963 0 0 0 1.025 1.4 1 1 0 0 1 -.551 1.835z" fill="#080717"/><path d="m182.52 87.194a1 1 0 0 1 -.593-1.806 2.144 2.144 0 0 0 .988-1.52 4.185 4.185 0 0 0 -1.13-2.709 1 1 0 0 1 .734-1.68h4.942a1 1 0 0 1 0 2h-3.08a4.9 4.9 0 0 1 .526 2.569 4.127 4.127 0 0 1 -1.797 2.952.99.99 0 0 1 -.59.194z" fill="#080717"/><path d="m148.009 101.1a1 1 0 0 1 -.739-.326 9.386 9.386 0 0 0 -9.177-2.964 1 1 0 0 1 -.558-1.921 11.379 11.379 0 0 1 11.213 3.538 1 1 0 0 1 -.739 1.673z" fill="#080717"/><path d="m118.267 55.6a.911.911 0 0 1 -.179-.017 1 1 0 0 1 -.807-1.161c.021-.115 2.224-11.487 15.64-14.579a1 1 0 1 1 .449 1.949c-12.145 2.8-14.1 12.884-14.12 12.985a1 1 0 0 1 -.983.823z" fill="#fff"/><path d="m170.741 55.6h-.052c-15.561-.789-20.612-11.225-20.82-11.669a1 1 0 0 1 1.812-.849 17.136 17.136 0 0 0 4.131 5c3.93 3.362 8.97 5.221 14.979 5.526a1 1 0 0 1 -.05 2z" fill="#fff"/><path d="m167.335 47.911a16.507 16.507 0 0 1 -7.044-1.673 1 1 0 0 1 .932-1.769c.046.024 4.677 2.405 9.218.985a1 1 0 0 1 .6 1.909 12.405 12.405 0 0 1 -3.706.548z" fill="#fff"/><path d="m177.708 469.829a1 1 0 0 1 -.762-1.647c.308-.36 7.679-8.786 22.382-5.835a1 1 0 0 1 -.392 1.961c-13.508-2.708-20.4 5.094-20.468 5.173a1 1 0 0 1 -.76.348z" fill="#080717"/><path d="m81.453 169.983a1 1 0 0 1 -.512-.141c-6.367-3.8-14.786-4.967-14.871-4.979a1 1 0 0 1 .267-1.982c.36.048 8.9 1.231 15.63 5.244a1 1 0 0 1 -.514 1.858z" fill="#080717"/><path d="m211.687 187.205a1 1 0 0 1 -.791-1.61c.171-.224 4.288-5.487 10.209-6.207a1 1 0 1 1 .243 1.986c-5.079.617-8.831 5.394-8.869 5.442a1 1 0 0 1 -.792.389z" fill="#080717"/></g>
+            </svg>
+          </span>
+          <a
+            href="{{ routes.all_products_collection_url }}"
+            class="tp-btn tp-btn-border d-block"
+            style="width: 200px; margin:40px auto"
+          >
+            {{ 'general.continue_shopping' | t }}
+          </a>
+          {%- if shop.customer_accounts_enabled and customer == null -%}
+            <h2 class="cart__login-title m-0">{{ 'sections.cart.login.title' | t }}</h2>
+            <p class="cart__login-paragraph">
+              {{ 'sections.cart.login.paragraph_html' | t: link: routes.account_login_url }}
+            </p>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section
+  class="pb-120 tp-cart-area mt-1 {%- if cart.item_count <= 0 -%}mt-1 d-none{%- endif -%} "
+  id="main-cart-items"
+  data-id="{{ section.id }}"
+>
+  <form action="{{ routes.cart_url }}" class="cart__contents" method="post" id="cart">
+    <div class="{{ st.container }}">
+      <div class="row">
+        <div class="col-xl-9 col-lg-8">
+          <cart-items class="cart__items">
+            <div class="tp-cart-list mb-25 mr-30 js-contents">
+              {%- if cart != empty -%}
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th colspan="2" class="tp-cart-header-product">Product</th>
+                      <th class="tp-cart-header-price">Price</th>
+                      <th class="tp-cart-header-quantity">Quantity</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {%- for item in cart.items -%}
+                      <tr>
+                        <td class="tp-cart-img">
+                          <a href="{{ item.url }}">
+                            {%- if item.image != blank -%}
+                              <img
+                                src="{{ item.image | image_url }}"
+                                alt="{{ item.product.title | escape }}"
+                                height="auto"
+                                width="auto"
+                              >
+                            {%- else -%}
+                              {%- render 'responsive-image' | type: 'product' -%}
+                            {%- endif -%}
+                          </a>
+                        </td>
+                        <td class="tp-cart-title">
+                          <a href="{{ item.url }}">
+                            {{ item.title | escape }}
+                          </a>
+                        </td>
+                        <td class="tp-cart-price">
+                          <span>
+                            {%- if item.original_line_price != item.final_line_price -%}
+                              <dl class="cart-item__discounted-prices">
+                                <dt class="visually-hidden">
+                                  {{ 'products.product.price.regular_price' | t }}
+                                </dt>
+                                <dd>
+                                  <s class="cart-item__old-price price price--end">
+                                    {% if settings.currency_code_enabled %}
+                                      {{ item.original_line_price | money_with_currency }}
+                                    {% else %}
+                                      {{ item.original_line_price | money }}
+                                    {% endif %}
+                                  </s>
+                                </dd>
+                                <dt class="visually-hidden">
+                                  {{ 'products.product.price.sale_price' | t }}
+                                </dt>
+                                <dd class="price price--end">
+                                  {% if settings.currency_code_enabled %}
+                                    {{ item.final_line_price | money_with_currency }}
+                                  {% else %}
+                                    {{ item.final_line_price | money }}
+                                  {% endif %}
+                                </dd>
+                              </dl>
+                            {%- else -%}
+                              <span class="price price--end">
+                                {% if settings.currency_code_enabled %}
+                                  {{ item.original_line_price | money_with_currency }}
+                                {% else %}
+                                  {{ item.original_line_price | money }}
+                                {% endif %}
+                              </span>
+                            {%- endif -%}
+
+                            {%- if item.variant.available and item.unit_price_measurement -%}
+                              <div class="unit-price caption">
+                                <span class="visually-hidden">{{ 'products.product.price.unit_price' | t }}</span>
+                                {% if settings.currency_code_enabled %}
+                                  {{ item.variant.unit_price | money_with_currency }}
+                                {% else %}
+                                  {{ item.variant.unit_price | money }}
+                                {% endif %}
+                                <span aria-hidden="true">/</span>
+                                <span class="visually-hidden"
+                                  >&nbsp;{{ 'accessibility.unit_price_separator' | t }}&nbsp;</span
+                                >
+                                {%- if item.variant.unit_price_measurement.reference_value != 1 -%}
+                                  {{- item.variant.unit_price_measurement.reference_value -}}
+                                {%- endif -%}
+                                {{ item.variant.unit_price_measurement.reference_unit }}
+                              </div>
+                            {%- endif -%}
+                          </span>
+                        </td>
+                        <td class="tp-cart-quantity">
+                          <div class="tp-product-quantity mt-10 mb-10">
+                            <quantity-input class="quantity rounded-5 border d-inline-flex align-items-center text-center">
+                              <input
+                                class="quantity__input tp-cart-input quantity__input bg-unset border-none text-center width-50 appearance-none p-0-important"
+                                type="number"
+                                name="updates[]"
+                                value="{{ item.quantity }}"
+                                min="0"
+                                aria-label="{{ 'products.product.quantity.input_label' | t: product: item.product.title | escape }}"
+                                id="Quantity-{{ item.index | plus: 1 }}"
+                                data-index="{{ item.index | plus: 1 }}"
+                                data-key="{{ item.id }}"
+                              >
+                            </quantity-input>
+                          </div>
+                        </td>
+                        <td class="tp-cart-action">
+                          <cart-remove-button
+                            id="Remove-{{ item.index | plus: 1 }}"
+                            data-index="{{ item.index | plus: 1 }}"
+                          >
+                            <a
+                              href="{{ item.url_to_remove }}"
+                              class="tp-cart-action-btn"
+                              aria-label="{{ 'sections.cart.remove_title' | t: title: item.title }}"
+                            >
+                              <svg
+                                width="10"
+                                height="10"
+                                viewBox="0 0 10 10"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M9.53033 1.53033C9.82322 1.23744 9.82322 0.762563 9.53033 0.46967C9.23744 0.176777 8.76256 0.176777 8.46967 0.46967L5 3.93934L1.53033 0.46967C1.23744 0.176777 0.762563 0.176777 0.46967 0.46967C0.176777 0.762563 0.176777 1.23744 0.46967 1.53033L3.93934 5L0.46967 8.46967C0.176777 8.76256 0.176777 9.23744 0.46967 9.53033C0.762563 9.82322 1.23744 9.82322 1.53033 9.53033L5 6.06066L8.46967 9.53033C8.76256 9.82322 9.23744 9.82322 9.53033 9.53033C9.82322 9.23744 9.82322 8.76256 9.53033 8.46967L6.06066 5L9.53033 1.53033Z" fill="currentColor"/>
+                              </svg>
+                              {{ 'sections.cart.remove_title' | t }}
+                              <span class="icon-trash-2"></span>
+                            </a>
+                          </cart-remove-button>
+                        </td>
+                      </tr>
+
+                      {%- if th_st.cart_gift_wrap and gift_wrap_pr.variants.size == 1 -%}
+                        <div class="tps__addon" id="tps__gift">
+                          <div class="tps__mini_cart-tool text-left mb-30{% if gift_wrap != blank %} d-none{% endif %}">
+                            <div class="field">
+                              {{ 'general.cart.gift.gift_wrap_html' | t: price: gift_pr_price }}
+                            </div>
+                            <div class="tps__field">
+                              <a
+                                href="{{ gift_wrap_pr.url }}"
+                                data-variant-id="{{ gift_wrap_pr.selected_or_first_available_variant.id }}"
+                                class="tps__add-giftwrap-cart btn btn-primary"
+                              >
+                                <span>{{ 'general.cart.gift.button_text' | t }}</span>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </tbody>
+                </table>
+              {%- endif -%}
+            </div>
+          </cart-items>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          <div class="tp-cart-checkout-wrapper">
+            <div class="tp-cart-checkout-top d-flex align-items-center justify-content-between">
+              <span class="tp-cart-checkout-top-title">{{ 'sections.cart.subtotal' | t }}</span>
+              <span class="tp-cart-checkout-top-price">
+                {% if settings.currency_code_enabled %}
+                  {{ cart.total_price | money_with_currency }}
+                {% else %}
+                  {{ cart.total_price | money }}
+                {% endif %}
+              </span>
+            </div>
+
+            <div class="tp-cart-checkout-proceed">
+              <button
+                type="submit"
+                id="checkout"
+                class="cart__checkout-button tps-btn-checkout tp-cart-checkout-btn w-100"
+                name="checkout"
+                form="cart"
+              >
+                {{ 'sections.cart.checkout' | t }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    function isIE() {
+      const ua = window.navigator.userAgent;
+      const msie = ua.indexOf('MSIE ');
+      const trident = ua.indexOf('Trident/');
+
+      return msie > 0 || trident > 0;
+    }
+    if (!isIE()) return;
+    const cartSubmitInput = document.createElement('input');
+    cartSubmitInput.setAttribute('name', 'checkout');
+    cartSubmitInput.setAttribute('type', 'hidden');
+    document.querySelector('#cart').appendChild(cartSubmitInput);
+    document.querySelector('#checkout').addEventListener('click', function (event) {
+      document.querySelector('#cart').submit();
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Main Cart",
+  "settings": [
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Container",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Cart Security Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "cart_security_image",
+      "label": "Security Image",
+      "info": "Upload image: png, jpg or gif file"
+    },
+    {
+      "type": "number",
+      "id": "image_width",
+      "label": "Image width (px)",
+      "default": 300
+    }
+  ]
+}
+{% endschema %}

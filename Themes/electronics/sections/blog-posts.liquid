@@ -1,0 +1,298 @@
+{% liquid
+  assign st = section.settings
+  assign title = st.heading
+  assign subtitle = st.subheading
+  assign blog_style = st.blog_style
+  assign container = st.container
+  assign num_post = st.num_post_show
+  assign show_tag = st.post_show_tag
+  assign show_category = st.post_show_category
+  assign show_date = st.post_show_date
+  assign show_excerpt = st.post_show_excerpt
+  assign show_readmore = st.post_show_button
+  assign view_all_button = st.view_all_button
+  assign view_all_button_text = st.view_all_button_text
+%}
+{% case blog_style %}
+  {% when 'style-1' %}
+    <section class="tp-blog-area pt-50 pb-75">
+      {%- assign blog = blogs[st.blog] -%}
+      {%- if blog.articles.size > 0 -%}
+        <div class="{{ container }}">
+          <div class="row align-items-end">
+            {%- if title != blank -%}
+              <div class="col-xl-6 col-md-6">
+                <div class="tp-section-title-wrapper mb-50">
+                  {%- if title != blank -%}
+                    <h3 class="tp-section-title">
+                      {{ title }}
+                      <svg
+                        width="114"
+                        height="35"
+                        viewBox="0 0 114 35"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M112 23.275C1.84952 -10.6834 -7.36586 1.48086 7.50443 32.9053"
+                          stroke="currentColor"
+                          stroke-width="4"
+                          stroke-miterlimit="3.8637"
+                          stroke-linecap="round" />
+                      </svg>
+                    </h3>
+                  {%- endif -%}
+                </div>
+              </div>
+            {%- endif -%}
+            {%- if view_all_button -%}
+              <div class="col-xl-6 col-md-6">
+                <div class="tp-blog-more-wrapper d-flex justify-content-md-end">
+                  <div class="tp-blog-more mb-50 text-md-end">
+                    <a
+                      href="{%- if blog.all_articles_url != blank -%}{{ blog.all_articles_url }}{%- else -%}{{ blog.url }}{%- endif -%}"
+                      class="tp-btn tp-btn-2 tp-btn-blue"
+                    >
+                      {{ view_all_button_text }}
+                      <svg
+                        width="17"
+                        height="14"
+                        viewBox="0 0 17 14"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M16 6.99976L1 6.99976"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round" />
+                        <path
+                          d="M9.9502 0.975414L16.0002 6.99941L9.9502 13.0244"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round" />
+                      </svg>
+                    </a>
+                    <span class="tp-blog-more-border"></span>
+                  </div>
+                </div>
+              </div>
+            {%- endif -%}
+          </div>
+
+          <div class="row">
+            <div class="col-xl-12">
+              <div class="tp-blog-main-slider">
+                <div class="tp-blog-main-slider-active swiper-container">
+                  <div class="swiper-wrapper">
+                    {%- for article in blog.articles limit: num_post -%}
+                      <div class="tp-blog-item mb-30 swiper-slide">
+                        {%- render 'article-card',
+                          article: article,
+                          show_category: show_category,
+                          show_tag: show_tag,
+                          show_date: show_date,
+                          show_excerpt: show_excerpt,
+                          show_readmore: show_readmore,
+                          show_author: show_author,
+                          aspect_ratio: aspect_ratio,
+                          custom_ratio: custom_ratio,
+                          hover_effect: hover_effect,
+                          style: 'style-1'
+                        -%}
+                      </div>
+                    {%- endfor -%}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
+    </section>
+  {% when 'style-2' %}
+    {%- assign blog = blogs[st.blog] -%}
+    <section class="tp-blog-area pt-110 pb-120">
+      <div class="container">
+        {%- if title != blank or subtitle != blank -%}
+          <div class="row">
+            <div class="col-xl-12">
+              <div class="tp-section-title-wrapper-2 mb-50 text-center">
+                {%- if subtitle != blank -%}
+                  <span class="tp-section-title-pre-2">
+                    {{ subtitle }}
+                    <svg
+                      width="82"
+                      height="22"
+                      viewBox="0 0 82 22"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M81 14.5798C0.890564 -8.05914 -5.81154 0.0503902 5.00322 21"
+                        stroke="currentColor"
+                        stroke-opacity="0.3"
+                        stroke-width="2"
+                        stroke-miterlimit="3.8637"
+                        stroke-linecap="round" />
+                    </svg>
+                  </span>
+                {%- endif -%}
+                {%- if title != blank -%}
+                  <h3 class="tp-section-title-2">{{ title }}</h3>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+        <div class="row">
+          {%- for article in blog.articles limit: num_post -%}
+            {%- render 'article-card',
+              article: article,
+              show_category: show_category,
+              show_tag: show_tag,
+              show_date: show_date,
+              show_excerpt: show_excerpt,
+              show_readmore: show_readmore,
+              show_author: show_author,
+              aspect_ratio: aspect_ratio,
+              custom_ratio: custom_ratio,
+              hover_effect: hover_effect,
+              style: 'style-2'
+            -%}
+          {%- endfor -%}
+        </div>
+        {%- if view_all_button -%}
+          <div class="row">
+            <div class="col-xl-12">
+              <div class="tp-blog-more-2 mt-10 text-center">
+                <a
+                  href="{%- if blog.all_articles_url != blank -%}{{ blog.all_articles_url }}{%- else -%}{{ blog.url }}{%- endif -%}"
+                  class="tp-btn tp-btn-border tp-btn-border-sm"
+                >
+                  {{- view_all_button_text -}}
+                </a>
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+    </section>
+{% endcase %}
+
+{% schema %}
+{
+  "name": "Blog posts",
+  "class": "section-blog-posts",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "select",
+      "id": "blog_style",
+      "label": "Blog style",
+      "default": "style-1",
+      "options": [
+        {
+          "value": "style-1",
+          "label": "Style 1"
+        },
+        {
+          "value": "style-2",
+          "label": "Style 2"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Blog posts"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Our Blog & News"
+    },
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Layout",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Blog settings"
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Blog category"
+    },
+    {
+      "type": "checkbox",
+      "id": "post_show_tag",
+      "label": "Show tag",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "post_show_date",
+      "label": "Show published date",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "post_show_excerpt",
+      "label": "Show excerpt",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "post_show_button",
+      "label": "Show read more",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "view_all_button",
+      "label": "Show view all button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "view_all_button_text",
+      "label": "View all button text",
+      "default": "View all"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog posts"
+    }
+  ]
+}
+{% endschema %}

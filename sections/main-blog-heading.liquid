@@ -1,0 +1,145 @@
+{%- liquid
+  assign st = section.settings
+  assign show_banner = st.show_banner
+  assign image_bg = st.image
+  assign overlay = st.overlay
+  assign background_heading_color = st.background_heading_color
+  assign min_height = st.min_height
+-%}
+{%- capture style -%}
+  background-image:{% if show_banner != blank and image_bg != blank %}url({{ image_bg | image_url }}){% endif %}; 
+  min-height:{{ min_height }}px;
+  overlay-image:{{ overlay }}%;
+  {%- endcapture -%}
+{%- capture overlay_color -%}
+  .breadcrumb__overlay::after{
+    background-color: {{ background_heading_color }};
+  }
+  {%- endcapture -%}
+
+
+<section class="breadcrumb__area include-bg pt-150 pb-150 breadcrumb__overlay {{ overlay_color }} breadcrumb__style-3" data-background="{% if show_banner != blank and image_bg != blank %}{{ image_bg | image_url }}{% endif %}">
+  <div class="container">
+    <div class="row">
+      <div class="col-xxl-12">
+        <div class="breadcrumb__content text-center p-relative z-index-1">
+          {%- assign blocks = section.blocks -%}
+          {%- for block in blocks -%}
+            <h3 class="breadcrumb__title">{{ blog.title }}</h3>
+          {%- endfor -%}
+          {%- render 'breadcrumbs' -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% schema %}
+{
+  "name": "Page heading",
+  "class": "section",
+  "max_blocks": 1,
+  "settings": [
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "background_heading_color",
+      "label": "Background color",
+      "default": "transparent"
+    },
+    {
+      "type": "color",
+      "id": "breadcrumb_color",
+      "label": "Breadcrumb color",
+      "default": "#111111"
+    },
+    {
+      "type": "header",
+      "content": "Images banner"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_banner",
+      "label": "Show banner",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image",
+      "info": "1920 x 200px recommended"
+    },
+    {
+      "type": "range",
+      "id": "min_height",
+      "label": "Banner image min height",
+      "default": 200,
+      "min": 0,
+      "max": 500,
+      "step": 5,
+      "unit": "px"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_overlay",
+      "label": "Show background overlay",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "overlay",
+      "label": "Background overlay",
+      "default": 54,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "1",
+      "name": "Title",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "color",
+          "id": "text_cl",
+          "label": "Color text",
+          "default": "#111111"
+        },
+        {
+          "type": "range",
+          "id": "text_fs",
+          "label": "Font size",
+          "max": 60,
+          "min": 30,
+          "step": 1,
+          "unit": "px",
+          "default": 36
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

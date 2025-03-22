@@ -1,0 +1,41 @@
+{%- liquid
+  if use_variant
+    assign target = product.selected_or_first_available_variant
+  else
+    assign target = product
+  endif
+  assign price = target.price | default: 1999
+  assign money_price = price | money
+  if settings.currency_code_enabled
+    assign money_price = price | money_with_currency
+  endif
+  if target == product and product.price_varies
+    assign money_price = 'products.product.price.from_price_html' | t: price: money_price
+  endif
+-%}
+
+<div class="tp-product-details-price-wrapper mb-20 tps__price">
+  {% comment %} variation price {% endcomment %}
+  {%- assign minPrice = nil -%}
+  {%- assign maxPrice = nil -%}
+
+  {%- for variant in product.variants -%}
+    {%- if minPrice == nil or variant.price < minPrice -%}
+      {%- assign minPrice = variant.price -%}
+    {%- endif -%}
+
+    {%- if maxPrice == nil or variant.price > maxPrice -%}
+      {%- assign maxPrice = variant.price -%}
+    {%- endif -%}
+  {%- endfor -%}
+  {%- if minPrice != maxPrice -%}
+    <span class="tp-product-details-price new-price">{{ minPrice | money }} - {{ maxPrice | money }}</span>
+  {%- else -%}
+    {%- if product.selected_or_first_available_variant.compare_at_price -%}
+      <span class="tp-product-details-price new-price">{{ product.selected_or_first_available_variant.price | money }}</span>
+      <span class="tp-product-details-price old-price">{{ product.selected_or_first_available_variant.compare_at_price | money }}</span>
+    {%- else -%}
+      <span class="tp-product-details-price new-price">{{ product.selected_or_first_available_variant.price | money }}</span>
+    {%- endif -%}
+  {%- endif -%}
+</div>

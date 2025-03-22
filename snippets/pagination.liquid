@@ -1,0 +1,119 @@
+{% # theme-check-disable ContentForHeaderModification %}
+{%- capture contentForQuerystring -%}
+  {{ content_for_header }}
+{%- endcapture -%}
+{% # theme-check-enable ContentForHeaderModification %}
+{%- assign pageUrl = contentForQuerystring
+ | split: '"pageurl":"'
+ | last
+ | split: '"'
+ | first
+ | split: request.host
+ | last
+ | replace: '\/', '/'
+ | replace: '%20', ' '
+ | replace: '\u0026', '&'
+-%}
+{%- assign pageQuerystring = pageUrl | split: '?' | last -%}
+{%- liquid
+  assign pagination_ps = ''
+  if pageQuerystring contains 'layout='
+    assign layout_pra = pageQuerystring | split: 'layout=' | last | split: '&' | first
+    if layout_pra == 'list' or layout_pra == 'grid'
+      assign pagination_ps = pagination_ps | append: '&layout=' | append: layout_pra
+    endif
+  endif
+  if pageQuerystring contains 'pagination='
+    assign pagination_pr = pageQuerystring | split: 'pagination=' | last | split: '&' | first
+    if pagination_pr == 'default' or pagination_pr == 'load_more' or pagination_pr == 'infinit_scrolling'
+      assign pagination_ps = pagination_ps | append: '&pagination=' | append: pagination_pr
+    endif
+  endif
+  assign pagination = pagination
+-%}
+{%- if paginate.parts.size > 0 -%}
+  {%- if pagination == 'default' or pagination == blank -%}
+    <div class="tp-blog-pagination mt-50">
+      <div class="tp-pagination">
+        <nav>
+          <ul>
+            {%- if paginate.previous -%}
+              <li>
+                <a href="{{ paginate.previous.url }}{{ anchor }}" class="tp-pagination-prev prev page-numbers">
+                  <svg
+                    width="15"
+                    height="13"
+                    viewBox="0 0 15 13"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M1.00017 6.77879L14 6.77879"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path
+                      d="M6.24316 11.9999L0.999899 6.77922L6.24316 1.55762"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                </a>
+              </li>
+            {%- endif -%}
+
+            {%- for part in paginate.parts -%}
+              <li>
+                {%- if part.is_link -%}
+                  <a href="{{ part.url }}{{ anchor }}" class="pagination__item link">
+                    {{- part.title -}}
+                  </a>
+                {%- else -%}
+                  {%- if part.title == paginate.current_page -%}
+                    <a
+                      role="link"
+                      aria-disabled="true"
+                      class="current"
+                      aria-current="page">
+                      {{- part.title -}}
+                    </a>
+                  {%- else -%}
+                    <span class="current">{{ part.title }}</span>
+                  {%- endif -%}
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+
+            {%- if paginate.next -%}
+              <li>
+                <a href="{{ paginate.next.url }}" class="next page-numbers">
+                  <svg
+                    width="15"
+                    height="13"
+                    viewBox="0 0 15 13"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M13.9998 6.77883L1 6.77883"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path
+                      d="M8.75684 1.55767L14.0001 6.7784L8.75684 12"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                </a>
+              </li>
+            {%- endif -%}
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+  {%- endif -%}
+{%- endif -%}

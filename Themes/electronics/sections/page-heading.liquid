@@ -1,0 +1,270 @@
+{{ 'page-heading.css' | asset_url | stylesheet_tag }}
+{%- liquid
+  assign st = section.settings
+  assign se_block = section.blocks
+  assign show_banner = st.show_banner
+  assign image_bg = st.image
+  assign show_overlay = st.show_overlay
+  assign overlay = st.overlay
+  assign background_heading_color = st.background_heading_color
+  assign parallax = st.parallax
+  assign design = st.design
+  assign text_postion = st.text_postion
+  assign min_height = st.min_height
+  assign breadcrumb_color = st.breadcrumb_color
+-%}
+<div
+  class="page-heading pt-95 mb-50 section-full {% if background_heading_color == 'transparent' or background_heading_color == 'rgba(0,0,0,0)' or background_heading_color == '#ffffff' %}not-bg{% endif %} {% if se_block == blank %}not-info{% endif %} {% if show_banner != blank and image_bg != blank %} show-banner{% endif %}"
+  style="background-heading-color: {{ background_heading_color }};color:{{ breadcrumb_color }};"
+>
+  {%- capture style -%}
+    background-image:{% if show_banner != blank and image_bg != blank %}url({{ image_bg | image_url }}){% endif %};
+    min-height:{{ min_height }}px;
+    overlay-image:{{ overlay }}%;
+  {%- endcapture -%}
+  {%- if se_block.size > 0 -%}
+    <div class="page-head {{ text_postion }} {% if design != 'text-overlay-image' %} beside-image d-flex flex-column{% endif %}">
+      {%- if show_banner != blank and image_bg != blank -%}
+        {%- if design == 'text-overlay-image' -%}
+          <div
+            class="relative d-flex flex-column justify-content-center py-25  heading-banner{% if parallax %} tps-parallax{% endif %}{% if show_overlay %} show-overlay{% endif %}"
+            style="{{ style }}"
+          >
+        {%- else -%}
+          <div
+            class="relative mb-25 heading-banner{% if parallax %} tps-parallax{% endif %}{% if show_overlay %} show-overlay{% endif %}"
+            style="{{ style }}"
+          ></div>
+        {%- endif -%}
+      {%- endif -%}
+      <div class="{{ st.layout }}">
+        <div class="heading-content relative">
+          {%- assign blocks = section.blocks -%}
+          {%- for block in blocks -%}
+            {%- case block.type -%}
+              {%- when '1' -%}
+                <h1
+                  class="breadcrumb__title"
+                >
+                  {%- if block.settings.page_title != blank -%}
+                    {{ block.settings.page_title }}
+                  {%- else -%}
+                    {{ page.title }}
+                  {%- endif -%}
+                </h1>
+              {%- when '2' -%}
+                <div
+                  class="heading-description"
+                >
+                  {{ collection.description }}
+                </div>
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+        {%- render 'breadcrumbs' -%}
+      </div>
+      {%- if show_banner != blank and image_bg != blank -%}
+        {%- if design == 'text-overlay-image' -%}
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+  {%- else -%}
+    <div class="not-show-heading page-head {{ text_postion }} {% if design != 'text-overlay-image' %} beside-image d-flex flex-column{% endif %}">
+      {%- if show_banner != blank and image_bg != blank -%}
+        {%- if design == 'text-overlay-image' -%}
+          <div
+            class="relative d-flex flex-column justify-content-center py-25  heading-banner{% if parallax %} tps-parallax{% endif %}{% if show_overlay %} show-overlay{% endif %}"
+            style="{{ style }}"
+          >
+        {%- else -%}
+          <div
+            class="relative mb-25 heading-banner{% if parallax %} tps-parallax{% endif %}{% if show_overlay %} show-overlay{% endif %}"
+            style="{{ style }}"
+          ></div>
+        {%- endif -%}
+      {%- endif -%}
+      <div class="{{ st.layout }}">
+        {%- render 'breadcrumbs' -%}
+      </div>
+      {%- if show_banner != blank and image_bg != blank -%}
+        {%- if design == 'text-overlay-image' -%}
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</div>
+{% schema %}
+{
+  "name": "Page heading",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General settings"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "background_heading_color",
+      "label": "Background color",
+      "default": "transparent"
+    },
+    {
+      "type": "color",
+      "id": "breadcrumb_color",
+      "label": "Breadcrumb color",
+      "default": "#111111"
+    },
+    {
+      "type": "header",
+      "content": "Images banner"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_banner",
+      "label": "Show banner",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image",
+      "info": "1920 x 200px recommended"
+    },
+    {
+      "type": "range",
+      "id": "min_height",
+      "label": "Banner image min height",
+      "default": 200,
+      "min": 0,
+      "max": 500,
+      "step": 5,
+      "unit": "px"
+    },
+    {
+      "type": "checkbox",
+      "id": "parallax",
+      "label": "Show parallax banner",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_overlay",
+      "label": "Show background overlay",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "overlay",
+      "label": "Background overlay",
+      "default": 54,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "type": "header",
+      "content": "Design"
+    },
+    {
+      "type": "select",
+      "id": "design",
+      "label": "Design text",
+      "default": "text-overlay-image",
+      "options": [
+        {
+          "label": "Overlay image",
+          "value": "text-overlay-image"
+        },
+        {
+          "label": "Bellow image",
+          "value": "text-bellow-image"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "text_postion",
+      "label": "Text postion",
+      "default": "text-center",
+      "options": [
+        {
+          "label": "Center",
+          "value": "text-center"
+        },
+        {
+          "label": "Left",
+          "value": "text-left"
+        },
+        {
+          "label": "Right",
+          "value": "text-right"
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "1",
+      "name": "Title",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "page_title",
+          "label": "Title page",
+          "info": "The page title automatically displays the title of the current page. If you want to change, please fill in the blank.",
+          "default": "Title page"
+        },
+        {
+          "type": "color",
+          "id": "text_cl",
+          "label": "Color text",
+          "default": "#111111"
+        },
+        {
+          "type": "range",
+          "id": "text_fs",
+          "label": "Font size",
+          "max": 60,
+          "min": 30,
+          "step": 1,
+          "unit": "px",
+          "default": 36
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Page heading",
+      "blocks": [
+        {
+          "type": "1"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,285 @@
+{%- liquid
+  assign st = section.settings
+  assign section_style = st.section_style
+  assign container = st.container
+  assign blocks = section.blocks
+-%}
+
+{%- capture style -%}
+  padding-top: {{ st.padding_top }}px;padding-bottom: {{ st.padding_bottom }}px;
+{%- endcapture -%}
+
+{% case section_style %}
+  {% when 'style-1' %}
+    <section
+      class="tp-feature-area tp-feature-border-radius pb-70"
+      style="{{ style | strip | strip_newlines }}"
+      data-id="{{ section.id }}"
+      id="{{ section.id }}">
+      <div class="{{ container }}">
+        <div class="row gx-1 gy-1 gy-xl-0">
+          {%- for block in blocks -%}
+            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
+              <div class="tp-feature-item d-flex align-items-start">
+                <div class="tp-feature-icon mr-15">
+                  <span>
+                    {%- if block.settings.icon != blank -%}
+                      <img src="{{ block.settings.icon | image_url: width: 42, height: 42 }}" alt="{{ block.settings.heading }}" />
+                    {%- else -%}
+                      {{ block.settings.svg_icon }}
+                    {%- endif -%}
+                  </span>
+                </div>
+                <div class="tp-feature-content">
+                  <h3 class="tp-feature-title">{{ block.settings.heading }}</h3>
+                  {{ block.settings.description }}
+                </div>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    </section>
+
+  {% when 'style-2' %}
+    <section
+      class="tp-feature-area tp-feature-border-2 pb-80"
+      style="{{ style | strip | strip_newlines }}"
+      data-id="{{ section.id }}"
+      id="{{ section.id }}">
+      <div class="{{ container }}">
+        <div class="tp-feature-inner-2">
+          <div class="row align-items-center">
+            {%- for block in blocks -%}
+              <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                <div class="tp-feature-item-2 d-flex align-items-start">
+                  <div class="tp-feature-icon-2 mr-10">
+                    <span>
+                      {%- if block.settings.icon != blank -%}
+                        <img src="{{ block.settings.icon | image_url: width: 42, height: 42 }}" alt="{{ block.settings.heading }}" />
+                      {%- else -%}
+                        {{ block.settings.svg_icon }}
+                      {%- endif -%}
+                    </span>
+                  </div>
+                  <div class="tp-feature-content-2">
+                    <h3 class="tp-feature-title-2">{{ block.settings.heading }}</h3>
+                    {{ block.settings.description }}
+                  </div>
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+    </section>
+
+  {% when 'style-3' %}
+    <section
+      class="tp-feature-area tp-feature-border-3 tp-feature-style-2 pb-40 pt-45"
+      style="{{ style | strip | strip_newlines }}"
+      data-id="{{ section.id }}"
+      id="{{ section.id }}">
+      <div class="{{ container }}">
+        <div class="row">
+          <div class="col-xl-12">
+            <div class="tp-feature-inner-2 d-flex flex-wrap align-items-center justify-content-between">
+              {%- for block in blocks -%}
+                <div class="tp-feature-item-2 d-flex align-items-start mb-40">
+                  <div class="tp-feature-icon-2 mr-10">
+                    <span>
+                      {%- if block.settings.icon != blank -%}
+                        <img src="{{ block.settings.icon | image_url: width: 42, height: 42 }}" alt="{{ block.settings.heading }}" />
+                      {%- else -%}
+                        {{ block.settings.svg_icon }}
+                      {%- endif -%}
+                    </span>
+                  </div>
+                  <div class="tp-feature-content-2">
+                    <h3 class="tp-feature-title-2">{{ block.settings.heading }}</h3>
+                    {{ block.settings.description }}
+                  </div>
+                </div>
+              {%- endfor -%}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  {% when 'style-4' %}
+    <section
+      class="tp-feature-area tp-feature-border-5 pb-55"
+      style="{{ style | strip | strip_newlines }}"
+      data-id="{{ section.id }}"
+      id="{{ section.id }}">
+      <div class="{{ container }}">
+        <div class="tp-feature-inner-5">
+          <div class="row">
+            {%- for block in blocks -%}
+              <div class="col-xl-3 col-lg-3 col-sm-6">
+                <div class="tp-feature-item-5 d-flex align-items-center">
+                  <div class="tp-feature-icon-5">
+                    <span>
+                      {%- if block.settings.icon != blank -%}
+                        <img src="{{ block.settings.icon | image_url: width: 42, height: 42 }}" alt="{{ block.settings.heading }}" />
+                      {%- else -%}
+                        {{ block.settings.svg_icon }}
+                      {%- endif -%}
+                    </span>
+                  </div>
+                  <div class="tp-feature-content-5">
+                    <h3 class="tp-feature-title-5">{{ block.settings.heading }}</h3>
+                    {{ block.settings.description }}
+                  </div>
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+    </section>
+{% endcase %}
+{% schema %}
+{
+  "name": "Icon box",
+  "class": "tps__image-box",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "select",
+      "id": "section_style",
+      "label": "Section Style",
+      "default": "style-1",
+      "options": [
+        {
+          "value": "style-1",
+          "label": "Style 1"
+        },
+        {
+          "value": "style-2",
+          "label": "Style 2"
+        },
+        {
+          "value": "style-3",
+          "label": "Style 3"
+        },
+        {
+          "value": "style-4",
+          "label": "Style 4"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Layout",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "container-fluid",
+          "label": "Fluid container"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "iconbox",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Image",
+          "info": "42 x 42px recommended"
+        },
+        {
+          "type": "textarea",
+          "id": "svg_icon",
+          "label": "Svg Icon"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "This is heading text"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Tell about your service.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Icon box",
+      "blocks": [
+        {
+          "type": "iconbox",
+          "settings": {
+            "heading": "Free Shipping",
+            "description": "<p>Get complimentary ground shipping on every order. Don't love it? Send it back, on us.</p>"
+          }
+        },
+        {
+          "type": "iconbox",
+          "settings": {
+            "heading": "Free Returns",
+            "description": "<p>Free returns within 10 days, please make sure the items are in undamaged condition.</p>"
+          }
+        },
+        {
+          "type": "iconbox",
+          "settings": {
+            "heading": "Support Online",
+            "description": "<p>We support customers 24/7, send questions we will solve for you immediately.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
