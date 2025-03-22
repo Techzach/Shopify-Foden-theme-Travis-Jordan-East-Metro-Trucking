@@ -516,6 +516,7 @@
         "slider_item_mnChUm": {
           "type": "slider_item",
           "settings": {
+            "image": "shopify://shop_images/pexels-pixabay-163236.jpg",
             "subheading": "",
             "title": "Heading",
             "slider_feature_1": "",
@@ -531,6 +532,7 @@
         "slider_item_QBDNC8": {
           "type": "slider_item",
           "settings": {
+            "image": "shopify://shop_images/2525139.jpg",
             "subheading": "",
             "title": "Heading",
             "slider_feature_1": "",
