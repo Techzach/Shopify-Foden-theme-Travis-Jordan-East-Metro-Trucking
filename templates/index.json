@@ -38,7 +38,7 @@
             "fonts_button": "",
             "color_hover_button": "#ffffff",
             "color_hover_text": "#000000",
-            "block_url": "shopify://collections/all",
+            "block_url": "shopify://pages/contact-us",
             "effect_title3": "bounce",
             "text_title_left": "Collection 2022",
             "ena_slide_video": false,
