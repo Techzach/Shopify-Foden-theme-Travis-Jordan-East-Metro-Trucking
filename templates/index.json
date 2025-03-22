@@ -85,9 +85,7 @@
         "bfce2761-ec07-41bf-a4ec-e23c96952ae3",
         "b7cbbdea-fc3b-40f2-a65f-54d082ff5b70"
       ],
-      "custom_css": [
-        ".your-class-name {background-color: #212527; padding: 10px 20px; /* Add padding for better spacing */ color: #ffffff; /* Ensures text is readable */ display: inline-block; /* Keeps it contained */ border-radius: 5px; /* Optional: Adds rounded corners */}"
-      ],
+      "custom_css": [],
       "settings": {
         "margin_top": "",
         "margin_bottom": ""
