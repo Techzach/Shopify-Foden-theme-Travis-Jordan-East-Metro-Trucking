@@ -3983,13 +3983,13 @@
       "header": {
         "type": "header",
         "settings": {
-          "select_hds": "header_v4",
+          "select_hds": "header_v3",
           "hd_home_color_text": "#403d39",
           "hd_home_color_title": "#111111",
           "hd_home_enable_transparents": true,
           "hd_home_bg_header_normal": "#ffffff",
           "hd_bg_header_opacity": 1,
-          "enable_sticky_hd_home": false,
+          "enable_sticky_hd_home": true,
           "hd_home_logo": "shopify://shop_images/logo.png",
           "hd_home_logo_maxwidth": 150,
           "hd_home_logo_svg": "",
