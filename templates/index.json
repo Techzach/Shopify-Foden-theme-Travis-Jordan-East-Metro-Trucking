@@ -448,36 +448,27 @@
         "service_aBVPJH": {
           "type": "service",
           "settings": {
-            "block_title": "24/7 FRIENDLY SUPPORT",
+            "block_title": "74 +",
             "color_title": "#fff",
-            "block_content": "Our support team always ready for you to 7 days a week",
+            "block_content": "YEARS OF EXPERIENCE",
             "color_content": "#fff"
           }
         },
         "service_LT8pnn": {
           "type": "service",
           "settings": {
-            "block_title": "FREE SHIPPING",
+            "block_title": "1400 +",
             "color_title": "#fff",
-            "block_content": "Free worldwide shipping on all area <br>order above $100",
+            "block_content": "DEDICATED EMPLOYEES",
             "color_content": "#fff"
           }
         },
         "service_Pz4PBF": {
           "type": "service",
           "settings": {
-            "block_title": "7 DAYS EASY RETURN",
+            "block_title": "4 M+",
             "color_title": "#fff",
-            "block_content": "Product any fault within 7 days for an<br> immediately exchange.",
-            "color_content": "#fff"
-          }
-        },
-        "service_7TRqqd": {
-          "type": "service",
-          "settings": {
-            "block_title": "QUALITY GUARANTEED",
-            "color_title": "#fff",
-            "block_content": "If your product aren't perfect, return<br> them for a full refund",
+            "block_content": "SQFT OF WAREHOUSE SPACE",
             "color_content": "#fff"
           }
         }
@@ -485,8 +476,49 @@
       "block_order": [
         "service_aBVPJH",
         "service_LT8pnn",
-        "service_Pz4PBF",
-        "service_7TRqqd"
+        "service_Pz4PBF"
+      ],
+      "settings": {
+        "margin_top": "",
+        "margin_bottom": "",
+        "bg_section": "#101820"
+      }
+    },
+    "section_service_v1_PMmHQV": {
+      "type": "section-service-v1",
+      "blocks": {
+        "service_XHqHU8": {
+          "type": "service",
+          "settings": {
+            "block_title": "250 +",
+            "color_title": "#fff",
+            "block_content": "DRIVERS",
+            "color_content": "#fff"
+          }
+        },
+        "service_jB8dmW": {
+          "type": "service",
+          "settings": {
+            "block_title": "25",
+            "color_title": "#fff",
+            "block_content": "LOCATIONS",
+            "color_content": "#fff"
+          }
+        },
+        "service_3hjJng": {
+          "type": "service",
+          "settings": {
+            "block_title": "6",
+            "color_title": "#fff",
+            "block_content": "GLOBAL OFFICES",
+            "color_content": "#fff"
+          }
+        }
+      },
+      "block_order": [
+        "service_XHqHU8",
+        "service_jB8dmW",
+        "service_3hjJng"
       ],
       "settings": {
         "margin_top": "",
@@ -507,6 +539,7 @@
     "section_blog_v1",
     "1628845210c6c53a17",
     "section_collection_v1_JMqeAQ",
-    "section_service_v1_qcQeFK"
+    "section_service_v1_qcQeFK",
+    "section_service_v1_PMmHQV"
   ]
 }
